@@ -6,7 +6,7 @@ permalink: /
 
 <!-- Add this to your front matter to load assets -->
 <head>
-  <link href="{{ '/assets/css/intro-animation.css' | relative_url }}" rel="stylesheet">
+  <link href="{{ '/css/intro-animation.css' | relative_url }}" rel="stylesheet">
 </head>
 
 <!-- Intro Animation HTML -->
@@ -30,4 +30,4 @@ Here's what you'll find on my site:
 </div>
 
 <!-- Load JS at bottom -->
-<script src="{{ '/assets/js/intro-animation.js' | relative_url }}"></script>
+<script src="{{ '/js/intro-animation.js' | relative_url }}"></script>

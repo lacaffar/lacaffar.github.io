@@ -22,3 +22,7 @@ nav:
     url: "/scraper"
   - name: "Resume"
     url: "/resume"
+
+# compile that scss intro animation into css directory
+sass:
+  sass_dir: css

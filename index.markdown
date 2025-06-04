@@ -10,12 +10,12 @@ permalink: /
 </head>
 
 <!-- Intro Animation HTML -->
-<div class="intro-animation">
-  <div class="white-overlay"></div>
+<div class="intro-animation" id="intro">
   <div class="intro-text">
-    <span class="h">h</span>
-    <span class="i">i</span>
+    <span class="h">Hello</span>
+    <span class="period">.</span>
   </div>
+  <div class="circle"></div>
 </div>
 
 <!-- Your Markdown content (wrapped in HTML for the fade-in effect) -->

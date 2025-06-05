@@ -1,14 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const intro = document.getElementById('intro');
-
-  if (!document.cookie.includes("visited=true")) {
-    document.cookie = "visited=true; path=/; max-age=31536000";
-  } else {
-    intro.style.display = 'none'; // Skip animation
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
   const period = document.querySelector('.period');
   const circle = document.querySelector('.circle');
   const intro = document.getElementById('intro');

@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const intro = document.getElementById('intro');
+
+  if (!document.cookie.includes("visited=true")) {
+    document.cookie = "visited=true; path=/; max-age=31536000";
+  } else {
+    intro.style.display = 'none'; // Skip animation
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
   const period = document.querySelector('.period');
   const circle = document.querySelector('.circle');
   const intro = document.getElementById('intro');
@@ -42,4 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
     intro.style.opacity = '0';
     intro.style.pointerEvents = 'none';
   });
+
+  setTimeout(() => {
+  intro.style.display = 'none';
+}, 1000); // Matches fade-out duration
+
 }); 

@@ -2,14 +2,18 @@
 ---
 
 .intro-animation {
-  position: relative;
+  position: fixed; /* not relative */
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
+  z-index: 9999; /* very high so it sits on top */
+  background: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: white;  /* Background behind the circle (revealed later) */
-  overflow: hidden;   /*  Prevents scrollbars during animation */
-   transition: opacity 1s ease-in-out;
+  overflow: hidden;
+  transition: opacity 1s ease-in-out;
 }
 
 .circle {

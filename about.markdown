@@ -9,9 +9,11 @@ permalink: /about/
 I love puzzles. My name is Luke Caffarey, and my hobby is solving puzzles. While in middle school, this interest was reflected in playing video games (not particularly valuable in the real world), I now take this interest and direct it towards my own skillset so that I may solve problems larger than MINECRAFT. 
 
 My skills:
--Coding (MATLAB, Python)
+-Coding (MATLAB, Python, and HTML/CSS)
 -CAD (SolidWorks)
 -Playing Volleyball (click) <--- here a volleyball should enter the browser
+
+"I would sooner be in want of a desk for my labworkors than in want of work for my desk." -Me, a poet
 
 
 

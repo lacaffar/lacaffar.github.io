@@ -42,4 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     intro.style.opacity = '0';
     intro.style.pointerEvents = 'none';
   });
+  
+  setTimeout(() => {
+  intro.remove();
+}, 1000);
 }); 

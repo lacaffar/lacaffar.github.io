@@ -9,11 +9,15 @@ twitter_username: yourtwitter
 github_username: lacaffar
 
 # Build settings
-theme: midnight
+theme: jekyll-theme-midnight
 remote_theme: pages-themes/midnight@v0.2.0
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
+
+show_downloads: true
+google_analytics:
+
 # Navigation links
 nav:
   - name: "Home"

@@ -1,63 +1,62 @@
----
----
+// ---
+// ---
+// .intro-animation {
+//   position: fixed; /* not relative */
+//   top: 0;
+//   left: 0;
+//   width: 100vw;
+//   height: 100vh;
+//   z-index: 9999; /* very high so it sits on top */
+//   background: white;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   overflow: hidden;
+//   transition: opacity 1s ease-in-out;
+// }
 
-.intro-animation {
-  position: fixed; /* not relative */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999; /* very high so it sits on top */
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  transition: opacity 1s ease-in-out;
-}
 
+// .circle {
+//   position: absolute;  
+//   background: black;
+//   border-radius: 50%;
+//    top: var(--circle-y);
+//   left: var(--circle-x);  
+//   transform: translate(-50%, -50%) scale(1); /* Start at full size */
+//   animation: shrink 2s ease-in-out forwards;
+//   z-index: 1;        /* Covers text initially */
+//   transition: opacity 1s ease-in-out;
+// }
+// .intro-text {
+//   position: relative;
+//   font-size: 5rem;
+//   font-weight: bold;
+//   color: white;      /* Initial text color (hidden under black circle) */
+//   z-index: 2;        /* Ensures text is above the shrinking circle */
+//   mix-blend-mode: difference; /* Inverts text color when circle passes */
+//   transition: opacity 1s ease-in-out;
+// }
 
-.circle {
-  position: absolute;  
-  background: black;
-  border-radius: 50%;
-   top: var(--circle-y);
-  left: var(--circle-x);  
-  transform: translate(-50%, -50%) scale(1); /* Start at full size */
-  animation: shrink 2s ease-in-out forwards;
-  z-index: 1;        /* Covers text initially */
-  transition: opacity 1s ease-in-out;
-}
-.intro-text {
-  position: relative;
-  font-size: 5rem;
-  font-weight: bold;
-  color: white;      /* Initial text color (hidden under black circle) */
-  z-index: 2;        /* Ensures text is above the shrinking circle */
-  mix-blend-mode: difference; /* Inverts text color when circle passes */
-  transition: opacity 1s ease-in-out;
-}
+// .hello {
+//   display: inline-block;
+//   position: relative;
+//   left: -0.15em; /* Fine-tuned letter spacing */
+// }
 
-.hello {
-  display: inline-block;
-  position: relative;
-  left: -0.15em; /* Fine-tuned letter spacing */
-}
-
-.period {
-  color: transparent; /* place holder */
-  display: inline-block;
-  position: relative;
-  left: -0.25em; /* Perfectly snug against Hello */
-}
-/* Shrink animation (circle scales down to 0) */
-@keyframes shrink {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    width: var(--final-size);
-    height: var(--final-size);
-    transform: translate(-50%, -50%) scale(1);
-  }
-}  
+// .period {
+//   color: transparent; /* place holder */
+//   display: inline-block;
+//   position: relative;
+//   left: -0.25em; /* Perfectly snug against Hello */
+// }
+// /* Shrink animation (circle scales down to 0) */
+// @keyframes shrink {
+//   0% {
+//     transform: translate(-50%, -50%) scale(1);
+//   }
+//   100% {
+//     width: var(--final-size);
+//     height: var(--final-size);
+//     transform: translate(-50%, -50%) scale(1);
+//   }
+// }  

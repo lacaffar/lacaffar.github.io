@@ -9,14 +9,14 @@ permalink: /
   <link href="{{ '/css/intro-animation.css' | relative_url }}" rel="stylesheet">
 </head>
 
-<!-- Intro Animation HTML -->
+<!-- Intro Animation HTML
 <div class="intro-animation" id="intro">
   <div class="intro-text">
     <span class="h">Hello</span>
     <span class="period">.</span>
   </div>
   <div class="circle"></div>
-</div>
+</div> -->
 
 <!-- Your Markdown content (wrapped in HTML for the fade-in effect) -->
 <div class="page-content" style="opacity:0;">

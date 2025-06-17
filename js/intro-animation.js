@@ -39,11 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fade out on click
   intro.addEventListener('click', () => {
-    intro.style.opacity = '0';
-    intro.style.pointerEvents = 'none';
-  });
-  
+  intro.style.opacity = '0';
+  intro.style.pointerEvents = 'none';
+
+  // Wait for the fade-out transition to finish, then hide or remove it
   setTimeout(() => {
-  intro.remove();
-}, 1000);
-}); 
+    intro.style.display = 'none'; // or use .remove() if you want to delete the node
+  }, 1000); // match your CSS transition duration (1s)
+});

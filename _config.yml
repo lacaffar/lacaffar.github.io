@@ -1,15 +1,17 @@
 title: Luke's Page
-tagline:  "I am a great believer in luck, and I find the harder I work the more I have of it."
+tagline: "I am a great believer in luck, and I find the harder I work the more I have of it."
 email: lacaffar@ncsu.edu
-description: >- 
+description: >-
   This is my personal website I built; hope you enjoy!
-baseurl: ""
+baseurl: "" # leave empty if deploying to https://<username>.github.io
 url: "https://lacaffar.github.io"
+
 twitter_username: yourtwitter
 github_username: lacaffar
 
-# Build settings
+# Theme and plugins
 remote_theme: pages-themes/midnight@v0.2.0
+
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
@@ -17,7 +19,7 @@ plugins:
 show_downloads: true
 google_analytics:
 
-# Navigation links
+# Navigation (optional for this theme)
 nav:
   - name: "Home"
     url: "/"
@@ -28,6 +30,6 @@ nav:
   - name: "Resume"
     url: "/resume"
 
-# compile that scss intro animation into css directory
+# SCSS
 sass:
   sass_dir: css

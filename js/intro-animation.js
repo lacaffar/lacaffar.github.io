@@ -1,4 +1,8 @@
+const enableIntroAnimation = false; // change to true to enable it
+
 document.addEventListener('DOMContentLoaded', () => {
+  if (!enableIntroAnimation) return;
+
   const period = document.querySelector('.period');
   const circle = document.querySelector('.circle');
   const intro = document.getElementById('intro');

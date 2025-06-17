@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const centerX = periodRect.left + periodRect.width / 4.2;
   const centerY = periodRect.top + periodRect.height / 2;
-  const offsetY = periodRect.height * (3 / 20);
+  const offsetY = periodRect.height * (5 / 20);
   const adjustedCenterY = centerY + offsetY;
 
   const initialSize = Math.max(window.innerWidth, window.innerHeight) * 2;

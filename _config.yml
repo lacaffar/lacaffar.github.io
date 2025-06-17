@@ -1,5 +1,5 @@
 title: Luke's Page
-tagline: “I am a great believer in luck, and I find the harder I work the more I have of it.”
+tagline:  "I am a great believer in luck, and I find the harder I work the more I have of it."
 email: lacaffar@ncsu.edu
 description: >- 
   This is my personal website I built; hope you enjoy!
@@ -10,10 +10,10 @@ github_username: lacaffar
 
 # Build settings
 theme: midnight
+remote_theme: pages-themes/midnight@v0.2.0
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
-
 # Navigation links
 nav:
   - name: "Home"

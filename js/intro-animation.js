@@ -3,47 +3,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const circle = document.querySelector('.circle');
   const intro = document.getElementById('intro');
 
-  const periodRect = period.getBoundingClientRect();
-  const fontSize = parseFloat(getComputedStyle(period).fontSize);
+  if (!period || !circle || !intro) return;
 
-  const centerX = periodRect.left + periodRect.width / 4.2;
-  const centerY = periodRect.top + periodRect.height / 2;
-  const offsetY = periodRect.height * (5 / 20);
-  const adjustedCenterY = centerY + offsetY;
+  const rect = period.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 4.2;
+  const centerY = rect.top + rect.height / 2 + rect.height * (5 / 20);
 
   const initialSize = Math.max(window.innerWidth, window.innerHeight) * 2;
-  const finalSize = periodRect.width * 0.8;
-
   circle.style.cssText = `
     width: ${initialSize}px;
     height: ${initialSize}px;
-    top: ${adjustedCenterY}px;
+    top: ${centerY}px;
     left: ${centerX}px;
-    --final-size: ${finalSize}px;
-  `; 
+    transform: translate(-50%, -50%) scale(1);
+    animation: shrink 1s ease forwards;
+  `;
 
   const style = document.createElement('style');
   style.textContent = `
     @keyframes shrink {
-      0% {
-        transform: translate(-50%, -50%) scale(1);
-      }
-      100% {
-        width: var(--final-size);
-        height: var(--final-size);
-        transform: translate(-50%, -50%) scale(1);
-      }
+      0% { transform: translate(-50%, -50%) scale(1); }
+      100% { transform: translate(-50%, -50%) scale(0.2); }
     }
   `;
   document.head.appendChild(style);
 
-  // Fade out on click
   intro.addEventListener('click', () => {
-  intro.style.opacity = '0';
-  intro.style.pointerEvents = 'none';
-
-  // Wait for the fade-out transition to finish, then hide or remove it
-  setTimeout(() => {
-    intro.style.display = 'none'; // or use .remove() if you want to delete the node
-  }, 1000); // match your CSS transition duration (1s)
+    intro.style.opacity = '0';
+    intro.style.pointerEvents = 'none';
+    setTimeout(() => {
+      intro.style.display = 'none';
+    }, 1000);
+  });
 });

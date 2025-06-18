@@ -16,8 +16,6 @@ plugins:
   - jekyll-feed
   - jekyll-remote-theme
 
-show_downloads: true
-google_analytics:
 
 # Navigation (optional for this theme)
 nav:

@@ -18,16 +18,19 @@ permalink: /
   <div class="circle"></div>
 </div> -->
 
-<!-- Your Markdown content (wrapped in HTML for the fade-in effect) -->
-<div class="page-content" style="opacity:0;">
-# Welcome to My Website
+<!-- Main page content -->
+<div class="page-content" style="opacity: 0;">
+  <h1>Welcome to My Website</h1>
 
-Here's what you'll find on my site:
+  <p>Here's what you'll find on my site:</p>
 
-- [Blog](/blog) - My thoughts and articles
-- [Projects](/projects) - My projects
-- [Resume](/resume) - My professional background
+  <ul>
+    <li><a href="/blog">Blog</a> - My thoughts and articles</li>
+    <li><a href="/projects">Projects</a> - My projects</li>
+    <li><a href="/resume">Resume</a> - My professional background</li>
+  </ul>
 </div>
+
 
 <!-- Load JS at bottom -->
 <!-- <script src="{{ '/js/intro-animation.js' | relative_url }}"></script> -->

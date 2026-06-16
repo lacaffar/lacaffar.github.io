@@ -1,5 +1,365 @@
----
-layout: home
-title: Luke Caffarey
-subtitle: Welcome to my personal website
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luke Caffarey — Energy &amp; Aerospace</title>
+  <meta name="description" content="Luke Caffarey — engineering student at NC State. Powering the grid today at GE Vernova, aiming for orbit tomorrow. Energy systems, aerospace, and the awe of the stars." />
+  <meta name="theme-color" content="#005E60" />
+  <link rel="icon" href="/assets/img/avatar-icon.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Luke Caffarey — Energy &amp; Aerospace" />
+  <meta property="og:description" content="Powering the grid today. Reaching for orbit tomorrow." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://lacaffar.github.io/" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <!-- ============================== NAV ============================== -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top"><span class="dot"></span>L. CAFFAREY</a>
+      <nav class="nav-links">
+        <a href="#about"><span class="idx">01</span>About</a>
+        <a href="#timeline"><span class="idx">02</span>Trajectory</a>
+        <a href="#work"><span class="idx">03</span>Work</a>
+        <a href="#contact"><span class="idx">04</span>Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================== HERO ============================= -->
+  <a id="top"></a>
+  <section class="hero wrap">
+    <div class="hero-tele reveal">
+      <span>STATUS: <b>interning @ GE Vernova</b></span>
+      <span>LOCATION: <b>Earth (for now)</b></span>
+      <span>NEXT: <b>orbit, ~2027</b></span>
+    </div>
+    <h1 class="reveal">Luke<br /><span class="stroke">Caffarey</span></h1>
+    <p class="tagline reveal">Powering the grid today. Reaching for orbit tomorrow.</p>
+    <p class="sub reveal">
+      I'm an engineering student at NC State, equal parts obsessed with the
+      <span class="hl">power that keeps Earth running</span> and the
+      <span class="hl">rockets that'll take us off it</span>. Right now I'm helping
+      build the machinery of the energy transition at GE Vernova — next, I'm aiming
+      for SpaceX.
+    </p>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#timeline">View the trajectory →</a>
+      <a class="btn btn-ghost" href="#contact">Open a channel</a>
+    </div>
+    <div class="scroll-hint reveal"><span class="ln"></span> SCROLL TO BEGIN DESCENT</div>
+  </section>
+
+  <!-- ============================== ABOUT =========================== -->
+  <section id="about">
+    <div class="wrap">
+      <p class="eyebrow reveal">01 — Mission Profile</p>
+      <div class="about-grid">
+        <div class="reveal">
+          <h2>Engineer by training,<br />stargazer by default.</h2>
+          <p>
+            There's a reason the company I work for is named <span class="hl">Vernova</span> —
+            <em>verde</em> (green) meets <em>nova</em> (a new star). That collision is more or
+            less my whole personality: clean energy on one shoulder, the cosmos on the other.
+          </p>
+          <p>
+            At <span class="hl">GE Vernova</span> I get to work on the hardware that actually
+            moves electrons across the planet. The dream is to take that systems thinking and
+            point it upward — at <span class="hl">SpaceX</span>, where energy and aerospace stop
+            being two interests and start being one job.
+          </p>
+          <p>
+            I like problems that are slightly too big, hardware that hums, and the quiet thrill
+            of watching a graph behave. If it converts energy from one form to another, I want
+            to understand it.
+          </p>
+        </div>
+        <aside class="about-card reveal">
+          <h3>// Telemetry</h3>
+          <div class="stat-row"><span>Name</span><span>Luke Caffarey</span></div>
+          <div class="stat-row"><span>Program</span><span>B.S. Engineering — NC State</span></div>
+          <div class="stat-row"><span>Class of</span><span>2028</span></div>
+          <div class="stat-row"><span>Focus</span><span>Energy systems &amp; aerospace</span></div>
+          <div class="stat-row"><span>Current</span><span>Intern, GE Vernova</span></div>
+          <div class="stat-row"><span>Trajectory</span><span>SpaceX &rarr; the stars</span></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TIMELINE ========================== -->
+  <section id="timeline">
+    <div class="wrap">
+      <p class="eyebrow reveal">02 — Flight Log</p>
+      <h2 class="reveal">The Trajectory</h2>
+      <p class="section-lede reveal">
+        Every mission has stages. Here's mine so far — click any stage to expand the telemetry.
+      </p>
+
+      <div class="timeline">
+
+        <!-- Stage 1 -->
+        <article class="tl-item reveal">
+          <span class="tl-node"></span>
+          <button class="tl-head" aria-expanded="false">
+            <span class="tl-year">2024</span>
+            <span class="tl-titles">
+              <span class="tl-title">Ignition</span>
+              <span class="tl-org">North Carolina State University · Began B.S. in Engineering</span>
+            </span>
+            <span class="tl-toggle">+</span>
+          </button>
+          <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
+            <p>
+              Arrived at NC State and immediately gravitated toward the intersection of power
+              systems and anything that flies. Spent the first year building the fundamentals —
+              and figuring out that "energy" and "space" are the same curiosity wearing two hats.
+            </p>
+            <ul>
+              <li>Core engineering foundations: circuits, mechanics, programming.</li>
+              <li>Started treating every lab like a tiny mission control.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Circuits</span>
+              <span class="tag">Statics &amp; Dynamics</span>
+              <span class="tag">Programming</span>
+            </div>
+          </div></div></div>
+        </article>
+
+        <!-- Stage 2 -->
+        <article class="tl-item reveal">
+          <span class="tl-node"></span>
+          <button class="tl-head" aria-expanded="false">
+            <span class="tl-year">2024 — 26</span>
+            <span class="tl-titles">
+              <span class="tl-title">Building Thrust</span>
+              <span class="tl-org">Coursework, projects &amp; the engineering toolkit</span>
+            </span>
+            <span class="tl-toggle">+</span>
+          </button>
+          <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
+            <p>
+              The grind that turns curiosity into capability — controls, thermodynamics, signals,
+              and a steadily growing pile of tools that actually let you build things.
+            </p>
+            <ul>
+              <li>Hands-on with simulation, CAD, and embedded systems.</li>
+              <li>Learned to translate a messy real-world problem into something a model can chew on.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Controls</span>
+              <span class="tag">Thermodynamics</span>
+              <span class="tag">MATLAB</span>
+              <span class="tag">Python</span>
+              <span class="tag">CAD</span>
+            </div>
+          </div></div></div>
+        </article>
+
+        <!-- Stage 3 — CURRENT -->
+        <article class="tl-item reveal is-open">
+          <span class="tl-node"></span>
+          <button class="tl-head" aria-expanded="true">
+            <span class="tl-year">2026</span>
+            <span class="tl-titles">
+              <span class="tl-title">First Stage</span>
+              <span class="tl-org">GE Vernova · Engineering Intern <span class="badge">Current</span></span>
+            </span>
+            <span class="tl-toggle">+</span>
+          </button>
+          <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
+            <p>
+              Working inside one of the companies literally building the energy transition —
+              the turbines, grids, and power hardware that keep the lights on for the planet.
+              It's where the abstract idea of "energy" turns into multi-ton machines that hum.
+            </p>
+            <ul>
+              <li>Contributing to real engineering work on power / energy systems.</li>
+              <li>Seeing how big hardware gets designed, validated, and shipped at scale.</li>
+              <li>Learning the discipline that aerospace and energy both demand: get it right, because it matters.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Power Systems</span>
+              <span class="tag">Energy Transition</span>
+              <span class="tag">Hardware</span>
+              <span class="tag">Engineering @ Scale</span>
+            </div>
+          </div></div></div>
+        </article>
+
+        <!-- Stage 4 — GOAL -->
+        <article class="tl-item is-goal reveal">
+          <span class="tl-node"></span>
+          <button class="tl-head" aria-expanded="false">
+            <span class="tl-year">2027</span>
+            <span class="tl-titles">
+              <span class="tl-title">Stage Separation</span>
+              <span class="tl-org">SpaceX · Internship <span class="badge">Target</span></span>
+            </span>
+            <span class="tl-toggle">+</span>
+          </button>
+          <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
+            <p>
+              The next burn. SpaceX is where my two obsessions — energy and aerospace — finally
+              point in the same direction. I want to bring the systems thinking I'm sharpening at
+              GE Vernova to the hardest engineering problem there is: getting humans off this rock.
+            </p>
+            <ul>
+              <li>Target: summer 2027 internship.</li>
+              <li>Why: energy <em>is</em> aerospace — it's all about controlling enormous amounts of it.</li>
+            </ul>
+            <div class="tags">
+              <span class="tag">Aerospace</span>
+              <span class="tag">Propulsion-curious</span>
+              <span class="tag">Systems Engineering</span>
+            </div>
+          </div></div></div>
+        </article>
+
+        <!-- Stage 5 — GOAL -->
+        <article class="tl-item is-goal reveal">
+          <span class="tl-node"></span>
+          <button class="tl-head" aria-expanded="false">
+            <span class="tl-year">2028</span>
+            <span class="tl-titles">
+              <span class="tl-title">Orbit</span>
+              <span class="tl-org">Graduation &amp; the full mission</span>
+            </span>
+            <span class="tl-toggle">+</span>
+          </button>
+          <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
+            <p>
+              Degree in hand, trajectory locked. The plan is simple to state and hard to do:
+              spend a career building the things that power humanity — on this planet and the
+              next ones.
+            </p>
+            <div class="tags">
+              <span class="tag">B.S. Engineering</span>
+              <span class="tag">Ad astra</span>
+            </div>
+          </div></div></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ WORK ============================== -->
+  <section id="work">
+    <div class="wrap">
+      <p class="eyebrow reveal">03 — Payloads</p>
+      <h2 class="reveal">Things I've Built &amp; Broken</h2>
+      <p class="section-lede reveal">
+        A few projects worth showing. <span style="font-family:var(--font-mono);font-size:13px;color:var(--green);">// swap these for your real work</span>
+      </p>
+
+      <div class="proj-grid">
+        <article class="proj-card reveal">
+          <div class="pc-no">PAYLOAD-01</div>
+          <h3>Energy, Visualized</h3>
+          <p>An interactive dashboard turning raw power-grid data into something you can actually read at a glance. Charts that behave.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Data Viz</span><span class="tag">Pandas</span></div>
+        </article>
+
+        <article class="proj-card reveal">
+          <div class="pc-no">PAYLOAD-02</div>
+          <h3>Microgrid Simulator</h3>
+          <p>A model of a small renewable microgrid — solar, storage, and load — to explore how to keep the lights on when the sun clocks out.</p>
+          <div class="tags"><span class="tag">MATLAB</span><span class="tag">Controls</span><span class="tag">Simulation</span></div>
+        </article>
+
+        <article class="proj-card reveal">
+          <div class="pc-no">PAYLOAD-03</div>
+          <h3>Telemetry Logger</h3>
+          <p>An embedded sensor rig that captures and streams flight-style telemetry — because every good mission starts with good data.</p>
+          <div class="tags"><span class="tag">Embedded C</span><span class="tag">Sensors</span><span class="tag">Hardware</span></div>
+        </article>
+
+        <article class="proj-card reveal">
+          <div class="pc-no">PAYLOAD-04</div>
+          <h3>[ Your Flagship Build ]</h3>
+          <p>The one you're proudest of. Drop in the project that makes a recruiter stop scrolling — title, one sharp sentence, and the stack.</p>
+          <div class="tags"><span class="tag">Add</span><span class="tag">Your</span><span class="tag">Stack</span></div>
+        </article>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="skills-wrap">
+        <p class="eyebrow reveal" style="margin-top:10px;">Onboard Systems</p>
+        <div class="skills-grid">
+          <div class="skill-col reveal">
+            <h4>Languages &amp; Tools</h4>
+            <ul>
+              <li>Python</li>
+              <li>MATLAB / Simulink</li>
+              <li>C / C++</li>
+              <li>Git &amp; version control</li>
+              <li>CAD (SolidWorks)</li>
+            </ul>
+          </div>
+          <div class="skill-col reveal">
+            <h4>Engineering Domains</h4>
+            <ul>
+              <li>Power &amp; energy systems</li>
+              <li>Circuit design</li>
+              <li>Controls &amp; dynamics</li>
+              <li>Thermodynamics</li>
+              <li>Embedded systems</li>
+            </ul>
+          </div>
+          <div class="skill-col reveal">
+            <h4>Mission Skills</h4>
+            <ul>
+              <li>Systems thinking</li>
+              <li>Modeling &amp; simulation</li>
+              <li>Technical writing</li>
+              <li>Working under real stakes</li>
+              <li>Relentless curiosity</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CONTACT =========================== -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="eyebrow reveal" style="justify-content:center;">04 — Open a Channel</p>
+      <h2 class="reveal">Let's build something<br />that matters.</h2>
+      <p class="big-line reveal">
+        Recruiters, builders, fellow space-and-energy nerds — if you're working on something
+        at the edge of <span class="hl">power</span> or <span class="hl">orbit</span>, I want to hear about it.
+      </p>
+      <div class="contact-links reveal">
+        <a class="btn btn-primary" href="mailto:lacaffar@gmail.com">Email me</a>
+        <a class="btn btn-ghost" href="https://github.com/lacaffar" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/luke-caffarey-212473322" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="/assets/Luke-Caffarey-Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="site">
+    <div class="wrap footer-inner">
+      <span>© <span id="year">2026</span> Luke Caffarey · Built from scratch, no template.</span>
+      <span>Powering Earth · Aiming for the stars · <a href="#top">Back to launch ↑</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/site.js"></script>
+</body>
+</html>

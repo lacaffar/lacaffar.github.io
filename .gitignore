@@ -3,6 +3,10 @@ _site
 .sass-cache
 .vagrant
 
+# photo originals (HEIC/MOV/large) stay local; web versions live in assets/photos
+Pictures/
+.claude/*.py
+
 # general
 .DS_Store
 Thumbs.db

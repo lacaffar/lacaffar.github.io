@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Project Template :: Luke Caffarey</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#005E60" />
+  <link rel="icon" href="/assets/img/avatar-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+  <!--
+    HOW TO USE THIS TEMPLATE
+    1. Copy this file to projects/your-project-name.html
+    2. Fill in the title, meta, and each section below.
+    3. Drop photos into the Pictures folder, run the photo script, then point
+       the img src at /assets/photos/your-file.jpg
+    4. Add a linking card on the home page (index.html, the .proj-grid block).
+    Use this for work in progress and for planning projects you have not started yet.
+  -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="swirl swirl-a" aria-hidden="true"></div>
+  <div class="swirl swirl-b" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/"><span class="dot"></span>L. CAFFAREY</a>
+      <nav class="nav-links">
+        <a href="/#work">Work</a>
+        <a href="/#timeline">Trajectory</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap proj-page">
+    <a class="back-link" href="/#work">&larr; Back to work</a>
+
+    <div class="proj-head">
+      <div class="proj-meta">
+        <span>TYPE: <b>Project or plan</b></span>
+        <span>STATUS: <b>Idea / In progress / Done</b></span>
+        <span>WHEN: <b>Date range</b></span>
+      </div>
+      <h1>Project Title</h1>
+      <p class="proj-sub">One or two sentences on what this is and why it matters.</p>
+    </div>
+
+    <section class="proj-section">
+      <h2>Concept</h2>
+      <div class="prose">
+        <p>What is the idea, and what problem does it solve.</p>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>Goals</h2>
+      <div class="prose">
+        <ul>
+          <li>Primary goal.</li>
+          <li>Success criteria, ideally measurable.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>Approach</h2>
+      <div class="prose">
+        <h3>Design</h3>
+        <p>How you plan to build or analyze it.</p>
+        <h3>Tools</h3>
+        <p>Software, hardware, methods.</p>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>Milestones</h2>
+      <div class="log">
+        <div class="log-entry"><div class="log-date">M1</div><p>First milestone.</p></div>
+        <div class="log-entry"><div class="log-date">M2</div><p>Second milestone.</p></div>
+        <div class="log-entry"><div class="log-date">M3</div><p>Third milestone.</p></div>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>Gallery</h2>
+      <div class="photo-grid">
+        <figure class="shot"><div class="photo" data-file="your-file.jpg"><img src="/assets/photos/your-file.jpg" alt="" loading="lazy" onerror="this.closest('.photo').classList.add('is-empty')"></div><figcaption>Caption</figcaption></figure>
+        <figure class="shot"><div class="photo" data-file="your-file.jpg"><img src="/assets/photos/your-file.jpg" alt="" loading="lazy" onerror="this.closest('.photo').classList.add('is-empty')"></div><figcaption>Caption</figcaption></figure>
+        <figure class="shot"><div class="photo" data-file="your-file.jpg"><img src="/assets/photos/your-file.jpg" alt="" loading="lazy" onerror="this.closest('.photo').classList.add('is-empty')"></div><figcaption>Caption</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="proj-section">
+      <h2>Log</h2>
+      <div class="log">
+        <div class="log-entry"><div class="log-date">DATE</div><p>Progress note.</p></div>
+      </div>
+    </section>
+
+    <nav class="proj-nav">
+      <a href="/#work">&larr; All work</a>
+      <a href="/">Home &rarr;</a>
+    </nav>
+  </main>
+
+  <footer class="site">
+    <div class="wrap footer-inner">
+      <span>(c) <span id="year">2026</span> Luke Caffarey.</span>
+      <span><a href="/">Home</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/site.js"></script>
+</body>
+</html>

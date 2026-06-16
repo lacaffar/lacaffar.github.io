@@ -1,5 +1,5 @@
 /* =====================================================================
-   site.js — starfield, timeline expand/collapse, scroll reveals.
+   site.js :: starfield, timeline expand/collapse, scroll reveals.
    Kept deliberately light: no frameworks, no WebGL, pauses when hidden.
    ===================================================================== */
 (function () {
@@ -9,7 +9,7 @@
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------------------------------------------------------------- */
-  /* Starfield — static stars with a faint twinkle + rare drifter      */
+  /* Starfield :: static stars with a faint twinkle + rare drifter     */
   /* ---------------------------------------------------------------- */
   (function starfield() {
     var canvas = document.getElementById("starfield");
@@ -74,7 +74,7 @@
   })();
 
   /* ---------------------------------------------------------------- */
-  /* Timeline — accessible expand / collapse                           */
+  /* Timeline :: accessible expand / collapse                          */
   /* ---------------------------------------------------------------- */
   (function timeline() {
     var heads = document.querySelectorAll(".tl-head");

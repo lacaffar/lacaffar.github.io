@@ -105,6 +105,28 @@
   })();
 
   /* ---------------------------------------------------------------- */
+  /* Scroll-spy: highlight the active section in the left nav          */
+  /* ---------------------------------------------------------------- */
+  (function spy() {
+    var links = document.querySelectorAll(".spy a[data-spy]");
+    if (!links.length || !("IntersectionObserver" in window)) return;
+    var map = {};
+    Array.prototype.forEach.call(links, function (l) { map[l.getAttribute("data-spy")] = l; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && map[e.target.id]) {
+          Array.prototype.forEach.call(links, function (l) { l.classList.remove("active"); });
+          map[e.target.id].classList.add("active");
+        }
+      });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    ["about", "timeline", "work", "contact"].forEach(function (id) {
+      var s = document.getElementById(id);
+      if (s) io.observe(s);
+    });
+  })();
+
+  /* ---------------------------------------------------------------- */
   /* Footer year                                                       */
   /* ---------------------------------------------------------------- */
   var yr = document.getElementById("year");

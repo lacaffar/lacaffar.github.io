@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryogenic Rotary Union :: Luke Caffarey</title>
+  <meta name="description" content="A sub-scale, bench-top Superconducting Wind Turbine Cryogenic Rotary Union prototype using liquid nitrogen, built by Luke Caffarey to demonstrate extreme thermal gradient, dynamic sealing, and thermal-structural design ahead of a Summer 2027 SpaceX Starship internship." />
+  <meta name="theme-color" content="#005E60" />
+  <link rel="icon" href="/assets/img/avatar-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="swirl swirl-a" aria-hidden="true"></div>
+  <div class="swirl swirl-b" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/"><span class="dot"></span>L. CAFFAREY</a>
+      <nav class="nav-links">
+        <a href="/#work">Projects</a>
+        <a href="/#timeline">Trajectory</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap proj-page">
+    <a class="back-link" href="/projects/personal/">&larr; Personal projects</a>
+
+    <div class="proj-head reveal">
+      <div class="proj-meta">
+        <span>TYPE: <b>Personal build</b></span>
+        <span>STATUS: <b>In progress</b></span>
+        <span>TARGET: <b>Summer 2027 SpaceX Starship internship</b></span>
+        <span>TIMELINE: <b>2026</b></span>
+      </div>
+      <h1>Cryogenic Rotary Union</h1>
+      <p class="proj-sub">A sub-scale, bench-top superconducting wind turbine cryogenic rotary union, built to move liquid nitrogen across a spinning joint at minus 196 degrees C and prove out the thermal, sealing, and structural engineering that flight cryogenics demand.</p>
+    </div>
+
+    <figure class="shot reveal" style="margin-top:14px;">
+      <div class="photo wide" data-file="cryo-rotary-union.jpg">
+        <img src="/assets/photos/cryo-rotary-union.jpg" alt="Cryogenic rotary union prototype" loading="eager" onerror="this.closest('.photo').classList.add('is-empty')">
+      </div>
+    </figure>
+
+    <!-- ===== Overview ===== -->
+    <section class="proj-section reveal">
+      <h2>The pitch</h2>
+      <div class="prose">
+        <p>I am a Mechanical Engineering student at NC State targeting a Summer 2027 Starship engineering internship at SpaceX. My background already runs through extreme engineering: freshman fusion research, a sophomore wind internship at GE Vernova, and an RCA semantic search software project. This build is the capstone that ties it together.</p>
+        <p>The goal is to design and run a sub-scale, bench-top <span class="hl">Superconducting Wind Turbine Cryogenic Rotary Union</span>: a joint that carries liquid nitrogen (LN2, minus 196 degrees C) from a stationary supply into a rotating shaft without leaking, seizing, or boiling off. It is a small machine that forces every hard problem at once: a steep thermal gradient, a dynamic seal at cryogenic temperature, and a structure that has to stay aligned while parts shrink at different rates.</p>
+        <p>If you can make a rotary union reliable at minus 196 degrees C, you have shown the exact instincts that flight cryogenics at SpaceX require.</p>
+      </div>
+    </section>
+
+    <!-- ===== Design ===== -->
+    <section class="proj-section reveal">
+      <h2>The design</h2>
+      <div class="prose">
+        <p>First-principles thermal-structural design, with each part chosen to fight a specific failure mode.</p>
+        <h3>316L stainless steel inner fluid shaft</h3>
+        <p>Carries the LN2 through the rotating core. 316L holds toughness at cryogenic temperature and resists the embrittlement that kills lesser steels in the cold.</p>
+        <h3>Vacuum-jacketed and Aerogel insulation</h3>
+        <p>A vacuum jacket plus Aerogel keeps ambient heat out, protects the seal and bearing zones, and limits boil-off so the fluid stays liquid through the joint.</p>
+        <h3>Spring-energized PTFE lip seals</h3>
+        <p>The dynamic sealing problem. Spring energizing keeps the lip loaded as PTFE contracts in the cold, holding a seal on a spinning shaft where a static gasket would fail.</p>
+        <h3>Dry ceramic hybrid bearings, thermally isolated</h3>
+        <p>Hybrid ceramic bearings run dry (no lubricant to freeze) and sit thermally isolated from the cold core, so the rotating assembly stays aligned without conducting the whole heat load into the bearing race.</p>
+      </div>
+    </section>
+
+    <!-- ===== Why it matters ===== -->
+    <section class="proj-section reveal">
+      <h2>Why it maps to SpaceX</h2>
+      <div class="prose">
+        <ul>
+          <li><b>Extreme thermal gradients.</b> Minus 196 degrees C against ambient, across a few centimeters, is the same class of problem as cryogenic propellant hardware.</li>
+          <li><b>Dynamic sealing.</b> Sealing a moving interface at cryogenic temperature is one of the genuinely hard problems in flight fluid systems.</li>
+          <li><b>First-principles thermal-structural design.</b> Differential contraction, alignment, and heat paths worked from the physics up, not pulled from a catalog.</li>
+          <li><b>Reliability mindset.</b> The whole build is an exercise in predicting failure before it happens and designing it out.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Timeline / gates ===== -->
+    <section class="proj-section reveal">
+      <h2>Schedule to ready</h2>
+      <p class="note">Timed to the SpaceX recruitment cycle opening in August and September 2026.</p>
+      <div class="log">
+        <div class="log-entry">
+          <div class="log-date">LATE AUGUST 2026 // RESUME READY</div>
+          <p>Design fully closed and analyzed, so the project earns a line on the resume the moment applications open.</p>
+          <ul>
+            <li>100 percent CAD complete.</li>
+            <li>Coupled thermal-structural FEA complete.</li>
+            <li>Fluid CFD complete.</li>
+          </ul>
+        </div>
+        <div class="log-entry">
+          <div class="log-date">MID OCTOBER 2026 // INTERVIEW READY</div>
+          <p>Physical hardware built and tested, ready to present in technical interview loops.</p>
+          <ul>
+            <li>Machining and assembly complete.</li>
+            <li>Instrumented sensor integration: RTDs and pressure transducers.</li>
+            <li>Live rotational testing with LN2 complete.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Working log ===== -->
+    <section class="proj-section reveal">
+      <h2>Working log</h2>
+      <p class="note">Update as the build moves. Add photos as parts arrive and tests run.</p>
+      <div class="log">
+        <div class="log-entry">
+          <div class="log-date">ADD A DATE</div>
+          <p>First entry: where the design stands today and the next concrete step.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="proj-section reveal">
+      <div class="tags">
+        <span class="tag">Cryogenics</span>
+        <span class="tag">LN2 at minus 196 C</span>
+        <span class="tag">Thermal-structural FEA</span>
+        <span class="tag">Fluid CFD</span>
+        <span class="tag">316L stainless</span>
+        <span class="tag">Dynamic sealing</span>
+        <span class="tag">Ceramic bearings</span>
+        <span class="tag">SpaceX Starship</span>
+      </div>
+    </section>
+
+    <nav class="proj-nav">
+      <a href="/projects/personal/">&larr; Personal projects</a>
+      <a href="/">Home &rarr;</a>
+    </nav>
+  </main>
+
+  <footer class="site">
+    <div class="wrap footer-inner">
+      <span>(c) <span id="year">2026</span> Luke Caffarey.</span>
+      <span><a href="/">Home</a></span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/site.js"></script>
+</body>
+</html>

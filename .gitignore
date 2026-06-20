@@ -5,7 +5,10 @@ _site
 
 # photo originals (HEIC/MOV/large) stay local; web versions live in assets/photos
 Pictures/
-.claude/*.py
+
+# local tooling and scratch artifacts (keep only launch.json)
+.claude/
+!.claude/launch.json
 
 # general
 .DS_Store

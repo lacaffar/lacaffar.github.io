@@ -28,6 +28,10 @@ Dockerfile text eol=lf
 # VSCode files
 *.json text eol=lf
 
+# Documents
+*.pdf binary
+*.docx binary
+
 # General multimedia files
 *.jpg binary
 *.jpeg binary

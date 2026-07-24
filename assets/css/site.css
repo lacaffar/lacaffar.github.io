@@ -5,23 +5,23 @@
    ===================================================================== */
 
 :root {
-  /* GE Vernova palette, anchored on official "Evergreen" #005E60 */
-  --bg:        #060D0C;   /* near-black, faint teal-green cast */
-  --bg-2:      #0A1413;
-  --panel:     #0D1817;
-  --panel-2:   #112221;
-  --line:      rgba(120, 178, 178, 0.14);
-  --line-soft: rgba(120, 178, 178, 0.07);
+  /* Clean near-monochrome. Green kept only as a restrained signature accent. */
+  --bg:        #0A0A0A;   /* near-black, neutral */
+  --bg-2:      #0F0F0F;
+  --panel:     #121212;
+  --panel-2:   #181818;
+  --line:      rgba(255, 255, 255, 0.10);
+  --line-soft: rgba(255, 255, 255, 0.055);
 
-  --green:      #4FA3A5;  /* teal accent, reads on dark */
-  --green-bright:#79C7C9;
-  --green-deep: #005E60;  /* official Evergreen, brand anchor */
-  --lime:       #7AC143;  /* GE Vernova lime, used only for "target" */
+  --green:      #5FB3A6;  /* calm teal accent */
+  --green-bright:#8FD8CB;
+  --green-deep: #0E5E56;  /* deep evergreen, brand anchor */
+  --lime:       #9BD64B;  /* used only for "next / future" */
 
-  --star:   #F2F6F5;      /* starlight / headings */
-  --text:   #B7C7C5;      /* body */
-  --muted:  #708583;      /* metadata */
-  --muted-2:#4A5C5B;
+  --star:   #FAFAFA;      /* headings / emphasis */
+  --text:   #C9C9C9;      /* body */
+  --muted:  #7C7C7C;      /* metadata */
+  --muted-2:#4A4A4A;
 
   --maxw: 1080px;
   --radius: 4px;          /* sharp, technical, not pill-soft */
@@ -37,13 +37,6 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background-color: var(--bg);
-  /* faint fixed engineering grid: technical, calm, no "space" read */
-  background-image:
-    linear-gradient(rgba(120, 178, 178, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 178, 178, 0.035) 1px, transparent 1px);
-  background-size: 58px 58px;
-  background-position: center top;
-  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-body);
   font-size: 17px;
@@ -53,45 +46,8 @@ body {
   overflow-x: hidden;
 }
 
-/* GE Vernova brand swirl: slow rotating green glow behind the hero */
-.swirl {
-  position: fixed;
-  z-index: -2;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(60px);
-  will-change: transform;
-}
-.swirl-a {
-  width: 92vmax; height: 92vmax;
-  top: -42vmax; right: -30vmax;
-  background: conic-gradient(from 210deg,
-    transparent 0deg,
-    rgba(0, 94, 96, 0.00) 40deg,
-    rgba(79, 163, 165, 0.20) 130deg,
-    rgba(0, 94, 96, 0.10) 200deg,
-    transparent 300deg);
-  opacity: 0.85;
-  animation: swirl-spin 80s linear infinite;
-}
-.swirl-b {
-  width: 70vmax; height: 70vmax;
-  bottom: -40vmax; left: -28vmax;
-  background: conic-gradient(from 30deg,
-    transparent 0deg,
-    rgba(0, 94, 96, 0.12) 120deg,
-    rgba(79, 163, 165, 0.10) 210deg,
-    transparent 320deg);
-  opacity: 0.6;
-  animation: swirl-spin 120s linear infinite reverse;
-}
-@keyframes swirl-spin { to { transform: rotate(360deg); } }
-
-/* Subtle vignette for depth */
-body::after {
-  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(120vw 90vh at 50% 30%, transparent 55%, rgba(0,0,0,0.45) 100%);
-}
+/* Legacy brand swirls: neutralized (kept so old markup, if any, is harmless) */
+.swirl { display: none; }
 
 a { color: var(--green-bright); text-decoration: none; }
 a:hover { color: var(--star); }
@@ -393,11 +349,7 @@ a.proj-card:hover .open { color: var(--green-bright); }
 /* HOME REDESIGN: editorial sticky-split layout                          */
 /* ===================================================================== */
 
-/* print-grain texture for an editorial, hand-made feel */
-body::before {
-  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.045;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+/* grain removed for a cleaner, flatter canvas */
 
 .shell {
   max-width: 1240px; margin: 0 auto;
@@ -496,3 +448,123 @@ body::before {
 .contact-sub a:hover { color: var(--green); }
 
 .content-footer { display: flex; justify-content: space-between; gap: 12px; padding: 28px 0; border-top: 1px solid var(--line-soft); font-family: var(--font-mono); font-size: 12px; color: var(--muted-2); }
+
+/* ===================================================================== */
+/* 2026 REDESIGN :: clean single-column, top nav, interactive shader hero */
+/* ===================================================================== */
+
+.wrap { width: min(var(--maxw), 92vw); margin-inline: auto; }
+
+/* ---- fixed top nav ---- */
+header.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(to bottom, rgba(10,10,10,0.82), rgba(10,10,10,0.30));
+  border-bottom: 1px solid var(--line-soft);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+.nav .brand { font-family: var(--font-mono); font-size: 13px; color: var(--star); letter-spacing: 0.08em; display: inline-flex; align-items: center; gap: 10px; }
+.nav .brand .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+.nav-links { display: flex; gap: 26px; align-items: center; }
+.nav-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; transition: color .2s; text-transform: uppercase; }
+.nav-links a:hover { color: var(--star); }
+.nav-links a.nav-cta { color: var(--green); border: 1px solid var(--line); border-radius: var(--radius); padding: 7px 13px; }
+.nav-links a.nav-cta:hover { border-color: var(--green); color: var(--star); }
+@media (max-width: 680px) { .nav-links a.nav-hideable { display: none; } }
+
+/* ---- interactive shader hero ---- */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 96px 0 60px; overflow: hidden;
+}
+.hero-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;
+  display: block;
+  /* fallback gradient shown until/if the shader paints */
+  background:
+    radial-gradient(120vw 80vh at 72% 18%, rgba(14,94,86,0.30), transparent 60%),
+    radial-gradient(90vw 70vh at 12% 90%, rgba(20,20,20,0.6), transparent 60%),
+    #0A0A0A;
+}
+/* legibility scrim over the shader */
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.30) 46%, transparent 74%),
+    linear-gradient(to top, rgba(10,10,10,0.85), transparent 40%);
+}
+.hero-inner { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin: 0 0 26px;
+}
+.hero-eyebrow .sep { color: var(--muted-2); }
+.hero-eyebrow .wink { color: var(--green); }
+
+.hero-name {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(52px, 11vw, 132px); line-height: 0.88; letter-spacing: -0.04em;
+  color: var(--star); margin: 0; text-transform: none;
+}
+/* letters fade grey -> white on load, like the reference */
+.hero-name .ch { display: inline-block; color: var(--muted-2); animation: chIn .6s ease forwards; }
+.hero-name .ch.sp { width: 0.26em; }
+@keyframes chIn { to { color: var(--star); } }
+
+.hero-line {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(20px, 3.4vw, 34px); letter-spacing: -0.02em; color: var(--text);
+  margin: 26px 0 0; max-width: 22ch; line-height: 1.12;
+}
+.hero-line .rot { color: var(--green-bright); position: relative; }
+.hero-line .rot::after { content: "_"; color: var(--green); animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+
+.hero-role {
+  font-family: var(--font-mono); font-size: clamp(12px, 1.5vw, 14px);
+  color: var(--green); letter-spacing: 0.16em; text-transform: uppercase; margin: 30px 0 0;
+}
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; }
+.hero-tags .tag { background: rgba(255,255,255,0.03); }
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 34px 0 0; }
+.btn {
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
+  padding: 12px 22px; border-radius: var(--radius); cursor: pointer; border: 1px solid var(--line);
+  display: inline-flex; align-items: center; gap: 9px; transition: all .18s; background: transparent; color: var(--text);
+}
+.btn-primary { background: var(--green-deep); color: var(--star); border-color: var(--green-deep); font-weight: 600; }
+.btn-primary:hover { background: var(--green); border-color: var(--green); color: #04100B; }
+.btn-ghost:hover { border-color: var(--green); color: var(--star); }
+
+.scroll-cue {
+  position: absolute; z-index: 2; left: 0; bottom: 30px;
+  font-family: var(--font-mono); font-size: 10.5px; color: var(--muted-2);
+  letter-spacing: 0.24em; text-transform: uppercase; display: flex; align-items: center; gap: 12px;
+}
+.scroll-cue .ln { width: 46px; height: 1px; background: var(--muted-2); animation: pulseln 2.6s ease-in-out infinite; }
+@keyframes pulseln { 0%,100% { opacity: .2; } 50% { opacity: 1; } }
+
+/* ---- section framing (centered, roomy, Clayton-clean) ---- */
+.sec { padding: clamp(72px, 12vh, 132px) 0; }
+.sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; }
+.sec-head::after { content: ""; flex: 1; height: 1px; background: var(--line-soft); align-self: center; }
+.sec-no { font-family: var(--font-mono); font-size: 12px; color: var(--green); letter-spacing: 0.1em; }
+.sec-head h2 { font-family: var(--font-display); font-size: clamp(28px, 5vw, 52px); letter-spacing: -0.03em; color: var(--star); margin: 0; font-weight: 800; }
+
+/* focus strip (numbered, like a "core services" row) */
+.focus { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 0; }
+@media (max-width: 720px) { .focus { grid-template-columns: repeat(2, 1fr); } }
+.focus > div { padding: 22px 20px; border-left: 1px solid var(--line-soft); }
+.focus > div:first-child { border-left: 0; }
+.focus .fn { font-family: var(--font-mono); font-size: 11px; color: var(--green-deep); letter-spacing: 0.1em; }
+.focus .ft { font-family: var(--font-display); font-size: 17px; color: var(--star); font-weight: 700; margin-top: 12px; letter-spacing: -0.01em; }
+.focus .fd { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-name .ch { animation: none; color: var(--star); }
+  .hero-line .rot::after { animation: none; }
+  .scroll-cue .ln { animation: none; }
+}

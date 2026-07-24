@@ -62,6 +62,52 @@
   })();
 
   /* ---------------------------------------------------------------- */
+  /* Hero name: split into letters, stagger the grey -> white reveal   */
+  /* ---------------------------------------------------------------- */
+  (function nameReveal() {
+    var el = document.querySelector("[data-splittext]");
+    if (!el) return;
+    var text = el.textContent;
+    el.textContent = "";
+    var i, delay = 0;
+    for (i = 0; i < text.length; i++) {
+      var ch = text.charAt(i);
+      var span = document.createElement("span");
+      if (ch === " ") { span.className = "ch sp"; }
+      else {
+        span.className = "ch";
+        span.textContent = ch;
+        if (!reduceMotion) span.style.animationDelay = delay.toFixed(2) + "s";
+        delay += 0.045;
+      }
+      el.appendChild(span);
+    }
+  })();
+
+  /* ---------------------------------------------------------------- */
+  /* Rotating word in the hero line                                    */
+  /* ---------------------------------------------------------------- */
+  (function rotator() {
+    var el = document.querySelector("[data-words]");
+    if (!el) return;
+    var words = el.getAttribute("data-words").split("|");
+    if (words.length < 2) { el.textContent = words[0] || ""; return; }
+    var wi = 0, ci = 0, deleting = false;
+    el.textContent = "";
+    if (reduceMotion) { el.textContent = words[0]; return; }
+    function tick() {
+      var w = words[wi];
+      ci += deleting ? -1 : 1;
+      el.textContent = w.slice(0, ci);
+      var wait = deleting ? 45 : 90;
+      if (!deleting && ci === w.length) { deleting = true; wait = 1500; }
+      else if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; wait = 260; }
+      setTimeout(tick, wait);
+    }
+    setTimeout(tick, 700);
+  })();
+
+  /* ---------------------------------------------------------------- */
   /* Footer year                                                       */
   /* ---------------------------------------------------------------- */
   var yr = document.getElementById("year");

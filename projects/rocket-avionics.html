@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rocket Avionics | Luke Caffarey</title>
+<meta name="description" content="A custom flight computer logging 100 Hz flight data and streaming live telemetry over a 915 MHz LoRa link to a Raspberry Pi ground station.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/img/avatar-icon.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+
+<nav class="back"><div class="col"><a href="/">← Index</a></div></nav>
+
+<header class="case-head">
+  <div class="col">
+    <h1>Rocket Avionics</h1>
+    <dl class="case-facts">
+      <div><dt>Role</dt><dd>Design and build</dd></div>
+      <div><dt>Type</dt><dd>Personal project</dd></div>
+      <div><dt>Status</dt><dd>In progress</dd></div>
+      <div><dt>When</dt><dd>2026</dd></div>
+    </dl>
+    <div class="case-cover">
+      <img src="/assets/covers/rocket-avionics.svg" width="1600" height="1000"
+           alt="Telemetry stack: sensors into a Teensy 4.1, LoRa downlink to a Raspberry Pi ground station">
+    </div>
+  </div>
+</header>
+
+<main class="case-body">
+  <div class="col">
+
+    <section>
+      <h2>Overview</h2>
+      <p>A flight computer and ground station I am building on my own bench. The board logs
+      flight data at 100 Hz and streams live telemetry over a 915 MHz LoRa link to a Raspberry
+      Pi on the ground, which serves a real-time dashboard I can reach from anywhere over a
+      Tailscale mesh.</p>
+      <p>The honest reason I started it: live telemetry off something moving that fast looked
+      just hard enough to be interesting. Fusion research and wind reliability both taught me
+      the same lesson from the data side, which is that you only understand a failure if you
+      instrumented for it beforehand. This is me building the instrument.</p>
+    </section>
+
+    <section>
+      <h2>The stack</h2>
+
+      <h3>Flight computer</h3>
+      <p>A Teensy 4.1 reading a 9-DOF IMU, a barometer for altitude, and GPS for position,
+      writing a 100 Hz log to onboard SD so the full record survives even if the radio link
+      does not. Firmware in embedded C++.</p>
+
+      <h3>The link</h3>
+      <p>915 MHz LoRa for the live downlink. Long range and low bandwidth, which forces real
+      decisions about what is worth sending in flight versus what can wait for the SD card
+      after recovery.</p>
+
+      <h3>Ground station</h3>
+      <p>A Raspberry Pi receives the downlink and serves a live dashboard. It sits on a
+      Tailscale mesh VPN, so the dashboard is reachable remotely without exposing anything to
+      the open internet.</p>
+    </section>
+
+    <section>
+      <h2>Where it stands</h2>
+      <p>Flight testing the full stack on a quadcopter first, because a quadcopter can be
+      flown repeatedly, hovered at a fixed altitude for sensor checks, and landed without a
+      recovery walk. Once the logging and the link hold up there, it flies on a high-power
+      rocket.</p>
+    </section>
+
+    <nav class="case-nav">
+      <a href="/projects/ge-vernova.html">← Wind Engineering</a>
+      <a href="/projects/windpack.html">Windpack →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="col">
+    <hr class="rule">
+    <div class="foot-inner">
+      <span>© 2026 Luke Caffarey</span>
+      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

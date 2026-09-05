@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fusion Research, KSTAR and FPAC Lab | Luke Caffarey</title>
+<meta name="description" content="A semester in NC State's FPAC lab processing spectroscopy and video data from KSTAR reactor experiments, on the problem of plasma-facing wall stability.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/img/avatar-icon.png">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+
+<nav class="back"><div class="col"><a href="/">← Index</a></div></nav>
+
+<header class="case-head">
+  <div class="col">
+    <h1>Fusion Research</h1>
+    <dl class="case-facts">
+      <div><dt>Role</dt><dd>Undergraduate Research Assistant</dd></div>
+      <div><dt>Lab</dt><dd>FPAC, NC State Nuclear Engineering</dd></div>
+      <div><dt>Data</dt><dd>KSTAR reactor</dd></div>
+      <div><dt>When</dt><dd>Dec 2024 to Apr 2025</dd></div>
+    </dl>
+    <div class="case-cover">
+      <img src="/assets/covers/fusion.svg" width="1600" height="1000"
+           alt="KSTAR spectroscopy trace with adaptive Gaussian smoothing and detected emission peaks">
+    </div>
+  </div>
+</header>
+
+<main class="case-body">
+  <div class="col">
+
+    <section>
+      <h2>Overview</h2>
+      <p>Fusion is the power source of stars, and the hardest part is not starting the
+      reaction but containing it. The plasma-facing wall has to survive heat and particle
+      loads beyond almost anything else humans build. My work was on the data side of keeping
+      that wall stable.</p>
+      <p>I joined the Fusion Plasma Auxiliaries Characterization lab as a freshman, after a
+      long-shot email, and spent a semester analyzing spectroscopy and video data from KSTAR
+      experiment campaigns. KSTAR is a Korean reactor that briefly recreates the conditions
+      inside a star. I built the processing pipeline that turned raw signals into something
+      the researchers could actually interpret.</p>
+    </section>
+
+    <section>
+      <h2>The research</h2>
+
+      <h3>The question</h3>
+      <p>When the plasma interacts with the reactor wall, the evidence shows up in the light
+      it emits. Spotting those events cleanly in noisy spectroscopy data is the first step to
+      understanding what the wall is going through.</p>
+
+      <h3>The data</h3>
+      <p>Time-series spectroscopy and camera video from KSTAR shots. I wrote the Python
+      signal-processing workflows, including adaptive Gaussian smoothing that noticeably
+      improved peak detection over the fixed-width filtering we started with. The kernel
+      narrows where the signal is steep, so real emission peaks stay sharp while the flat
+      stretches between them get properly denoised.</p>
+
+      <h3>The reliability angle</h3>
+      <p>This was reliability engineering before I had the words for it: predicting when a
+      critical component survives and when it does not.</p>
+    </section>
+
+    <nav class="case-nav">
+      <a href="/projects/windpack.html">← Windpack</a>
+      <a href="/">Index →</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="col">
+    <hr class="rule">
+    <div class="foot-inner">
+      <span>© 2026 Luke Caffarey</span>
+      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

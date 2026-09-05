@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img">
+<rect width="1600" height="1000" fill="#EDEBE6"/>
+<g font-family="General Sans,Helvetica Neue,Helvetica,Arial,sans-serif">
+<path d="M 46.0,46.0 L 72.0,46.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 46.0,46.0 L 46.0,72.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 1554.0,46.0 L 1528.0,46.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 1554.0,46.0 L 1554.0,72.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 46.0,954.0 L 72.0,954.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 46.0,954.0 L 46.0,928.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 1554.0,954.0 L 1528.0,954.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 1554.0,954.0 L 1554.0,928.0" fill="none" stroke="#8C8378" stroke-width="1.5" opacity="0.55" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="90" y="96" font-size="22" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.6" text-anchor="start">HIGH-POWER ROCKET AVIONICS</text>
+<text x="1510" y="96" font-size="22" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2.6" text-anchor="end">TELEMETRY STACK</text>
+<path d="M 90.0,120.0 L 1510.0,120.0" fill="none" stroke="#1B5C58" stroke-width="1.6" opacity="0.45" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="112" y="250" width="258" height="104" rx="2" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="1"/>
+<text x="241" y="298" font-size="21" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.2" text-anchor="middle">IMU</text>
+<text x="241" y="328" font-size="19" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">9-DOF</text>
+<path d="M 370.0,302.0 L 470.0,302.0" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 470,302 l -13,-6 v 12 z" fill="#1B5C58"/>
+<rect x="112" y="400" width="258" height="104" rx="2" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="1"/>
+<text x="241" y="448" font-size="21" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.2" text-anchor="middle">BAROMETER</text>
+<text x="241" y="478" font-size="19" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">ALTITUDE</text>
+<path d="M 370.0,452.0 L 470.0,452.0" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 470,452 l -13,-6 v 12 z" fill="#1B5C58"/>
+<rect x="112" y="550" width="258" height="104" rx="2" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="1"/>
+<text x="241" y="598" font-size="21" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.2" text-anchor="middle">GPS</text>
+<text x="241" y="628" font-size="19" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">POSITION</text>
+<path d="M 370.0,602.0 L 470.0,602.0" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 470,602 l -13,-6 v 12 z" fill="#1B5C58"/>
+<rect x="474" y="318" width="300" height="300" rx="2" fill="none" stroke="#1B5C58" stroke-width="2.6" opacity="1"/>
+<text x="624" y="372" font-size="24" fill="#1B5C58" opacity="1" font-weight="700" letter-spacing="2.2" text-anchor="middle">TEENSY 4.1</text>
+<text x="624" y="402" font-size="20" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">FLIGHT COMPUTER</text>
+<path d="M 510.0,434.0 L 738.0,434.0" fill="none" stroke="#1B5C58" stroke-width="1.4" opacity="0.35" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="624" y="480" font-size="21" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.2" text-anchor="middle">100 Hz LOGGING</text>
+<text x="624" y="510" font-size="19" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">ONBOARD SD</text>
+<rect x="560" y="542" width="128" height="44" rx="2" fill="none" stroke="#1B5C58" stroke-width="1.6" opacity="0.55"/>
+<text x="624" y="570" font-size="18" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">C++ / ARM</text>
+<path d="M 774.0,468.0 L 818.0,468.0" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 818.0,468.0 L 820.0,464.9 L 822.0,461.9 L 824.0,459.0 L 826.0,456.3 L 828.0,453.8 L 830.0,451.6 L 832.0,449.7 L 834.0,448.2 L 836.0,447.1 L 838.0,446.3 L 840.0,446.0 L 842.0,446.1 L 844.0,446.7 L 846.0,447.6 L 848.0,449.0 L 850.0,450.7 L 852.0,452.8 L 854.0,455.2 L 856.0,457.8 L 858.0,460.6 L 860.0,463.6 L 862.0,466.6 L 864.0,469.7 L 866.0,472.8 L 868.0,475.7 L 870.0,478.5 L 872.0,481.1 L 874.0,483.4 L 876.0,485.5 L 878.0,487.2 L 880.0,488.5 L 882.0,489.4 L 884.0,489.9 L 886.0,490.0 L 888.0,489.6 L 890.0,488.8 L 892.0,487.6 L 894.0,486.1 L 896.0,484.1 L 898.0,481.9 L 900.0,479.4 L 902.0,476.6 L 904.0,473.7 L 906.0,470.7 L 908.0,467.6 L 910.0,464.6 L 912.0,461.6 L 914.0,458.7 L 916.0,456.0 L 918.0,453.5 L 920.0,451.4 L 922.0,449.5 L 924.0,448.0 L 926.0,446.9 L 928.0,446.3 L 930.0,446.0 L 932.0,446.2 L 934.0,446.8 L 936.0,447.8 L 938.0,449.2 L 940.0,451.0 L 942.0,453.1 L 944.0,455.5 L 946.0,458.1 L 948.0,461.0 L 950.0,464.0 L 952.0,467.0 L 954.0,470.1 L 956.0,473.1 L 958.0,476.1 L 960.0,478.8 L 962.0,481.4 L 964.0,483.7 L 966.0,485.7 L 968.0,487.4 L 970.0,488.6 L 972.0,489.5 L 974.0,489.9 L 976.0,490.0 L 978.0,489.5 L 980.0,488.7 L 982.0,487.5 L 984.0,485.8 L 986.0,483.9 L 988.0,481.6 L 990.0,479.1 L 992.0,476.3 L 994.0,473.4 L 996.0,470.3 L 998.0,467.3 L 1000.0,464.2 L 1002.0,461.2 L 1004.0,458.4 L 1006.0,455.7 L 1008.0,453.3 L 1010.0,451.1 L 1012.0,449.3 L 1014.0,447.9 L 1016.0,446.8 L 1018.0,446.2 L 1020.0,446.0 L 1022.0,446.2 L 1024.0,446.9 L 1026.0,447.9 L 1028.0,449.4 L 1030.0,451.2 L 1032.0,453.4 L 1034.0,455.8 L 1036.0,458.5 L 1038.0,461.3 L 1040.0,464.3 L 1042.0,467.4 L 1044.0,470.5 L 1046.0,473.5 L 1048.0,476.4 L 1050.0,479.2 L 1052.0,481.7 L 1054.0,484.0 L 1056.0,485.9 L 1058.0,487.5" fill="none" stroke="#1B5C58" stroke-width="2.4" opacity="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 1058.0,468.0 L 1102.0,468.0" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 1102,468 l -13,-6 v 12 z" fill="#1B5C58"/>
+<text x="938" y="416" font-size="24" fill="#1B5C58" opacity="1" font-weight="700" letter-spacing="2.4" text-anchor="middle">915 MHz LoRa</text>
+<text x="938" y="534" font-size="19" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">LIVE DOWNLINK</text>
+<rect x="1090" y="258" width="400" height="424" rx="6" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="0.55" stroke-dasharray="9 8"/>
+<text x="1290" y="292" font-size="20" fill="#8C8378" opacity="1" font-weight="600" letter-spacing="2.2" text-anchor="middle">TAILSCALE MESH VPN</text>
+<rect x="1128" y="330" width="324" height="116" rx="2" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="1"/>
+<text x="1290" y="384" font-size="21" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.2" text-anchor="middle">RASPBERRY PI</text>
+<text x="1290" y="414" font-size="19" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">GROUND STATION</text>
+<path d="M 1290.0,446.0 L 1290.0,512.0" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 1290,512 l -6,-13 h 12 z" fill="#1B5C58"/>
+<rect x="1128" y="516" width="324" height="116" rx="2" fill="none" stroke="#1B5C58" stroke-width="1.8" opacity="1"/>
+<text x="1290" y="570" font-size="21" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.2" text-anchor="middle">LIVE DASHBOARD</text>
+<text x="1290" y="600" font-size="19" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2" text-anchor="middle">REMOTE ACCESS</text>
+<path d="M 90.0,812.0 L 1510.0,812.0" fill="none" stroke="#1B5C58" stroke-width="1.6" opacity="0.3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="90" y="862" font-size="20" fill="#8C8378" opacity="1" font-weight="600" letter-spacing="2.6" text-anchor="start">FLIGHT TEST PATH</text>
+<text x="90" y="926" font-size="26" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.4" text-anchor="start">QUADCOPTER</text>
+<path d="M 408.0,918.0 L 452.0,918.0" fill="none" stroke="#1B5C58" stroke-width="2" opacity="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 452,918 l -13,-6 v 12 z" fill="#1B5C58"/>
+<text x="470" y="926" font-size="26" fill="#1B5C58" opacity="1" font-weight="600" letter-spacing="2.4" text-anchor="start">HIGH-POWER ROCKET</text>
+<text x="1510" y="926" font-size="26" fill="#8C8378" opacity="1" font-weight="500" letter-spacing="2.6" text-anchor="end">2026</text>
+</g></svg>

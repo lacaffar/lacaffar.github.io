@@ -1,246 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Luke Caffarey | Mechanical Engineer</title>
-  <meta name="description" content="Luke Caffarey, mechanical engineering student at NC State. Wind engineer intern at GE Vernova and president of Windpack, NC State's Collegiate Wind Competition team." />
-  <meta name="theme-color" content="#0A0A0A" />
-  <link rel="icon" href="/assets/img/avatar-icon.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luke Caffarey</title>
+<meta name="description" content="Luke Caffarey, mechanical engineering student at NC State. Wind, reliability, and flight hardware.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/img/avatar-icon.png">
 
-  <meta property="og:title" content="Luke Caffarey | Mechanical Engineer" />
-  <meta property="og:description" content="Mechanical engineering student at NC State. Wind intern at GE Vernova, Windpack club president." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://lacaffar.github.io/" />
+<meta property="og:title" content="Luke Caffarey">
+<meta property="og:description" content="Mechanical engineering student at NC State. Wind, reliability, and flight hardware.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lacaffar.github.io/">
+<meta property="og:image" content="https://lacaffar.github.io/assets/covers/windpack.jpg">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="/assets/css/site.css" />
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
 </head>
 <body>
 
-  <!-- ===================== NAV ===================== -->
-  <header class="nav">
-    <div class="wrap nav-inner">
-      <a class="brand" href="/"><span class="dot"></span>L. CAFFAREY</a>
-      <nav class="nav-links" aria-label="Primary">
-        <a class="nav-hideable" href="#about"><span class="idx"></span>About</a>
-        <a class="nav-hideable" href="#timeline">Timeline</a>
-        <a class="nav-hideable" href="#work">Work</a>
-        <a class="nav-hideable" href="#contact">Contact</a>
-        <a class="nav-cta" href="/assets/Luke-Caffarey-Resume.pdf" target="_blank" rel="noopener">Résumé</a>
-      </nav>
+<header class="head">
+  <div class="col">
+    <img class="portrait" src="/assets/covers/portrait.jpg" width="480" height="480" alt="Luke Caffarey">
+    <p class="label">Luke Caffarey</p>
+    <p class="meta">Mechanical engineering, NC State 2028. Wind, reliability, flight hardware.</p>
+    <nav class="links" aria-label="Contact">
+      <a href="mailto:lacaffar@ncsu.edu">Email</a>
+      <a href="https://www.linkedin.com/in/luke-caffarey-212473322" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/lacaffar" target="_blank" rel="noopener">GitHub</a>
+      <a href="/assets/Luke-Caffarey-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main class="work">
+  <div class="col">
+
+    <a class="row" href="/projects/ge-vernova.html">
+      <div class="row-text">
+        <h2>Wind Engineering</h2>
+        <hr class="rule">
+        <p class="label">GE Vernova</p>
+        <p class="meta">2026</p>
+      </div>
+      <span class="row-img">
+        <img src="/assets/covers/wind-engineering.svg" width="1600" height="1000"
+             alt="Fleet root cause archive with one query surfacing similar prior failures">
+      </span>
+    </a>
+
+    <a class="row" href="/projects/rocket-avionics.html">
+      <div class="row-text">
+        <h2>Rocket Avionics</h2>
+        <hr class="rule">
+        <p class="label">Personal</p>
+        <p class="meta">2026</p>
+      </div>
+      <span class="row-img">
+        <img src="/assets/covers/rocket-avionics.svg" width="1600" height="1000" loading="lazy"
+             alt="Telemetry stack: sensors into a Teensy 4.1, LoRa downlink to a Raspberry Pi ground station">
+      </span>
+    </a>
+
+    <a class="row" href="/projects/windpack.html">
+      <div class="row-text">
+        <h2>Windpack</h2>
+        <hr class="rule">
+        <p class="label">NC State</p>
+        <p class="meta">2025</p>
+      </div>
+      <span class="row-img">
+        <img src="/assets/covers/windpack.jpg" width="1600" height="1000" loading="lazy"
+             alt="The Windpack team at the Collegiate Wind Competition">
+      </span>
+    </a>
+
+    <a class="row" href="/projects/fusion.html">
+      <div class="row-text">
+        <h2>Fusion Research</h2>
+        <hr class="rule">
+        <p class="label">FPAC Lab</p>
+        <p class="meta">2025</p>
+      </div>
+      <span class="row-img">
+        <img src="/assets/covers/fusion.svg" width="1600" height="1000" loading="lazy"
+             alt="KSTAR spectroscopy trace with adaptive Gaussian smoothing and detected peaks">
+      </span>
+    </a>
+
+  </div>
+</main>
+
+<section class="about" id="about">
+  <div class="col">
+    <hr class="rule">
+    <div class="about-grid">
+      <p class="label">About</p>
+      <div class="about-body">
+        <p>I study mechanical engineering at NC State, and prefer hardware I can put my
+        hands on.</p>
+
+        <p>As a freshman I wrote to a fusion lab; the answer put me on a semester of KSTAR
+        spectroscopy. In 2025 I founded <strong>Windpack</strong>, and lead it still. This
+        past summer I worked turbine reliability at GE Vernova. I teach senior design now,
+        and build rocket avionics on my own bench.</p>
+
+        <p>Off the clock: beach volleyball, weekend shifts at a German bakery, and two years
+        riding 911 calls as an EMS cadet. That last one reset my definition of pressure.</p>
+
+        <p class="skills">SolidWorks · MATLAB · Python · SQL · Embedded C++ ·
+        Thermal-structural FEA · Fluid CFD · Fabrication</p>
+      </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <!-- ===================== HERO (interactive shader) ===================== -->
-  <section class="hero" id="top">
-    <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
-    <div class="wrap hero-inner">
-      <p class="hero-eyebrow">
-        <span>Greenville, SC</span><span class="sep">/</span>
-        <span>NC State '28</span><span class="sep">/</span>
-        <span class="wink">recovering EMS cadet</span>
-      </p>
-
-      <h1 class="hero-name" data-splittext>Luke Caffarey</h1>
-
-      <p class="hero-line">I build <span class="rot" data-words="hardware|turbines|avionics|rockets"></span> you can put your hands on.</p>
-
-      <p class="hero-role">Mechanical Engineer — Wind, Reliability &amp; Flight Hardware</p>
-
-      <div class="hero-tags">
-        <span class="tag">Wind Energy</span>
-        <span class="tag">Thermal-Structural FEA</span>
-        <span class="tag">Embedded / Avionics</span>
-        <span class="tag">Fabrication</span>
-      </div>
-
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#work">View Work</a>
-        <a class="btn btn-ghost" href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a>
-      </div>
+<footer class="foot">
+  <div class="col">
+    <hr class="rule">
+    <div class="foot-inner">
+      <span>© 2026 Luke Caffarey</span>
+      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
+      <span><a href="https://lacaffar.github.io/Jook_joint/">Off the clock 🦝</a></span>
     </div>
-    <div class="wrap scroll-cue"><span class="ln"></span> Scroll — drag the wind</div>
-  </section>
+  </div>
+</footer>
 
-  <main>
-
-    <!-- ===================== ABOUT ===================== -->
-    <section class="sec" id="about">
-      <div class="wrap">
-        <div class="sec-head"><span class="sec-no">01</span><h2>About</h2></div>
-        <div class="about-split">
-          <div class="prose-lg reveal">
-            <p>I'm a mechanical engineering student at NC State (GPA 3.889), and I like hardware you can put your hands on. Freshman year I sent a long-shot email to a fusion lab and ended up spending a semester processing spectroscopy data from KSTAR reactor experiments.</p>
-            <p>Last fall I started Windpack, NC State's team for the Collegiate Wind Competition, and I'm still its president. This summer I'm in Greenville, SC as a wind engineer intern at GE Vernova, working on utility-scale turbines. On my own bench, I'm building a high-power rocket avionics stack, mostly because live telemetry off something moving that fast looked just hard enough to be interesting.</p>
-            <p>Off the clock: beach volleyball, and weekend shifts at a German bakery in Cary. In high school I was an EMS cadet riding along on 911 calls, which permanently reset my definition of "high pressure."</p>
-          </div>
-          <figure class="shot about-figure reveal">
-            <div class="photo portrait" data-file="professionalpic.jpg">
-              <img src="/assets/photos/professionalpic.jpg" alt="Luke Caffarey" loading="eager" onerror="this.closest('.photo').classList.add('is-empty')">
-            </div>
-          </figure>
-        </div>
-
-        <div class="focus reveal">
-          <div><div class="fn">01</div><div class="ft">Wind Energy</div><div class="fd">Utility-scale turbines at GE Vernova; a scaled turbine with Windpack.</div></div>
-          <div><div class="fn">02</div><div class="ft">Reliability &amp; FEA</div><div class="fd">Thermal-structural analysis, testing, root-cause work.</div></div>
-          <div><div class="fn">03</div><div class="ft">Avionics</div><div class="fd">Flight computers, LoRa telemetry, embedded ground stations.</div></div>
-          <div><div class="fn">04</div><div class="ft">Fabrication</div><div class="fd">SolidWorks to a real part; hands on the machine.</div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== TIMELINE ===================== -->
-    <section class="sec" id="timeline">
-      <div class="wrap">
-        <div class="sec-head"><span class="sec-no">02</span><h2>Timeline</h2></div>
-        <div class="timeline">
-
-          <article class="tl-item reveal">
-            <span class="tl-node"></span>
-            <button class="tl-head" aria-expanded="false">
-              <span class="tl-year">2024 to 2025</span>
-              <span class="tl-titles">
-                <span class="tl-title">Freshman year</span>
-                <span class="tl-org">NC State, B.S. Mechanical Engineering</span>
-              </span>
-              <span class="tl-toggle">+</span>
-            </button>
-            <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
-              <p>First year of mechanical engineering at NC State. Mostly fundamentals, plus a long-shot email to the FPAC fusion lab that turned into a semester of analyzing KSTAR reactor data as a freshman.</p>
-              <div class="tags"><span class="tag">Mechanical Engineering</span><span class="tag">GPA 3.889</span><span class="tag">Fusion Research</span></div>
-              <p style="margin-top:14px;"><a class="mlink" href="/projects/work/fusion.html">Open the fusion case study &rarr;</a></p>
-            </div></div></div>
-          </article>
-
-          <article class="tl-item reveal is-open">
-            <span class="tl-node"></span>
-            <button class="tl-head" aria-expanded="true">
-              <span class="tl-year">2025 to 2026</span>
-              <span class="tl-titles">
-                <span class="tl-title">Windpack and GE Vernova</span>
-                <span class="tl-org">Windpack President, GE Vernova Intern <span class="badge">Current</span></span>
-              </span>
-              <span class="tl-toggle">+</span>
-            </button>
-            <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
-              <p>Founded Windpack, NC State's 10-member team for the Collegiate Wind Competition: design, fabrication, and testing of a scaled wind turbine. This summer I'm a wind engineer intern at GE Vernova in Greenville, SC, working on utility-scale wind hardware.</p>
-              <div class="tags"><span class="tag">Wind Energy</span><span class="tag">Leadership</span><span class="tag">GE Vernova</span><span class="tag">Reliability</span></div>
-              <p style="margin-top:14px;"><a class="mlink" href="/projects/club/windpack.html">Windpack case study &rarr;</a></p>
-              <p style="margin-top:6px;"><a class="mlink" href="/projects/work/ge-vernova.html">GE Vernova case study &rarr;</a></p>
-            </div></div></div>
-          </article>
-
-          <article class="tl-item reveal">
-            <span class="tl-node"></span>
-            <button class="tl-head" aria-expanded="false">
-              <span class="tl-year">2026 to 2027</span>
-              <span class="tl-titles">
-                <span class="tl-title">Rocket avionics</span>
-                <span class="tl-org">High-Power Rocket Avionics and Remote Ground Station <span class="badge">Next</span></span>
-              </span>
-              <span class="tl-toggle">+</span>
-            </button>
-            <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
-              <p>A custom flight computer (Teensy 4.1, IMU, barometer, GPS) logging 100 Hz flight data and streaming live telemetry over a 915 MHz LoRa link, paired with a Raspberry Pi ground station serving a real-time dashboard remotely over a Tailscale mesh VPN. Flight-testing the full stack on a quadcopter before it flies on a high-power rocket.</p>
-              <div class="tags"><span class="tag">Flight Computer</span><span class="tag">LoRa Telemetry</span><span class="tag">Embedded Systems</span></div>
-            </div></div></div>
-          </article>
-
-          <article class="tl-item is-goal reveal">
-            <span class="tl-node"></span>
-            <button class="tl-head" aria-expanded="false">
-              <span class="tl-year">2027 to 2028</span>
-              <span class="tl-titles">
-                <span class="tl-title">Senior design and out</span>
-                <span class="tl-org">Capstone to graduation <span class="badge">Ahead</span></span>
-              </span>
-              <span class="tl-toggle">+</span>
-            </button>
-            <div class="tl-body"><div class="tl-body-inner"><div class="tl-body-pad">
-              <p>Senior design, graduation, and a full-time engineering job. Plans past that are written in pencil.</p>
-              <div class="tags"><span class="tag">Capstone</span><span class="tag">Energy Systems</span><span class="tag">Class of 2028</span></div>
-            </div></div></div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== WORK ===================== -->
-    <section class="sec" id="work">
-      <div class="wrap">
-        <div class="sec-head"><span class="sec-no">03</span><h2>Selected Work</h2></div>
-        <ol class="pindex">
-          <li><a href="/projects/work/ge-vernova.html">
-            <span class="ix-no">01</span>
-            <span class="ix-main"><span class="ix-title">Wind Engineering</span><span class="ix-sub">GE Vernova, utility-scale wind hardware</span></span>
-            <span class="ix-meta">2026</span>
-            <span class="ix-go">&rarr;</span>
-          </a></li>
-          <li><a href="/projects/club/windpack.html">
-            <span class="ix-no">02</span>
-            <span class="ix-main"><span class="ix-title">Windpack</span><span class="ix-sub">NC State's Collegiate Wind Competition club</span></span>
-            <span class="ix-meta">2025</span>
-            <span class="ix-go">&rarr;</span>
-          </a></li>
-          <li><a href="/projects/work/fusion.html">
-            <span class="ix-no">03</span>
-            <span class="ix-main"><span class="ix-title">Fusion Research</span><span class="ix-sub">FPAC Lab, KSTAR reactor data</span></span>
-            <span class="ix-meta">2025</span>
-            <span class="ix-go">&rarr;</span>
-          </a></li>
-        </ol>
-        <p class="pindex-cats">Browse by area: <a href="/projects/work/">Work</a> / <a href="/projects/club/">Club</a> / <a href="/projects/personal/">Independent</a></p>
-
-        <div class="caps">
-          <div class="cap-col reveal">
-            <h4>Tools and Software</h4>
-            <ul><li>SolidWorks and CAD</li><li>MATLAB</li><li>Python</li><li>Data analysis</li><li>Hands-on fabrication</li></ul>
-          </div>
-          <div class="cap-col reveal">
-            <h4>Engineering and Reliability</h4>
-            <ul><li>Thermal-structural FEA</li><li>Fluid CFD</li><li>Testing and validation</li><li>Failure and root cause analysis</li><li>Wind and flight hardware systems</li></ul>
-          </div>
-          <div class="cap-col reveal">
-            <h4>Leadership and Process</h4>
-            <ul><li>Team leadership (Windpack)</li><li>Project ownership</li><li>Technical writing</li><li>Sponsor and stakeholder outreach</li><li>Budgets and competition logistics</li></ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== CONTACT ===================== -->
-    <section class="sec contact" id="contact">
-      <div class="wrap">
-        <div class="sec-head"><span class="sec-no">04</span><h2>Contact</h2></div>
-        <p class="prose-lg reveal" style="max-width:56ch;">The inbox is always open. Wind energy, avionics, Windpack, or NC State engineering, I'm happy to talk about any of it.</p>
-        <div class="contact-row reveal">
-          <a class="mlink big" href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a>
-        </div>
-        <div class="contact-sub reveal">
-          <a href="https://www.linkedin.com/in/luke-caffarey-212473322" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://github.com/lacaffar" target="_blank" rel="noopener">GitHub</a>
-          <a href="/assets/Luke-Caffarey-Resume.pdf" target="_blank" rel="noopener">Résumé</a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="site">
-    <div class="wrap footer-inner">
-      <span>© <span id="year">2026</span> Luke Caffarey</span>
-      <span>Built from scratch — <a href="https://github.com/lacaffar" target="_blank" rel="noopener">source</a></span>
-      <a href="https://lacaffar.github.io/Jook_joint/" style="opacity:0.6;">off the clock 🦝</a>
-    </div>
-  </footer>
-
-  <script src="/assets/js/hero-shader.js"></script>
-  <script src="/assets/js/site.js"></script>
 </body>
 </html>

@@ -78,7 +78,6 @@ hr.rule {
   height: 120px;
   object-fit: cover;
   margin-bottom: 26px;
-  filter: grayscale(1) contrast(1.05);
 }
 
 .head .label { margin-bottom: 6px; }

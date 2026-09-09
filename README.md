@@ -11,6 +11,11 @@ as stubs rather than being padded out with detail that is not true.
 - `assets/css/site.css` : the whole design system
 - `assets/covers/` : project cover art
 
+`projects/windpack.html` is the one fully written page: season one narrative, the
+subsystem build, what broke, and the year two plan. Its photos are cut by
+`.claude/make_windpack_photos.py` from 1600px sources staged in `assets/photos/`.
+The team's own site is <https://windpack.club>.
+
 `projects/rocket-avionics.html` is **unlisted**: it is not linked from the index and is
 marked `noindex`. It goes back on the index once the project has flown.
 

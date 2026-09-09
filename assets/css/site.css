@@ -372,3 +372,94 @@ hr.rule {
 }
 
 .case-head .wip { margin-bottom: 16px; }
+
+/* --- case page extras ----------------------------------------------------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px var(--gap);
+  margin: 0 0 34px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+}
+
+.stats .stat-n {
+  font-size: 30px;
+  line-height: 34px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+.stats .stat-l {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--faint);
+  margin: 0;
+  max-width: 26ch;
+}
+
+.figs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  margin: 28px 0 24px;
+}
+
+.figs figure { margin: 0; }
+.figs figcaption { font-size: 12px; color: var(--faint); margin-top: 10px; }
+
+/* an outbound link that should read as a destination, not body text */
+
+.cta {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 3px;
+  transition: border-color 0.15s ease;
+}
+
+.cta:hover, .cta:focus-visible { border-bottom-color: var(--text); }
+
+.case-head .cta { margin-top: 16px; }
+
+/* a two-column definition of a problem and what it forces */
+
+.fix { display: grid; gap: 18px; max-width: 68ch; margin-bottom: 16px; }
+
+.fix-item { display: grid; grid-template-columns: 132px 1fr; gap: var(--gap); }
+
+.fix-when {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--faint); padding-top: 3px;
+}
+
+.fix p { margin: 0; }
+
+@media (max-width: 760px) {
+  .stats { grid-template-columns: 1fr 1fr; }
+  .figs { grid-template-columns: 1fr; }
+  .fix-item { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* inline prose links need to look like links */
+
+.about-body a,
+.case-body p a,
+.note a {
+  color: var(--text);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+  transition: border-color 0.15s ease;
+}
+
+.about-body a:hover,
+.case-body p a:hover,
+.note a:hover,
+.about-body a:focus-visible,
+.case-body p a:focus-visible,
+.note a:focus-visible { border-bottom-color: var(--text); }

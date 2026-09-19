@@ -74,6 +74,13 @@ heading, and the swing is a visible kink. The scale is then bounded by what is l
 tail tip needs height below it to straighten onto the rail, and the base loop needs a
 margin on the left.
 
+The letter is placed so its bounding box is **centred on the stage**, at (200, 310).
+Vertically that lands exactly. Horizontally it cannot, because the entry tip sits almost
+exactly at the letter's own half width, so centring it would put the tip under the dot and
+bring the kink straight back; it ends up about 17px left, which is as close as the entry
+allows. Moving the letter up shortens the fall and lengthens the run one for one, and the
+run is no loss: it is the stroke that turns into the timeline rail.
+
 Both joining strokes are a single cubic. An intermediate knot is what put a wiggle in both
 of them: with the ends already carrying the letter's own tangents there is nothing left for
 a middle knot to do except disagree.
@@ -92,7 +99,7 @@ at about 140px a second, so the run's easing opens at about 150 rather than the 
 sharper curve would give. Start it any harder and the handoff reads as a jump however well
 the positions line up.
 
-The opening hangs off one moment: the two portraits meeting, at 48% of 3.2s. The pop, the
+The opening hangs off one moment: the two portraits meeting, at 48% of 2.7s. The pop, the
 bounce, the draw and the run all follow from it, and the draw is pinned to the **end** of
 the bounce, because that is the frame the dot is caught on. The dot's fade waits for the
 line to land rather than thinning out part way down the last stroke.

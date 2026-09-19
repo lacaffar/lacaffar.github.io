@@ -479,7 +479,6 @@ body.split { overflow: hidden; }
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
-  scroll-behavior: smooth;
   scrollbar-width: none;
   /* the panel off screen drops out of the tab order once the slide is done */
   visibility: hidden;
@@ -631,64 +630,16 @@ body.split { overflow: hidden; }
 
 .minimap:hover { opacity: 1 !important; transition-delay: 0s !important; }
 
-.mm-page { display: grid; gap: 18px; }
+/* the map is a photograph of the page it floats over, not a drawing of it:
+   assets/minimap/*.png, retaken by `python .claude/make_minimaps.py` whenever
+   the page changes. It is a picture and nothing else, so it takes no clicks
+   and no focus. */
 
-/* every block is a real link into the page it is a picture of: click the part
-   of the map you want and the panel scrolls there. no script, just anchors. */
-
-.mm-block {
-  display: grid;
-  gap: 3px;
-  position: relative;
-  padding: 2px;
-  margin: -2px;
-  text-decoration: none;
-  border-radius: 1px;
-  transition: background 0.15s ease;
+.mm-shot {
+  display: block;
+  width: 100%;
+  height: auto;
 }
-
-.mm-block:hover,
-.mm-block:focus-visible { background: rgba(240, 240, 240, 0.1); outline: none; }
-
-.mm-block:focus-visible { box-shadow: 0 0 0 1px var(--text); }
-
-.mm-block:hover span:not(.mm-cap),
-.mm-block:focus-visible span:not(.mm-cap) { background: var(--text); }
-
-.mm-block span { display: block; height: 2px; background: var(--faint); }
-
-/* the name of the section, for a screen reader and for a hover on the map */
-
-.mm-cap {
-  position: absolute;
-  right: calc(100% + 12px);
-  top: 50%;
-  transform: translateY(-50%);
-  height: auto !important;
-  width: max-content;
-  max-width: 44vw;
-  background: none !important;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  color: var(--text);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-}
-
-#narrative .mm-cap { right: auto; left: calc(100% + 12px); }
-
-.mm-block:hover .mm-cap,
-.mm-block:focus-visible .mm-cap { opacity: 1; }
-
-.mm-block .mm-h { height: 3px; width: 58%; background: var(--muted); }
-
-.mm-block .mm-l.short { width: 72%; }
-
-.mm-block .mm-img { height: 20px; background: rgba(240, 240, 240, 0.13); }
-
-.row[id], .tl-beat[id] { scroll-margin-top: 40px; }
 
 .mm-view {
   position: absolute;
@@ -700,10 +651,12 @@ body.split { overflow: hidden; }
   transform: translateY(0);
 }
 
-/* each map is a different page, so each box has its own height and its own run */
+/* each map is a different page, so each box has its own height and its own run.
+   the box is the share of the page one screen covers, and the run is what is
+   left over, both measured off the real panels at a typical window height. */
 
-#portfolio .mm-view { height: 52px; --travel: 181px; }
-#narrative .mm-view { height: 50px; --travel: 180px; }
+#portfolio .mm-view { height: 34px; --travel: 47px; }
+#narrative .mm-view { height: 29px; --travel: 36px; }
 
 @keyframes mm-run {
   from { transform: translateY(0); }
@@ -1048,5 +1001,4 @@ body.split { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .ov-img, .ov-runner, .ov-bob, .ov-dot { animation: none; opacity: 0; }
   .ov-path { animation: none; stroke-dashoffset: 0; }
-  .panel { scroll-behavior: auto; }
 }

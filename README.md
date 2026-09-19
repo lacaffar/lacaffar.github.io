@@ -17,8 +17,20 @@ subsystem build, what broke, and the year two plan. Its photos are cut by
 The team's own site is <https://windpack.club>.
 
 The index is two panels driven by one hidden checkbox and no script: `#portfolio` is the
-project list, `#narrative` is the timeline. The minimap in each bottom corner is real
-navigation, one anchor per section, so clicking a block scrolls that panel to it.
+project list, `#narrative` is the timeline (year and title only, no prose).
+
+The map in each bottom corner is a **photograph of that panel**, not a drawing of it, and
+not a link: `assets/minimap/{portfolio,narrative}.png`. Retake both after any visible
+change with
+
+```
+python .claude/make_minimaps.py
+```
+
+which serves the repo, drives headless Chrome over each panel with the dock hidden and the
+opening animation held at its end, and writes the two PNGs. If the page gets much longer
+or shorter, nudge the `.mm-view` height and `--travel` in `site.css`: they are the share of
+the map one screen covers, and the distance it has left to run.
 
 The narrative opens with the overture: two portraits meet, a dot is left behind, and it
 bounces three times before the pen carries it along a drawn line into the timeline. That

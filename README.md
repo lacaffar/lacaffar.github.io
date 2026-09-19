@@ -89,11 +89,8 @@ counted up the page, the line finishes at `x = -R1 + R4` and
   this was built to keep smooth. The spacing is jittered on top of that, because a hand
   does not put its marks down on a ruler either.
 
-`projects/rocket-avionics.html` is **unlisted**: it is not linked from the index and is
-marked `noindex`. It goes back on the index once the project has flown.
-
-Unreferenced cover art currently in `assets/covers/`: `wind-engineering.svg`,
-`rocket-avionics.svg`, `ge-vernova-brand.jpg`. The first two illustrated claims that are
-no longer on the site; the third is company branding and should not come back.
+Unreferenced cover art currently in `assets/covers/`: `wind-engineering.svg` and
+`ge-vernova-brand.jpg`. The first illustrated a claim that is no longer on the site; the
+second is company branding and should not come back.
 
 Serve locally with `python -m http.server 8011`.

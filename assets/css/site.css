@@ -656,11 +656,16 @@ body.split { overflow: hidden; }
 #portfolio .minimap { right: 34px; }
 #narrative .minimap { left: 34px; }
 
+/* it floats over the page, so it sits back until you look at it. on the
+   narrative side it would otherwise bury the timeline marks it is drawing. */
+
 #view-toggle:not(:checked) ~ .shell #portfolio .minimap,
 #view-toggle:checked ~ .shell #narrative .minimap {
-  opacity: 1;
+  opacity: 0.58;
   transition-delay: 0.7s;
 }
+
+.minimap:hover { opacity: 1 !important; transition-delay: 0s !important; }
 
 .mm-page { display: grid; gap: 18px; }
 
@@ -687,7 +692,7 @@ body.split { overflow: hidden; }
 /* each map is a different page, so each box has its own height and its own run */
 
 #portfolio .mm-view { height: 52px; --travel: 181px; }
-#narrative .mm-view { height: 62px; --travel: 230px; }
+#narrative .mm-view { height: 50px; --travel: 180px; }
 
 @keyframes mm-run {
   from { transform: translateY(0); }
@@ -703,21 +708,97 @@ body.split { overflow: hidden; }
   #narrative .mm-view { animation-timeline: --narrative-scroll; }
 }
 
-/* --- narrative page scaffolding ------------------------------------------- */
+/* --- the timeline ---------------------------------------------------------
+   Line art, drawn rather than ruled. Every stroke wobbles a little, nothing
+   closes quite where it started, and the rail between the marks wanders.
+   No rules, no cards, no table.
+   ------------------------------------------------------------------------ */
 
-.line { padding: 112px 0 0; }
+.line { padding: 112px 0 96px; }
 
-.beat { padding-bottom: 64px; max-width: 68ch; }
-
-.beat hr.rule { margin: 14px 0 0; }
-
-.beat .meta { margin-top: 6px; }
-
-.beat-hold {
-  height: 170px;
-  border: 1px solid var(--rule);
-  margin-top: 20px;
+.tl-beat {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 26px;
+  padding-bottom: 62px;
 }
+
+.tl-beat:last-child { padding-bottom: 0; }
+
+/* the rail holds the mark, and the line that leaves it for the next one */
+
+.tl-rail { position: relative; }
+
+.tl-node {
+  display: block;
+  width: 44px;
+  height: 44px;
+  color: var(--text);
+}
+
+.tl-node svg { width: 100%; height: 100%; overflow: visible; }
+
+.tl-node path,
+.tl-node circle,
+.tl-node ellipse {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.tl-ring { stroke-width: 1.3; opacity: 0.4; }
+.tl-ico  { stroke-width: 1.5; }
+
+.tl-ring path { stroke-width: 1.3; }
+.tl-ico path, .tl-ico circle, .tl-ico ellipse { stroke-width: 1.5; }
+
+/* the line wanders down from the mark to the one below it */
+
+.tl-link {
+  position: absolute;
+  top: 52px;
+  bottom: -10px;
+  left: 16px;
+  width: 12px;
+  color: var(--text);
+  opacity: 0.28;
+}
+
+.tl-link svg { width: 100%; height: 100%; display: block; }
+
+.tl-text { padding-top: 7px; max-width: 64ch; }
+
+.tl-year {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--faint);
+  margin: 0 0 3px;
+}
+
+.tl-beat h2 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  color: var(--text);
+  margin: 0 0 10px;
+}
+
+.tl-text p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+
+.tl-text p:last-child { margin-bottom: 0; }
+
+/* the mark warms up when its beat is under the pointer */
+
+.tl-beat:hover .tl-ring { opacity: 0.72; }
+.tl-beat .tl-ring { transition: opacity 0.5s var(--soft); }
 
 /* --- headers clear the switch --------------------------------------------- */
 

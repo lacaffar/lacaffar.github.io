@@ -94,10 +94,35 @@ comes off the top of it still falling, the bounce ends with it back on the line 
 and the pen takes it there, which is why the line starts by falling. The drop out of the
 bounce and the entry stroke of the L are one movement.
 
-That only reads if the speeds match as well as the positions. The dot arrives off the hop
-at about 140px a second, so the run's easing opens at about 150 rather than the 350 a
-sharper curve would give. Start it any harder and the handoff reads as a jump however well
-the positions line up.
+**The pen does not travel at one speed.** It runs away downhill and labours uphill, which
+on this letter is most of the character: the fall into the crescent and the long descent
+of the spine get away from it, and the climb up the inside of the head loop is visibly
+hard work. Along the path, with theta the angle of travel below horizontal,
+
+    dv/dt = G sin(theta) - DRAG v
+
+so a long fall settles toward `G/DRAG` instead of running away forever, and a climb falls
+back but never below a walk. It runs between 250 and 737px a second.
+
+None of those are feel knobs. `V0` is fixed by the handoff: it is the speed the dot is
+already doing as the pen catches it, because the whole point of that moment is that
+nothing changes speed at it. `V_MIN` and `TERMINAL` set how wide the swing is. `G` is then
+**solved**, not chosen, so the travel lands on `TRAVEL` seconds, which also means the
+timing survives the letter being moved or resized.
+
+No cubic-bezier can express that: a timing function is one accelerate and one decelerate,
+and this needs six of each. So the profile is written out as 73 keyframes and the
+animations are `linear`, only playing them back. **The keyframes and the `d` string are
+one artefact and have to be regenerated together** — the profile is a description of that
+exact line, and pasting a new path under an old profile puts the dot where the easing
+thinks the pen should be rather than where it is.
+
+The one thing that had to move to make this work is the third hop. The profile starts at
+250px a second, so the dot has to arrive doing that; at its old apex it arrived at about
+170. Its apex is `-25px` at 91% now rather than `-22px` at 88%, which is a crisper fall
+from a lower hop than the second, so the hop reads as decaying while still handing over at
+the right speed. Measured through the pickup the dot goes 176, 201, 225, 267, 320px a
+second, with no step in it.
 
 The opening hangs off one moment: the two portraits meeting, at 48% of 2.7s. The pop, the
 bounce, the draw and the run all follow from it, and the draw is pinned to the **end** of

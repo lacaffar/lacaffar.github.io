@@ -12,6 +12,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8080", "--directory", "C:/Users/lacaf/GITHUB PAGE/personal.page"],
       "port": 8080
+    },
+    {
+      "name": "windpack",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8090", "--directory", "C:/Users/lacaf/ClubWebsiteJuly/club-website"],
+      "port": 8090
     }
   ]
 }

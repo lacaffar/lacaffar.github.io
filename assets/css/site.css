@@ -708,26 +708,179 @@ body.split { overflow: hidden; }
   #narrative .mm-view { animation-timeline: --narrative-scroll; }
 }
 
-/* --- the timeline ---------------------------------------------------------
-   Line art, drawn rather than ruled. Every stroke wobbles a little, nothing
-   closes quite where it started, and the rail between the marks wanders.
-   No rules, no cards, no table.
+/* --- the overture ---------------------------------------------------------
+   Two portraits come in off both edges, meet, and spin away. A dot is left
+   where they met. It waits a second, bounces twice, and the third jump
+   carries it off along the line that becomes the rest of the page.
+
+   Stage units are CSS pixels on purpose: the svg is drawn at its viewBox size
+   so offset-path can use the very same d and land on it exactly.
    ------------------------------------------------------------------------ */
 
-.line { padding: 112px 0 96px; }
+.overture {
+  display: grid;
+  justify-items: center;
+  padding: 24px 0 0;
+}
+
+.ov-stage {
+  position: relative;
+  width: 400px;
+  height: 620px;
+  color: var(--text);
+}
+
+/* --- the two of them ------------------------------------------------------ */
+
+.ov-img {
+  position: absolute;
+  top: 90px;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+}
+
+.ov-a { left: 80px;  animation: ov-come-a 2s both; }
+.ov-b { left: 200px; animation: ov-come-b 2s both; }
+
+@keyframes ov-come-a {
+  0%   { opacity: 0; transform: translateX(-58vw) rotate(-9deg);
+         animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.36); }
+  14%  { opacity: 1; }
+  55%  { opacity: 1; transform: translateX(0) rotate(0deg);
+         animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1); }
+  100% { opacity: 0; transform: translateX(-48vw) translateY(-36vh) rotate(-430deg); }
+}
+
+@keyframes ov-come-b {
+  0%   { opacity: 0; transform: translateX(58vw) rotate(9deg);
+         animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.36); }
+  14%  { opacity: 1; }
+  55%  { opacity: 1; transform: translateX(0) rotate(0deg);
+         animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1); }
+  100% { opacity: 0; transform: translateX(48vw) translateY(32vh) rotate(430deg); }
+}
+
+/* --- the line it leaves behind -------------------------------------------- */
+
+.ov-draw {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  color: var(--text);
+  opacity: 0.55;
+}
+
+.ov-path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: ov-draw 5.4s cubic-bezier(0.4, 0.05, 0.5, 0.95) 3.5s both;
+}
+
+@keyframes ov-draw { to { stroke-dashoffset: 0; } }
+
+/* --- the dot -------------------------------------------------------------- */
+
+/* three nested spans so nothing fights over transform: the runner is carried
+   along the path, the bob does the squash, the dot pops and then leaves. */
+
+.ov-runner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  offset-path: path("M200 150 C 192 133, 171 119, 152 117 C 175 99, 215 96, 241 119 C 268 142, 274 196, 244 226 C 227 243, 209 247, 200 245 C 182 249, 171 265, 178 281 C 185 297, 211 296, 217 278 C 221 265, 214 254, 208 250 C 215 301, 197 361, 214 431 C 228 489, 204 545, 200 624");
+  offset-rotate: 0deg;
+  offset-anchor: 50% 50%;
+  offset-distance: 0%;
+  animation: ov-run 5.4s cubic-bezier(0.4, 0.05, 0.5, 0.95) 3.5s both;
+}
+
+@keyframes ov-run { to { offset-distance: 100%; } }
+
+.ov-bob {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 100%;
+  animation: ov-bounce 1.4s 2.1s both;
+}
+
+.ov-dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--text);
+  transform: scale(0);
+  animation: ov-pop 0.34s cubic-bezier(0.2, 1.5, 0.4, 1) 1.1s both,
+             ov-leave 0.55s ease 8.55s both;
+}
+
+@keyframes ov-pop   { to { transform: scale(1); } }
+@keyframes ov-leave { to { opacity: 0; } }
+
+/* Two hops with the weight in them. It gathers before it goes, stretches on
+   the way up and on the way down, and flattens when it lands. */
+
+@keyframes ov-bounce {
+  0%,  3%  { transform: translateY(0) scale(1, 1); }
+  9%       { transform: translateY(0) scale(1.26, 0.7);
+             animation-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1); }
+  15%      { transform: translateY(-13px) scale(0.84, 1.24); }
+  27%      { transform: translateY(-54px) scale(0.96, 1.05);
+             animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4); }
+  33%      { transform: translateY(-54px) scale(1, 1); }
+  44%      { transform: translateY(-13px) scale(0.84, 1.24); }
+  49%      { transform: translateY(0) scale(1.3, 0.66);
+             animation-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1); }
+  54%      { transform: translateY(0) scale(1, 1); }
+  59%      { transform: translateY(0) scale(1.22, 0.76);
+             animation-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1); }
+  64%      { transform: translateY(-9px) scale(0.88, 1.18); }
+  74%      { transform: translateY(-34px) scale(0.97, 1.04);
+             animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4); }
+  79%      { transform: translateY(-34px) scale(1, 1); }
+  88%      { transform: translateY(-9px) scale(0.88, 1.18); }
+  93%      { transform: translateY(0) scale(1.24, 0.72);
+             animation-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1); }
+  100%     { transform: translateY(0) scale(1, 1); }
+}
+
+/* The panel is hidden until the switch is thrown, so the whole opening would
+   otherwise have played to an empty room. Hold every part of it at zero and
+   let it go only once this side is actually up. */
+
+.ov-img, .ov-path, .ov-runner, .ov-bob, .ov-dot { animation-play-state: paused; }
+
+#view-toggle:checked ~ .shell .ov-img,
+#view-toggle:checked ~ .shell .ov-path,
+#view-toggle:checked ~ .shell .ov-runner,
+#view-toggle:checked ~ .shell .ov-bob,
+#view-toggle:checked ~ .shell .ov-dot { animation-play-state: running; }
+
+/* --- the timeline, down the middle ----------------------------------------
+   Line art, drawn rather than ruled. Every stroke wobbles, nothing closes
+   quite where it started, and the rail wanders. Beats fall either side.
+   ------------------------------------------------------------------------ */
+
+.line { padding: 88px 0 96px; }
 
 .tl-beat {
   display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 26px;
+  grid-template-columns: 1fr 44px 1fr;
+  gap: 0 26px;
   padding-bottom: 62px;
 }
 
 .tl-beat:last-child { padding-bottom: 0; }
 
-/* the rail holds the mark, and the line that leaves it for the next one */
+.tl-rail { grid-column: 2; position: relative; }
 
-.tl-rail { position: relative; }
+.tl-beat.side-l .tl-text { grid-column: 1; grid-row: 1; text-align: right; justify-self: end; }
+.tl-beat.side-r .tl-text { grid-column: 3; grid-row: 1; text-align: left;  justify-self: start; }
 
 .tl-node {
   display: block;
@@ -748,13 +901,11 @@ body.split { overflow: hidden; }
   vector-effect: non-scaling-stroke;
 }
 
-.tl-ring { stroke-width: 1.3; opacity: 0.4; }
+.tl-ring { stroke-width: 1.3; opacity: 0.4; transition: opacity 0.5s var(--soft); }
 .tl-ico  { stroke-width: 1.5; }
 
 .tl-ring path { stroke-width: 1.3; }
 .tl-ico path, .tl-ico circle, .tl-ico ellipse { stroke-width: 1.5; }
-
-/* the line wanders down from the mark to the one below it */
 
 .tl-link {
   position: absolute;
@@ -768,7 +919,7 @@ body.split { overflow: hidden; }
 
 .tl-link svg { width: 100%; height: 100%; display: block; }
 
-.tl-text { padding-top: 7px; max-width: 64ch; }
+.tl-text { padding-top: 7px; max-width: 46ch; }
 
 .tl-year {
   font-size: 12px;
@@ -795,10 +946,7 @@ body.split { overflow: hidden; }
 
 .tl-text p:last-child { margin-bottom: 0; }
 
-/* the mark warms up when its beat is under the pointer */
-
 .tl-beat:hover .tl-ring { opacity: 0.72; }
-.tl-beat .tl-ring { transition: opacity 0.5s var(--soft); }
 
 /* --- headers clear the switch --------------------------------------------- */
 
@@ -840,4 +988,21 @@ body.split { overflow: hidden; }
   .minimap { top: calc(100dvh - 24px); }
   #portfolio .minimap { right: 24px; }
   #narrative .minimap { left: 24px; }
+
+  /* no room for two columns, so every beat falls to the right of the rail */
+  .tl-beat { grid-template-columns: 36px 1fr; gap: 0 18px; padding-bottom: 50px; }
+  .tl-rail { grid-column: 1; }
+  .tl-beat.side-l .tl-text,
+  .tl-beat.side-r .tl-text { grid-column: 2; grid-row: 1; text-align: left; justify-self: start; }
+  .tl-node { width: 36px; height: 36px; }
+  .tl-link { top: 43px; left: 12px; }
+
+  .ov-stage { transform: scale(0.78); transform-origin: 50% 0; height: 500px; }
+}
+
+/* someone who does not want motion gets the drawn line and none of the show */
+
+@media (prefers-reduced-motion: reduce) {
+  .ov-img, .ov-runner, .ov-bob, .ov-dot { animation: none; opacity: 0; }
+  .ov-path { animation: none; stroke-dashoffset: 0; }
 }

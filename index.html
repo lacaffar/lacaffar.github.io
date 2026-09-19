@@ -18,25 +18,63 @@
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
 </head>
-<body>
+<body class="split">
+
+<input class="view-input" type="checkbox" id="view-toggle">
+
+<div class="shell">
+<div class="deck">
+
+<!-- ======================= panel one: portfolio ======================= -->
+<div class="panel" id="portfolio">
+
+<div class="dock">
+  <label class="switch" for="view-toggle">
+    <span class="opt opt-p">portfolio</span>
+    <span class="opt opt-n">narrative</span>
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 120 40" preserveAspectRatio="none" fill="none">
+        <path d="M72 3.5 C 100 4, 118 10, 116 20 C 114 30, 92 37, 58 37 C 26 37, 4 31, 4 20.5 C 4 10.5, 24 4, 56 3.4 C 72 3, 86 4.2, 96 6.4"
+              stroke="currentColor" stroke-width="1.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      </svg>
+    </span>
+  </label>
+
+  <div class="minimap" aria-hidden="true">
+    <div class="mm-page">
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-img"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-img"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-img"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-img"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-img"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+    </div>
+    <span class="mm-view"></span>
+  </div>
+</div>
 
 <header class="head">
   <div class="col">
     <img class="portrait" src="/assets/covers/portrait.jpg" width="480" height="480" alt="Luke Caffarey">
     <p class="label">Luke Caffarey</p>
-    <p class="meta">Mechanical engineering, NC State 2028. Wind, turbine reliability, hardware I machine myself.</p>
     <nav class="links" aria-label="Contact">
       <a href="mailto:lacaffar@ncsu.edu">Email</a>
       <a href="https://www.linkedin.com/in/luke-caffarey-212473322" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/lacaffar" target="_blank" rel="noopener">GitHub</a>
       <a href="/assets/Luke-Caffarey-Resume.pdf" target="_blank" rel="noopener">Resume</a>
     </nav>
-    <div class="note">
-      <p>This site is in progress. Windpack is written up in full, the other two pages
-      are first drafts, and two projects below have no page yet. The resume is current
-      and complete, so start there if you want the short version.</p>
-      <p>Last worked on September 2026.</p>
-    </div>
   </div>
 </header>
 
@@ -131,9 +169,9 @@
         years riding 911 calls as an EMS cadet. That last one reset my definition of
         pressure.</p>
 
-        <p class="skills">SolidWorks · ANSYS · Simulation FEA · QBlade · Manual and CNC
-        mill and lathe · Waterjet · Welding · Composite layup · ESP32 and Arduino ·
-        Python · MATLAB · SQL · Embedded C++</p>
+        <p class="skills">SolidWorks &middot; ANSYS &middot; Simulation FEA &middot; QBlade &middot; Manual and CNC
+        mill and lathe &middot; Waterjet &middot; Welding &middot; Composite layup &middot; ESP32 and Arduino &middot;
+        Python &middot; MATLAB &middot; SQL &middot; Embedded C++</p>
       </div>
     </div>
   </div>
@@ -143,12 +181,164 @@
   <div class="col">
     <hr class="rule">
     <div class="foot-inner">
-      <span>© 2026 Luke Caffarey</span>
-      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
-      <span><a href="https://lacaffar.github.io/Jook_joint/">Off the clock 🦝</a></span>
+      <span><a href="https://lacaffar.github.io/Jook_joint/">Off the clock &#129437;</a></span>
     </div>
   </div>
 </footer>
+
+<div class="colobar">
+  <p>I did not code this site; I did think of the design however.</p>
+</div>
+
+</div>
+<!-- ======================= panel two: narrative ======================= -->
+<div class="panel" id="narrative">
+
+<div class="dock">
+  <label class="switch" for="view-toggle">
+    <span class="opt opt-p">portfolio</span>
+    <span class="opt opt-n">narrative</span>
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 120 40" preserveAspectRatio="none" fill="none">
+        <path d="M72 3.5 C 100 4, 118 10, 116 20 C 114 30, 92 37, 58 37 C 26 37, 4 31, 4 20.5 C 4 10.5, 24 4, 56 3.4 C 72 3, 86 4.2, 96 6.4"
+              stroke="currentColor" stroke-width="1.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      </svg>
+    </span>
+  </label>
+
+  <div class="minimap" aria-hidden="true">
+    <div class="mm-page">
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+      <div class="mm-block">
+        <span class="mm-h"></span><span class="mm-l"></span><span class="mm-l short"></span>
+      </div>
+    </div>
+    <span class="mm-view"></span>
+  </div>
+</div>
+
+<header class="head">
+  <div class="col">
+    <p class="label">Narrative</p>
+    <p class="meta">The timeline, in order, from the start.</p>
+    <div class="note">
+      <p>Scaffolding only. Ten empty blocks, here to give the page enough length to
+      watch the white box travel down the map in the corner. Line art timeline goes
+      here, and replaces all of it.</p>
+    </div>
+  </div>
+</header>
+
+<main class="line">
+  <div class="col">
+
+      <section class="beat">
+        <p class="label">Placeholder 01</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 1 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 02</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 2 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 03</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 3 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 04</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 4 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 05</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 5 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 06</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 6 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 07</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 7 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 08</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 8 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 09</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 9 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+      <section class="beat">
+        <p class="label">Placeholder 10</p>
+        <hr class="rule">
+        <p class="meta">Scaffolding block, 10 of 10. The real timeline replaces this.</p>
+        <div class="beat-hold" aria-hidden="true"></div>
+      </section>
+
+  </div>
+</main>
+
+<div class="colobar">
+  <p>I did not code this site; I did think of the design however.</p>
+</div>
+
+</div>
+
+</div>
+</div>
 
 </body>
 </html>

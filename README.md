@@ -50,8 +50,14 @@ Each stretch is `(name, how much, radius in, radius out)`. "How much" is `("len"
 Radii are signed: negative is counter clockwise on screen, positive clockwise. Things that
 took a while to learn and are easy to undo by accident:
 
-- **A circle only ever comes back to itself.** All the travelling down the page has to
-  happen on the straight stretch, not in the turns.
+- **Curvature ramps by length, not by turn.** A stretch that starts tight spends nearly
+  all of its turn in the first 50px, whatever radius it is heading for. So a single ramp
+  out of a tight radius cannot give a long gentle sweep: it has to let go fast first, then
+  keep opening slowly over a long stretch. Asking such a stretch for a turn rather than a
+  length gets a curve that just circles back on itself.
+- **Clockwise from pointing down means going left.** The line reaches its rightmost point
+  at the moment it points straight down, and everything after that moves back left, which
+  is what decides where the loop can sit.
 - **Headroom decides the top.** There are only 150px above the dot, the counter clockwise
   quarter turn spends some of it, and the clockwise turn after it climbs again before it
   comes round, so the radii up there have to stay small.

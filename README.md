@@ -11,6 +11,12 @@ as stubs rather than being padded out with detail that is not true.
 - `assets/css/site.css` : the whole design system
 - `assets/covers/` : project cover art
 
+The two portraits that open the narrative are cut by `.claude/make_parent_photos.py`
+from `assets/photos/parent-{one,two}.jpg`. They sit on black, not on paper, so unlike
+the project covers they get no warm shift: only a little contrast, because a 120px face
+on black loses its modelling, and a little off the saturation so the two backgrounds sit
+together.
+
 `projects/windpack.html` is the one fully written page: season one narrative, the
 subsystem build, what broke, and the year two plan. Its photos are cut by
 `.claude/make_windpack_photos.py` from 1600px sources staged in `assets/photos/`.

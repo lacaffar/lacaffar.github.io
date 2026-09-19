@@ -765,15 +765,15 @@ body.split { overflow: hidden; }
   /* offset-anchor already puts the middle of this box on the line. the old
      -7px margin that used to do that job by hand is still a shift on top of
      it, which is why the dot rode 10px up and left of its own pen tip. */
-  offset-path: path("M200 150 C 200 150, 200.3 141.5, 199.8 138 C 199.3 135.1, 198.9 132.6, 197.6 130.4 C 196.2 128.3, 194.5 126.3, 191.8 125 C 188 123.1, 180.6 124, 175.6 122.8 C 171 121.7, 166.5 120.7, 162.6 118.3 C 158.5 115.7, 154.6 111.7, 151.8 107.4 C 148.9 102.9, 146.9 97.2, 146 91.4 C 145 85.1, 145.1 77.7, 146.8 70.8 C 148.8 63.2, 153 55, 158.2 48 C 163.8 40.5, 171.9 33.1, 180 27.7 C 188 22.4, 197.7 18.3, 206.5 15.9 C 214.7 13.8, 223.1 13.5, 231.1 13.5 C 238.6 13.4, 245.7 14, 252.9 15.3 C 260.2 16.7, 267.2 18.9, 274.5 21.7 C 282.5 24.6, 291.2 28, 299 32.9 C 307.3 38.1, 315.7 45.4, 322.5 52.7 C 329 59.7, 334.3 68, 339.3 75.5 C 343.9 82.4, 348.2 89.1, 351.6 96 C 354.9 102.6, 357.3 109.1, 359.6 116.1 C 362.1 123.2, 364.4 130.4, 365.9 138.4 C 367.5 147.1, 368.1 156.7, 368.5 166.3 C 368.9 176.1, 368.7 186.8, 368.2 196.6 C 367.6 205.9, 367.1 215.1, 365.4 223.6 C 363.8 231.4, 361.2 238.6, 358.6 245.8 C 356.2 252.7, 353.7 259.1, 350.5 265.8 C 347.1 272.9, 343.2 279.8, 338.8 287 C 334.1 294.9, 328.9 303.6, 323 311.3 C 317 319.2, 310.1 327.2, 303.1 333.9 C 296.6 340.2, 289.4 345.4, 282.8 350.7 C 276.7 355.6, 271 360.3, 265 364.8 C 259.1 369.1, 253.3 373.1, 246.9 377 C 240 381.3, 232.7 385.6, 224.8 389.4 C 216.2 393.6, 204.3 398.1, 196.9 400.9 C 192.1 402.7, 188.5 404.8, 185 404.9 C 182.2 405, 179.5 404, 177.3 402.7 C 175.2 401.5, 173.1 399.4, 171.9 397.2 C 170.7 395.1, 169.9 392.3, 169.9 389.9 C 169.8 387.6, 170.5 384.9, 171.5 382.8 C 172.5 380.8, 174.3 378.8, 176.1 377.5 C 177.9 376.2, 180.1 375.3, 182.2 374.9 C 184.3 374.6, 186.6 374.7, 188.6 375.2 C 190.6 375.7, 192.6 376.6, 194.2 377.8 C 195.8 379, 197.2 380.6, 198.2 382.3 C 199.2 384, 199.7 385.3, 200.1 387.9 C 200.9 392.9, 199.7 402.8, 199.7 410.8 C 199.6 419.5, 199.7 429, 199.7 438.4 C 199.7 448.3, 199.8 458.9, 199.8 468.8 C 199.8 478.2, 199.6 487.5, 199.5 496.3 C 199.4 504.4, 199.4 512, 199.4 519.6 C 199.4 527, 199.2 533.9, 199.4 541.2 C 199.7 548.9, 200.7 556.6, 201 564.8 C 201.3 573.9, 201.3 583.7, 201.1 593.4 C 201 603.3, 200 621.7, 200 623.6 C 200 623.9, 200 624, 200 624");
+  offset-path: path("M200 150 C 200 150, 193.2 131.3, 190.6 123.9 C 188.7 118.6, 187.7 114.9, 185.6 110 C 183.1 104.2, 178.4 95.9, 176.2 91.5 C 175 89.1, 174.1 87.8, 173.5 85.9 C 173 84.1, 172.5 82.7, 172.9 80.4 C 173.7 76.1, 179.1 69.1, 182.1 63 C 185.3 56.4, 188.4 47.6, 191.3 42.2 C 193.3 38.5, 194.9 35.6, 197 33.2 C 198.7 31.3, 199.9 29.6, 202.5 28.7 C 206.9 27.2, 216.9 27.7, 222.5 29.2 C 227 30.5, 230.7 32.7, 233.9 35.8 C 237.3 39, 240.2 43.4, 242 48.4 C 244.1 54.4, 244.3 63.1, 244.2 69.6 C 244.2 75.2, 243.4 80.7, 242.2 85.2 C 241.3 88.8, 240.3 91.4, 238.4 94.5 C 236 98.4, 232.4 103, 228 106 C 222.9 109.4, 213.8 111.1, 208.8 113 C 205.5 114.3, 203.5 114.1, 200.7 116.3 C 195.7 120.2, 188.9 130.9, 184.7 138.6 C 180.7 145.7, 178.3 153.3, 175.8 160.5 C 173.5 167.2, 172.3 173.8, 170.1 180.2 C 167.8 186.6, 165.2 192.6, 162.1 198.9 C 158.7 205.8, 154.3 212.6, 150.3 219.9 C 146 227.8, 140.9 236.3, 137.3 244.6 C 133.7 252.6, 130.5 261.1, 128.5 269.1 C 126.6 276.5, 126.2 283.9, 125 291 C 123.8 297.7, 122.4 304, 121.1 310.6 C 119.9 317.5, 118.8 324.2, 117.4 331.5 C 115.9 339.5, 113.8 348.2, 112.5 356.9 C 111.2 365.9, 110 375.7, 109.8 384.7 C 109.6 393.2, 110.3 401.6, 111 409.5 C 111.6 416.8, 112.2 423.6, 113.5 430.4 C 114.6 437.1, 117.4 443.9, 118.2 449.9 C 118.8 454.8, 119.3 458.5, 118.6 463.7 C 117.6 470.8, 113.7 481.9, 110.6 488.2 C 108.3 492.7, 105.7 496.1, 103.1 498.9 C 101.1 501.1, 99.5 502.8, 96.9 504 C 93.7 505.4, 88.6 506.2, 84.8 505.8 C 81.4 505.6, 78.5 504.9, 75.4 502.8 C 70.8 499.6, 64.2 490.3, 62 486 C 60.8 483.8, 60.5 482.3, 60.3 480.4 C 60.2 478.4, 60.2 476.7, 61.1 474.3 C 62.7 470, 69.4 461.5, 72.4 457.8 C 74 455.7, 75 454.5, 76.6 453.3 C 78.1 452.1, 79.1 451.1, 81.5 450.4 C 86.6 449, 99.2 450.3, 106.9 450.4 C 113.4 450.5, 118.6 449.7, 124.9 451.1 C 132.4 452.7, 141.2 458.1, 148.9 461.3 C 156 464.3, 162.5 467.6, 169.3 469.8 C 175.8 471.8, 182.1 472.7, 188.7 474.3 C 195.5 475.9, 202.5 477.6, 209.4 479.4 C 216.1 481.1, 223.1 481.3, 229.5 484.7 C 236.9 488.6, 245 496.7, 250.6 502.7 C 255 507.4, 258.6 511.4, 261.1 516.9 C 263.8 523, 265.4 532.4, 265.6 538 C 265.7 541.7, 265.5 543.9, 264.3 547.3 C 262.6 552, 257.4 558.3, 254.9 562.9 C 253 566.5, 252.9 569.3, 250.5 572.7 C 246.8 577.7, 237.9 583.7, 232.8 588.6 C 228.6 592.7, 225.7 596.6, 221.8 599.9 C 218 603.1, 212.9 605.6, 209.7 608 C 207.4 609.7, 205.4 610.7, 204 612.7 C 202.4 614.9, 201.7 618.5, 201 620.6 C 200.6 622, 200 624, 200 624");
   offset-rotate: 0deg;
   offset-anchor: 50% 50%;
   offset-distance: 0%;
   /* the same duration, delay and easing as .ov-path above, always. they are
      two animations drawing one line, and any daylight between them is the dot
-     coming off the pen. The easing is gentler out than it was: the old curve
-     spent half its time on the last fifth of the length, which read as the dot
-     labouring through the end of the stroke. */
+     coming off the pen. The easing is gentler out than it was: this line ends
+     in a long straight, and the old curve spent half its time on the last
+     fifth of the length, which read as the dot labouring down the tail. */
   animation: ov-run 6.4s cubic-bezier(0.25, 0.4, 0.65, 0.85) 3.83s both;
 }
 
@@ -795,9 +795,9 @@ body.split { overflow: hidden; }
   background: var(--text);
   transform: scale(0);
   /* the dot leaves only once the line has landed: the run ends at 3.83 +
-     6.4 = 10.23s, and it holds there a quarter second before it goes. Fading
-     it any earlier and it thins out to nothing part way down the last stroke,
-     never visibly arriving. */
+     6.4 = 10.23s, and it holds on the rail a quarter second before it goes.
+     Fading it any earlier and it thins out to nothing halfway down the last
+     straight, which now runs 234px and is the easiest stretch to watch. */
   animation: ov-pop 0.34s cubic-bezier(0.2, 1.5, 0.4, 1) 1.54s both,
              ov-leave 0.55s ease 10.48s both;
 }
@@ -873,6 +873,14 @@ body.split { overflow: hidden; }
 .tl-beat.side-l .tl-text { grid-column: 1; grid-row: 1; text-align: right; justify-self: end; }
 .tl-beat.side-r .tl-text { grid-column: 3; grid-row: 1; text-align: left;  justify-self: start; }
 
+/* The first three beats are the ones where the plan changed, so the rail takes
+   a hard turn under each of them and the reason sits across the rail from the
+   beat itself: what was wanted on one line, what happened to it on the next.
+   Quieter than the beat, because it is the aside and not the event. */
+
+.tl-beat.side-l .tl-turn { grid-column: 3; grid-row: 1; text-align: left;  justify-self: start; }
+.tl-beat.side-r .tl-turn { grid-column: 1; grid-row: 1; text-align: right; justify-self: end; }
+
 .tl-node {
   display: block;
   width: 44px;
@@ -902,8 +910,8 @@ body.split { overflow: hidden; }
   position: absolute;
   top: 52px;
   bottom: -10px;
-  left: 16px;
-  width: 12px;
+  left: 2px;
+  width: 40px;
   color: var(--text);
   opacity: 0.28;
 }
@@ -911,6 +919,18 @@ body.split { overflow: hidden; }
 .tl-link svg { width: 100%; height: 100%; display: block; }
 
 .tl-text { padding-top: 7px; max-width: 46ch; }
+
+.tl-turn { padding-top: 9px; max-width: 34ch; }
+
+.tl-turn p {
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  color: var(--faint);
+  margin: 0;
+}
+
+.tl-turn .tl-but { color: var(--muted); }
 
 .tl-year {
   font-size: 12px;
@@ -1002,8 +1022,11 @@ body.split { overflow: hidden; }
   .tl-rail { grid-column: 1; }
   .tl-beat.side-l .tl-text,
   .tl-beat.side-r .tl-text { grid-column: 2; grid-row: 1; text-align: left; justify-self: start; }
+  .tl-beat.side-l .tl-turn,
+  .tl-beat.side-r .tl-turn { grid-column: 2; grid-row: 2; text-align: left; justify-self: start;
+                             padding-top: 6px; }
   .tl-node { width: 36px; height: 36px; }
-  .tl-link { top: 43px; left: 12px; }
+  .tl-link { top: 43px; left: -2px; }
 
   .ov-stage { transform: scale(0.78); transform-origin: 50% 0; height: 500px; }
 

@@ -699,7 +699,7 @@ body.split { overflow: hidden; }
    left over, both measured off the real panels at a typical window height. */
 
 #portfolio .mm-view { height: 34px; --travel: 77px; }
-#narrative .mm-view { height: 29px; --travel: 81px; }
+#narrative .mm-view { height: 29px; --travel: 85px; }
 
 @keyframes mm-run {
   from { transform: translateY(0); }
@@ -1076,7 +1076,7 @@ body.split { overflow: hidden; }
    there, never one without the other.
 
    White zigzags the whole width until NC State. From there the line is red,
-   holds the middle, and everything since comes off it. The reading line is
+   holds the middle, and everything since comes off it in white. The reading line is
    joined to nothing on purpose.
    ------------------------------------------------------------------------ */
 
@@ -1105,7 +1105,7 @@ body.split { overflow: hidden; }
 /* the walk carries straight on from the overture's line, so it matches it */
 .tl-walk   { stroke: var(--text); stroke-width: 1.7; opacity: 0.85; }
 .tl-spine  { stroke: var(--wolf); stroke-width: 2.4; }
-.tl-branch { stroke: var(--wolf); stroke-width: 1.4; opacity: 0.8; }
+.tl-branch { stroke: var(--text); stroke-width: 1.4; opacity: 0.75; }
 .tl-rule   { stroke: var(--text); stroke-width: 1.1; opacity: 0.38; }
 
 .tl-beat {
@@ -1143,10 +1143,10 @@ body.split { overflow: hidden; }
 .tl-ring path { stroke-width: 1.3; }
 .tl-ico path, .tl-ico circle, .tl-ico ellipse { stroke-width: 1.5; }
 
-.ncsu .tl-ring { color: var(--wolf); opacity: 0.9; }
+.on-spine .tl-ring { color: var(--wolf); opacity: 0.9; }
 
 .tl-beat:hover .tl-ring { opacity: 0.72; }
-.tl-beat.ncsu:hover .tl-ring { opacity: 1; }
+.tl-beat.on-spine:hover .tl-ring { opacity: 1; }
 
 /* the words sit on the outside of their node, never across a line */
 
@@ -1212,14 +1212,13 @@ body.split { overflow: hidden; }
   margin-top: 12px;
 }
 
-/* the reading line: a label sat on the right end of its rule */
+/* the reading line: a label sat on the left end of its rule */
 
 .tl-reading {
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: calc((var(--h) - var(--y)) * 1px + 12px);
   width: min(340px, 42cqw);
-  text-align: right;
 }
 
 .tl-note {
@@ -1320,7 +1319,7 @@ body.split { overflow: hidden; }
   .tl-node { left: 0; top: 0; }
   .side-l .tl-body, .side-r .tl-body, .below .tl-body {
     position: static; width: auto; text-align: left; padding-top: 6px; }
-  .tl-reading { position: relative; right: auto; bottom: auto; width: auto; text-align: left;
+  .tl-reading { position: relative; left: auto; bottom: auto; width: auto;
                 margin: 0 0 46px; padding: 0 0 14px 58px; border-bottom: 1px solid var(--rule); }
   .nv-aside { margin-left: 64px; }
 

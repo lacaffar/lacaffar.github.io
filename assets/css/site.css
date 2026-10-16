@@ -1269,23 +1269,6 @@ body.split { overflow: hidden; }
   margin: 0;
 }
 
-/* the line hangs off its semicolon: that character sits on the centre of the
-   bar and the two halves fall away from it, rather than the string as a whole
-   being centred. */
-
-.colobar p {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: baseline;
-}
-
-.colobar p > span:first-child { text-align: right; }
-
-/* the gap after the semicolon is carried by the half that follows it, so the
-   semicolon's own box is the glyph and nothing else, and sits dead centre. */
-
-.colobar p > span:last-child { text-align: left; padding-left: 0.42em; }
-
 .panel .foot { padding-bottom: 44px; margin-top: 48px; }
 
 /* --- narrow --------------------------------------------------------------- */
@@ -1324,12 +1307,6 @@ body.split { overflow: hidden; }
   .nv-aside { margin-left: 64px; }
 
   .ov-stage { transform: scale(0.78); transform-origin: 50% 0; height: 500px; }
-
-  /* no room to hang the line off its semicolon here: both halves would wrap to
-     two ragged lines. centre the sentence the ordinary way instead. */
-
-  .colobar p { display: block; }
-  .colobar p > span:last-child { padding-left: 0.28em; }
 }
 
 /* someone who does not want motion gets the drawn line and none of the show */

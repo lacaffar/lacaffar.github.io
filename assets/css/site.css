@@ -699,7 +699,7 @@ body.split { overflow: hidden; }
    left over, both measured off the real panels at a typical window height. */
 
 #portfolio .mm-view { height: 34px; --travel: 77px; }
-#narrative .mm-view { height: 29px; --travel: 77px; }
+#narrative .mm-view { height: 29px; --travel: 81px; }
 
 @keyframes mm-run {
   from { transform: translateY(0); }

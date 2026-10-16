@@ -699,7 +699,7 @@ body.split { overflow: hidden; }
    left over, both measured off the real panels at a typical window height. */
 
 #portfolio .mm-view { height: 34px; --travel: 77px; }
-#narrative .mm-view { height: 29px; --travel: 39px; }
+#narrative .mm-view { height: 29px; --travel: 77px; }
 
 @keyframes mm-run {
   from { transform: translateY(0); }
@@ -1068,43 +1068,66 @@ body.split { overflow: hidden; }
 #view-toggle:checked ~ .shell .ov-bob,
 #view-toggle:checked ~ .shell .ov-dot { animation-play-state: running; }
 
-/* --- the timeline, down the middle ----------------------------------------
-   Line art, drawn rather than ruled. Every stroke wobbles, nothing closes
-   quite where it started, and the rail wanders. Beats fall either side.
+/* --- the timeline --------------------------------------------------------
+   One field, every beat pinned to it at x percent of the width and y px down.
+   The svg behind is stretched over the same field with viewBox 0 0 100 H and
+   preserveAspectRatio none, so a path point and a beat with the same numbers
+   always meet. Both are written by .claude/make_timeline.py; change them
+   there, never one without the other.
+
+   White zigzags the whole width until NC State. From there the line is red,
+   holds the middle, and everything since comes off it. The reading line is
+   joined to nothing on purpose.
    ------------------------------------------------------------------------ */
+
+:root { --wolf: #CC0000; }
 
 .line { padding: 88px 0 96px; }
 
-.tl-beat {
-  display: grid;
-  grid-template-columns: 1fr 44px 1fr;
-  gap: 0 26px;
-  padding-bottom: 62px;
+.tl { padding: 0 24px; }
+
+.tl-field {
+  position: relative;
+  height: calc(var(--h) * 1px);
+  container-type: inline-size;
 }
 
-.tl-beat:last-child { padding-bottom: 0; }
+.tl-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
 
-.tl-rail { grid-column: 2; position: relative; }
+.tl-lines path { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 
-.tl-beat.side-l .tl-text { grid-column: 1; grid-row: 1; text-align: right; justify-self: end; }
-.tl-beat.side-r .tl-text { grid-column: 3; grid-row: 1; text-align: left;  justify-self: start; }
+/* the walk carries straight on from the overture's line, so it matches it */
+.tl-walk   { stroke: var(--text); stroke-width: 1.7; opacity: 0.85; }
+.tl-spine  { stroke: var(--wolf); stroke-width: 2.4; }
+.tl-branch { stroke: var(--wolf); stroke-width: 1.4; opacity: 0.8; }
+.tl-rule   { stroke: var(--text); stroke-width: 1.1; opacity: 0.38; }
 
-/* The first three beats are the ones where the plan changed, so the rail takes
-   a hard turn under each of them and the reason sits across the rail from the
-   beat itself: what was wanted on one line, what happened to it on the next.
-   Quieter than the beat, because it is the aside and not the event. */
-
-.tl-beat.side-l .tl-turn { grid-column: 3; grid-row: 1; text-align: left;  justify-self: start; }
-.tl-beat.side-r .tl-turn { grid-column: 1; grid-row: 1; text-align: right; justify-self: end; }
+.tl-beat {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1px);
+  width: 0;
+  height: 0;
+}
 
 .tl-node {
-  display: block;
+  position: absolute;
+  left: -22px;
+  top: -22px;
   width: 44px;
   height: 44px;
+  border-radius: 50%;
+  background: var(--bg);
   color: var(--text);
 }
 
-.tl-node svg { width: 100%; height: 100%; overflow: visible; }
+.tl-node svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
 .tl-node path,
 .tl-node circle,
@@ -1116,27 +1139,61 @@ body.split { overflow: hidden; }
   vector-effect: non-scaling-stroke;
 }
 
-.tl-ring { stroke-width: 1.3; opacity: 0.4; transition: opacity 0.5s var(--soft); }
-.tl-ico  { stroke-width: 1.5; }
-
+.tl-ring { opacity: 0.4; transition: opacity 0.5s var(--soft); }
 .tl-ring path { stroke-width: 1.3; }
 .tl-ico path, .tl-ico circle, .tl-ico ellipse { stroke-width: 1.5; }
 
-.tl-link {
-  position: absolute;
-  top: 52px;
-  bottom: -10px;
-  left: 2px;
-  width: 40px;
-  color: var(--text);
-  opacity: 0.28;
+.ncsu .tl-ring { color: var(--wolf); opacity: 0.9; }
+
+.tl-beat:hover .tl-ring { opacity: 0.72; }
+.tl-beat.ncsu:hover .tl-ring { opacity: 1; }
+
+/* the words sit on the outside of their node, never across a line */
+
+.tl-body { position: absolute; top: -16px; }
+
+.side-l .tl-body {
+  right: 36px;
+  text-align: right;
+  width: min(300px, calc(var(--x) * 1cqw - 52px));
 }
 
-.tl-link svg { width: 100%; height: 100%; display: block; }
+.side-r .tl-body {
+  left: 36px;
+  width: min(300px, calc((100 - var(--x)) * 1cqw - 52px));
+}
 
-.tl-text { padding-top: 7px; max-width: 46ch; }
+.below .tl-body {
+  top: 34px;
+  left: -130px;
+  width: 260px;
+  text-align: center;
+}
 
-.tl-turn { padding-top: 9px; max-width: 34ch; }
+.tl-year {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--faint);
+  margin: 0 0 3px;
+}
+
+.tl h2 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  color: var(--text);
+  margin: 0;
+}
+
+.tl-say {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0;
+}
+
+.tl-turn { margin-top: 8px; }
 
 .tl-turn p {
   font-size: 13px;
@@ -1148,32 +1205,29 @@ body.split { overflow: hidden; }
 
 .tl-turn .tl-but { color: var(--muted); }
 
-.tl-year {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: var(--faint);
-  margin: 0 0 3px;
+.tl-pic {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
 }
 
-.tl-beat h2 {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.005em;
-  color: var(--text);
-  margin: 0 0 10px;
+/* the reading line: a label sat on the right end of its rule */
+
+.tl-reading {
+  position: absolute;
+  right: 0;
+  bottom: calc((var(--h) - var(--y)) * 1px + 12px);
+  width: min(340px, 42cqw);
+  text-align: right;
 }
 
-.tl-text p {
-  font-size: 15px;
-  line-height: 1.65;
+.tl-note {
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--muted);
-  margin: 0 0 12px;
+  margin: 6px 0 0;
 }
-
-.tl-text p:last-child { margin-bottom: 0; }
-
-.tl-beat:hover .tl-ring { opacity: 0.72; }
 
 /* --- headers clear the switch --------------------------------------------- */
 
@@ -1188,15 +1242,15 @@ body.split { overflow: hidden; }
   line-height: 36px;
   font-weight: 700;
   letter-spacing: -0.01em;
-  margin: 10px 0 12px;
+  margin: 10px 0 4px;
 }
 
-.nv-how {
+/* hangs off the end of the line above it, a step down and to the right */
+
+.nv-aside {
   font-size: 15px;
-  line-height: 1.55;
   color: var(--muted);
-  max-width: 46ch;
-  margin: 0;
+  margin: 0 0 0 128px;
 }
 
 /* --- the bar that closes both pages --------------------------------------- */
@@ -1252,16 +1306,23 @@ body.split { overflow: hidden; }
   #portfolio .minimap { right: 24px; }
   #narrative .minimap { left: 24px; }
 
-  /* no room for two columns, so every beat falls to the right of the rail */
-  .tl-beat { grid-template-columns: 36px 1fr; gap: 0 18px; padding-bottom: 50px; }
-  .tl-rail { grid-column: 1; }
-  .tl-beat.side-l .tl-text,
-  .tl-beat.side-r .tl-text { grid-column: 2; grid-row: 1; text-align: left; justify-self: start; }
-  .tl-beat.side-l .tl-turn,
-  .tl-beat.side-r .tl-turn { grid-column: 2; grid-row: 2; text-align: left; justify-self: start;
-                             padding-top: 6px; }
-  .tl-node { width: 36px; height: 36px; }
-  .tl-link { top: 43px; left: -2px; }
+  /* no room to zigzag: the field becomes a plain list down a rail on the
+     left, white until NC State and red after, and the reading line a rule
+     across the column between the two */
+  .tl-field { height: auto; container-type: normal; }
+  .tl-lines { display: none; }
+  .tl-beat { position: relative; left: auto; top: auto; width: auto; height: auto;
+             padding: 0 0 46px 58px; }
+  .tl-beat::before { content: ""; position: absolute; left: 21px; top: 22px; bottom: -22px;
+                     width: 1.5px; background: var(--text); opacity: 0.7; }
+  .tl-beat.ncsu::before { background: var(--wolf); opacity: 1; }
+  .tl-beat:last-child::before { display: none; }
+  .tl-node { left: 0; top: 0; }
+  .side-l .tl-body, .side-r .tl-body, .below .tl-body {
+    position: static; width: auto; text-align: left; padding-top: 6px; }
+  .tl-reading { position: relative; right: auto; bottom: auto; width: auto; text-align: left;
+                margin: 0 0 46px; padding: 0 0 14px 58px; border-bottom: 1px solid var(--rule); }
+  .nv-aside { margin-left: 64px; }
 
   .ov-stage { transform: scale(0.78); transform-origin: 50% 0; height: 500px; }
 

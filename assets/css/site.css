@@ -573,6 +573,37 @@ body.split { overflow: hidden; }
 }
 
 .switch .opt-p { color: var(--text); }
+.switch .opt-n { color: var(--muted); }
+
+/* the word you are not on gets a scribble under it, drawn in once the switch
+   has landed, so it reads as somewhere to go rather than a caption */
+
+.switch .opt::after {
+  content: "";
+  position: absolute;
+  left: 19px;
+  right: 19px;
+  bottom: 5px;
+  height: 6px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 6' preserveAspectRatio='none'%3E%3Cpath d='M1 3.6 C 9 1.8, 15 5, 23 3.4 S 37 1.9, 45 3.5 S 55 4.4, 59 2.8' fill='none' stroke='%23000' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 6' preserveAspectRatio='none'%3E%3Cpath d='M1 3.6 C 9 1.8, 15 5, 23 3.4 S 37 1.9, 45 3.5 S 55 4.4, 59 2.8' fill='none' stroke='%23000' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: opacity 0.4s var(--soft);
+}
+
+#view-toggle:not(:checked) ~ .shell .switch .opt-n::after,
+#view-toggle:checked ~ .shell .switch .opt-p::after {
+  opacity: 0.7;
+  animation: opt-hint 0.8s var(--soft) 1.7s both;
+}
+
+@keyframes opt-hint {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
 
 .mark {
   position: absolute;
@@ -590,12 +621,24 @@ body.split { overflow: hidden; }
 .mark svg { display: block; width: 100%; height: 100%; overflow: visible; }
 
 #view-toggle:checked ~ .shell .mark { transform: translateX(100%); }
-#view-toggle:checked ~ .shell .switch .opt-p { color: var(--faint); }
+#view-toggle:checked ~ .shell .switch .opt-p { color: var(--muted); }
 #view-toggle:checked ~ .shell .switch .opt-n { color: var(--text); }
 
-.switch:hover .opt { color: var(--muted); }
-.switch:hover .opt-p { color: var(--text); }
-#view-toggle:checked ~ .shell .switch:hover .opt-n { color: var(--text); }
+/* on hover the other word lights up and the loop leans toward it, as if it
+   already wants to go */
+
+#view-toggle:not(:checked) ~ .shell .switch:hover .opt-n,
+#view-toggle:checked ~ .shell .switch:hover .opt-p { color: var(--text); }
+
+#view-toggle:not(:checked) ~ .shell .switch:hover .opt-n::after,
+#view-toggle:checked ~ .shell .switch:hover .opt-p::after { opacity: 1; }
+
+#view-toggle:not(:checked) ~ .shell .switch:hover .mark { transform: translateX(6%); }
+#view-toggle:checked ~ .shell .switch:hover .mark { transform: translateX(94%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .switch .opt::after { animation: none !important; transform: none; }
+}
 
 #view-toggle:focus-visible ~ .shell .switch { outline: 1px solid var(--rule); outline-offset: 6px; }
 
@@ -656,7 +699,7 @@ body.split { overflow: hidden; }
    left over, both measured off the real panels at a typical window height. */
 
 #portfolio .mm-view { height: 34px; --travel: 77px; }
-#narrative .mm-view { height: 29px; --travel: 36px; }
+#narrative .mm-view { height: 29px; --travel: 39px; }
 
 @keyframes mm-run {
   from { transform: translateY(0); }
@@ -1138,6 +1181,24 @@ body.split { overflow: hidden; }
 
 #portfolio .head .label { margin-bottom: 16px; }
 
+/* the narrative opens by telling you what you are about to watch */
+
+.nv-lede {
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 10px 0 12px;
+}
+
+.nv-how {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 46ch;
+  margin: 0;
+}
+
 /* --- the bar that closes both pages --------------------------------------- */
 
 .colobar {
@@ -1182,6 +1243,7 @@ body.split { overflow: hidden; }
   #narrative .switch { left: 24px; }
   .switch::before { inset: -20px -22px; }
   .switch .opt { padding: 10px 15px; font-size: 12px; }
+  .switch .opt::after { left: 15px; right: 15px; bottom: 4px; }
 
   .panel .head { padding-top: 92px; }
   .line { padding-top: 84px; }

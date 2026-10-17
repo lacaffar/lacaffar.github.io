@@ -1170,6 +1170,9 @@ body.split { overflow: hidden; }
   text-align: center;
 }
 
+/* squeezed between two lines, so it gets less room either side */
+.below.narrow .tl-body { left: -100px; width: 200px; }
+
 .tl-year {
   font-size: 12px;
   font-weight: 400;

@@ -52,7 +52,16 @@ which also writes the paper and cork textures in `assets/moon/` and the link pre
 `assets/covers/moon-board.jpg`.
 
 The index is two panels driven by one hidden checkbox and no script: `#portfolio` is the
-project list, `#narrative` is the timeline (year and title only, no prose).
+project list, `#narrative` is the timeline. Each stop on it is short and built to be
+scanned: when, what happened, where and as what, then one fact from the resume, and my
+own "i wanted; but" line where there is one. It ends with where I am headed and the four
+ways to reach me. The whole block is written by
+
+```
+python .claude/make_timeline.py
+```
+
+so change the table in that script and rerun it rather than editing `index.html` by hand.
 
 The map in each bottom corner is a **photograph of that panel**, not a drawing of it, and
 not a link: `assets/minimap/{portfolio,narrative}.png`. Retake both after any visible

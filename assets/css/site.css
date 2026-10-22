@@ -699,7 +699,7 @@ body.split { overflow: hidden; }
    left over, both measured off the real panels at a typical window height. */
 
 #portfolio .mm-view { height: 34px; --travel: 95px; }
-#narrative .mm-view { height: 29px; --travel: 85px; }
+#narrative .mm-view { height: 29px; --travel: 97px; }
 
 @keyframes mm-run {
   from { transform: translateY(0); }
@@ -1080,7 +1080,7 @@ body.split { overflow: hidden; }
    joined to nothing on purpose.
    ------------------------------------------------------------------------ */
 
-:root { --wolf: #CC0000; }
+:root { --wolf: #CC0000; --soft-text: rgba(240, 240, 240, 0.82); }
 
 .line { padding: 88px 0 96px; }
 
@@ -1170,14 +1170,18 @@ body.split { overflow: hidden; }
   text-align: center;
 }
 
-/* squeezed between two lines, so it gets less room either side */
-.below.narrow .tl-body { left: -100px; width: 200px; }
+/* squeezed between two lines, so it gets less room either side: a fifth of
+   the field, which still clears both lines down to the narrowest desktop */
+.below.narrow .tl-body { --w: min(240px, 20cqw); left: calc(var(--w) / -2); width: var(--w); }
+
+/* the timeline is read on black at 12 and 13px, so nothing in it goes below
+   --muted: --faint is under 3:1 against the page and was hard to read */
 
 .tl-year {
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.02em;
-  color: var(--faint);
+  color: var(--muted);
   margin: 0 0 3px;
 }
 
@@ -1196,17 +1200,55 @@ body.split { overflow: hidden; }
   margin: 0;
 }
 
-.tl-turn { margin-top: 8px; }
+/* where it happened, and as what: the line a recruiter is looking for */
+
+.tl-org {
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  margin: 2px 0 0;
+}
+
+/* one thing that happened there, the kind you can check against the resume */
+
+.tl-fact {
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  color: var(--soft-text);
+  margin: 7px 0 0;
+}
+
+.tl-link { font-size: 12px; line-height: 1.5; margin: 5px 0 0; }
+
+.tl-fact a,
+.tl-link a {
+  color: var(--text);
+  border-bottom: 1px solid var(--muted);
+  transition: border-color 0.15s ease;
+}
+
+.tl-fact a:hover,
+.tl-fact a:focus-visible,
+.tl-link a:hover,
+.tl-link a:focus-visible { border-bottom-color: var(--text); }
+
+/* short lines in narrow columns: even them out rather than leave one word
+   hanging on the last line */
+.tl h2, .tl-org, .tl-fact, .tl-turn p, .tl-end .tl-say { text-wrap: balance; }
+
+.tl-turn { margin-top: 9px; }
 
 .tl-turn p {
   font-size: 13px;
   line-height: 1.5;
   letter-spacing: 0.005em;
-  color: var(--faint);
+  color: var(--muted);
   margin: 0;
 }
 
-.tl-turn .tl-but { color: var(--muted); }
+.tl-turn .tl-but { color: var(--soft-text); }
 
 .tl-pic {
   display: block;
@@ -1230,6 +1272,34 @@ body.split { overflow: hidden; }
   color: var(--muted);
   margin: 6px 0 0;
 }
+
+/* the end: the dot turns up again under the last stop, with where it is
+   headed and how to reach me, so the story finishes on something to do */
+
+.tl-end {
+  max-width: 440px;
+  margin: 40px auto 0;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.tl-dot {
+  display: block;
+  width: 14px;
+  height: 14px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.tl-end .tl-say { margin: 0 0 18px; }
+
+/* these are the thing to do at the end, so they look like links before you
+   hover, not only after */
+.tl-end .links { justify-content: center; gap: 0 22px; font-size: 13px; }
+.tl-end .links a { border-bottom-color: rgba(240, 240, 240, 0.35); }
+.tl-end .links a:hover,
+.tl-end .links a:focus-visible { border-bottom-color: var(--text); }
 
 /* --- headers clear the switch --------------------------------------------- */
 
@@ -1307,6 +1377,11 @@ body.split { overflow: hidden; }
     position: static; width: auto; text-align: left; padding-top: 6px; }
   .tl-reading { position: relative; left: auto; bottom: auto; width: auto;
                 margin: 0 0 46px; padding: 0 0 14px 58px; border-bottom: 1px solid var(--rule); }
+  .below.narrow .tl-body { --w: auto; }
+  /* the end sits on the rail like a stop, the dot where a node would be */
+  .tl-end { position: relative; max-width: none; margin: 0; padding: 0 0 0 58px; text-align: left; }
+  .tl-dot { position: absolute; left: 15px; top: 2px; margin: 0; }
+  .tl-end .links { justify-content: flex-start; }
   .nv-aside { margin-left: 64px; }
 
   .ov-stage { transform: scale(0.78); transform-origin: 50% 0; height: 500px; }

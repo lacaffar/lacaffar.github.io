@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lacaffar.github.io/sitemap.xml

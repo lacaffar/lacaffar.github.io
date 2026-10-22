@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEM Powder QC, machine learning for metal 3D printing powder | Luke Caffarey</title>
+<meta name="description" content="A tool that reads SEM images of metal additive manufacturing powder, measures roundness and satellites, and says whether two batches really differ. Built at CAMAL, NC State.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/img/avatar-icon.png">
+
+<meta property="og:title" content="SEM Powder QC, by Luke Caffarey">
+<meta property="og:description" content="Can a microscope image replace a particle sizing machine? Two attempts, one change of question, and a game where you race the model.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lacaffar.github.io/projects/sem-powder.html">
+<meta property="og:image" content="https://lacaffar.github.io/assets/covers/sem-powder.jpg">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+
+<nav class="back"><div class="col"><a href="/">&#8592; Index</a></div></nav>
+
+<header class="case-head">
+  <div class="col">
+    <p><span class="wip">In progress</span></p>
+    <h1>SEM Powder QC</h1>
+    <dl class="case-facts">
+      <div><dt>Role</dt><dd>Undergraduate Researcher</dd></div>
+      <div><dt>Lab</dt><dd>CAMAL, NC State</dd></div>
+      <div><dt>Stack</dt><dd>Python, PyTorch, Cellpose-SAM, Mask R-CNN</dd></div>
+      <div><dt>When</dt><dd>Fall 2026</dd></div>
+    </dl>
+    <a class="cta" href="https://github.com/lacaffar/sem-powder" target="_blank" rel="noopener">Code on GitHub &#8599;</a>
+    <div class="case-cover">
+      <img src="/assets/covers/sem-powder.jpg" width="1600" height="1000"
+           alt="A scanning electron microscope image of metal powder. The left half is raw. On the right half every particle is outlined and the satellites stuck to them are circled in red.">
+    </div>
+  </div>
+</header>
+
+<main class="case-body">
+  <div class="col">
+
+    <section>
+      <h2>The short version</h2>
+      <div class="tldr">
+        <div>
+          <p class="tldr-k">Problem</p>
+          <p>Metal 3D printing powder has to be round and clean. Checking it means either a
+          machine that only measures size, or a person counting particles in microscope
+          images for hours.</p>
+        </div>
+        <div>
+          <p class="tldr-k">What I built</p>
+          <p>A tool that reads SEM images, outlines every particle, finds the satellites
+          stuck to them, and says whether two batches differ, with error bars. One command
+          installs it on any lab PC.</p>
+        </div>
+        <div>
+          <p class="tldr-k">Result</p>
+          <p>Particle outlines at 0.94 precision and 0.93 recall on published hand labels,
+          above the published method's recall. Satellites are usable for before and after
+          comparisons, not yet for absolute counts.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="step-n">01</span>The question</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      A sizing machine tells you how big the particles are and nothing about their shape.
+      A microscope image shows the shape, but someone has to sit and count. Could the image
+      alone do both jobs?</p>
+
+      <p>Metal 3D printers spread powder in thin layers and melt it with a laser or an electron
+      beam. The powder is made by gas atomization: molten metal is blasted apart by a jet of gas
+      and the droplets freeze in flight. Good powder comes out round and in a tight size band,
+      roughly 15 to 53 µm for laser printers. Bad powder comes out with
+      <strong>satellites</strong>: small particles welded onto big ones, which hurt how the
+      powder flows and packs.</p>
+
+      <p>The standard check is laser diffraction. It is fast and sees millions of particles, but
+      it assumes every particle is a sphere and reports size only. A scanning electron
+      microscope (SEM) shows the real shapes, but an operator gets maybe 20 to 60 images in two
+      hours and then has to measure them. The lab had about 1,000 SEM images sitting there.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">02</span>Map it before writing code</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      Before I write anything, what would have to be true for me to believe this tool, and
+      which unknowns could kill the whole project? Find those first.</p>
+
+      <p>This is the planning map I drew in my notes before any code existed, read from left to
+      right. Hover or tap any item to see what it connects to.</p>
+
+      <div class="map" id="plan-map">
+        <div class="map-col">
+          <h4>Kill these first</h4>
+          <button class="m-item" data-id="U1" data-l="T2 T4 Q"><b>U1</b>Does the lab already have a script, or a commercial license?</button>
+          <button class="m-item" data-id="U2" data-l="E3 T8 Q"><b>U2</b>Can I get laser diffraction on the same batch?</button>
+          <button class="m-item" data-id="U3" data-l="P1"><b>U3</b>Do atomizer run logs exist?</button>
+          <button class="m-item" data-id="U4" data-l="T1 T3 E1 Q"><b>U4</b>Which runs, operators and settings made the 1,000 images?</button>
+          <button class="m-item" data-id="U5" data-l="T3"><b>U5</b>Can the SEM tile images automatically?</button>
+        </div>
+        <div class="map-col">
+          <h4>Tasks</h4>
+          <button class="m-item" data-id="T1" data-l="U4 E1"><b>T1</b>Read pixel size and settings out of the TIFF files</button>
+          <button class="m-item" data-id="T2" data-l="T4 E2 U1"><b>T2</b>Zero shot test of off the shelf models on 20 images</button>
+          <button class="m-item" data-id="T3" data-l="E2 E4 U4 U5 T4"><b>T3</b>Hand label about 50 images, split by atomizer run</button>
+          <button class="m-item" data-id="T4" data-l="T3 E2 T2 U1"><b>T4</b>Fine tune, only if zero shot is not good enough</button>
+          <button class="m-item" data-id="T5" data-l="E3"><b>T5</b>Per particle size, circularity, solidity</button>
+          <button class="m-item" data-id="T6" data-l="E4"><b>T6</b>Satellite finder: a threshold first, a small network if messy</button>
+          <button class="m-item" data-id="T7" data-l="D"><b>T7</b>Batch report: folder in, numbers and plots out</button>
+          <button class="m-item" data-id="T8" data-l="E3 U2"><b>T8</b>Check sizes against laser diffraction</button>
+        </div>
+        <div class="map-col">
+          <h4>Evidence I would need</h4>
+          <button class="m-item" data-id="E1" data-l="T1 U4 D"><b>E1</b>The pixel scale is right. Every µm depends on it.</button>
+          <button class="m-item" data-id="E2" data-l="T2 T3 T4 D"><b>E2</b>Outlines match hand labels on runs it never saw</button>
+          <button class="m-item" data-id="E3" data-l="T5 T8 U2 D"><b>E3</b>Size distribution agrees with laser diffraction</button>
+          <button class="m-item" data-id="E4" data-l="T3 T6 D"><b>E4</b>Satellite precision and recall against hand flags</button>
+        </div>
+        <div class="map-col">
+          <h4>The point</h4>
+          <button class="m-item" data-id="Q" data-l="D U1 U2 U4 P1 P2"><b>Q</b>Can SEM images alone give batch powder numbers that agree with laser diffraction?</button>
+          <button class="m-item" data-id="D" data-l="Q E1 E2 E3 E4 T7 P2"><b>D</b>A batch report: size percentiles, yield in the print window, shape, satellite fraction</button>
+          <button class="m-item" data-id="P1" data-l="U3 Q"><b>Parked</b>Atomizer settings vs powder. 10 to 50 runs is a regression problem, not machine learning.</button>
+          <button class="m-item" data-id="P2" data-l="D Q"><b>Parked</b>Track powder as it gets reused</button>
+        </div>
+      </div>
+      <p class="map-foot">The parked items are a deliberate choice. Sample size for atomizer
+      modeling is the number of runs, not the number of images, so it waits until there is data
+      for it.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">03</span>Attempt one: classic and cheap</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      Start with the simplest thing that could work, and test it where I know the right
+      answer before I test it where I do not.</p>
+
+      <p>The first version ran on a laptop CPU: a classic watershed segmentation, a general
+      purpose cell segmentation model (Cellpose 3) for comparison, a reader for the scale bar,
+      and the standard size and shape metrics. I scored it first on synthetic powder renders
+      where the exact answer is known (DeCost and Holm), then on real public powder images
+      that came with laser diffraction results.</p>
+
+      <div class="stats">
+        <div>
+          <p class="stat-n">+8% / &#8722;1%</p>
+          <p class="stat-l">median and 90th percentile size vs the reported values, real Ti-6Al-4V powder, no tuning</p>
+        </div>
+        <div>
+          <p class="stat-n">~1 s</p>
+          <p class="stat-l">per image on a CPU with the watershed default</p>
+        </div>
+        <div>
+          <p class="stat-n">0.48</p>
+          <p class="stat-l">F1 on satellites. Better than zero, which is where it started.</p>
+        </div>
+      </div>
+
+      <h3>What broke</h3>
+      <div class="fix">
+        <div class="fix-item">
+          <div class="fix-when">Scale bar</div>
+          <p>The first real instrument data bar it ever saw, the text reader read
+          &#8220;100 µm&#8221; as &#8220;100 Hm&#8221;. Every image came out in pixels. Fixed by
+          accepting any one or two letters before the m as µm, since no SEM bar says km. Scale
+          error after the fix: 1.1%.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Too few particles</div>
+          <p>On one aluminum alloy the median size read 8% to 25% low against laser diffraction.
+          One frame held as few as 29 whole particles and the big ones touched the edge and got
+          dropped. Lesson written into the instructions: 5 to 10 random fields, 300 or more
+          particles per batch.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Clumps</div>
+          <p>A cluster of satellites and fines gets measured as one big, lumpy particle (below).</p>
+        </div>
+      </div>
+
+      <div class="figs">
+        <figure>
+          <img src="/assets/figs/sem-agglomerate.jpg" width="580" height="452" loading="lazy"
+               alt="Watershed segmentation outlining a whole cluster of particles as one object">
+          <figcaption>One object, according to the watershed. AA7075 powder, Mendeley Data
+          42gzbgk5hb (CC BY 4.0).</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/figs/sem-databar.png" width="1024" height="92" loading="lazy"
+               alt="An SEM data bar reading 100 micrometers, with the scale bar found and underlined in red">
+          <figcaption>The bar it found. The label it misread. Ti-6Al-4V, Zenodo 17037765
+          (CC BY-SA 4.0).</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="step-n">04</span>Attempt two: a foundation model on a library GPU</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      The classic method has hit its ceiling on small and touching particles. A modern
+      segmentation model should beat it, but I will not take that on faith. Run a shoot out.</p>
+
+      <p>I archived attempt one and rebuilt around a GPU. Four contenders went head to head on
+      synthetic images with exact masks plus real samples against laser data, ranked by one
+      score fixed before looking at results:</p>
+
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Model</th><th>Score</th><th>F1, dense renders</th><th>Seconds per image</th></tr>
+        <tr class="me"><td>Cellpose-SAM, auto rescale</td><td class="n">0.835</td><td class="n">0.80</td><td class="n">5.0</td></tr>
+        <tr><td>Segment Anything, everything mode</td><td class="n">0.833</td><td class="n">0.82</td><td class="n">28.8</td></tr>
+        <tr><td>Cellpose-SAM</td><td class="n">0.831</td><td class="n">0.80</td><td class="n">4.9</td></tr>
+        <tr><td>Watershed (attempt one)</td><td class="n">0.730</td><td class="n">0.61</td><td class="n">0.2</td></tr>
+      </table></div>
+
+      <p>Cellpose-SAM won, and nearly tied Segment Anything at a sixth of the time. It still found
+      only 17% to 67% of particles under 300 pixels in area, and no setting fixed that, so
+      fine tuning on real outlines went on the list.</p>
+
+      <h3>Making it run where the GPU is</h3>
+      <p>The GPU lives on a library workstation with no admin rights. So the whole setup became
+      one line pasted into PowerShell: it installs Python and the CUDA build, clones the code,
+      downloads the data and models, and runs the next stage. Rehearsing that on my laptop
+      turned up the best bug of the project: when GPU memory ran out, the NVIDIA driver quietly
+      spilled into system RAM instead of failing, the run crawled for ten minutes, and the page
+      file ate 9 GB of disk. The fix caps PyTorch at 92% of GPU memory so running out is a clean
+      error, and the next smaller training setting gets tried automatically.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">05</span>The question changed</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      The lab does not need a perfect absolute number. They need to know if the powder changed
+      after they changed the atomizer, and how sure they can be. That is a different, and more
+      useful, question.</p>
+
+      <p>The goal from the lab became quality control: compare roundness and satellites before
+      and after an atomizer jet change. That shifted the work in three ways.</p>
+      <ul>
+        <li>Train on what exists. Public hand labeled SEM powder sets (AMPIS and SALAS, 28 images
+        and 2,248 satellite outlines) instead of waiting on labels of our own.</li>
+        <li>Report a difference with error bars, not a single number. Every metric gets a 95%
+        range from resampling 1,000 times, and a verdict: changed, or no detectable change.</li>
+        <li>Pick the satellite model by count, not just by score. Among models within 0.02 F1 of
+        the best, the one whose count is closest to the truth wins, because a QC report is a
+        count.</li>
+      </ul>
+
+      <p>Here is what a comparison looks like, on two public powders: plain Ti-6Al-4V against
+      blends with 15% and 20% copper.</p>
+
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Metric</th><th>Ti-6Al-4V</th><th>With Cu</th><th>Difference, 95% range</th><th>Verdict</th></tr>
+        <tr><td>Round (sphericity &#8805; 0.90)</td><td class="n">80.5%</td><td class="n">65.4%</td><td class="n">&#8722;15.1 (&#8722;21.7 to &#8722;8.3)</td><td>Changed</td></tr>
+        <tr><td>Carrying a satellite</td><td class="n">5.1%</td><td class="n">10.7%</td><td class="n">+5.6 (+1.7 to +9.3)</td><td>Changed</td></tr>
+        <tr><td>Median size, by count</td><td class="n">25.5 µm</td><td class="n">19.8 µm</td><td class="n">&#8722;5.7 (&#8722;7.4 to &#8722;4.1)</td><td>Changed</td></tr>
+        <tr><td>90th percentile size</td><td class="n">38.0 µm</td><td class="n">37.6 µm</td><td class="n">&#8722;0.4 (&#8722;2.9 to +1.9)</td><td>No detectable change</td></tr>
+      </table></div>
+      <p>The copper blends are less round and carry more satellites, while the big end of the
+      size distribution did not move. One or two images per powder here, so the ranges come from
+      resampling particles and are on the optimistic side. With three or more images per batch
+      the tool resamples whole images instead.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">06</span>Your turn: you vs the model</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      Satellites are the hard part. The easiest way to show why is to let you try.</p>
+
+      <p>This is a real SEM image the model was never trained on (AMPIS validation tile). The
+      dataset&#8217;s human labeler marked 24 satellites in this window. You get 30 seconds. Tap
+      or click every small particle you think is <em>stuck onto</em> a bigger one. Tap a mark
+      again to remove it.</p>
+
+      <div class="game" id="sat-game">
+        <div class="g-bar">
+          <p class="g-status" aria-live="polite">Ready when you are.</p>
+          <div class="g-acts">
+            <button class="g-btn" data-act="start" type="button">Start</button>
+            <button class="g-btn" data-act="done" type="button" disabled>I&#8217;m done</button>
+          </div>
+        </div>
+        <div class="g-stage idle">
+          <img src="/assets/figs/sem-game.jpg" width="768" height="512"
+               alt="SEM image of gas atomized metal powder, with many small satellites attached to larger particles">
+          <svg viewBox="0 0 768 512" aria-hidden="true">
+            <g class="g-parts g-hide"></g>
+            <g class="g-hand g-hide"></g>
+            <g class="g-model g-hide"></g>
+            <g class="g-you"></g>
+          </svg>
+          <div class="g-cover"><span>Press start</span></div>
+        </div>
+        <div class="g-layers" hidden>
+          <button class="g-btn" data-layer="g-you" type="button"><span class="sw"></span>You</button>
+          <button class="g-btn" data-layer="g-hand" type="button"><span class="sw sw-hand"></span>Human labeler</button>
+          <button class="g-btn" data-layer="g-model" type="button"><span class="sw sw-model"></span>Model</button>
+          <button class="g-btn off" data-layer="g-parts" type="button"><span class="sw sw-parts"></span>Particle outlines</button>
+        </div>
+        <div class="g-score" hidden></div>
+        <noscript><p>The game needs JavaScript. The short answer: the human marked 24, the
+        model ringed 37 and caught 22 of the 24.</p></noscript>
+      </div>
+
+      <p>Look at the red rings the human did not draw. Most sit on loose fines lying in the
+      background, not stuck to anything; a few are arguable either way. Across the whole image the
+      model rings 125 against the labeler&#8217;s 88. That disagreement is exactly why the tool
+      leans on before and after differences: if it over-counts the same way on both batches, the
+      change is still real.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">07</span>How good is it</h2>
+
+      <p>Scored on the published hand labeled validation images, against the method from the
+      paper those labels come from:</p>
+
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th></th><th>Precision</th><th>Recall</th><th>Published (Cohn 2021)</th></tr>
+        <tr class="me"><td>Particles, Cellpose-SAM fine tuned</td><td class="n">0.94</td><td class="n">0.93</td><td class="n">0.94 / 0.80</td></tr>
+        <tr class="me"><td>Satellites, Mask R-CNN tuned</td><td class="n">0.67</td><td class="n">0.64</td><td class="n">0.69 / 0.55</td></tr>
+      </table></div>
+
+      <p>Same precision on particles, with 13 points more recall. Satellites trade a little
+      precision for 9 points of recall. Training takes about 75 minutes on the library&#8217;s 8 GB card;
+      the trained models are a 1.4 GB public release that the installer downloads, so no other
+      PC has to train anything. Inference runs about 5 seconds per image on a GPU.</p>
+
+      <figure class="fig">
+        <img src="/assets/figs/sem-ti64.jpg" width="1024" height="768" loading="lazy"
+             alt="Ti-6Al-4V powder with each of 237 particles shaded in its own color and 23 satellites outlined in red">
+        <figcaption>Every particle it kept, each in its own color, satellites in red. 237
+        particles in one frame. Particles cut by the edge are left out on purpose. Ti-6Al-4V,
+        Strauch, Altmann and T&#246;njes, Zenodo 17037765 (CC BY-SA 4.0).</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2><span class="step-n">08</span>What I do not trust yet</h2>
+      <ul>
+        <li>Satellite counts are right on average across datasets but biased 15% to 20% either
+        way depending on the powder. Trust the change between batches more than the absolute
+        percentage, and hand count two or three of your own images once.</li>
+        <li>Every model was trained on public powders (nickel superalloy, aluminum, IN718, 17-4
+        stainless, titanium alloys), not yet on images from our own SEM.</li>
+        <li>An image is a 2D view of a 3D pile. Partly buried particles read small, and one frame
+        rarely holds enough big particles for a stable 90th percentile.</li>
+        <li>Agreement with laser diffraction on our own batches is still unproven. That was
+        unknown U2 on the map, and it is still open.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Still to do</h2>
+      <ul class="todo">
+        <li>Run it on the lab&#8217;s own images and hand check a few for satellites.</li>
+        <li>Get laser diffraction on the same batches and close evidence E3.</li>
+        <li>Fine tune on corrected outlines of our powder; the labeling tool is ready.</li>
+        <li>Atomizer settings vs powder, once run logs exist. A regression, not a neural network.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Credits</h2>
+      <div class="note">
+        <p>Training data: AMPIS (Cohn et al. 2021) and SALAS (Price et al. 2021), both MIT
+        licensed; micrographs from Ames Laboratory and ORNL MDF. Test images: AA7075 plus TiC,
+        Mendeley Data 42gzbgk5hb (CC BY 4.0); Ti-6Al-4V and Cu, Strauch, Altmann and T&#246;njes,
+        Zenodo 17037765 (CC BY-SA 4.0); synthetic renders by DeCost and Holm (CC BY 4.0).
+        Models: Cellpose-SAM (Pachitariu, Rariden, Stringer), Mask R-CNN via torchvision,
+        Segment Anything (Meta AI).</p>
+      </div>
+    </section>
+
+    <nav class="case-nav">
+      <a href="/">&#8592; Index</a>
+      <a href="/projects/lunar-viscosity.html">Lunar Regolith Viscosity &#8594;</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="col">
+    <hr class="rule">
+    <div class="foot-inner">
+      <span>&copy; 2026 Luke Caffarey</span>
+      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
+      <span><a href="https://github.com/lacaffar/sem-powder" target="_blank" rel="noopener">github.com/lacaffar/sem-powder</a></span>
+    </div>
+  </div>
+</footer>
+
+<script type="application/json" id="game-data">{"w":768,"h":512,"hand":[{"x":20.3,"y":321.0,"r":5.9},{"x":85.4,"y":495.0,"r":8.4},{"x":742.3,"y":4.1,"r":12.7},{"x":749.8,"y":35.5,"r":16.3},{"x":621.5,"y":25.5,"r":8.9},{"x":651.4,"y":57.0,"r":11.7},{"x":402.1,"y":376.0,"r":9.7},{"x":366.1,"y":55.9,"r":11.7},{"x":318.4,"y":173.4,"r":7.0},{"x":610.7,"y":448.1,"r":5.4},{"x":681.2,"y":349.0,"r":11.3},{"x":744.4,"y":379.7,"r":16.1},{"x":717.8,"y":117.0,"r":6.9},{"x":713.7,"y":76.3,"r":3.6},{"x":732.8,"y":132.8,"r":8.7},{"x":448.7,"y":410.7,"r":5.2},{"x":456.9,"y":167.1,"r":12.2},{"x":527.4,"y":142.4,"r":7.7},{"x":382.2,"y":348.6,"r":4.7},{"x":124.4,"y":79.2,"r":7.0},{"x":270.0,"y":163.3,"r":9.0},{"x":269.7,"y":347.0,"r":11.6},{"x":329.9,"y":331.7,"r":7.1},{"x":503.2,"y":54.8,"r":4.4}],"model":[{"x":702.7,"y":410.3,"r":4.1},{"x":357.2,"y":337.1,"r":5.6},{"x":461.3,"y":419.8,"r":8.0},{"x":612.0,"y":59.9,"r":5.9},{"x":713.0,"y":76.0,"r":3.8},{"x":67.9,"y":141.7,"r":11.5},{"x":19.7,"y":319.6,"r":5.8},{"x":268.3,"y":162.4,"r":7.9},{"x":167.6,"y":150.2,"r":4.8},{"x":404.7,"y":376.5,"r":9.6},{"x":8.5,"y":200.8,"r":4.1},{"x":634.1,"y":297.8,"r":4.6},{"x":663.4,"y":17.0,"r":14.7},{"x":268.2,"y":346.3,"r":11.3},{"x":54.1,"y":54.0,"r":4.7},{"x":329.7,"y":331.4,"r":7.9},{"x":68.9,"y":100.9,"r":9.4},{"x":112.6,"y":22.7,"r":5.0},{"x":698.7,"y":355.3,"r":5.9},{"x":382.1,"y":348.7,"r":5.7},{"x":619.9,"y":24.8,"r":9.9},{"x":421.3,"y":65.8,"r":15.4},{"x":650.5,"y":56.3,"r":11.8},{"x":719.2,"y":119.5,"r":10.2},{"x":449.7,"y":409.5,"r":6.6},{"x":319.7,"y":173.2,"r":7.0},{"x":733.1,"y":131.1,"r":8.5},{"x":623.4,"y":5.7,"r":5.4},{"x":123.7,"y":79.4,"r":6.8},{"x":743.2,"y":380.0,"r":16.4},{"x":86.0,"y":492.7,"r":8.0},{"x":525.7,"y":137.7,"r":11.6},{"x":749.3,"y":35.2,"r":16.9},{"x":741.5,"y":5.3,"r":14.8},{"x":610.5,"y":447.5,"r":6.0},{"x":364.0,"y":55.1,"r":11.7},{"x":679.4,"y":349.1,"r":10.9}],"particles":[{"d":"M648 -177L629 -171L618 -158L608 -159L601 -151L598 -151L595 -155L588 -155L579 -152L572 -144L565 -147L558 -146L553 -149L547 -148L537 -139L529 -136L525 -128L528 -115L523 -106L526 -97L520 -90L520 -86L538 -73L539 -61L545 -52L546 -44L554 -40L560 -33L572 -33L575 -30L575 -21L579 -17L591 -11L591 -5L595 0L610 6L616 6L621 11L628 8L629 -1L632 -4L641 -3L647 -5L655 -12L663 -31L668 -36L674 -37L680 -42L684 -50L687 -64L687 -94L682 -101L676 -116L673 -138L663 -156L660 -166L652 -175Z","s":0.937,"n":1},{"d":"M390 -37L376 -33L368 -24L358 -21L345 -4L339 14L338 25L340 41L345 55L352 66L360 73L378 84L390 87L407 88L433 79L450 63L461 41L463 32L463 16L460 7L460 0L453 -12L442 -23L426 -32L411 -37Z","s":0.983,"n":2},{"d":"M194 -30L166 -14L148 6L144 8L142 13L129 27L127 34L117 41L114 64L118 74L118 82L130 89L132 98L140 114L151 131L163 145L167 153L174 153L196 162L224 166L254 165L264 168L272 167L277 162L284 149L293 140L302 135L304 124L316 95L321 73L320 53L315 31L307 15L292 -4L277 -16L260 -26L228 -36L208 -31Z","s":0.963,"n":3},{"d":"M47 -31L36 -28L21 -20L4 -2L-3 20L-3 45L5 67L10 75L31 89L54 99L63 106L73 107L99 77L113 57L117 40L115 28L116 22L106 -2L90 -20L81 -26L70 -30Z","s":0.895,"n":3},{"d":"M299 -25L295 -17L293 -3L307 14L326 15L340 7L345 -5L344 -16L340 -24L336 -26L327 -26L323 -24L317 -26Z","s":0.822,"n":0},{"d":"M570 -9L566 2L567 14L572 23L580 31L587 34L598 34L606 31L622 34L628 29L628 20L616 7L610 7L595 1L590 -5L591 -8L589 -12L579 -16Z","s":0.547,"n":1},{"d":"M746 -8L739 -8L731 -2L716 -2L707 0L692 7L678 20L669 47L668 62L679 92L692 103L705 111L710 118L710 124L717 129L726 127L729 124L729 117L733 112L743 109L766 94L767 91L766 20L764 16L755 8L755 -2Z","s":0.792,"n":4},{"d":"M648 -5L637 6L634 12L634 22L630 31L630 44L634 51L638 54L639 50L644 45L654 45L662 52L663 59L667 59L671 35L678 18L675 8L667 4L659 -5Z","s":0.793,"n":1},{"d":"M461 0L461 7L464 17L468 12L468 7L466 3Z","s":0.428,"n":0},{"d":"M139 5L133 5L127 11L127 16L132 22L143 10L143 8Z","s":0.698,"n":0},{"d":"M507 45L493 52L476 68L475 76L477 97L483 112L497 127L511 136L522 146L532 147L537 143L541 132L552 118L555 106L561 94L561 76L555 61L541 49L525 44Z","s":0.848,"n":1},{"d":"M555 44L550 47L548 53L554 59L557 59L562 56L563 49L560 45Z","s":0.982,"n":0},{"d":"M644 46L639 53L641 62L646 67L655 67L662 60L661 52L654 46Z","s":0.925,"n":1},{"d":"M620 50L616 57L629 61L631 59L630 52L625 49Z","s":0.781,"n":0},{"d":"M609 57L600 63L591 65L585 71L576 76L562 93L552 119L552 139L555 155L560 167L566 176L577 187L596 198L621 203L654 195L666 183L680 159L685 134L679 106L674 94L666 84L653 73L644 68L619 60L615 57Z","s":0.928,"n":1},{"d":"M590 64L588 62L579 63L575 69L577 75L590 66Z","s":0.54,"n":0},{"d":"M352 67L341 68L321 75L317 95L305 124L304 133L296 140L298 145L311 160L311 163L314 166L318 165L320 167L333 170L347 170L358 167L371 159L381 149L389 135L392 120L379 86Z","s":0.811,"n":0},{"d":"M406 89L398 101L395 112L400 138L404 148L411 149L420 155L433 156L436 159L459 157L461 155L458 151L460 137L464 133L462 123L467 115L468 107L456 92L453 81L443 84L440 81L432 80L422 85Z","s":0.89,"n":0},{"d":"M676 93L675 96L682 112L685 133L697 134L702 132L709 125L708 116L680 93Z","s":0.545,"n":0},{"d":"M765 95L759 100L760 118L764 128L767 130L767 97Z","s":0.246,"n":0},{"d":"M131 98L111 97L101 100L94 104L82 117L76 130L77 144L84 170L89 174L100 178L109 178L128 173L143 163L157 149L159 144L158 140L144 122Z","s":0.96,"n":0},{"d":"M758 107L751 111L751 115L755 119L759 118Z","s":0.747,"n":0},{"d":"M730 124L722 130L717 130L702 137L687 150L680 160L677 169L675 170L672 184L672 199L678 219L685 230L694 239L711 249L726 253L739 253L755 249L765 244L767 241L767 138L754 126L741 128Z","s":0.759,"n":1},{"d":"M66 130L59 136L58 145L66 153L77 152L76 132L74 130Z","s":0.8,"n":1},{"d":"M465 157L462 155L456 159L446 159L439 164L421 160L407 161L397 164L383 173L374 184L367 204L375 223L379 242L388 249L395 251L404 257L415 260L431 257L447 247L457 235L463 220L463 191L466 184L466 175L468 171Z","s":0.868,"n":0},{"d":"M476 155L467 160L468 170L479 174L485 170L486 161L483 157Z","s":0.971,"n":0},{"d":"M196 163L186 176L183 186L182 199L187 221L196 227L207 226L228 233L238 231L249 226L264 200L264 187L256 167L224 167Z","s":0.82,"n":0},{"d":"M322 168L316 168L309 176L282 186L264 201L250 226L244 247L245 268L248 281L247 289L253 293L266 313L285 322L306 322L319 319L341 309L359 290L378 253L376 230L366 205L353 192L331 177Z","s":0.841,"n":1},{"d":"M63 169L52 177L44 188L45 192L53 194L56 200L52 208L39 219L43 231L52 236L69 236L80 238L80 221L82 212L81 198L84 191L99 178L89 175L84 171L76 172Z","s":0.563,"n":0},{"d":"M-23 173L-31 176L-40 184L-43 192L-43 203L-39 212L-35 216L-20 222L-13 213L-7 208L2 204L6 198L2 186L-6 177L-13 174Z","s":0.88,"n":0},{"d":"M125 174L106 179L95 187L87 196L82 213L81 239L95 255L106 262L120 267L136 267L152 260L162 251L172 230L173 212L168 197L158 185L144 177Z","s":0.98,"n":0},{"d":"M654 196L622 203L608 217L600 232L598 241L599 257L608 272L622 282L633 285L643 285L655 282L663 277L675 261L677 254L675 234L668 217Z","s":0.894,"n":0},{"d":"M508 198L492 203L482 209L475 215L465 228L458 245L456 257L460 286L471 303L494 319L512 324L540 323L558 313L575 295L581 279L583 266L587 259L583 254L583 245L569 220L559 210L536 199L525 197Z","s":0.992,"n":0},{"d":"M7 199L2 205L-2 206L-13 214L-19 222L-21 228L-21 243L-17 252L-3 264L4 266L16 266L28 261L35 255L40 246L42 229L38 218L30 210L15 204L11 199Z","s":0.985,"n":1},{"d":"M207 227L195 228L177 236L170 242L162 252L156 272L159 294L165 305L178 316L192 321L206 321L222 315L236 304L247 287L243 248L229 234Z","s":0.938,"n":0},{"d":"M55 238L44 246L38 256L36 264L38 278L41 284L54 295L60 297L72 297L79 295L90 287L95 278L96 262L94 254L80 239L69 237Z","s":0.985,"n":0},{"d":"M-60 247L-82 259L-95 271L-108 291L-121 320L-131 330L-131 333L-120 344L-114 357L-113 367L-106 376L-101 378L-90 378L-72 384L-50 385L-37 389L-31 389L-28 381L-3 358L8 343L15 329L25 319L18 310L15 291L8 277L-2 265L-17 253L-37 246Z","s":0.859,"n":6},{"d":"M386 250L378 254L363 285L354 298L354 339L365 348L382 371L394 378L399 383L415 384L420 386L428 385L447 371L460 367L467 359L474 343L475 324L472 309L460 287L445 274L432 266L404 258L395 252Z","s":0.847,"n":3},{"d":"M727 272L720 274L715 279L713 287L728 300L730 300L738 295L741 284L736 275Z","s":0.883,"n":0},{"d":"M632 295L630 306L625 313L620 326L617 340L617 359L615 365L624 368L639 377L655 395L662 408L673 410L697 410L707 407L729 391L743 396L752 393L756 389L759 378L754 367L745 362L747 346L741 320L729 301L712 287L691 279L670 279L656 283L639 294Z","s":0.849,"n":4},{"d":"M137 285L129 287L105 299L96 307L92 318L90 319L90 334L97 351L110 364L125 368L137 368L150 363L157 358L166 339L167 325L165 318L165 306L159 295L155 292L148 292L145 288Z","s":0.924,"n":0},{"d":"M619 291L613 296L612 305L616 310L624 313L629 306L631 295L626 291Z","s":0.845,"n":0},{"d":"M480 311L478 314L478 321L482 325L489 325L493 319Z","s":0.727,"n":0},{"d":"M596 311L593 316L593 327L597 333L607 334L611 330L611 321L599 311Z","s":0.739,"n":0},{"d":"M88 318L84 317L80 312L74 312L68 319L54 314L47 314L26 320L16 329L9 342L8 365L14 378L25 390L37 393L53 391L64 392L80 379L88 361L88 346L86 338L90 333L90 321Z","s":0.863,"n":0},{"d":"M766 325L763 334L763 350L767 356Z","s":0.14,"n":0},{"d":"M330 326L325 327L317 334L306 337L295 337L288 339L266 338L260 341L255 339L250 339L247 341L239 340L228 346L224 353L224 357L231 367L231 381L223 412L223 429L227 446L236 464L256 486L282 500L309 501L347 493L361 479L372 464L382 439L384 422L382 416L383 411L380 396L372 379L375 373L349 346L348 342L340 335L338 330Z","s":0.918,"n":2},{"d":"M764 352L760 350L747 357L746 362L752 366L757 365L761 358L765 356Z","s":0.573,"n":0},{"d":"M173 364L156 359L147 366L137 369L125 369L110 365L92 377L71 402L72 410L67 426L70 443L88 471L98 480L116 491L129 494L152 494L179 485L196 470L211 445L213 434L212 414L206 395L195 379Z","s":0.911,"n":0},{"d":"M630 372L614 365L601 367L589 366L580 368L558 379L548 389L542 398L534 419L534 440L545 461L565 481L566 485L573 485L588 489L606 489L613 487L635 475L655 453L660 442L663 428L661 408L648 387Z","s":0.949,"n":1},{"d":"M461 367L447 372L429 385L420 399L415 414L413 429L416 447L426 468L446 486L465 493L485 493L494 491L513 480L524 466L533 440L533 419L524 398L517 388L507 379L488 369L479 367Z","s":0.936,"n":2},{"d":"M69 399L65 397L63 393L59 392L37 394L26 391L23 395L14 395L10 393L-4 394L-14 400L-21 401L-25 403L-28 409L-30 420L-27 445L-21 453L-8 461L2 463L23 461L33 455L51 437L55 435L60 428L66 428L71 410L71 403Z","s":0.646,"n":0},{"d":"M405 395L400 398L399 405L402 409L408 410L412 407L413 400L410 396Z","s":0.964,"n":0},{"d":"M390 408L383 413L384 421L391 425L396 425L401 421L401 413L396 408Z","s":0.913,"n":0},{"d":"M706 408L698 411L704 413Z","s":0.622,"n":1},{"d":"M658 448L654 456L641 471L618 486L614 500L613 523L622 546L629 556L640 566L663 577L675 579L688 578L698 575L713 566L727 548L730 541L734 519L732 498L725 479L717 467L708 458L686 448Z","s":0.923,"n":1},{"d":"M203 475L208 478L225 478L240 487L256 511L259 521L260 535L262 534L267 526L269 518L269 501L267 494L256 487L237 466L217 468Z","s":0.313,"n":0},{"d":"M-11 475L-29 487L-27 521L-20 536L-8 546L4 551L20 550L30 543L41 526L43 518L43 499L31 482L22 475L11 472L0 472Z","s":0.887,"n":0},{"d":"M202 475L193 483L186 495L184 515L187 525L192 532L198 549L206 559L216 565L225 567L237 565L246 560L254 552L257 544L259 528L255 511L249 500L237 485L222 478L208 479Z","s":0.727,"n":0},{"d":"M179 486L155 493L153 495L160 500L172 499L177 494Z","s":0.412,"n":0},{"d":"M82 488L76 501L59 514L56 514L56 517L45 539L41 560L41 575L51 602L54 607L72 623L104 634L120 635L150 628L160 623L171 610L183 586L193 573L193 570L185 557L184 546L174 533L173 522L168 519L164 511L144 503L128 494L97 492L90 487Z","s":0.948,"n":5},{"d":"M557 490L552 493L551 501L555 505L562 505L565 501L565 495L563 492Z","s":0.951,"n":0},{"d":"M566 501L563 505L565 511L572 512L575 509L575 504L572 501Z","s":0.952,"n":0},{"d":"M313 506L295 515L286 526L282 537L282 553L285 562L295 574L307 581L324 584L334 576L353 566L358 554L359 538L353 523L343 513L331 507Z","s":0.967,"n":0},{"d":"M581 512L577 520L589 531L594 530L599 523L597 514L592 510L585 510Z","s":0.833,"n":0},{"d":"M502 511L501 514L504 515L505 512Z","s":1.0,"n":0}],"whole":{"hand":88,"model":125,"particles":235}}</script>
+<script>
+/* the planning map: light up whatever an item connects to */
+(function () {
+  var map = document.getElementById('plan-map');
+  if (!map) return;
+  var items = map.querySelectorAll('.m-item');
+  var byId = {};
+  items.forEach(function (b) { byId[b.dataset.id] = b; });
+  var pinned = null;
+  function light(b) {
+    map.classList.add('lit');
+    items.forEach(function (x) { x.classList.remove('on', 'self'); });
+    b.classList.add('self');
+    b.dataset.l.split(' ').forEach(function (id) { if (byId[id]) byId[id].classList.add('on'); });
+  }
+  function clear() {
+    if (pinned) { light(pinned); return; }
+    map.classList.remove('lit');
+    items.forEach(function (x) { x.classList.remove('on', 'self'); });
+  }
+  items.forEach(function (b) {
+    b.addEventListener('mouseenter', function () { light(b); });
+    b.addEventListener('mouseleave', clear);
+    b.addEventListener('focus', function () { light(b); });
+    b.addEventListener('blur', clear);
+    b.addEventListener('click', function () { pinned = (pinned === b) ? null : b; pinned ? light(b) : clear(); });
+  });
+})();
+
+/* spot the satellites */
+(function () {
+  var root = document.getElementById('sat-game');
+  if (!root) return;
+  var D = JSON.parse(document.getElementById('game-data').textContent);
+  var NS = 'http://www.w3.org/2000/svg';
+  var stage = root.querySelector('.g-stage');
+  var svg = stage.querySelector('svg');
+  var gYou = svg.querySelector('.g-you'), gHand = svg.querySelector('.g-hand'),
+      gModel = svg.querySelector('.g-model'), gParts = svg.querySelector('.g-parts');
+  var status = root.querySelector('.g-status');
+  var bStart = root.querySelector('[data-act="start"]'), bDone = root.querySelector('[data-act="done"]');
+  var layers = root.querySelector('.g-layers'), score = root.querySelector('.g-score');
+  var SECS = 30, marks = [], state = 'idle', t0 = 0, timer = null;
+
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    parent.appendChild(e);
+    return e;
+  }
+  D.particles.forEach(function (p) { el('path', { d: p.d }, gParts); });
+  D.hand.forEach(function (s) { el('circle', { cx: s.x, cy: s.y, r: Math.max(s.r, 6) + 5 }, gHand); });
+  D.model.forEach(function (s) { el('circle', { cx: s.x, cy: s.y, r: Math.max(s.r, 6) + 9 }, gModel); });
+
+  /* a loop drawn by hand: a little wobble and an overshoot past where it started */
+  function loop(x, y) {
+    var r = 13, a0 = Math.random() * 6.28, ph = Math.random() * 6.28, d = '';
+    for (var i = 0; i <= 34; i++) {
+      var a = a0 + (i / 34) * (6.28 + 0.75);
+      var rr = r * (1 + 0.09 * Math.sin(3 * a + ph)) + (i > 28 ? (i - 28) * 0.8 : 0);
+      d += (i ? 'L' : 'M') + (x + rr * Math.cos(a)).toFixed(1) + ' ' + (y + rr * Math.sin(a)).toFixed(1);
+    }
+    return d;
+  }
+
+  function point(e) {
+    var b = svg.getBoundingClientRect();
+    return { x: (e.clientX - b.left) / b.width * D.w, y: (e.clientY - b.top) / b.height * D.h };
+  }
+
+  function say(html) { status.innerHTML = html; }
+  function tick() {
+    var left = Math.max(0, SECS - (Date.now() - t0) / 1000);
+    say('Go. <span class="g-time">' + left.toFixed(1) + ' s</span> left, ' + marks.length + ' marked.');
+    if (left <= 0) end();
+  }
+
+  function start() {
+    marks.forEach(function (m) { m.el.remove(); });
+    marks = [];
+    [gHand, gModel, gParts].forEach(function (g) { g.classList.add('g-hide'); });
+    gYou.classList.remove('g-hide');
+    layers.hidden = true; score.hidden = true;
+    stage.classList.remove('idle'); stage.classList.add('live');
+    state = 'live'; t0 = Date.now();
+    bStart.disabled = true; bDone.disabled = false;
+    tick(); timer = setInterval(tick, 100);
+  }
+
+  stage.addEventListener('pointerdown', function (e) {
+    if (state !== 'live') return;
+    e.preventDefault();
+    var p = point(e);
+    for (var i = 0; i < marks.length; i++) {
+      if (Math.hypot(marks[i].x - p.x, marks[i].y - p.y) < 14) {
+        marks[i].el.remove(); marks.splice(i, 1); tick(); return;
+      }
+    }
+    marks.push({ x: p.x, y: p.y, el: el('path', { d: loop(p.x, p.y) }, gYou) });
+    tick();
+  });
+
+  /* pair marks with labelled satellites, closest pairs first, within a forgiving radius */
+  function match(a, truth) {
+    var pairs = [];
+    a.forEach(function (m, i) {
+      truth.forEach(function (t, j) {
+        var d = Math.hypot(m.x - t.x, m.y - t.y);
+        if (d <= Math.max(t.r, 6) + 12) pairs.push([d, i, j]);
+      });
+    });
+    pairs.sort(function (p, q) { return p[0] - q[0]; });
+    var ua = {}, ut = {}, n = 0;
+    pairs.forEach(function (p) { if (!ua[p[1]] && !ut[p[2]]) { ua[p[1]] = ut[p[2]] = 1; n++; } });
+    return n;
+  }
+
+  function end() {
+    if (state !== 'live') return;
+    clearInterval(timer); state = 'done';
+    stage.classList.remove('live');
+    bStart.disabled = false; bStart.textContent = 'Play again'; bDone.disabled = true;
+    gHand.classList.remove('g-hide'); gModel.classList.remove('g-hide');
+    layers.hidden = false;
+    layers.querySelectorAll('[data-layer]').forEach(function (b) {
+      b.classList.toggle('off', b.dataset.layer === 'g-parts');
+    });
+    var H = D.hand.length;
+    var you = match(marks, D.hand), mod = match(D.model, D.hand);
+    say('Time. You marked ' + marks.length + '.');
+    var line;
+    if (you > mod) line = 'You found more of the labeled satellites than the model did. The model is faster, though: it did the whole image, ' + D.whole.particles + ' particles, in about 5 seconds.';
+    else if (you === mod) line = 'A dead heat on what the labeler marked. The model did the whole image, ' + D.whole.particles + ' particles, in about 5 seconds.';
+    else line = 'The model found more. No shame in it: it has studied 2,248 hand drawn satellites.';
+    score.innerHTML =
+      '<div class="tbl-wrap"><table class="tbl">' +
+      '<tr><th></th><th>Found, of ' + H + '</th><th>Missed</th><th>Extra marks</th></tr>' +
+      '<tr class="me"><td>You</td><td class="n">' + you + '</td><td class="n">' + (H - you) + '</td><td class="n">' + (marks.length - you) + '</td></tr>' +
+      '<tr><td>Model</td><td class="n">' + mod + '</td><td class="n">' + (H - mod) + '</td><td class="n">' + (D.model.length - mod) + '</td></tr>' +
+      '</table></div><p>' + line + ' Toggle the layers above to compare.</p>';
+    score.hidden = false;
+  }
+
+  bStart.addEventListener('click', start);
+  bDone.addEventListener('click', end);
+  layers.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-layer]');
+    if (!b) return;
+    var g = svg.querySelector('.' + b.dataset.layer);
+    var off = g.classList.toggle('g-hide');
+    b.classList.toggle('off', off);
+  });
+})();
+</script>
+
+</body>
+</html>

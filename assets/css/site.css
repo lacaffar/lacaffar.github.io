@@ -698,7 +698,7 @@ body.split { overflow: hidden; }
    the box is the share of the page one screen covers, and the run is what is
    left over, both measured off the real panels at a typical window height. */
 
-#portfolio .mm-view { height: 34px; --travel: 77px; }
+#portfolio .mm-view { height: 34px; --travel: 91px; }
 #narrative .mm-view { height: 29px; --travel: 85px; }
 
 @keyframes mm-run {
@@ -1317,4 +1317,231 @@ body.split { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .ov-img, .ov-runner, .ov-bob, .ov-dot { animation: none; opacity: 0; }
   .ov-path { animation: none; stroke-dashoffset: 0; }
+}
+
+/* ============================================================================
+   story pages: the two ML write ups walk through how the work was thought
+   through, step by step, with small interactive pieces. They are the only
+   pages that ship script, and they still read fine without it.
+   ========================================================================== */
+
+/* the short version, for someone who reads one block and leaves */
+
+.tldr {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px var(--gap);
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  margin: 0 0 8px;
+}
+
+.case-body .tldr p { font-size: 15px; line-height: 1.55; color: var(--text); margin: 0; }
+.case-body .tldr .tldr-k {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--faint); margin: 0 0 8px;
+}
+
+/* a numbered step: the number sits in front of the heading, faint */
+
+.case-body h2 .step-n {
+  display: inline-block;
+  min-width: 34px;
+  color: var(--faint);
+  font-weight: 600;
+}
+
+/* what I was thinking at that step, brighter than the prose around it */
+
+.case-body .thought {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  border-left: 1px solid var(--text);
+  padding-left: 16px;
+  margin: 0 0 22px;
+  max-width: 62ch;
+}
+
+.case-body .thought .t-k {
+  display: block;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 4px;
+}
+
+/* plain tables for numbers that need comparing */
+
+.tbl-wrap { overflow-x: auto; max-width: 100%; margin: 6px 0 22px; }
+.tbl { width: 100%; max-width: 68ch; border-collapse: collapse; }
+.tbl th, .tbl td {
+  text-align: left; font-size: 12px; line-height: 1.5; padding: 8px 14px 8px 0;
+  border-top: 1px solid var(--rule); vertical-align: top;
+}
+.tbl th { color: var(--faint); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.tbl td { color: var(--muted); }
+.tbl td.n { color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tbl tr.me td { color: var(--text); font-weight: 600; }
+
+/* buttons inside the interactive pieces read like the .cta links */
+
+.g-btn {
+  font: 700 12px/1 var(--font);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  padding: 6px 0 4px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+.g-btn:hover, .g-btn:focus-visible { border-bottom-color: var(--text); outline: none; }
+.g-btn[disabled] { color: var(--faint); cursor: default; border-bottom-color: transparent; }
+.g-btn.off { opacity: 0.4; }
+
+/* --- the planning map ------------------------------------------------------- */
+
+.map {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px var(--gap);
+  margin: 10px 0 14px;
+}
+
+.map-col h4 {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--faint); margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+}
+
+.m-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: 400 12px/1.45 var(--font);
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  padding: 6px 0 6px 10px;
+  margin: 0 0 2px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.m-item b { color: var(--text); font-weight: 600; margin-right: 4px; }
+.m-item:focus-visible { outline: 1px solid var(--text); outline-offset: 2px; }
+
+.map.lit .m-item { opacity: 0.25; }
+.map.lit .m-item.on { opacity: 1; color: var(--text); border-left-color: var(--text); }
+.map.lit .m-item.self { opacity: 1; color: var(--text); border-left: 2px solid var(--text); padding-left: 9px; }
+
+.map-foot { font-size: 12px; color: var(--faint); margin: 0 0 22px; max-width: 68ch; }
+
+/* --- spot the satellites -------------------------------------------------- */
+
+.game { margin: 18px 0 28px; }
+
+.g-bar {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px 16px;
+  flex-wrap: wrap; margin-bottom: 10px;
+}
+
+.g-status { font-size: 15px; color: var(--text); }
+.g-time { font-variant-numeric: tabular-nums; }
+.g-acts { display: flex; gap: 22px; }
+
+.g-stage { position: relative; background: #111; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.g-stage img { width: 100%; display: block; transition: filter 0.3s ease; }
+.g-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.g-stage.live { cursor: crosshair; }
+.g-stage.idle img { filter: brightness(0.5); }
+
+.g-cover {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.g-cover span {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text); background: rgba(0, 0, 0, 0.66); padding: 9px 13px;
+}
+.g-stage:not(.idle) .g-cover { display: none; }
+
+.g-you path     { fill: none; stroke: #F0F0F0; stroke-width: 2.4; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.g-hand circle  { fill: none; stroke: #F0F0F0; stroke-width: 1.6; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; }
+.g-model circle { fill: none; stroke: #E84834; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.g-parts path   { fill: none; stroke: rgba(240, 240, 240, 0.75); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.g-hide { display: none; }
+
+.g-layers { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 12px 0 0; }
+.g-layers[hidden] { display: none; }
+.sw {
+  display: inline-block; width: 16px; height: 0; vertical-align: middle; margin: -2px 7px 0 0;
+  border-top: 2px solid #F0F0F0;
+}
+.sw-hand  { border-top-style: dashed; }
+.sw-model { border-top-color: #E84834; }
+.sw-parts { border-top-width: 1px; }
+
+.g-score { margin-top: 18px; }
+.g-score[hidden] { display: none; }
+
+/* --- the melt: cool it down ----------------------------------------------- */
+
+.melt { margin: 18px 0 28px; }
+
+.melt-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 22px; margin-bottom: 12px; }
+.melt-top label { font-size: 12px; color: var(--faint); }
+
+.melt select {
+  font: 400 12px/1.4 var(--font); color: var(--text); background: #000;
+  border: 0; border-bottom: 1px solid var(--rule); padding: 4px 4px 4px 0; max-width: 100%;
+}
+
+.melt-chart { width: 100%; height: auto; display: block; overflow: visible; }
+.melt-chart text { font: 400 11px var(--font); fill: rgba(240, 240, 240, 0.45); }
+.melt-chart .ax { stroke: rgba(240, 240, 240, 0.3); stroke-width: 1; fill: none; }
+.melt-chart .lvl { stroke: rgba(240, 240, 240, 0.16); stroke-width: 1; stroke-dasharray: 3 5; }
+.melt-chart .zone { fill: rgba(240, 240, 240, 0.05); }
+.melt-chart .earth { fill: none; stroke: #F0F0F0; stroke-width: 2; stroke-linecap: round; }
+.melt-chart .moon { fill: rgba(240, 240, 240, 0.25); stroke: none; }
+.melt-chart .now { stroke: #F0F0F0; stroke-width: 1; opacity: 0.55; }
+.melt-chart .dot { fill: #F0F0F0; }
+.melt-chart .lab-b { fill: rgba(240, 240, 240, 0.72); font-weight: 600; letter-spacing: 0.06em; }
+
+.melt input[type="range"] { width: 100%; margin: 14px 0 6px; accent-color: #F0F0F0; cursor: ew-resize; }
+
+.melt-read {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px var(--gap);
+  padding-top: 14px; border-top: 1px solid var(--rule); margin-top: 8px;
+}
+.case-body .melt-read p { margin: 0; font-size: 12px; color: var(--faint); line-height: 1.5; }
+.case-body .melt-read .r-n {
+  font-size: 30px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--text); margin: 0 0 4px; font-variant-numeric: tabular-nums;
+}
+.case-body .melt-read .r-s { font-size: 15px; color: var(--text); margin: 0 0 4px; line-height: 1.35; }
+
+/* --- make the call ---------------------------------------------------------- */
+
+.call { margin: 18px 0 28px; }
+.case-body .call-q { font-size: 15px; color: var(--text); margin: 0 0 12px; }
+.call-acts { display: flex; flex-wrap: wrap; gap: 22px; margin-bottom: 14px; }
+.call-out[hidden] { display: none; }
+
+.dots { display: grid; gap: 9px; max-width: 68ch; margin: 14px 0 10px; }
+.dots-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+.dots-row span { font-size: 12px; color: var(--muted); }
+.dots-row.meas span { color: var(--text); }
+.dots-row i {
+  display: inline-block; width: 11px; height: 11px; border-radius: 50%;
+  border: 1px solid rgba(240, 240, 240, 0.45); margin-left: 5px;
+}
+.dots-row i.y { background: #F0F0F0; border-color: #F0F0F0; }
+
+@media (max-width: 760px) {
+  .tldr { grid-template-columns: 1fr; gap: 18px; }
+  .map { grid-template-columns: 1fr 1fr; }
+  .melt-read { grid-template-columns: 1fr; }
+  .case-body .melt-read .r-n { font-size: 24px; line-height: 28px; }
+  .dots-row i { width: 9px; height: 9px; margin-left: 3px; }
 }

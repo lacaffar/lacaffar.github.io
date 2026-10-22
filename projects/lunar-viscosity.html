@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lunar Regolith Viscosity, Earth tests vs the Moon | Luke Caffarey</title>
+<meta name="description" content="How much do sintering and melting temperatures for lunar soil shift between Earth tests and real lunar conditions? A machine learning pipeline, a redox stress test every model fails, and the experiment the field should run next.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/img/avatar-icon.png">
+
+<meta property="og:title" content="Lunar Regolith Viscosity, by Luke Caffarey">
+<meta property="og:description" content="Nearly all molten regolith data comes from soil simulants melted in Earth's air. The Moon's iron is different. Does it matter? Only where sintering happens, and no current model gets it right.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lacaffar.github.io/projects/lunar-viscosity.html">
+<meta property="og:image" content="https://lacaffar.github.io/assets/covers/lunar-viscosity.svg">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+
+<nav class="back"><div class="col"><a href="/">&#8592; Index</a></div></nav>
+
+<header class="case-head">
+  <div class="col">
+    <p><span class="wip">First full pass done</span></p>
+    <h1>Lunar Regolith Viscosity</h1>
+    <dl class="case-facts">
+      <div><dt>Type</dt><dd>Independent project</dd></div>
+      <div><dt>Stack</dt><dd>Python, PyTorch, scikit-learn</dd></div>
+      <div><dt>Data</dt><dd>13,981 melt measurements, 66 lunar soils</dd></div>
+      <div><dt>When</dt><dd>Fall 2026</dd></div>
+    </dl>
+    <a class="cta" href="https://github.com/lacaffar/lunar-regolith-viscosity" target="_blank" rel="noopener">Code and results on GitHub &#8599;</a>
+    <div class="case-cover">
+      <img src="/assets/covers/lunar-viscosity.svg" width="1600" height="1000"
+           alt="Viscosity against temperature for 66 returned lunar soils. Iron rich mare soils reach each processing level well over 100 degrees cooler than highland soils. A shaded band between softening and the glass transition marks where sintering happens.">
+    </div>
+  </div>
+</header>
+
+<main class="case-body">
+  <div class="col">
+
+    <section>
+      <h2>The short version</h2>
+      <div class="tldr">
+        <div>
+          <p class="tldr-k">Problem</p>
+          <p>Plans to build on the Moon by melting or sintering its soil lean on viscosity data
+          from simulants melted in Earth&#8217;s air. Iron on the Moon is in a different
+          chemical state. No published work appears to have worked out how much that matters, soil by soil.</p>
+        </div>
+        <div>
+          <p class="tldr-k">What I built</p>
+          <p>A pipeline trained on about 14,000 melt measurements, checked against the published
+          lunar simulant studies, then stress tested against experiments where the oxygen was
+          controlled. Applied to 66 real Apollo, Luna and Chang&#8217;e-5 soils.</p>
+        </div>
+        <div>
+          <p class="tldr-k">Result</p>
+          <p>Fully molten, the difference is tiny and Earth data is fine. Near the glass
+          transition, where sintering happens, iron rich soils soften 5 to 32 K lower on the
+          Moon. No current model, mine included, reliably gets that direction right.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="step-n">01</span>Why the Moon, why viscosity</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      Every pound launched to the Moon is expensive. The soil is already there. If you are going
+      to build with it by heating it, the property that runs the whole process is how easily
+      it flows.</p>
+
+      <p>Lunar construction ideas that heat the soil come in two kinds. Melt processing (melt
+      extrusion, and molten regolith electrolysis for oxygen) works with fully liquid rock. Sintering heats powder just
+      enough that grains soften and fuse, and it is the leading method for building at scale.
+      Both are governed by <strong>viscosity</strong>: honey is about 10 Pa&#183;s, peanut butter
+      about 250, and window glass is defined as solid at 10<sup>12</sup>. Molten rock spans that
+      whole range in a few hundred degrees.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">02</span>The catch I noticed</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      Almost all of this data comes from simulant soil melted in a furnace in air. Air oxidizes
+      iron. The Moon has essentially no oxygen. Is everyone measuring a slightly different
+      material than the one they will actually process?</p>
+
+      <p>In the 2025 Stapperfend simulant studies, about 60% of the iron is in the oxidized
+      Fe<sup>3+</sup> form after melting in air. Lunar soil formed below the iron-w&#252;stite
+      buffer (written IW&#8722;1 below), where nearly all iron is Fe<sup>2+</sup>, about 2%
+      Fe<sup>3+</sup>. Iron&#8217;s state changes how the silicate network links up, which changes
+      viscosity. So: for each returned soil, how much do the key processing temperatures shift
+      between an Earth test and the Moon, and where are current models too uncertain to say?</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">03</span>Aim where it matters</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      If the shift is small when fully molten and large near the glass transition, then the
+      interesting part is sintering. Aim there, and design the test before the model.</p>
+
+      <p>The plan, written down before any training:</p>
+      <ul>
+        <li><strong>Train</strong> on 13,981 water free melt measurements from the open gpvisc
+        database.</li>
+        <li><strong>Hold out</strong> 16 lunar simulant melts from the two 2025 Stapperfend papers.
+        None is within 5.9 cation percent of anything in training.</li>
+        <li><strong>Stress test</strong> on experiments where oxygen was controlled and the iron
+        state was measured by titration.</li>
+        <li><strong>Apply</strong> to 66 returned soils with full chemistry.</li>
+        <li><strong>Model</strong>: about 12 oxide fractions in, with iron split into FeO and
+        Fe<sub>2</sub>O<sub>3</sub> by a redox model at air or at IW&#8722;1. Out come the three
+        parameters of the standard Vogel-Fulcher-Tammann equation, log&#8202;&#951; = A + B / (T &#8722; C),
+        so temperature only ever enters through the physics. A deep ensemble of ten networks gives
+        the uncertainty.</li>
+      </ul>
+      <p>The architecture is not new, and I said so in the brief. The question is: nobody appears
+      to have computed uncertainty mapped Earth vs Moon windows before.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">04</span>First, check my own brief</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      My brief has numbers in it I got from reading. Before building on them, check them
+      against the raw sources.</p>
+
+      <p>Three of them did not survive:</p>
+      <div class="fix">
+        <div class="fix-item">
+          <div class="fix-when">&#8220;60% Fe&#179;&#8314;&#8221;</div>
+          <p>Right number, but it is <em>calculated</em> from a redox model, not measured. Both
+          sides of the Earth vs Moon comparison are model outputs, and the write up says so.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Reduced iron data</div>
+          <p>I had read that only 50 measurements have lunar-like reduced iron. The database
+          actually has 375, across 10 studies. Same conclusion, stronger form: only one
+          composition has reduced iron near the glass transition.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">A paper&#8217;s table</div>
+          <p>Two simulants in a published table carry misprinted fit parameters. They miss the
+          paper&#8217;s own data by 0.7 to 1.1 orders of magnitude. Refitting reproduces the
+          printed glass transition to within 1 K.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="step-n">05</span>Reproduce the paper before trusting anything</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      If my pipeline cannot reproduce published numbers on published inputs, nothing it says
+      about the Moon means anything.</p>
+
+      <div class="stats">
+        <div>
+          <p class="stat-n">0.002</p>
+          <p class="stat-l">median gap, in log units, between my baseline scores and the published ones, all 16 simulants</p>
+        </div>
+        <div>
+          <p class="stat-n">&#177;0.01</p>
+          <p class="stat-l">on the published iron oxidation state, from my redox code</p>
+        </div>
+        <div>
+          <p class="stat-n">0.012</p>
+          <p class="stat-l">median gap to published Sehlke and Whittington scores above the liquidus, after implementing it from the paper</p>
+        </div>
+      </div>
+      <p>One piece is approximated: Sehlke and Whittington needs a reference temperature from a
+      1987 heat capacity model I could not get, so I fitted a substitute to the 36 published
+      values. It is good to about 11 K, and it is listed as a limitation.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">06</span>The scorecard, where my models lose</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      gpvisc trained on about twice my data. Beating it on accuracy was never
+      the point. Report it straight anyway.</p>
+
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Model, on the 16 held out simulants</th><th>Error, fully molten</th><th>Error at the glass transition</th></tr>
+        <tr><td>Sehlke and Whittington 2016</td><td class="n">0.14</td><td class="n">0.87</td></tr>
+        <tr><td>gpvisc, pretrained</td><td class="n">0.17</td><td class="n">0.58</td></tr>
+        <tr class="me"><td>My deep ensemble</td><td class="n">0.33</td><td class="n">0.88</td></tr>
+        <tr><td>GRD 2008</td><td class="n">0.54</td><td class="n">1.38</td></tr>
+      </table></div>
+      <p>Errors in log units of viscosity (RMSE when molten, mean absolute error at the glass
+      transition). Every model is about 3.5 times worse near the glass transition than when
+      fully molten. That is the sintering regime, and it is the weak spot for everyone.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">07</span>The stress test, the key result</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      A model can score well overall and still be flat, or backwards, along the one axis I care
+      about. So test that axis directly, against experiments where the iron state was measured,
+      not assumed.</p>
+
+      <p>Seven controlled oxygen series from Chevrel&#8217;s open access thesis, none of them in my
+      training data. Before you look at the answer, make the call yourself.</p>
+
+      <div class="call" id="call">
+        <p class="call-q">Same melt, same temperature, near the glass transition. Swap Earth air
+        iron (about 60% Fe<sup>3+</sup>) for lunar iron (about 2%). The melt gets:</p>
+        <div class="call-acts">
+          <button class="g-btn" type="button" data-c="runny">Runnier</button>
+          <button class="g-btn" type="button" data-c="stiff">Stiffer</button>
+          <button class="g-btn" type="button" data-c="same">About the same</button>
+        </div>
+        <div class="call-out" hidden>
+          <p class="call-verdict"></p>
+          <p>How often each model gets the direction right, one dot per measured series:</p>
+          <div class="dots">
+            <div class="dots-row"><span>Deep ensemble (mine)</span><b data-n="6"></b></div>
+            <div class="dots-row"><span>VFT network (mine, single)</span><b data-n="6"></b></div>
+            <div class="dots-row"><span>Gradient boosting (mine)</span><b data-n="4"></b></div>
+            <div class="dots-row"><span>Ridge on physics features (mine)</span><b data-n="3"></b></div>
+            <div class="dots-row"><span>gpvisc, pretrained</span><b data-n="2"></b></div>
+            <div class="dots-row"><span>Sehlke and Whittington, as the 2025 study ran it</span><b data-n="1"></b></div>
+          </div>
+          <p>And the ones that get the direction right still miss the size.</p>
+        </div>
+        <noscript><p>Answer: runnier. The glass transition fell in 6 of the 7 measured series.</p></noscript>
+      </div>
+
+      <figure class="fig">
+        <img src="/assets/figs/lrv-redox.png" width="1867" height="749" loading="lazy"
+             alt="Two panels. Left, fully molten: the measured shift is near zero while gpvisc and the deep ensemble predict drops of 0.15 to 0.7 log units. Right, near the glass transition: measured drops of up to 36 K, with models scattered on both sides of zero.">
+        <figcaption>Black diamonds are measurements with 95% intervals. Left: fully molten, the
+        real effect is tiny and the models overshoot it. Right: near the glass transition, the
+        real effect is large and the models disagree even on its sign.</figcaption>
+      </figure>
+
+      <ul>
+        <li><strong>Fully molten</strong>, the measured effect is at most 0.14 log units. Every
+        machine learning model, gpvisc included, overstates it 3 to 10 times.</li>
+        <li><strong>Near the glass transition</strong>, gpvisc has the sign wrong in 5 of 7 series,
+        even though it was trained on those studies.</li>
+        <li><strong>Sehlke and Whittington</strong>, run the way the 2025 study ran it, predicts the
+        opposite of what was measured in 12 of 13 series. My reproduction traces that to how its
+        spreadsheet books iron oxide. In the paper&#8217;s own convention the model cannot see redox
+        at all.</li>
+      </ul>
+      <p>A likely cause, consistent with what I found in the database: most training values for
+      Fe<sup>3+</sup> were calculated from temperature at air, not measured, so redox is tangled up
+      with temperature and composition instead of being learned.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">08</span>The answer, soil by soil</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      No model passes the stress test, so do not lean on one. Anchor the shift to the
+      measurements, and show the bracket instead of a single number.</p>
+
+      <p>Pick a soil and cool it down. The solid line is my ensemble&#8217;s prediction for an
+      Earth test of that soil, melted in air. The shaded band is where the same soil sits with
+      lunar iron, from the shift fitted to the seven measured series: the near edge assumes the
+      effect levels off at low Fe<sup>3+</sup>, the far edge assumes it keeps going.</p>
+
+      <div class="melt" id="melt">
+        <div class="melt-top">
+          <label for="melt-soil">Soil</label>
+          <select id="melt-soil"></select>
+        </div>
+        <svg class="melt-chart" viewBox="0 0 640 330" role="img" aria-label="Viscosity against temperature for the chosen soil, Earth test and Moon"></svg>
+        <input type="range" id="melt-t" min="600" max="1350" step="1" value="1300" aria-label="Temperature in degrees Celsius">
+        <div class="melt-read">
+          <div><p class="r-n" data-r="t">1300&#176;C</p><p class="r-s" data-r="like"></p><p data-r="eta"></p></div>
+          <div><p class="r-n" data-r="x"></p><p class="r-s">runnier on the Moon</p><p>at this same temperature, with lunar iron</p></div>
+          <div><p class="r-n" data-r="dt"></p><p class="r-s">cooler on the Moon</p><p>to reach this same viscosity</p></div>
+        </div>
+        <noscript><p>The interactive chart needs JavaScript. Summary table below.</p></noscript>
+      </div>
+
+      <p>Across all 66 soils, the measurement-anchored glass transition sits:</p>
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Soil type</th><th>Soils</th><th>Iron (FeO)</th><th>Moon vs air melted test</th><th>Moon vs air sintered test</th></tr>
+        <tr><td>Highland</td><td class="n">26</td><td class="n">5.8%</td><td class="n">1 to 7 K lower</td><td class="n">5 to 11 K lower</td></tr>
+        <tr><td>Mixed</td><td class="n">17</td><td class="n">11.6%</td><td class="n">3 to 15 K lower</td><td>not computed</td></tr>
+        <tr class="me"><td>Mare</td><td class="n">23</td><td class="n">16.8%</td><td class="n">5 to 22 K lower</td><td class="n">15 to 32 K lower</td></tr>
+      </table></div>
+      <p>At a fixed sintering temperature, the mare case is up to about 1.4 orders of magnitude
+      lower viscosity. Fully molten, the shift is only 1 to 16 K, so melt processing designers
+      can keep using air data.</p>
+    </section>
+
+    <section>
+      <h2><span class="step-n">09</span>The bottleneck is data, not models</h2>
+
+      <p class="thought"><span class="t-k">What I was thinking</span>
+      Every road ends at the same gap. The most useful output of this project might be the
+      experiment someone should run next.</p>
+
+      <p>In every source I found, no basaltic melt has a measured viscosity or glass transition
+      below about 12% Fe<sup>3+</sup>. The Moon is near 2%. Whether the glass transition keeps
+      falling below 12% or levels off is worth a factor of about 4 in the predicted shift. That is
+      the bracket in the chart above.</p>
+      <p>Ranking candidate experiments by how much the ensemble disagrees with itself points at
+      the same gap: every top slot is near the glass transition, and all but one is at lunar
+      oxygen with 10% or more FeO. Chang&#8217;e-5 soil ranks first. The practical version: melt
+      the high titanium simulant OPRL2NT under CO and CO<sub>2</sub> at IW&#8722;1, and measure its
+      glass transition and viscosity below 10% Fe<sup>3+</sup>.</p>
+    </section>
+
+    <section>
+      <h2>Limits</h2>
+      <ul>
+        <li>The shift is extrapolated: measured series span 12% to 84% Fe<sup>3+</sup>, and the
+        Moon is near 2%. The bracket covers this, but it is an assumption.</li>
+        <li>The Earth reference matters as much as model choice. A glass melted at 1500&#176;C and a
+        powder sintered at 1100&#176;C start from different iron states; a sintering test should
+        report its sample&#8217;s Fe<sup>3+</sup>.</li>
+        <li>Metallic iron (about 0.5% in mature soils) and crystals are ignored. Real sintering is
+        of partly crystalline powder, not glass.</li>
+        <li>The ensemble&#8217;s error bars are honest on familiar chemistry (93% coverage) but
+        overconfident on the simulants (76%), which are alkali rich and out of distribution.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Still to do</h2>
+      <ul class="todo">
+        <li>Add Cukierman and Uhlmann 1974, the only redox series on a real lunar composition (15555).</li>
+        <li>Stretch goal, not started: treat beneficiation as a design variable and search for mineral blends that land in a target viscosity window.</li>
+        <li>Retrain without the rows whose iron state was assumed from air, and see if the false high temperature sensitivity goes away.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Sources</h2>
+      <div class="note">
+        <p>Training: gpvisc database, Le Losq et al. 2025. Held out: Stapperfend et al. 2025,
+        American Mineralogist 110 and Chemical Geology 696. Redox series: Chevrel 2013, PhD thesis,
+        LMU Munich. Soils: Zenodo 5899696. Baselines: Giordano, Russell and Dingwell 2008;
+        Sehlke and Whittington 2016 with its 2017 corrigendum; pretrained gpvisc 0.3.5. Everyday
+        viscosities are rough room temperature values.</p>
+      </div>
+    </section>
+
+    <nav class="case-nav">
+      <a href="/projects/sem-powder.html">&#8592; SEM Powder QC</a>
+      <a href="/">Index &#8594;</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="col">
+    <hr class="rule">
+    <div class="foot-inner">
+      <span>&copy; 2026 Luke Caffarey</span>
+      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
+      <span><a href="https://github.com/lacaffar/lunar-regolith-viscosity" target="_blank" rel="noopener">github.com/lacaffar/lunar-regolith-viscosity</a></span>
+    </div>
+  </div>
+</footer>
+
+<script type="application/json" id="soil-data">[{"id":"67711","mission":"Apollo 16","terrane":"highland","feo":2.9,"T":[1199.0,967.0,807.0],"dT":[[-0.0,-2.0],[-0.0,-2.0],[-0.0,-3.0]],"ens":10.4,"gp":7.4,"sw":1.4},{"id":"67701","mission":"Apollo 16","terrane":"highland","feo":4.0,"T":[1189.0,957.0,796.0],"dT":[[-0.0,-3.0],[-0.0,-3.0],[-1.0,-5.0]],"ens":13.5,"gp":13.4,"sw":2.2},{"id":"67601","mission":"Apollo 16","terrane":"highland","feo":4.1,"T":[1189.0,956.0,794.0],"dT":[[-0.0,-3.0],[-0.0,-3.0],[-1.0,-5.0]],"ens":13.8,"gp":8.6,"sw":1.3},{"id":"67461","mission":"Apollo 16","terrane":"highland","feo":4.2,"T":[1190.0,959.0,800.0],"dT":[[-0.0,-3.0],[-0.0,-3.0],[-1.0,-5.0]],"ens":14.0,"gp":8.7,"sw":2.0},{"id":"67481","mission":"Apollo 16","terrane":"highland","feo":4.2,"T":[1188.0,956.0,796.0],"dT":[[-0.0,-3.0],[-0.0,-3.0],[-1.0,-5.0]],"ens":14.0,"gp":9.0,"sw":1.7},{"id":"60051","mission":"Apollo 16","terrane":"highland","feo":4.5,"T":[1184.0,951.0,790.0],"dT":[[-0.0,-3.0],[-0.0,-4.0],[-1.0,-5.0]],"ens":14.8,"gp":16.0,"sw":2.7},{"id":"63501","mission":"Apollo 16","terrane":"highland","feo":4.7,"T":[1179.0,947.0,787.0],"dT":[[-0.0,-3.0],[-1.0,-4.0],[-1.0,-6.0]],"ens":15.1,"gp":14.6,"sw":2.7},{"id":"64421","mission":"Apollo 16","terrane":"highland","feo":4.9,"T":[1178.0,946.0,786.0],"dT":[[-0.0,-3.0],[-1.0,-4.0],[-1.0,-6.0]],"ens":15.8,"gp":15.8,"sw":3.0},{"id":"61241","mission":"Apollo 16","terrane":"highland","feo":5.1,"T":[1169.0,937.0,777.0],"dT":[[-0.0,-3.0],[-1.0,-4.0],[-1.0,-6.0]],"ens":15.7,"gp":9.5,"sw":2.6},{"id":"68501","mission":"Apollo 16","terrane":"highland","feo":5.3,"T":[1174.0,940.0,778.0],"dT":[[-0.0,-3.0],[-1.0,-4.0],[-1.0,-6.0]],"ens":16.9,"gp":20.9,"sw":4.1},{"id":"61501","mission":"Apollo 16","terrane":"highland","feo":5.3,"T":[1169.0,937.0,779.0],"dT":[[-1.0,-3.0],[-1.0,-4.0],[-1.0,-6.0]],"ens":16.3,"gp":18.9,"sw":3.8},{"id":"68121","mission":"Apollo 16","terrane":"highland","feo":5.4,"T":[1169.0,936.0,776.0],"dT":[[-1.0,-3.0],[-1.0,-4.0],[-1.0,-6.0]],"ens":16.7,"gp":19.8,"sw":3.7},{"id":"61281","mission":"Apollo 16","terrane":"highland","feo":5.4,"T":[1168.0,936.0,776.0],"dT":[[-1.0,-3.0],[-1.0,-4.0],[-1.0,-7.0]],"ens":16.8,"gp":18.1,"sw":3.4},{"id":"61141","mission":"Apollo 16","terrane":"highland","feo":5.4,"T":[1171.0,937.0,776.0],"dT":[[-0.0,-3.0],[-1.0,-4.0],[-1.0,-6.0]],"ens":16.8,"gp":20.1,"sw":3.8},{"id":"60601","mission":"Apollo 16","terrane":"highland","feo":5.5,"T":[1159.0,929.0,771.0],"dT":[[-1.0,-4.0],[-1.0,-4.0],[-1.0,-7.0]],"ens":17.1,"gp":16.3,"sw":2.8},{"id":"61221","mission":"Apollo 16","terrane":"highland","feo":5.6,"T":[1163.0,930.0,769.0],"dT":[[-1.0,-4.0],[-1.0,-4.0],[-1.0,-7.0]],"ens":16.7,"gp":9.7,"sw":3.3},{"id":"61161","mission":"Apollo 16","terrane":"highland","feo":5.6,"T":[1163.0,932.0,774.0],"dT":[[-1.0,-4.0],[-1.0,-5.0],[-1.0,-7.0]],"ens":16.5,"gp":18.6,"sw":3.6},{"id":"68841","mission":"Apollo 16","terrane":"highland","feo":5.6,"T":[1167.0,935.0,776.0],"dT":[[-1.0,-4.0],[-1.0,-4.0],[-1.0,-7.0]],"ens":16.7,"gp":20.3,"sw":4.1},{"id":"65701","mission":"Apollo 16","terrane":"highland","feo":5.7,"T":[1169.0,934.0,772.0],"dT":[[-1.0,-4.0],[-1.0,-5.0],[-1.0,-7.0]],"ens":17.8,"gp":19.9,"sw":4.1},{"id":"66041","mission":"Apollo 16","terrane":"highland","feo":5.9,"T":[1161.0,929.0,770.0],"dT":[[-1.0,-4.0],[-1.0,-5.0],[-1.0,-7.0]],"ens":17.7,"gp":18.7,"sw":3.9},{"id":"Luna 20","mission":"Luna 20","terrane":"highland","feo":7.3,"T":[1130.0,899.0,740.0],"dT":[[-1.0,-5.0],[-1.0,-6.0],[-2.0,-9.0]],"ens":18.9,"gp":16.1,"sw":7.2},{"id":"73241","mission":"Apollo 17","terrane":"highland","feo":8.5,"T":[1107.0,874.0,715.0],"dT":[[-1.0,-5.0],[-1.0,-7.0],[-2.0,-10.0]],"ens":15.3,"gp":10.3,"sw":8.7},{"id":"73121","mission":"Apollo 17","terrane":"highland","feo":8.5,"T":[1104.0,870.0,711.0],"dT":[[-1.0,-6.0],[-1.0,-7.0],[-2.0,-11.0]],"ens":19.3,"gp":13.9,"sw":9.0},{"id":"73281","mission":"Apollo 17","terrane":"highland","feo":8.6,"T":[1107.0,872.0,710.0],"dT":[[-1.0,-6.0],[-1.0,-7.0],[-2.0,-10.0]],"ens":18.5,"gp":11.9,"sw":9.1},{"id":"73221","mission":"Apollo 17","terrane":"highland","feo":8.8,"T":[1101.0,867.0,708.0],"dT":[[-1.0,-6.0],[-1.0,-7.0],[-2.0,-11.0]],"ens":17.5,"gp":8.9,"sw":9.1},{"id":"73261","mission":"Apollo 17","terrane":"highland","feo":8.9,"T":[1099.0,867.0,709.0],"dT":[[-1.0,-6.0],[-1.0,-7.0],[-2.0,-11.0]],"ens":13.9,"gp":7.8,"sw":9.3},{"id":"14003","mission":"Apollo 14","terrane":"mixed","feo":10.4,"T":[1094.0,850.0,683.0],"dT":[[-1.0,-7.0],[-1.0,-8.0],[-2.0,-13.0]],"ens":16.6,"gp":8.5,"sw":10.9},{"id":"14163","mission":"Apollo 14","terrane":"mixed","feo":10.5,"T":[1099.0,860.0,695.0],"dT":[[-1.0,-7.0],[-2.0,-9.0],[-2.0,-13.0]],"ens":-0.9,"gp":4.4,"sw":10.7},{"id":"14260","mission":"Apollo 14","terrane":"mixed","feo":10.5,"T":[1099.0,857.0,691.0],"dT":[[-1.0,-7.0],[-2.0,-9.0],[-2.0,-13.0]],"ens":6.8,"gp":9.2,"sw":10.7},{"id":"14259","mission":"Apollo 14","terrane":"mixed","feo":10.5,"T":[1097.0,852.0,684.0],"dT":[[-1.0,-7.0],[-1.0,-9.0],[-2.0,-13.0]],"ens":17.9,"gp":14.2,"sw":10.7},{"id":"76501","mission":"Apollo 17","terrane":"mixed","feo":10.5,"T":[1050.0,830.0,682.0],"dT":[[-1.0,-7.0],[-2.0,-9.0],[-3.0,-13.0]],"ens":4.0,"gp":9.1,"sw":12.8},{"id":"76241","mission":"Apollo 17","terrane":"mixed","feo":11.0,"T":[1042.0,823.0,677.0],"dT":[[-1.0,-7.0],[-2.0,-9.0],[-3.0,-14.0]],"ens":1.2,"gp":10.2,"sw":13.7},{"id":"76261","mission":"Apollo 17","terrane":"mixed","feo":11.0,"T":[1044.0,825.0,678.0],"dT":[[-1.0,-7.0],[-2.0,-9.0],[-3.0,-14.0]],"ens":0.5,"gp":9.9,"sw":13.3},{"id":"15221","mission":"Apollo 15","terrane":"mixed","feo":11.3,"T":[1074.0,839.0,682.0],"dT":[[-1.0,-8.0],[-2.0,-9.0],[-3.0,-14.0]],"ens":17.7,"gp":16.6,"sw":13.7},{"id":"15231","mission":"Apollo 15","terrane":"mixed","feo":11.6,"T":[1082.0,843.0,682.0],"dT":[[-1.0,-8.0],[-2.0,-10.0],[-3.0,-14.0]],"ens":18.5,"gp":17.0,"sw":14.1},{"id":"15211","mission":"Apollo 15","terrane":"mixed","feo":11.6,"T":[1075.0,837.0,678.0],"dT":[[-1.0,-8.0],[-2.0,-10.0],[-3.0,-15.0]],"ens":17.2,"gp":16.9,"sw":14.3},{"id":"77531","mission":"Apollo 17","terrane":"mixed","feo":11.8,"T":[1028.0,813.0,671.0],"dT":[[-2.0,-8.0],[-2.0,-10.0],[-3.0,-15.0]],"ens":-5.2,"gp":12.7,"sw":14.3},{"id":"15241","mission":"Apollo 15","terrane":"mixed","feo":12.1,"T":[1076.0,841.0,682.0],"dT":[[-1.0,-8.0],[-2.0,-10.0],[-3.0,-15.0]],"ens":3.8,"gp":10.4,"sw":14.6},{"id":"78441","mission":"Apollo 17","terrane":"mixed","feo":12.4,"T":[1034.0,813.0,666.0],"dT":[[-2.0,-8.0],[-2.0,-10.0],[-3.0,-16.0]],"ens":1.3,"gp":11.0,"sw":15.7},{"id":"78221","mission":"Apollo 17","terrane":"mixed","feo":12.5,"T":[1009.0,799.0,662.0],"dT":[[-2.0,-8.0],[-2.0,-11.0],[-4.0,-16.0]],"ens":-7.1,"gp":17.1,"sw":16.3},{"id":"15271","mission":"Apollo 15","terrane":"mixed","feo":12.8,"T":[1053.0,821.0,667.0],"dT":[[-2.0,-9.0],[-2.0,-11.0],[-3.0,-16.0]],"ens":11.7,"gp":8.3,"sw":16.3},{"id":"78461","mission":"Apollo 17","terrane":"mixed","feo":13.2,"T":[1015.0,801.0,660.0],"dT":[[-2.0,-9.0],[-2.0,-11.0],[-4.0,-17.0]],"ens":-4.2,"gp":14.3,"sw":17.9},{"id":"72141","mission":"Apollo 17","terrane":"mixed","feo":13.5,"T":[1009.0,800.0,663.0],"dT":[[-2.0,-9.0],[-2.0,-11.0],[-4.0,-17.0]],"ens":-14.4,"gp":18.5,"sw":17.1},{"id":"12041","mission":"Apollo 12","terrane":"mare","feo":14.2,"T":[1039.0,811.0,661.0],"dT":[[-2.0,-10.0],[-2.0,-12.0],[-4.0,-18.0]],"ens":-0.3,"gp":-3.0,"sw":17.1},{"id":"12044","mission":"Apollo 12","terrane":"mare","feo":14.2,"T":[1023.0,801.0,656.0],"dT":[[-2.0,-9.0],[-2.0,-12.0],[-4.0,-18.0]],"ens":-6.4,"gp":3.4,"sw":17.4},{"id":"12030","mission":"Apollo 12","terrane":"mare","feo":14.3,"T":[1027.0,804.0,657.0],"dT":[[-2.0,-10.0],[-2.0,-12.0],[-4.0,-18.0]],"ens":-6.8,"gp":1.0,"sw":17.0},{"id":"12032","mission":"Apollo 12","terrane":"mare","feo":15.1,"T":[1047.0,821.0,671.0],"dT":[[-2.0,-10.0],[-3.0,-13.0],[-4.0,-19.0]],"ens":-18.7,"gp":-3.0,"sw":19.8},{"id":"74241","mission":"Apollo 17","terrane":"mare","feo":15.3,"T":[965.0,771.0,648.0],"dT":[[-2.0,-10.0],[-3.0,-13.0],[-5.0,-20.0]],"ens":-33.6,"gp":92.3,"sw":19.5},{"id":"74261","mission":"Apollo 17","terrane":"mare","feo":15.4,"T":[950.0,764.0,647.0],"dT":[[-2.0,-10.0],[-3.0,-13.0],[-5.0,-20.0]],"ens":-41.0,"gp":151.7,"sw":20.3},{"id":"15081","mission":"Apollo 15","terrane":"mare","feo":15.4,"T":[1037.0,810.0,661.0],"dT":[[-2.0,-10.0],[-3.0,-13.0],[-4.0,-20.0]],"ens":-3.8,"gp":5.4,"sw":21.6},{"id":"79221","mission":"Apollo 17","terrane":"mare","feo":15.5,"T":[960.0,769.0,649.0],"dT":[[-2.0,-10.0],[-3.0,-13.0],[-5.0,-20.0]],"ens":-35.3,"gp":113.7,"sw":21.5},{"id":"10084","mission":"Apollo 11","terrane":"mare","feo":15.9,"T":[962.0,772.0,652.0],"dT":[[-2.0,-10.0],[-3.0,-13.0],[-5.0,-21.0]],"ens":-40.3,"gp":124.9,"sw":18.5},{"id":"70011","mission":"Apollo 17","terrane":"mare","feo":16.1,"T":[946.0,761.0,645.0],"dT":[[-2.0,-10.0],[-3.0,-14.0],[-5.0,-21.0]],"ens":-42.4,"gp":161.7,"sw":22.4},{"id":"Luna 16","mission":"Luna 16","terrane":"mare","feo":16.2,"T":[1014.0,800.0,662.0],"dT":[[-2.0,-11.0],[-3.0,-14.0],[-5.0,-21.0]],"ens":-14.9,"gp":3.6,"sw":20.7},{"id":"12042","mission":"Apollo 12","terrane":"mare","feo":16.2,"T":[1027.0,808.0,665.0],"dT":[[-2.0,-11.0],[-3.0,-14.0],[-5.0,-21.0]],"ens":-20.4,"gp":0.6,"sw":23.0},{"id":"15471","mission":"Apollo 15","terrane":"mare","feo":16.3,"T":[1027.0,797.0,649.0],"dT":[[-2.0,-11.0],[-3.0,-14.0],[-4.0,-21.0]],"ens":3.5,"gp":10.5,"sw":24.4},{"id":"12033","mission":"Apollo 12","terrane":"mare","feo":16.4,"T":[1051.0,824.0,673.0],"dT":[[-2.0,-11.0],[-3.0,-14.0],[-5.0,-21.0]],"ens":-23.4,"gp":-4.7,"sw":21.0},{"id":"12070","mission":"Apollo 12","terrane":"mare","feo":16.6,"T":[1022.0,805.0,663.0],"dT":[[-2.0,-11.0],[-3.0,-14.0],[-5.0,-22.0]],"ens":-20.0,"gp":-0.4,"sw":24.2},{"id":"12001","mission":"Apollo 12","terrane":"mare","feo":17.3,"T":[1019.0,794.0,648.0],"dT":[[-2.0,-12.0],[-3.0,-14.0],[-4.0,-22.0]],"ens":-11.1,"gp":0.9,"sw":24.5},{"id":"75081","mission":"Apollo 17","terrane":"mare","feo":17.5,"T":[924.0,747.0,638.0],"dT":[[-3.0,-11.0],[-4.0,-15.0],[-6.0,-23.0]],"ens":-54.4,"gp":264.5,"sw":24.9},{"id":"12037","mission":"Apollo 12","terrane":"mare","feo":18.2,"T":[984.0,776.0,644.0],"dT":[[-3.0,-12.0],[-4.0,-16.0],[-6.0,-24.0]],"ens":-15.2,"gp":-1.9,"sw":29.9},{"id":"75061","mission":"Apollo 17","terrane":"mare","feo":18.3,"T":[913.0,740.0,634.0],"dT":[[-3.0,-12.0],[-4.0,-16.0],[-6.0,-25.0]],"ens":-58.9,"gp":276.4,"sw":27.0},{"id":"15601","mission":"Apollo 15","terrane":"mare","feo":19.7,"T":[992.0,777.0,642.0],"dT":[[-3.0,-13.0],[-4.0,-17.0],[-6.0,-26.0]],"ens":-15.3,"gp":3.3,"sw":33.4},{"id":"Luna 21","mission":"Luna 21","terrane":"mare","feo":19.9,"T":[992.0,780.0,647.0],"dT":[[-3.0,-14.0],[-4.0,-17.0],[-6.0,-27.0]],"ens":-15.2,"gp":8.1,"sw":32.8},{"id":"15531","mission":"Apollo 15","terrane":"mare","feo":20.6,"T":[977.0,771.0,642.0],"dT":[[-3.0,-14.0],[-4.0,-18.0],[-6.0,-27.0]],"ens":-22.1,"gp":-1.7,"sw":36.4},{"id":"CE-5 soil","mission":"Chang'e-5","terrane":"mare","feo":22.7,"T":[971.0,780.0,659.0],"dT":[[-4.0,-15.0],[-5.0,-20.0],[-8.0,-31.0]],"ens":-42.5,"gp":151.4,"sw":34.0}]</script>
+<script>
+/* make the call */
+(function () {
+  var box = document.getElementById('call');
+  if (!box) return;
+  var out = box.querySelector('.call-out'), verdict = box.querySelector('.call-verdict');
+  box.querySelectorAll('b[data-n]').forEach(function (b) {
+    var n = +b.dataset.n, h = '';
+    for (var i = 0; i < 7; i++) h += '<i class="' + (i < n ? 'y' : '') + '"></i>';
+    b.outerHTML = '<span aria-label="' + n + ' of 7">' + h + '</span>';
+  });
+  var said = {
+    runny: 'Right. The glass transition fell in 6 of the 7 measured series, by up to 36 K in the most iron rich melt. The seventh is flat within error. Most of the models below did worse than that.',
+    stiff: 'That is what Sehlke and Whittington predicts when it is run the way the 2025 study ran it. The measurements say the opposite: the glass transition fell in 6 of 7 series.',
+    same: 'That is what a model that ignores redox says, and it is nearly true when fully molten. Near the glass transition it is not: it fell in 6 of 7 series, by up to 36 K.'
+  };
+  box.querySelectorAll('[data-c]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      box.querySelectorAll('[data-c]').forEach(function (x) { x.classList.toggle('off', x !== b); });
+      verdict.textContent = said[b.dataset.c];
+      out.hidden = false;
+    });
+  });
+})();
+
+/* cool it down */
+(function () {
+  var root = document.getElementById('melt');
+  if (!root) return;
+  var S = JSON.parse(document.getElementById('soil-data').textContent);
+  var NS = 'http://www.w3.org/2000/svg';
+  var svg = root.querySelector('svg'), sel = root.querySelector('select'), rng = root.querySelector('input');
+  var R = {};
+  root.querySelectorAll('[data-r]').forEach(function (e) { R[e.dataset.r] = e; });
+  var LV = [3, 6.6, 12];
+  var X0 = 46, X1 = 548, Y0 = 14, Y1 = 290, TMIN = 550, TMAX = 1350, LMIN = 0, LMAX = 13;
+  function X(t) { return X0 + (t - TMIN) / (TMAX - TMIN) * (X1 - X0); }
+  function Y(l) { return Y1 - (l - LMIN) / (LMAX - LMIN) * (Y1 - Y0); }
+
+  /* Vogel-Fulcher-Tammann through three (T in C, log eta) points */
+  function vft(T) {
+    var t = T.map(function (x) { return x + 273.15; }), l = LV;
+    function ab(C) { var B = (l[0] - l[1]) / (1 / (t[0] - C) - 1 / (t[1] - C)); return [l[0] - B / (t[0] - C), B]; }
+    function g(C) { var p = ab(C); return p[0] + p[1] / (t[2] - C) - l[2]; }   /* rises with C */
+    var lo = 0, hi = Math.min.apply(null, t) - 1;
+    for (var i = 0; i < 100; i++) { var m = (lo + hi) / 2; if (g(m) < 0) lo = m; else hi = m; }
+    var C = (lo + hi) / 2, p = ab(C), A = p[0], B = p[1];
+    return function (tc) { var k = tc + 273.15; return k - C < 1 ? 99 : A + B / (k - C); };
+  }
+
+  var groups = { highland: 'Highland', mixed: 'Mixed', mare: 'Mare' };
+  Object.keys(groups).forEach(function (g) {
+    var og = document.createElement('optgroup'); og.label = groups[g];
+    S.filter(function (s) { return s.terrane === g; }).forEach(function (s) {
+      var o = document.createElement('option');
+      o.value = s.id;
+      o.textContent = (s.mission === s.id ? s.id : s.mission + ', ' + s.id) + ' (' + s.feo.toFixed(1) + '% FeO)';
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
+  });
+  sel.value = '10084';
+
+  function el(n, a, p) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); (p || svg).appendChild(e); return e; }
+  function txt(x, y, s, a, cls) { var e = el('text', { x: x, y: y, 'text-anchor': a || 'start' }); if (cls) e.setAttribute('class', cls); e.textContent = s; return e; }
+
+  /* static frame */
+  el('rect', { class: 'zone', x: X0, y: Y(12), width: X1 - X0, height: Y(6.6) - Y(12) });
+  el('rect', { class: 'zone', x: X0, y: Y(3), width: X1 - X0, height: Y1 - Y(3) });
+  txt(X1 - 6, Y(9.3) + 4, 'SINTERING', 'end', 'lab-b');
+  txt(X1 - 6, Y(1.5) + 4, 'MELT PROCESSING', 'end', 'lab-b');
+  [[3, 'working point'], [6.6, 'softening'], [12, 'glass transition']].forEach(function (p) {
+    el('line', { class: 'lvl', x1: X0, x2: X1, y1: Y(p[0]), y2: Y(p[0]) });
+    txt(X1 + 6, Y(p[0]) + 4, p[1]);
+  });
+  el('path', { class: 'ax', d: 'M' + X0 + ' ' + Y0 + 'V' + Y1 + 'H' + X1 });
+  for (var t = 600; t <= 1300; t += 100) { el('line', { class: 'ax', x1: X(t), x2: X(t), y1: Y1, y2: Y1 + 5 }); txt(X(t), Y1 + 18, t, 'middle'); }
+  txt((X0 + X1) / 2, Y1 + 36, 'temperature, °C', 'middle');
+  for (var l = 0; l <= 12; l += 3) txt(X0 - 8, Y(l) + 4, '10^' + l, 'end');
+  svg.querySelectorAll('text').forEach(function (e) {
+    var m = /^10\^(\d+)$/.exec(e.textContent);
+    if (m) { e.textContent = '10'; var s = el('tspan', { dy: -5, 'font-size': 8 }, e); s.textContent = m[1]; }
+  });
+  txt(X0 - 8, Y0 - 2, 'Pa·s', 'end');
+
+  /* a nozzle in the empty top right corner: the stream shortens as the melt stiffens */
+  var NX = X(1120), NY = Y0 + 8;
+  el('path', { class: 'ax', d: 'M' + (NX - 14) + ' ' + NY + 'H' + (NX + 14) + 'L' + (NX + 5) + ' ' + (NY + 14) + 'H' + (NX - 5) + 'Z' });
+  txt(NX + 22, NY + 10, 'nozzle');
+  var stream = el('path', { fill: '#F0F0F0', opacity: 0.85 });
+
+  var band = el('path', { class: 'moon' });
+  var earth = el('path', { class: 'earth' });
+  var now = el('line', { class: 'now', y1: Y0, y2: Y1 });
+  var dot = el('circle', { class: 'dot', r: 4 });
+
+  var cur;
+  function curve(f, a, b) {
+    var pts = [];
+    for (var tc = a; tc <= b; tc += 4) {
+      var v = f(tc);
+      if (v <= 12.8 && v >= LMIN) pts.push([X(tc), Y(v)]);
+    }
+    return pts;
+  }
+  function pd(p) { return p.map(function (q, i) { return (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(''); }
+
+  function load() {
+    var s = S.filter(function (x) { return x.id === sel.value; })[0];
+    var E = vft(s.T);
+    var Mn = vft(s.T.map(function (t, i) { return t + s.dT[i][0]; }));   /* near edge */
+    var Mf = vft(s.T.map(function (t, i) { return t + s.dT[i][1]; }));   /* far edge */
+    cur = { s: s, E: E, Mn: Mn, Mf: Mf };
+    earth.setAttribute('d', pd(curve(E, TMIN, TMAX)));
+    var a = curve(Mn, TMIN, TMAX), b = curve(Mf, TMIN, TMAX).reverse();
+    band.setAttribute('d', pd(a) + 'L' + pd(b).slice(1) + 'Z');
+    var tg = Math.ceil(s.T[2]);
+    rng.min = tg - 15;
+    if (+rng.value < +rng.min) rng.value = rng.min;
+    draw();
+  }
+
+  function like(l) {
+    if (l < 1.5) return 'about like honey';
+    if (l < 3) return 'about like peanut butter';
+    if (l < 6.6) return 'thicker than anything in your kitchen';
+    if (l < 10) return 'around pitch, which drips once a decade';
+    if (l < 12) return 'barely creeping';
+    return 'glass. It is a solid now.';
+  }
+  function fmt(x) { return x < 10 ? x.toFixed(1) : Math.round(x).toString(); }
+
+  function draw() {
+    var T = +rng.value, c = cur, lE = c.E(T);
+    now.setAttribute('x1', X(T)); now.setAttribute('x2', X(T));
+    var show = Math.min(Math.max(lE, LMIN), 12.8);
+    dot.setAttribute('cx', X(T)); dot.setAttribute('cy', Y(show));
+    R.t.textContent = T + '°C';
+    R.like.textContent = like(lE);
+    R.eta.innerHTML = lE > 12.8 ? 'Earth test: above 10<sup>12</sup> Pa&#183;s' : 'Earth test: 10<sup>' + lE.toFixed(1) + '</sup> Pa&#183;s';
+    var r1 = Math.pow(10, lE - c.Mn(T)), r2 = Math.pow(10, lE - c.Mf(T));
+    R.x.textContent = lE > 12.8 ? 'solid' : '×' + fmt(Math.min(r1, r2)) + ' to ' + fmt(Math.max(r1, r2));
+    /* shift in K at this viscosity: interpolate the bracket between the three levels */
+    var lv = Math.min(Math.max(lE, 3), 12), i = lv < 6.6 ? 0 : 1, w = (lv - LV[i]) / (LV[i + 1] - LV[i]);
+    var d0 = c.s.dT[i][0] + w * (c.s.dT[i + 1][0] - c.s.dT[i][0]);
+    var d1 = c.s.dT[i][1] + w * (c.s.dT[i + 1][1] - c.s.dT[i][1]);
+    R.dt.textContent = Math.abs(d0).toFixed(0) + ' to ' + Math.abs(d1).toFixed(0) + ' K';
+    /* the stream */
+    var k = Math.min(Math.max(lE / 12, 0), 1), len = 6 + 120 * Math.pow(1 - k, 1.6), wd = 2 + 5 * k;
+    var y0 = NY + 14;
+    stream.setAttribute('d', 'M' + (NX - wd / 2) + ' ' + y0 + 'h' + wd + 'l' + (-wd * 0.3) + ' ' + len + 'a' + (wd * 0.2 + 1.6) + ' ' + (wd * 0.2 + 1.6) + ' 0 0 1 ' + (-wd * 0.4 - 0.1) + ' 0Z');
+  }
+
+  sel.addEventListener('change', load);
+  rng.addEventListener('input', draw);
+  load();
+})();
+</script>
+
+</body>
+</html>

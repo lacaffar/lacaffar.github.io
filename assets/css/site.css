@@ -698,7 +698,7 @@ body.split { overflow: hidden; }
    the box is the share of the page one screen covers, and the run is what is
    left over, both measured off the real panels at a typical window height. */
 
-#portfolio .mm-view { height: 34px; --travel: 91px; }
+#portfolio .mm-view { height: 34px; --travel: 95px; }
 #narrative .mm-view { height: 29px; --travel: 85px; }
 
 @keyframes mm-run {
@@ -1545,3 +1545,59 @@ body.split { overflow: hidden; }
   .case-body .melt-read .r-n { font-size: 24px; line-height: 28px; }
   .dots-row i { width: 9px; height: 9px; margin-left: 3px; }
 }
+
+/* --- notes ------------------------------------------------------------------
+   short written pieces, listed under the projects on the index. The lunar
+   manufacturing map has a must have / nice to have switch, done with one
+   hidden checkbox like the index panels, so it ships no script. */
+
+.notes { margin: 10px 0 0; }
+.notes .label { color: var(--faint); margin-bottom: 12px; }
+.notes a {
+  display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
+  padding: 12px 0; border-top: 1px solid var(--rule);
+}
+.notes a span:first-child { font-size: 15px; color: var(--text); }
+.notes a:hover span:first-child { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+.lean-input { position: absolute; opacity: 0; pointer-events: none; }
+
+.lean {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px;
+  cursor: pointer; margin: 6px 0 8px;
+}
+.lean > span:first-child, .lean > span:nth-child(2) { font-size: 15px; color: var(--text); }
+.lean-act, .lean-act2 {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  border-bottom: 1px solid var(--rule); padding-bottom: 3px;
+}
+.lean:hover .lean-act, .lean:hover .lean-act2 { border-bottom-color: var(--text); }
+.lean-input:focus-visible + .lean { outline: 1px solid var(--text); outline-offset: 4px; }
+.lean-on, .lean-act2 { display: none; }
+.lean-input:checked + .lean .lean-off, .lean-input:checked + .lean .lean-act { display: none; }
+.lean-input:checked + .lean .lean-on, .lean-input:checked + .lean .lean-act2 { display: inline; }
+
+.lean-key { display: flex; gap: 22px; margin: 0 0 18px; }
+.case-body .lean-key span { font-size: 12px; color: var(--faint); }
+
+.stages { display: grid; gap: 4px; max-width: 700px; }
+.case-body .stage h3 .step-n { display: inline-block; min-width: 26px; color: var(--faint); font-weight: 600; }
+.stage { padding: 14px 0 6px; border-top: 1px solid var(--rule); }
+.case-body .stage h3 { margin: 0 0 6px; }
+.case-body .stage-why { font-size: 12px; color: var(--faint); margin: 0 0 10px; }
+
+.case-body .need { list-style: none; padding: 0; margin: 0 0 8px; }
+.case-body .need li { position: relative; padding-left: 22px; margin-bottom: 8px; }
+.case-body .need li.must { color: var(--text); }
+
+.need li::before, .lean-key span::before {
+  content: ""; position: absolute; left: 2px; top: 0.62em;
+  width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--text);
+}
+.lean-key span { position: relative; padding-left: 18px; }
+.lean-key span::before { left: 0; top: 0.35em; }
+.need li.must::before, .lean-key .k-must::before { background: var(--text); }
+.need li.nice::before, .lean-key .k-nice::before { border-color: var(--faint); }
+
+.lean-input:checked ~ .stages .nice { display: none; }
+.lean-input:checked ~ .lean-key .k-nice { display: none; }

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building with the Moon&#8217;s dirt | Luke Caffarey</title>
+<meta name="description" content="A map of what a lunar regolith manufacturing system needs, what it can skip, and where my powder and viscosity projects plug in. Draft notes.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/img/avatar-icon.png">
+
+<meta property="og:title" content="Building with the Moon's dirt, by Luke Caffarey">
+<meta property="og:description" content="Dig, sort, check, heat, shape, inspect. What a lunar regolith factory must have, what is nice to have, and what sets each requirement.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lacaffar.github.io/notes/lunar-manufacturing.html">
+<meta property="og:image" content="https://lacaffar.github.io/assets/covers/lunar-viscosity.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://lacaffar.github.io/notes/lunar-manufacturing.html">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+
+<nav class="back"><div class="col"><a href="/">&#8592; Index</a></div></nav>
+
+<header class="case-head">
+  <div class="col">
+    <p><span class="wip">Draft notes</span></p>
+    <h1>Building with the Moon&#8217;s dirt</h1>
+    <dl class="case-facts">
+      <div><dt>Type</dt><dd>Notes</dd></div>
+      <div><dt>Written</dt><dd>Oct 2026</dd></div>
+      <div><dt>Builds on</dt><dd>SEM Powder QC, Lunar Regolith Viscosity</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="case-body">
+  <div class="col">
+
+    <section>
+      <p>Launching mass to the Moon is the expensive part, so the case for building with lunar
+      soil is simple: the feedstock is already there. The hard part is everything between a
+      scoop of dirt and a part you would trust to hold something up.</p>
+      <p>This is my map of that chain. I came at it from two ends this semester: how you check
+      powder quality from images (<a href="/projects/sem-powder.html">SEM Powder QC</a>), and how
+      the Moon&#8217;s chemistry moves the temperatures you process regolith at
+      (<a href="/projects/lunar-viscosity.html">Lunar Regolith Viscosity</a>). The rest is me
+      thinking out loud, so treat it as notes, not a design.</p>
+    </section>
+
+    <section>
+      <h2>What is different up there</h2>
+      <div class="fix">
+        <div class="fix-item">
+          <div class="fix-when">Vacuum</div>
+          <p>No air means no convection. A hot part loses heat only by radiation, which is fast
+          when it is glowing and slow once it cools. Anything printed from melt cools on a very
+          different curve than it would on Earth.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">No oxygen</div>
+          <p>Iron stays in its reduced Fe<sup>2+</sup> form. Most melt data comes from simulants
+          melted in air, where about 60% of the iron is oxidized. Near the glass transition that
+          moves processing temperatures by 5 to 32 K for iron rich soils.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Dust</div>
+          <p>Regolith is fine, sharp and abrasive. It gets into seals, bearings and anything that
+          slides, and there is no rain to wash it off.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Long days</div>
+          <p>Away from the poles, daylight and darkness each last about two Earth weeks. Power and
+          thermal design have to survive both.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Distance</div>
+          <p>A signal takes about 2.6 seconds to get to the Moon and back. You can steer from Earth,
+          slowly, but nobody is walking over to clear a jam.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Site matters</div>
+          <p>Mare soils average about 17% FeO, highland soils about 6%. Across 66 returned soils
+          that is well over 100 degrees difference in the temperature to reach the same
+          viscosity. Where you land decides how hot you have to run.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The chain, stage by stage</h2>
+      <p>Six stages. For each one, what sets the requirement, what a first factory
+      <strong>must</strong> have, and what is <strong>nice to have</strong> once the first one
+      works. Flip the switch to see the bare minimum.</p>
+
+      <input class="lean-input" type="checkbox" id="lean">
+      <label class="lean" for="lean">
+        <span class="lean-off">Showing everything.</span>
+        <span class="lean-on">Showing must haves only.</span>
+        <span class="lean-act">Strip it to the minimum</span>
+        <span class="lean-act2">Show everything again</span>
+      </label>
+      <p class="lean-key"><span class="k-must">must have</span><span class="k-nice">nice to have</span></p>
+
+      <div class="stages">
+
+        <div class="stage">
+          <h3><span class="step-n">1</span>Dig</h3>
+          <p class="stage-why">Set by: dust, power, and knowing which soil you are standing on.</p>
+          <ul class="need">
+            <li class="must">An excavator built for abrasive dust: sealed joints, few sliding surfaces.</li>
+            <li class="must">A site whose soil chemistry is already mapped. Mare or highland changes every stage after this one.</li>
+            <li class="nice">Digging and hauling on its own through the two week night.</li>
+            <li class="nice">Selecting one soil type on purpose instead of taking whatever is under the scoop.</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <h3><span class="step-n">2</span>Sort</h3>
+          <p class="stage-why">Set by: what particle sizes the heating and forming steps can handle.</p>
+          <ul class="need">
+            <li class="must">Sieving to a size band, and throwing out rocks.</li>
+            <li class="nice">Magnetic separation, to pull out grains rich in metallic iron.</li>
+            <li class="nice">Blending minerals on purpose to land the mix in a target viscosity window. This is the stretch goal on my viscosity project, not started yet.</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <h3><span class="step-n">3</span>Check the feedstock</h3>
+          <p class="stage-why">Set by: the heating step only works inside a window, and the window depends on what went in.</p>
+          <ul class="need">
+            <li class="must">Size and shape of every batch, from a camera and a model rather than a lab. This is the SEM Powder QC idea moved to the Moon: images in, size distribution and shape out.</li>
+            <li class="must">Bulk chemistry, iron above all, since it sets processing temperatures.</li>
+            <li class="nice">Batch to batch drift with error bars, the same before and after comparison the SEM tool reports.</li>
+            <li class="nice">Measuring the iron oxidation state directly instead of assuming it.</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <h3><span class="step-n">4</span>Heat</h3>
+          <p class="stage-why">Set by: viscosity. Sintering lives between softening and the glass transition; melt processing lives above the working point.</p>
+          <ul class="need">
+            <li class="must">Process windows calibrated to lunar iron, not air melted simulants. Fully molten, the difference is small. Near the glass transition, where sintering happens, it is 5 to 32 K for iron rich soils, and no current model predicts it reliably.</li>
+            <li class="must">Temperature control tighter than the window. For a mare soil near the glass transition, every 10 K is roughly half an order of magnitude in viscosity.</li>
+            <li class="must">The lowest peak temperature that works. Less energy, a wider choice of furnace materials, and less wear on the hot zone.</li>
+            <li class="nice">Sharing heat with oxygen extraction, since molten regolith electrolysis needs the same melt anyway.</li>
+            <li class="nice">Concentrated sunlight as the heat source during the day.</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <h3><span class="step-n">5</span>Shape</h3>
+          <p class="stage-why">Set by: how fast the material stops flowing once it is placed.</p>
+          <ul class="need">
+            <li class="must">A forming method matched to the regime. For melt extrusion, the melt goes down near the working point (10<sup>3</sup> Pa&#183;s) and has to reach softening (10<sup>6.6</sup>), where it stops sagging under its own weight, before the next layer.</li>
+            <li class="must">A choice between soils that suits the process. Mare melts need less heat; highland melts freeze faster in vacuum. Neither is free.</li>
+            <li class="nice">Building large parts in place, so nothing has to be carried after it is made.</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <h3><span class="step-n">6</span>Inspect</h3>
+          <p class="stage-why">Set by: nobody is going to destructively test every part.</p>
+          <ul class="need">
+            <li class="must">A way to call a part good without a lab: dimensions from a scan, density from weight and volume.</li>
+            <li class="nice">Watching for defects while the part is being made, the way CAMAL is working toward for electron beam printing on Earth.</li>
+            <li class="nice">Melting rejected parts back into feedstock.</li>
+          </ul>
+        </div>
+
+        <div class="stage">
+          <h3><span class="step-n">+</span>Across every stage</h3>
+          <p class="stage-why">Set by: the Moon.</p>
+          <ul class="need">
+            <li class="must">Power that survives the night.</li>
+            <li class="must">Recovering from a jam or a fault without a person there.</li>
+            <li class="must">Keeping dust out of every moving part.</li>
+            <li class="nice">Parts a robot can swap.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2>Where my two projects plug in</h2>
+      <p><strong>Stage 3, check the feedstock.</strong> The SEM tool already does the thing a
+      lunar line needs: it turns images into size, shape and a verdict on whether a batch
+      changed, with error bars, without a sizing instrument. Its lesson that transfers: trust the
+      change between batches more than the absolute number.</p>
+      <p><strong>Stage 4, heat, and the choice of site.</strong> The viscosity work says the
+      Earth data is fine for melting and not fine for sintering, and that the gap is a missing
+      measurement, not a missing model. Anyone sintering mare soil should want near-glass
+      transition viscosity data on reduced iron before trusting a temperature.</p>
+    </section>
+
+    <section>
+      <h2>What I do not know yet</h2>
+      <ul>
+        <li>How much the atmosphere inside a sealed furnace on the Moon would differ from the
+        vacuum outside it, and so which iron state the material actually sees.</li>
+        <li>How partly crystalline powder sinters compared with the glass my model assumes.</li>
+        <li>What a kilogram of sintered block costs in energy, and whether that, not viscosity,
+        is what decides between sintering and melting.</li>
+        <li>Which of the must haves above someone has already solved and I have not read yet.
+        Probably several.</li>
+      </ul>
+    </section>
+
+    <nav class="case-nav">
+      <a href="/projects/lunar-viscosity.html">&#8592; Lunar Regolith Viscosity</a>
+      <a href="/">Index &#8594;</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="col">
+    <hr class="rule">
+    <div class="foot-inner">
+      <span>&copy; 2026 Luke Caffarey</span>
+      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

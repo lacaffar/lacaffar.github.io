@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balancing Cube, three flywheels and one corner | Luke Caffarey</title>
+<meta name="description" content="A 165 mm cube built to stand on one corner, held there by three flywheels spinning inside it. ESP32, three RS-385 motors, TB6612FNG drivers, an MPU-6050, and a shell that checks its own fit.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/img/avatar-icon.png">
+
+<meta property="og:title" content="Balancing Cube, by Luke Caffarey">
+<meta property="og:description" content="A cube built to stand on one corner with three spinning wheels inside it. Try balancing it yourself: at real speed it falls in half a second.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lacaffar.github.io/projects/balancing-cube.html">
+<meta property="og:image" content="https://lacaffar.github.io/assets/covers/balancing-cube.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://lacaffar.github.io/projects/balancing-cube.html">
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/story.css">
+<link rel="stylesheet" href="/assets/css/cube.css">
+</head>
+<body class="story">
+
+<div class="rail-bar" aria-hidden="true"></div>
+<nav class="rail" aria-label="Steps">
+  <ol>
+    <li><a href="#s1"><i></i><span>The idea</span></a></li>
+    <li><a href="#s2"><i></i><span>Your turn</span></a></li>
+    <li><a href="#s3"><i></i><span>Parts first</span></a></li>
+    <li><a href="#s4"><i></i><span>The shell</span></a></li>
+    <li><a href="#s5"><i></i><span>The faces</span></a></li>
+    <li><a href="#s6"><i></i><span>Wiring</span></a></li>
+    <li><a href="#s7"><i></i><span>The battery</span></a></li>
+    <li><a href="#s8"><i></i><span>Power-up</span></a></li>
+  </ol>
+</nav>
+
+<nav class="back"><div class="col"><a href="/">&#8592; Index</a></div></nav>
+
+<header class="case-head">
+  <div class="col">
+    <p><span class="readtime" style="margin-left:0">5 min read, plus a cube you can try to balance</span></p>
+    <h1>Balancing Cube</h1>
+    <p class="sub">A 165 mm cube built to stand on one corner, held there by three flywheels
+    spinning inside it.</p>
+    <dl class="case-facts">
+      <div><dt>Type</dt><dd>Personal project</dd></div>
+      <div><dt>Brain</dt><dd>ESP32, MPU-6050</dd></div>
+      <div><dt>Muscle</dt><dd>3 RS-385 motors, 3 TB6612FNG drivers</dd></div>
+      <div><dt>When</dt><dd>Oct 2026</dd></div>
+    </dl>
+    <div class="case-cover">
+      <img src="/assets/covers/balancing-cube.jpg" width="1600" height="1000"
+           alt="A render of the cube standing on one corner. The three faces that meet at the top corner are drawn as glass, showing a flywheel and its motor bridge inside. The lower faces carry a grid of M3 holes.">
+    </div>
+  </div>
+</header>
+
+<main class="case-body">
+  <div class="col">
+
+    <section>
+      <h2>The short version</h2>
+      <div class="tldr">
+        <div>
+          <p class="tldr-k">The idea</p>
+          <p>Stand a cube on one corner and keep it there. Spin a wheel inside one way and the
+          cube twists the other way. Three wheels, three directions.</p>
+        </div>
+        <div>
+          <p class="tldr-k">The hard part</p>
+          <p>It falls in about half a second, the motors came loosely specified, and everything
+          has to fit inside 165 mm.</p>
+        </div>
+        <div>
+          <p class="tldr-k">What I built</p>
+          <p>A shell that checks its own fit, faces with an inlaid drawing that print in one go,
+          and a full wiring and power plan for the electronics.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="beat" id="s1">
+      <h2><span class="step-n">01</span>Spin a wheel one way, the cube twists the other</h2>
+
+      <p class="thought"><span class="t-k">what I was thinking</span>
+      Nothing touching the ground but one corner. If spinning a wheel one way twists the cube the
+      other way, three wheels at right angles should be able to hold it there.</p>
+
+      <p>It is the same trick spacecraft use to point without firing thrusters: a
+      <strong>reaction wheel</strong>. Speed a heavy wheel up and the body it is bolted to turns
+      the opposite way. A research group at ETH Zurich made a cube that stands on its corner this
+      way, the Cubli. I wanted to build my own.</p>
+
+      <div class="doodle" aria-hidden="true"><!-- art:doodle-spin --><svg viewBox="0 -14 440 224"><path d="M119.4 21.5l4.4 3.9 4.4 4 4.3 4 4.2 4.2 4.1 4.2 4 4.3 4 4.4 3.9 4.3 4.1 4.3 4.1 4.3 4.1 4.2 4.2 4.1 4.2 4.2 4.1 4.2 4.1 4.2 4.2 4.2 4.2 4.1 4.3 4 4.4 4" class="sat"/><path d="M121.7 23.5l4.2 4.2 4.2 4.2 4.2 4.2 4.3 4.1 4.3 4.1 4.4 4 4.3 4.1 4.3 4.1 4.2 4.1 4.1 4.3 4.1 4.3 4 4.4 4.1 4.3 4.1 4.2 4.2 4.2 4.2 4.2 4.2 4.3"/><path d="M198.3 99.9l-3.9 4.4-4 4.3-4.1 4.2-4.3 4-4.4 4-4.2 4.1-4.1 4.1-4.2 4.2-4.3 4-4.4 3.9-4.4 4-4.2 4-4.1 4.3-4 4.3-4 4.3-4.2 4.2-4.1 4.1-4.1 4.2-4 4.4" class="sat"/><path d="M191.1 106.5l-4.1 4-4.1 4.1-4 4-4 4.1-3.9 4.2-3.9 4.2-3.9 4.3-3.9 4.2-3.9 4.1-4.1 4.1-4.1 3.9-4.1 4-4.1 4-4.1 4-4.1 4.1-4 4"/><path d="M120.2 178.4l-4.2-4.2-4.3-4.1-4.3-4-4.4-4.1-4.2-4.2-4.1-4.2-4-4.4-4-4.5-4-4.4-4-4.3-4.2-4.2-4.2-4.2-4.3-4.2-4.2-4.1-4.2-4.3-4.2-4.2-4.2-4.1-4.4-4.1-4.4-3.9" class="sat"/><path d="M114.9 172.2l-4.4-4-4.5-4-4.4-4-4.3-4.2-4.2-4.3-4.1-4.3-4.2-4.2-4.3-4.2-4.3-4.2-4.2-4.2-4.2-4.4-4-4.4-4-4.5-4-4.4-4.2-4.2-4.3-4.2"/><path d="M40.5 101.2l4-4.1 4.1-4 4-4.1 3.9-4.2 4-4.2 3.9-4.1 4.1-4 4.2-4 4.2-3.8 4.2-3.9 4.2-4 4-4 4.1-4.1 4.1-4 4.1-3.9 4.3-3.9 4.2-3.9 4.1-4 3.9-4.1 3.9-4.3" class="sat"/><path d="M48.9 93.4l4-4.1 4-4.1 4.1-3.9 4.1-3.9 4-4 3.9-4.2 3.8-4.2 3.8-4.3 3.8-4.2 4-4 4.1-4 4-4 4-4 3.9-4.2 4-4.1 4-3.9"/><path d="M27.9 179.7l6 0 5.9 0 6 .1 5.9 .3 6 .4 5.9 .2 6 0 5.9-.3 6-.5 5.9-.6 6-.3 5.9-.2 6 0 5.9-.2 5.9-.2 6-.3 5.9-.2 6 .2 6 .4 5.9 .5 6 .4 5.9 .1 6-.1 5.9-.3 6-.2 5.9-.1 6 0 5.9-.2 6-.4 5.9-.5 5.9-.6 6-.3" class="sat"/><path d="M40.3 179.2l5.9-.4 5.8-.1 5.9-.1 5.8-.1 5.8-.3 5.9-.3 5.8 .1 5.9 .3 5.8 .6 5.9 .4 5.8 .1 5.9-.2 5.8-.1 5.8 0 5.9 0 5.8 0 5.9-.4 5.8-.7 5.8-.6 5.9-.3 5.8 0 5.9 .2 5.8 .1 5.9-.1 5.8-.1 5.8 .2 5.9 .4 5.8 .5"/><path d="M152.7 113.1l-1.4 3.5-1.7 3.3-2.1 3.1-2.4 2.9-2.8 2.6-3.1 2.2-3.3 1.9-3.5 1.5-3.6 1.2-3.8 .8-3.8 .5-3.8 .1-3.9-.4-3.7-.9-3.6-1.4-3.4-1.9-3.1-2.2-2.9-2.5-2.6-2.7-2.4-2.9-2.1-3.1-1.8-3.3-1.6-3.4-1.1-3.6-.7-3.7-.3-3.7 .1-3.8 .5-3.7 .8-3.7 1-3.6 1.5-3.6 1.7-3.4 2.2-3.2 2.5-2.9 3-2.6 3.2-2.1 3.5-1.7 3.7-1.3 3.7-1 3.8-.5 3.8-.2 3.8 .1 3.8 .6 3.7 .9 3.5 1.4 3.4 1.8 3.1 2.1 2.9 2.4 2.6 2.7 2.5 2.8 2.2 3 2 3.2 1.7 3.5 1.3 3.6 .9 3.8 .3 3.8-.1 3.9-.6 3.8-.9 3.8-1.4 3.6-1.7 3.5-2 3.3-2.4 3.1-2.7 2.8" class="sat"/><path d="M146.2 125.2l-.9 .9-2.9 2.5-3.1 2.2-3.4 1.8-3.5 1.5-3.7 1.2-3.7 .7-3.8 .4-3.9-.2-3.7-.5-3.7-1-3.6-1.4-3.3-1.7-3.1-2.1-2.9-2.4-2.7-2.7-2.4-2.8-2.1-3.1-1.8-3.2-1.5-3.4-1.2-3.6-.8-3.7-.4-3.7 .1-3.8 .4-3.7 .8-3.7 1.3-3.6 1.6-3.4 2-3.2 2.3-3 2.6-2.8 2.8-2.6 3-2.2 3.3-2 3.5-1.6 3.7-1.3 3.8-.8 3.8-.4 3.9 .1 3.9 .5 3.8 1 3.6 1.4 3.5 1.8 3.2 2.1 3 2.5 2.7 2.7 2.5 3 2.1 3.2 1.8 3.4 1.4 3.5 1.1 3.7 .6 3.8 .2 3.8-.2 3.9-.3 1.6"/><path d="M120 104.1l-1.3-.2-1.2-.6-.9-1-.6-1.2-.1-1.4 .3-1.3 .7-1.2 1-.9 1.3-.5 1.4-.1 1.4 .4 1.2 .9 .8 1.1 .4 1.4-.1 1.5-.6 1.3-1 1-1.2 .7-1.4 .2-1.4-.2"/><path d="M125.5 101.7l5.4 1.5 5.5 1.2 5.5 1.1 5.4 1.4 5.4 1.6" class="sat"/><path d="M121.1 105.5l1.5 5.1 1.4 5.3 1.5 5.2 1.6 5.1 1.7 5.2" class="sat"/><path d="M115.5 104.2l-3.6 3.9-3.8 3.7-3.7 3.9-3.5 4-3.7 3.8" class="sat"/><path d="M114.5 98.8l-5.3-1.4-5.5-1.4-5.3-1.7-5.3-1.8-5.3-1.5" class="sat"/><path d="M118.8 94.5l-1.9-5.3-1.5-5.4-1.5-5.4-1.5-5.4-1.1-5.5" class="sat"/><path d="M125.2 95.5l3.7-3.8 3.6-3.9 3.6-3.9 3.8-3.7 3.7-3.8" class="sat"/><path d="M144.9 56.8l2.4 1.7 2.3 1.7 2.3 1.8 2.1 2 2 2 1.9 2.2 1.8 2.2 1.7 2.4 1.6 2.4 1.3 2.5 1.3 2.6 1 2.7 .9 2.8 .8 2.8 .5 2.8 .4 2.8 .3 2.9 0 2.9 0 2.9-.2 2.9-.4 2.8-.5 2.9-.6 2.8-.8 2.8-1 2.8-1.1 2.7-1.3 2.6-1.4 2.6-1.6 2.4-1.8 2.4"/><path d="M158.3 132.1l1-4.4 .6-4.4"/><path d="M158.5 132.5l3.9-2.1 4.2-1.9"/><path d="M213.3 34.4l-2.7-1.9-2.7-2-2.8-1.8-2.7-1.7-2.9-1.7-2.9-1.6-3-1.4-3-1.5-3-1.3-3-1.3-3.1-1.2-3.1-1.2-3.1-1.2-3.1-1.1-3.1-1.1-3.2-1.1-3.2-.9-3.2-.9-3.2-.7-3.3-.7-3.3-.4-3.3-.4-3.3-.3-3.3-.2-3.3 0-3.3-.1-3.3 .1-3.3 0-3.3 0-3.3 0-3.3 .1-3.3 .1-3.3 .1-3.2 .1-3.3 .3-3.3 .2-3.3 .5-3.2 .4-3.3 .6-3.2 .6-3.2 .7-3.2 .7-3.2 .8-3.2 .7-3.2 .8-3.2 .7-3.2 .9-3.3 .8-3.1 1-3.2 .9-3.1 1.1-3.2 1.2-3 1.4-3 1.4-2.9 1.6-2.9 1.6-2.8 1.8-2.8 1.8-2.8 1.9-2.7 1.8"/><path d="M26.5 33.9l2.1-4 1.9-4.1"/><path d="M26.3 33.6l4.5 0 4.5 .3"/><text x="250" y="82">spin the wheel up this way</text><text x="250" y="100">and the cube kicks back</text><text x="250" y="118">the other way, about its corner</text></svg><!-- /art:doodle-spin --></div>
+
+      <p>On an edge, one wheel is enough to fight one way of falling over. On a corner, the cube
+      can fall in any direction, so it takes three wheels, each on its own face, and a computer
+      reading a gyro fast enough to catch the fall before it starts.</p>
+    </section>
+
+    <section class="beat" id="s2">
+      <h2><span class="step-n">02</span>Your turn: keep it standing</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      The physics is easier to feel than to read.</p>
+
+      <p>This is the cube balancing on one edge, seen from the side, with one of its wheels. Hold
+      a button (or the arrow keys) to spin the wheel and push the cube back up. Start in slow
+      motion.</p>
+
+      <div class="bal" id="bal">
+        <div class="bal-top">
+          <p class="bal-status" aria-live="polite">Press start, then keep it upright.</p>
+          <div class="bal-speed" role="group" aria-label="Speed">
+            <span>speed</span>
+            <button class="g-btn" type="button" data-speed="0.125" aria-pressed="true">1/8</button>
+            <button class="g-btn" type="button" data-speed="0.25" aria-pressed="false">1/4</button>
+            <button class="g-btn" type="button" data-speed="1" aria-pressed="false">real</button>
+          </div>
+        </div>
+        <div class="bal-stage">
+          <svg viewBox="0 0 640 360" aria-label="Side view of the cube balancing on one edge, with its flywheel">
+            <g class="ground"></g>
+            <path class="ln thin ref" d="" stroke-dasharray="4 5"/>
+            <path class="ln thin tiltarc" d=""/>
+            <text class="tilttxt" x="0" y="0"></text>
+            <g class="cube"></g>
+            <path class="push pl" d="M120 120 l-40 0 m0 0 l12 -9 m-12 9 l12 9"/>
+            <path class="push pr" d="M520 120 l40 0 m0 0 l-12 -9 m12 9 l-12 9"/>
+          </svg>
+          <div class="bal-cover"><span>Start</span></div>
+        </div>
+        <div class="bal-pads">
+          <button class="bal-pad" type="button" data-u="1">&#8592; push left</button>
+          <div class="bal-read">
+            <div><b data-r="tilt">0.0&#176;</b><span>tilt</span></div>
+            <div><b data-r="time">0.0 s</b><span>upright</span></div>
+            <div><b data-r="best">0.0 s</b><span>best</span></div>
+          </div>
+          <button class="bal-pad" type="button" data-u="-1">push right &#8594;</button>
+        </div>
+        <div class="bal-meter">
+          <div class="bal-meter-t"><span>wheel speed</span><span data-r="rpm">0 rpm</span></div>
+          <div class="bal-meter-bar"><i></i></div>
+        </div>
+        <div class="bal-auto">
+          <button class="g-btn" type="button" data-act="auto">Let a controller try, at real speed</button>
+          <button class="g-btn" type="button" data-act="poke" disabled>Poke it</button>
+          <p>Times count cube seconds, not your seconds.</p>
+        </div>
+        <noscript><p>The game needs JavaScript. The short version: at real speed a one degree
+        lean becomes a thirty degree fall in about half a second.</p></noscript>
+      </div>
+
+      <p>At real speed, a one degree lean becomes a thirty degree fall in about half a second.
+      That is faster than a person can react, which is why the cube needs a controller reading
+      the gyro many times a second. Notice the wheel speed bar, too: push one way for too long
+      and the wheel runs out of speed to give, and the cube goes over anyway.</p>
+
+      <details class="more">
+        <summary>The fine print</summary>
+        <div class="more-in">
+          <p>It is a one wheel model of this cube on an edge: 165 mm, about 1 kg, a 128 mm PLA
+          wheel with its 12 weight holes filled, and an RS-385 assumed to stall at 0.12 N&#183;m
+          and spin freely at 6000 rpm. With those numbers it can only hold itself up from about
+          5 degrees of tilt.</p>
+          <p>The demo controller is an LQR that can see the wheel&#8217;s speed. The RS-385s have
+          no encoders, so on the cube that takes a hall sensor and a magnet per wheel, about $1
+          each.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s3">
+      <h2><span class="step-n">03</span>Buy the parts first, then design around them</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Get the cheap parts on the way first. The shell should fit what actually shows up, not what
+      a listing promises.</p>
+
+      <p>The first order was everything that makes it move and sense:</p>
+
+      <div class="stats">
+        <div>
+          <p class="stat-n">3</p>
+          <p class="stat-l">RS-385 brushed motors, 12 V, about 6000 rpm, one per wheel</p>
+        </div>
+        <div>
+          <p class="stat-n">5</p>
+          <p class="stat-l">TB6612FNG dual motor drivers, so there are spares</p>
+        </div>
+        <div>
+          <p class="stat-n">~$23</p>
+          <p class="stat-l">for the motors, the drivers and an MPU-6050 gyro and accelerometer together</p>
+        </div>
+      </div>
+
+      <p>An ESP32 runs it, and a 3S lithium polymer pack powers it. Then, with the parts on the
+      way, came the shell.</p>
+    </section>
+
+    <section class="beat" id="s4">
+      <h2><span class="step-n">04</span>A shell that checks its own fit</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      The motor listings disagree with each other. So the shell should be a script I can rerun
+      with real measurements, not a drawing I would have to redo.</p>
+
+      <p>The shell is a Python script that builds every part from a dozen parameters. The three
+      <strong>motor faces</strong> meet at one corner. Each motor hangs from a bridge with its
+      shaft toward its own face, so the wheel spins 1.5 mm inside the panel and the motor tails
+      point at the middle of the cube. The three <strong>plain faces</strong> carry a grid of M3
+      holes for the electronics. The panels have 45&#176; mitered edges and screw into eight
+      corner blocks.</p>
+
+      <figure class="fig">
+        <img src="/assets/figs/cube-kit.jpg" width="1600" height="1000" loading="lazy"
+             alt="One of each printed part laid out flat: a motor face with two posts, a plain face with a grid of holes, a 128 mm flywheel, a motor bridge, three RS-385 motors and eight corner blocks.">
+        <figcaption>Rendered straight from the shell&#8217;s STL files. The script checks every
+        part against every other in the assembled position, and every part comes out watertight.</figcaption>
+      </figure>
+
+      <p>The catch is the middle. The three motors point at the same spot, and with a 44 mm can
+      there is only <strong>4.2 mm</strong> between one motor&#8217;s tail and the next motor.
+      The listings say the can is 56 or 57 mm long with the shaft, the shaft is 2.0 or 2.3 mm, and
+      the thread is M2.5 or M3. So: caliper the real motors, change the numbers at the top of the
+      script, rerun it, and it reports any collisions. Try it:</p>
+
+      <div class="fit" id="fit">
+        <svg viewBox="-10 -10 220 220" aria-label="Section through the middle of the cube, showing two motor cans and a third just below, with the gap between them"></svg>
+        <div class="fit-ctl">
+          <p class="fit-out" aria-live="polite">4.2 mm</p>
+          <p class="fit-note">between a motor&#8217;s tail and the next motor</p>
+          <label>Motor can length <b data-o="L">44.0 mm</b>
+            <input type="range" min="36" max="56" step="0.5" value="44" data-k="L"></label>
+          <label>Cube size <b data-o="S">165 mm</b>
+            <input type="range" min="150" max="195" step="1" value="165" data-k="S"></label>
+        </div>
+      </div>
+
+      <details class="more">
+        <summary>What will matter once it moves</summary>
+        <div class="more-in">
+          <ul>
+            <li><strong>Wheel inertia.</strong> PLA is light, so the rim has 12 holes for M3 bolts
+            and nuts as weights.</li>
+            <li><strong>Shaft grip.</strong> A press fit on a smooth 2 mm shaft slips when the
+            motor reverses hard. CA glue over the M2 set screw, or a brass hub.</li>
+            <li><strong>Center of mass.</strong> The motors pull it toward their corner, so the
+            battery and boards go on the plain faces to pull it back.</li>
+          </ul>
+          <p>The solids come from manifold3d and the checks run in trimesh.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s5">
+      <h2><span class="step-n">05</span>Make it mine: a drawing in the faces</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      If it is going to sit on my desk, it should look like mine.</p>
+
+      <p>The three motor faces carry a thumbs-up character, inlaid 0.8 mm deep in a second color.
+      All six faces print in one go on a Prusa XL: the three motor faces outer side down, and the
+      three plain faces stacked in the fourth spot with 0.2 mm air gaps so they peel apart. The
+      second color only shows up in the first four layers, so the tool changes are over
+      quickly.</p>
+
+      <div class="doodle" aria-hidden="true" style="max-width:300px"><!-- art:doodle-plate --><svg viewBox="0 0 300 300"><path d="M18.9 20l6 0 5.9 .1 6 .2 6 .3 5.9 0 6 0 6-.2 5.9-.1 6 0 6 .1 5.9 0 6-.2 6-.3 5.9-.2 6-.1 6 0 6 .1 5.9 0 6-.2 6-.1 5.9 0 6 .2 6 .2 5.9 .2 6 0 6 0 5.9 0 6 .2 6 .2 5.9 .2 6 0 6-.1 6-.2 5.9 0 6 0 6 .1 5.9-.1 6-.2 6-.3 5.9-.2 6 0 6 .1 5.9 0 6-.1" class="sat"/><path d="M35.9 19.5l5.9-.2 5.9-.1 6 .1 5.9 .1 5.9 .2 5.9 .2 5.9 .1 5.9 0 5.9 0 5.9 0 5.9 .1 5.9 .2 5.9 .2 5.9 .1 6 0 5.9-.1 5.9-.1 5.9-.2 5.9 0 5.9 0 5.9 0 5.9 0 5.9-.1 5.9-.3 5.9-.2 5.9-.1 5.9-.1 6 .1 5.9 .1 5.9 .1 5.9 0 5.9-.1 5.9-.1 5.9 .1 5.9 .1 5.9 .2 5.9 .3 5.9 .1 5.9 .1"/><path d="M280.1 18.3l0 5.9 0 6 .1 6 .1 5.9 .2 6 .1 6 0 5.9 0 6-.2 6-.2 6-.2 5.9-.2 6-.1 6 0 5.9 0 6 0 6 0 5.9-.1 6-.1 6-.1 6 .1 5.9 .2 6 .2 6 .2 5.9 .2 6 .1 6 .1 5.9-.1 6 0 6-.1 5.9 0 6 .1 6 0 6 0 5.9-.2 6-.2 6-.2 5.9-.2 6-.2 6 0 5.9 .1 6 .1 6 .1 6 .1 5.9" class="sat"/><path d="M280 31.2l0 5.9-.1 5.9-.2 6-.1 5.9 0 5.9 0 6 0 5.9 0 5.9-.1 6-.2 5.9-.3 5.9-.2 6 0 5.9 0 6 .1 5.9 .1 5.9 .1 6-.1 5.9 0 5.9 0 6 .1 5.9 .1 5.9 .3 6 .2 5.9 .2 5.9 0 6-.1 5.9-.1 6 0 5.9 0 5.9 0 6 .1 5.9 0 5.9-.2 6-.2 5.9-.2 5.9-.2 6-.1 5.9 0 5.9 .1 6"/><path d="M281 279.7l-5.9-.1-6 0-5.9 0-6 .1-5.9 .2-6 .2-5.9 .3-6 .1-5.9 .1-6-.1-5.9-.1-6-.1-5.9 0-6 0-5.9 0-6 0-5.9-.1-6-.3-5.9-.2-6-.2-5.9-.1-6 0-5.9 .1-6 .1-5.9 .2-6 0-5.9 0-6 0-5.9 .1-6 .1-5.9 .2-6 .2-5.9 .2-5.9 .1-6-.1-5.9-.1-6-.2-5.9-.2-6-.1-5.9 0-6 0-5.9 0-6-.2-5.9-.2" class="sat"/><path d="M257.7 280.7l-6 0-5.9 0-6-.1-5.9-.1-6-.2-5.9-.1-6 .1-5.9 .3-6 .2-5.9 .2-6 .1-5.9 0-5.9 0-6 .1-5.9 .1-6 .2-5.9 0-6 0-5.9-.3-6-.2-5.9-.2-6-.2-5.9 0-6 .1-5.9-.1-6-.1-5.9-.1-5.9-.1-6 0-5.9 .2-6 .3-5.9 .2-6 .2-5.9 0-6 0"/><path d="M19.7 282.2l-.1-6 .1-6 0-6 0-5.9-.1-6 0-6 .1-6 .1-5.9 .3-6 .2-6 .2-6 .2-5.9-.1-6-.1-6-.2-6-.2-6-.2-5.9-.1-6 0-6 0-6-.1-5.9-.1-6 0-6-.1-6 0-5.9 .2-6 .2-6 .3-6 .2-6 .2-5.9 0-6-.1-6-.1-6-.2-5.9-.1-6-.1-6-.1-6 0-5.9-.1-6-.1-6-.2-6-.1-5.9 0-6 .1-6" class="sat"/><path d="M19.9 275.2l.1-6-.1-5.9 0-6-.1-5.9-.2-6-.1-6-.1-5.9 0-6 .1-6 .1-5.9 .2-6 .2-6 0-5.9 0-6 0-6 .1-5.9 0-6 .2-6 .2-5.9 .1-6 .1-5.9 0-6-.2-6-.1-5.9-.2-6-.1-6-.1-5.9 0-6 0-6 0-5.9-.1-6-.2-6-.1-5.9-.2-6-.1-6 .1-5.9 .1-6 .2-6 .1-5.9 .1-6"/><path d="M33.1 33.9l5.9-.1 5.9-.1 5.9-.2 6-.1 5.9 0 5.9 .2 5.9 .2 5.9 .3 5.9 .2 5.9 .2 5.9 .1 5.9-.1 5.9-.1 5.9-.1 5.9-.1 6-.1 5.9 0 5.9-.1 5.9-.1" class="sat"/><path d="M35 33.8l5.7 0 5.6 0 5.7-.1 5.7-.2 5.7-.3 5.7-.3 5.6-.1 5.7-.1 5.7 .1 5.7 .1 5.7 .1 5.7 .1 5.6 .1 5.7 0 5.7 0 5.7 .1 5.7 .2 5.7 .2"/><path d="M143.6 31.9l.1 5.9 0 6-.1 5.9 .1 6 .3 5.9 .3 5.9 .2 6 .1 5.9-.2 5.9-.1 6 0 5.9 0 6 0 5.9-.2 5.9-.3 6-.3 5.9-.1 5.9 .1 6 .2 5.9" class="sat"/><path d="M144.1 40.4l.1 5.7 0 5.7 .1 5.8 .2 5.7 .2 5.8 .2 5.7 .1 5.7 .1 5.8-.1 5.7-.2 5.8-.3 5.7-.3 5.8-.2 5.7-.1 5.7 0 5.8 .1 5.7 .1 5.8"/><path d="M145.2 144.2l-5.9 0-5.9 .1-6 .2-5.9 .2-5.9-.1-6-.2-5.9-.3-5.9-.1-6 0-5.9 0-5.9-.1-6-.2-5.9-.3-5.9-.1-6 .2-5.9 .2-5.9 .1-6 0-5.9 0" class="sat"/><path d="M139.2 143.5l-6-.1-5.9-.1-6-.2-6-.1-5.9 0-6 .1-6 .3-5.9 .3-6 .2-6 .1-5.9 0-6-.1-6 0-5.9 .1-6 .1-6 0"/><path d="M33.5 144.2l-.1-5.9 .1-5.9 .2-5.9 .2-6 .2-5.9 .1-5.9-.1-5.9 0-6 .1-5.9 .2-5.9 .2-5.9 .1-5.9-.1-6-.2-5.9-.1-5.9 0-5.9 0-5.9 0-6-.1-5.9" class="sat"/><path d="M34.3 135l-.2-5.9-.3-6-.1-5.9 0-5.9 .1-6-.1-5.9-.3-5.9-.1-6 0-5.9 .1-5.9 .3-5.9 .1-6 0-5.9-.1-5.9 .1-6 .3-5.9"/><path d="M103.1 88.5l-3.3 1-3.5 0-3.3-1-2.8-1.8-2-2.6-1.1-3 .1-3.2 1.1-3 2.2-2.5 2.9-1.7 3.3-.9 3.5 .2 3.3 1.2 2.6 2.1 1.9 2.7 .8 3-.3 3.2-1.3 3-2.4 2.4-3 1.7" class="sat"/><path d="M118.3 85.8l-1.1 2.8-2.3 2.5-3.4 1.9-4.2 1.3-4.5 .5-4.6-.3-4.3-1-3.6-1.8-2.5-2.4-1.4-2.8 .1-2.9 1.4-2.7 2.7-2.3 3.5-1.6 4.2-1 4.4-.1 4.4 .5 3.9 1.2 3.1 1.9 2.2 2.3 .9 2.5-.3 2.6" class="sat"/><path d="M115.5 90.5l-.8 .8-3.4 1.9-4.1 1.3-4.6 .5-4.6-.3-4.2-1-3.6-1.8-2.6-2.5-1.3-2.7 .1-2.9 1.5-2.7 2.6-2.2 3.5-1.6 4.1-1 4.5-.2 4.3 .5 3.9 1.2 3.2 1.8 .1 .1" class="sat"/><path d="M65.2 100l-2.3-2.8-1.1-3.2 .2-3.4 1.4-3.1 2.5-2.6 3.5-1.9 4-1.1 4.2-.1 4.1 1 3.5 1.9 2.6 2.6 1.4 3.1 .1 3.3-1.1 3.1-2.2 2.6-3.1 2.1-3.9 1.3-4.1 .4-4.2-.6-3.7-1.6-2.9-2.4" class="sat"/><path d="M64.1 98.3l-1-1.3-1.1-3.1 .2-3.1 1.4-3 2.5-2.5 3.3-1.8 3.8-1 4.1-.1 4 .8 3.5 1.7 2.6 2.5 1.6 3 .2 3.3-1 3.1-2.2 2.8-3.2 2.2-3.9 1.3-4.3 .4-4.2-.6-2.4-.9" class="sat"/><path d="M83.6 102.7l-.3-2.2 .6-2.2 1.3-2 1.9-1.5 2.4-.9 2.6-.2 2.6 .5 2.2 1.2 1.8 1.7 1 2.2 .1 2.4-.7 2.3-1.5 2-2.2 1.4-2.6 .8-2.7-.1-2.5-.8-2.1-1.4-1.5-1.9-.7-2.2" class="sat"/><path d="M154.9 33.6l6 0 6 .2 5.9 .2 6 .3 6 0 6 0 6-.1 6 .1 6 .2 6 .2 6-.1 5.9-.2 6-.2 6 0 6 0 6 .1 6-.1 6-.3 6-.3" class="sat"/><path d="M164.9 34.2l5.6 0 5.7 0 5.6 0 5.7-.1 5.6-.2 5.6-.3 5.7-.2 5.6-.1 5.7 0 5.6 .2 5.7 .2 5.6 .1 5.7 .1 5.6 0 5.7 .1 5.6 .1"/><path d="M266.1 32.5l.2 5.9 .1 5.9 0 5.9-.1 5.9 0 5.9 .1 5.9 0 5.9 0 5.9-.2 5.9-.3 5.9-.3 5.9-.2 5.9 0 6 .1 5.9 .1 5.9 .2 5.9 .1 5.9 .1 5.9 0 5.9" class="sat"/><path d="M267.2 38.3l0 5.7-.1 5.7-.2 5.7-.2 5.8 0 5.7 0 5.7 0 5.7-.1 5.8-.2 5.7-.3 5.7-.1 5.7 0 5.7 .1 5.8 .2 5.7 0 5.7-.1 5.7 0 5.8 0 5.7"/><path d="M267.8 144.4l-5.9 .1-5.9 .2-5.9-.1-5.9-.2-5.9-.3-5.9-.2-6-.1-5.9-.1-5.9 .1-5.9-.1-5.9-.1-5.9-.2-5.9 0-6 .2-5.9 .3-5.9 .3-5.9 .2-5.9 0-5.9 0" class="sat"/><path d="M260.4 144.1l-5.8 .2-5.9 .1-5.8 .1-5.8-.1-5.8 0-5.9 0-5.8 .1-5.8 .1-5.8 .1-5.9 0-5.8-.1-5.8-.2-5.8-.2-5.9-.2-5.8 0-5.8 0"/><path d="M156 144.1l.3-6 .2-5.9 0-5.9-.1-5.9-.1-5.9 .1-5.9 .1-5.9 0-5.9-.1-6-.2-5.9-.3-5.9-.2-5.9-.1-5.9 .1-5.9 0-5.9 0-5.9-.2-5.9-.1-6 0-5.9" class="sat"/><path d="M155.3 132.3l.1-5.7 .1-5.7 0-5.7 0-5.8-.2-5.7-.2-5.7-.2-5.7-.2-5.7-.1-5.7 .1-5.7 0-5.7 0-5.8-.1-5.7-.1-5.7-.1-5.7-.1-5.7 .1-5.7"/><path d="M223.2 105l-2.5 1.4-3 .7-3.2 .1-3.1-.7-2.6-1.3-1.8-1.9-.9-2.1 .1-2.2 1.1-2 2-1.6 2.6-1.2 3.1-.5 3.1 .2 2.9 .7 2.4 1.4 1.7 1.7 .8 2.1-.3 2.1-1.2 2-2.1 1.7" class="sat"/><path d="M198.1 97.1l-3.5-.3-3.2-1.2-2.6-2-1.8-2.7-.8-3 .4-3.2 1.4-2.8 2.3-2.4 3.1-1.6 3.5-.6 3.6 .4 3.2 1.5 2.5 2.3 1.6 2.9 .4 3.1-.7 3.2-1.8 2.7-2.6 2-3.1 1.2-3.4 .2" class="sat"/><path d="M232.8 94.4l-1.4 2.9-2.1 2.1-2.4 1.3-2.7 .3-2.6-.7-2.4-1.7-1.8-2.6-1.1-3.1-.2-3.4 .7-3.4 1.6-2.9 2.2-2.1 2.7-1.1 2.9 0 2.7 1 2.3 2.1 1.6 2.8 .8 3.3 0 3.4-.9 3.2" class="sat"/><path d="M219.4 99.2l-.2 3.5-1.2 3.3-2 2.7-2.8 1.8-3.2 1-3.3-.2-3.1-1.2-2.5-2.1-1.8-2.9-.8-3.4 .3-3.4 1.3-3.1 2.2-2.6 2.8-1.7 3.2-.8 3.3 .3 3.1 1.3 2.6 2.3 1.8 3.1 .7 3.5" class="sat"/><path d="M32 155.7l5.9-.2 5.9-.1 6 0 5.9 .1 5.9 .1 6 .2 5.9 .1 5.9 0 5.9 0 6 .1 5.9 .1 5.9 .2 6 .2 5.9 .1 5.9 .1 6-.1 5.9-.2 5.9-.2 6-.2" class="sat"/><path d="M37.3 156.3l6-.2 6 0 6 .1 5.9 .1 6 .1 6 .1 6-.1 6 0 5.9 .1 6 .2 6 .3 6 .2 6 .1 5.9 0 6-.2 6-.1"/><path d="M143.6 155.1l.1 5.9 0 5.8-.1 5.9 0 5.9 0 5.9 .1 5.9 .2 5.9 .2 5.9 .3 5.8 .1 5.9 .1 5.9-.1 5.9-.1 5.9-.1 5.9 0 5.8 0 5.9 0 5.9-.1 5.9-.2 5.9" class="sat"/><path d="M144.2 163.9l.2 5.7 .2 5.7 0 5.8 0 5.7 0 5.7 0 5.8 .1 5.7 0 5.8 0 5.7-.1 5.7-.3 5.8-.3 5.7-.2 5.7-.1 5.8 0 5.7 .1 5.8"/><path d="M145.6 266l-5.7 .2-5.7 .3-5.7 .1-5.7 .1-5.7-.1-5.7-.2-5.7-.3-5.8-.2-5.7-.1-5.7-.1-5.7 0-5.7 0-5.7 0-5.7-.1-5.7 0-5.7 0-5.7 .1-5.7 .2-5.7 .3-5.7 .2" class="sat"/><path d="M139.6 266l-5.8 .1-5.7 .2-5.8 .2-5.8 .2-5.7 0-5.8-.1-5.8-.2-5.7-.1-5.8 0-5.7 0-5.8 0-5.8-.2-5.7-.3-5.8-.2-5.8-.1-5.7 .1-5.8 .1-5.8 .1"/><path d="M34 267.5l.2-5.9 .3-5.9 .1-6 0-5.9-.1-5.9-.1-6-.2-5.9-.1-5.9-.1-5.9 0-6-.1-5.9-.1-5.9-.1-5.9-.1-6-.1-5.9-.1-5.9 .1-6 .1-5.9 .3-5.9" class="sat"/><path d="M34 263.8l-.3-5.6-.1-5.7 .1-5.7 .2-5.6 .3-5.7 .2-5.7 0-5.7 0-5.6 .1-5.7 .2-5.7 .2-5.7 0-5.6-.2-5.7-.3-5.7-.3-5.7-.1-5.6 0-5.7"/><path d="M95.3 197.2l3.7-.5 3.8 .2 3.5 .8 2.8 1.4 1.9 1.8 .8 2.2-.5 2.2-1.8 2-2.7 1.7-3.5 1-3.8 .3-3.8-.4-3.4-1.1-2.7-1.6-1.6-2.1-.4-2.2 .8-2.2 2-1.9 2.9-1.5 3.5-.8" class="sat"/><path d="M93.6 203.9l-1 2.9-2.3 2.5-3.5 2-4.2 1.1-4.5 .3-4.5-.6-4-1.4-3.3-2-2.1-2.5-.8-2.8 .6-2.8 1.9-2.6 3-2.1 4-1.4 4.5-.5 4.5 .3 4.2 1.2 3.4 1.8 2.4 2.3 1.2 2.7-.2 2.8" class="sat"/><path d="M92.4 206.1l-2 2.3-3.2 1.9-4 1.3-4.5 .5-4.5-.4-4-1.3-3.3-2-2.1-2.6-.8-2.8 .5-2.8 1.9-2.7 3-2.2 4-1.6 4.6-.8 4.6 .2 4.4 1.1 3.6 2 .8 .8" class="sat"/><path d="M78.1 196.1l1.5-2.8 2.5-2.3 3.2-1.5 3.5-.5 3.5 .6 3.1 1.5 2.4 2.3 1.5 2.8 .5 3.1-.7 3.1-1.7 2.7-2.6 2.1-3.2 1.3-3.6 .3-3.4-.7-3-1.6-2.3-2.5-1.3-2.9-.2-3.1 1-3.1" class="sat"/><path d="M91.6 215.8l1.2-2.2 2-1.8 2.6-1.2 3-.5 3 .4 2.7 1.1 2.1 1.7 1.4 2.2 .4 2.5-.6 2.4-1.5 2.1-2.2 1.6-2.7 .9-3 .2-2.9-.5-2.5-1.2-2-1.8-1.1-2.2-.3-2.3 .8-2.3" class="sat"/><path d="M154.2 170.1l5.8-.1 5.7-.2 5.7-.2 5.7-.2 5.8-.1 5.7 .2 5.7 .3 5.8 .3 5.7 .2 5.7 0 5.7 0 5.8 0 5.7 .1 5.7 .1 5.8 0 5.7-.2 5.7-.3 5.7-.3 5.8-.3 5.7 0" class="sat"/><path d="M160.9 169.3l6 .3 6 .3 5.9 .1 6 0 6-.1 6 0 5.9 0 6 0 6-.1 5.9-.2 6-.3 6-.3 6-.1 5.9 .1 6 .2 6 .3 6 .2"/><path d="M265.9 169.8l-.1 5.8-.1 5.7 0 5.7 0 5.8-.1 5.7-.1 5.7 0 5.7 .2 5.8 .3 5.7 .3 5.7 .2 5.8 0 5.7-.1 5.7-.1 5.8 0 5.7 0 5.7-.1 5.8" class="sat"/><path d="M264.9 175.8l-.2 5.7-.3 5.8-.1 5.7 0 5.7 .2 5.8 .3 5.7 .3 5.8 .2 5.7 .1 5.8 .1 5.7-.1 5.7-.1 5.8-.1 5.7-.1 5.8 0 5.7"/><path d="M267.2 265.5l-5.9 0-5.9 0-5.9 .2-5.9 .1-5.9 .1-5.9 0-5.9 .1-5.9 .1-5.9 .2-5.9 .2-5.9 .1-5.9 0-5.9-.2-5.9-.2-5.9-.3-5.9-.3-5.9-.1-5.9 0-5.9 .1" class="sat"/><path d="M258.4 265.5l-5.9-.1-5.9 .1-5.9 .2-5.9 .2-5.9 .3-5.9 .2-5.9 .1-5.9 .1-5.9-.1-5.9-.1-6-.1-5.9-.1-5.9 0-5.9-.1-5.9-.2-5.9-.1"/><path d="M155.6 267.2l0-5.8 0-5.7 .1-5.8-.1-5.8 0-5.8 0-5.7 .1-5.8 .2-5.8 .3-5.7 .3-5.8 .1-5.8 0-5.8-.2-5.7-.1-5.8-.1-5.8 0-5.7-.1-5.8" class="sat"/><path d="M156.8 263.1l-.2-5.8-.3-5.8-.1-5.8-.1-5.8 0-5.8-.1-5.8-.1-5.8-.1-5.8-.1-5.8 .1-5.8 .2-5.8 .3-5.8 .3-5.8 .2-5.7 .1-5.8"/><path d="M159.7 166.9l5.8 0 5.8 .1 5.8 .2 5.8 .2 5.8 .2 5.8 0 5.8 0 5.8-.1 5.8-.3 5.8-.3 5.8-.2 5.8-.1 5.8-.1 5.8 0 5.8 .1 5.8 .1 5.8 0 5.8 .1" class="sat"/><path d="M169.7 167.8l5.7 0 5.7 0 5.7 .1 5.7 .2 5.7 .1 5.7 .1 5.7 0 5.7-.2 5.7-.1 5.7-.2 5.7-.1 5.7-.1 5.7 0 5.7 0 5.7 0" class="sat"/><path d="M261.8 166.4l0 6 .2 5.9 .2 5.9 .2 5.9 .2 5.9 .1 5.9-.1 6-.1 5.9-.1 5.9-.2 5.9-.1 5.9-.1 5.9 0 6 0 5.9-.1 5.9-.1 5.9" class="sat"/><path d="M262.1 170l.2 5.7 .2 5.8 0 5.7-.1 5.7-.3 5.8-.3 5.7-.3 5.8-.1 5.7-.1 5.7 .1 5.8 .2 5.7 .1 5.7 0 5.8 .1 5.7 .1 5.8" class="sat"/><path d="M263.6 258.5l-5.8-.2-5.8 .1-5.9 .1-5.8 .2-5.9 .1-5.8 0-5.8 0-5.9 0-5.8 .1-5.9 .3-5.8 .2-5.8 .1-5.9 0-5.8-.1-5.9-.1-5.8 .1-5.9 .1-5.8 .1" class="sat"/><path d="M256.4 259l-5.9-.1-5.8-.2-5.9-.2-5.9-.1-5.9 .2-5.9 .2-5.8 .3-5.9 .1-5.9 0-5.9 0-5.9 .1-5.8 .2-5.9 .2-5.9 .1-5.9-.1" class="sat"/><path d="M159.8 260.3l0-6 .1-6-.1-5.9-.1-6-.2-6-.2-6 0-5.9 .2-6 .2-6 .1-5.9 .1-6-.1-6 0-6 .1-5.9 .2-6 .2-6" class="sat"/><path d="M159.6 252l.3-5.6 .2-5.6 0-5.6-.1-5.7-.1-5.6 0-5.6 .1-5.6 0-5.6-.1-5.7-.3-5.6-.3-5.6-.2-5.6 0-5.6 .1-5.6" class="sat"/><path d="M163.4 163.7l6 0 6 0 6 0 6 0 6-.2 6-.1 6 0 6 .2 6 .3 6 .2 5.9 0 6 0 6 0 6 .2 6 .2 6 .2" class="sat"/><path d="M172.4 164.8l5.9-.1 5.9-.1 5.9-.2 5.9-.2 5.9-.2 5.9-.1 5.9 .1 5.9 .1 5.9 .1 5.9 .2 5.9 0 5.9 0 6 0 5.9 .1" class="sat"/><path d="M258.6 162.3l0 5.7-.1 5.6-.2 5.7-.2 5.7-.1 5.7-.1 5.7 0 5.7-.1 5.6-.1 5.7-.1 5.7-.1 5.7 0 5.7 .1 5.7 .2 5.6 .3 5.7 .3 5.7" class="sat"/><path d="M257.8 163.9l-.3 5.8-.2 5.9 0 5.8 .1 5.9 0 5.9-.1 5.8-.1 5.9-.1 5.8 .2 5.9 .2 5.8 .3 5.9 .1 5.9 0 5.8 0 5.9" class="sat"/><path d="M259.8 251.9l-5.7-.2-5.7-.1-5.7 0-5.6 .1-5.7 0-5.7 0-5.7-.1-5.6-.1-5.7-.1-5.7 0-5.7 .2-5.6 .2-5.7 .2-5.7 .1-5.7 .1-5.6 0-5.7 0" class="sat"/><path d="M252.9 251.5l-5.9-.2-5.9-.1-5.8 .1-5.9 .2-5.8 .2-5.9 .1-5.8 0-5.9 0-5.8 .1-5.9 .2-5.8 .3-5.9 .1-5.8-.1-5.9-.2" class="sat"/><path d="M163.8 252.9l.1-5.6 0-5.7 0-5.7 0-5.6 .2-5.7 .3-5.7 .2-5.6 0-5.7-.1-5.7-.1-5.6-.1-5.7 0-5.7 .1-5.6 0-5.7-.1-5.7-.2-5.6" class="sat"/><path d="M162.7 247.8l0-5.8 .2-5.8 .2-5.8 .1-5.8 .1-5.8 .1-5.9 0-5.8 .1-5.8 .1-5.8 .2-5.8 .1-5.8 .1-5.8-.1-5.8-.2-5.8" class="sat"/><text x="89" y="134" text-anchor="middle">motor face X</text><text x="211" y="134" text-anchor="middle">motor face Y</text><text x="89" y="256" text-anchor="middle">motor face Z</text><text x="211" y="215" text-anchor="middle">plain faces × 3</text><text x="150" y="13" text-anchor="middle">one 360 × 360 mm plate</text></svg><!-- /art:doodle-plate --></div>
+
+      <div class="aside">
+        <h3>The fill that leaked</h3>
+        <p>The first filled version of the drawing leaked: the flood fill got inside the figure
+        through gaps in the sketch lines, at the top of the head, the thumb tip and the knuckles.
+        Closing every pair of stroke ends within 3 mm fixed the fist but not a wider break at the
+        shoulder. A morphological closing finally gave a solid silhouette, with the face and
+        finger lines left in the panel color.</p>
+      </div>
+    </section>
+
+    <section class="beat" id="s6">
+      <h2><span class="step-n">06</span>No cable yet, so wire all of it on paper</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      I misplaced my USB cable. I do not just want to spin a motor, I want the whole cube wired, so
+      the cable is the last missing piece.</p>
+
+      <p>Everything lives on one plain face except the battery, which gets its own, and the
+      motors. That keeps the ten signal wires short, and only the motor and battery leads cross
+      between panels, each through a plug with 5 cm of slack so a panel lifts off without
+      unplugging anything.</p>
+
+      <p>Two choices matter most. Each TB6612 board drives <strong>one motor with both of its
+      channels tied together</strong>, which doubles what it can deliver, from 1.2 to about 2.4 A
+      continuous and 3.2 to about 6.4 A peak, because an RS-385 reversing hard can pull several
+      amps. And all three boards share one <strong>standby pin with a 10 k&#937; pull-down</strong>,
+      so the motors stay off while the ESP32 boots.</p>
+
+      <div class="wd-tabs" role="tablist">
+        <button class="g-btn" type="button" role="tab" aria-selected="true" data-tab="power">Power</button>
+        <button class="g-btn" type="button" role="tab" aria-selected="false" data-tab="signals">Signals</button>
+      </div>
+
+      <div class="wd-frame">
+        <svg class="wd" data-v="power" viewBox="0 0 960 390" role="img" aria-label="Power wiring: the battery runs through a 5 A fuse and a switch to a 12 V bus feeding the capacitor, the buck converter and the three TB6612 VM pins. The buck makes 5 V for the ESP32. All grounds are common.">
+          <rect class="box" x="20" y="34" width="120" height="96" rx="4"/>
+          <text class="tl" x="80" y="62" text-anchor="middle">3S LiPo</text>
+          <text class="mut" x="80" y="84" text-anchor="middle">450 mAh 80C</text>
+          <text class="mut" x="80" y="102" text-anchor="middle">11.1 to 12.6 V</text>
+          <text class="tm" x="128" y="54" text-anchor="end">+</text>
+          <text class="tm" x="50" y="124" text-anchor="middle">&#8722;</text>
+          <path class="w" data-n="v12" d="M140 60 H170"/>
+          <rect class="box" x="170" y="50" width="50" height="20" rx="3"/>
+          <path class="w thin" data-n="v12" d="M176 60 H214"/>
+          <text x="195" y="40" text-anchor="middle">5 A fuse</text>
+          <path class="w" data-n="v12" d="M220 60 H252"/>
+          <circle cx="256" cy="60" r="4" class="box"/><circle cx="300" cy="60" r="4" class="box"/>
+          <path class="sym" d="M259 58 L296 40"/>
+          <text x="278" y="30" text-anchor="middle">switch</text>
+          <path class="w" data-n="v12" d="M304 60 H880 V150"/>
+          <text x="590" y="50">12 V bus, after the switch</text>
+          <path class="w" data-n="v12" d="M330 60 V146"/>
+          <path class="sym" d="M312 146 H348" style="stroke-width:2.4"/>
+          <path class="sym" d="M312 160 Q330 152 348 160" style="stroke-width:2.4"/>
+          <text class="tm" x="304" y="142" text-anchor="end">+</text>
+          <text x="358" y="150">470 &#181;F</text>
+          <text class="mut" x="358" y="166">25 V</text>
+          <text class="mut" x="358" y="182">stripe = &#8722;</text>
+          <path class="w" data-n="gnd" d="M330 158 V340"/>
+          <path class="w" data-n="v12" d="M470 60 V150"/>
+          <rect class="box" x="440" y="150" width="130" height="64" rx="4"/>
+          <text class="tl" x="505" y="176" text-anchor="middle">Buck converter</text>
+          <text class="mut" x="505" y="196" text-anchor="middle">set to 5.0 V first</text>
+          <path class="w" data-n="gnd" d="M458 214 V340"/>
+          <text class="mut" x="452" y="232" text-anchor="end">IN&#8722; / OUT&#8722;</text>
+          <path class="w" data-n="v5" d="M548 214 V258"/>
+          <text x="556" y="240">OUT+ 5 V</text>
+          <rect class="box" x="500" y="258" width="130" height="50" rx="4"/>
+          <text class="tl" x="565" y="280" text-anchor="middle">ESP32</text>
+          <text class="mut" x="565" y="298" text-anchor="middle">5V / VIN pin</text>
+          <path class="w" data-n="gnd" d="M612 308 V340"/>
+          <path class="w" data-n="v12" d="M700 60 V150"/>
+          <rect class="box" x="664" y="150" width="72" height="62" rx="4"/>
+          <text class="tm" x="700" y="172" text-anchor="middle">TB6612</text>
+          <text class="mut" x="700" y="188" text-anchor="middle">#1 &#183; X</text>
+          <text x="700" y="204" text-anchor="middle">VM</text>
+          <path class="w" data-n="gnd" d="M700 212 V340"/>
+          <path class="w" data-n="v12" d="M790 60 V150"/>
+          <rect class="box" x="754" y="150" width="72" height="62" rx="4"/>
+          <text class="tm" x="790" y="172" text-anchor="middle">TB6612</text>
+          <text class="mut" x="790" y="188" text-anchor="middle">#2 &#183; Y</text>
+          <text x="790" y="204" text-anchor="middle">VM</text>
+          <path class="w" data-n="gnd" d="M790 212 V340"/>
+          <rect class="box" x="844" y="150" width="72" height="62" rx="4"/>
+          <text class="tm" x="880" y="172" text-anchor="middle">TB6612</text>
+          <text class="mut" x="880" y="188" text-anchor="middle">#3 &#183; Z</text>
+          <text x="880" y="204" text-anchor="middle">VM</text>
+          <path class="w" data-n="gnd" d="M880 212 V340"/>
+          <path class="w" data-n="gnd" d="M50 130 V340 H880"/>
+          <text x="70" y="366">common ground: battery &#8722;, buck, capacitor &#8722;, all three TB6612 GND, ESP32 GND, MPU-6050 GND</text>
+          <circle class="dot" data-n="v12" cx="330" cy="60" r="4.5"/><circle class="dot" data-n="v12" cx="470" cy="60" r="4.5"/>
+          <circle class="dot" data-n="v12" cx="700" cy="60" r="4.5"/><circle class="dot" data-n="v12" cx="790" cy="60" r="4.5"/>
+          <circle class="dot" data-n="gnd" cx="330" cy="340" r="4.5"/><circle class="dot" data-n="gnd" cx="458" cy="340" r="4.5"/>
+          <circle class="dot" data-n="gnd" cx="612" cy="340" r="4.5"/><circle class="dot" data-n="gnd" cx="700" cy="340" r="4.5"/>
+          <circle class="dot" data-n="gnd" cx="790" cy="340" r="4.5"/>
+        </svg>
+
+        <svg class="wd" data-v="signals" hidden viewBox="0 0 1000 800" role="img" aria-label="Signal wiring: ESP32 GPIO pins to three TB6612 boards, each driving one motor, plus the MPU-6050 on I2C.">
+          <rect class="box" x="140" y="24" width="170" height="760" rx="6"/>
+          <text class="tl" x="225" y="364" text-anchor="middle">ESP32</text>
+          <text class="mut" x="225" y="384" text-anchor="middle">dev board</text>
+          <text class="mut" x="225" y="408" text-anchor="middle">match pins by the</text>
+          <text class="mut" x="225" y="424" text-anchor="middle">label printed on</text>
+          <text class="mut" x="225" y="440" text-anchor="middle">the board</text>
+          <text x="148" y="94">5V/VIN</text>
+          <path class="w" data-n="v5" d="M140 90 H96"/><text x="90" y="94" text-anchor="end">5 V buck</text>
+          <text x="148" y="124">GND</text>
+          <path class="w" data-n="gnd" d="M140 120 H112 V128"/><path class="w thin" data-n="gnd" d="M103 128 H121 M106 132 H118 M109 136 H115"/>
+          <text x="148" y="154">3V3</text>
+          <path class="w" data-n="v33" d="M140 150 H96"/><text x="90" y="154" text-anchor="end">3V3</text>
+
+          <rect class="box" x="540" y="40" width="160" height="164" rx="4"/>
+          <text class="tm" x="620" y="58" text-anchor="middle" style="font-weight:600">TB6612 #1</text>
+          <text x="302" y="72" text-anchor="end">GPIO25</text>
+          <text x="302" y="96" text-anchor="end">GPIO26</text>
+          <text x="302" y="120" text-anchor="end">GPIO27</text>
+          <text x="302" y="144" text-anchor="end">GPIO13</text>
+          <path class="w" data-n="mx" d="M310 68 H540 M310 92 H540 M310 116 H540"/>
+          <path class="w" data-n="st" d="M310 140 H540"/>
+          <text x="548" y="72">PWMA+PWMB</text>
+          <text x="548" y="96">AIN1+BIN1</text>
+          <text x="548" y="120">AIN2+BIN2</text>
+          <text x="548" y="144">STBY</text>
+          <text x="548" y="168">VCC</text>
+          <text x="548" y="192">GND</text>
+          <path class="w" data-n="v33" d="M540 164 H500"/><text x="494" y="168" text-anchor="end">3V3</text>
+          <path class="w" data-n="gnd" d="M540 188 H516 V196"/><path class="w thin" data-n="gnd" d="M507 196 H525 M510 200 H522 M513 204 H519"/>
+          <circle class="dot" data-n="st" cx="390" cy="140" r="4.5"/>
+          <path class="w" data-n="st" d="M390 140 V150"/>
+          <rect x="382" y="150" width="16" height="34" rx="2" class="box"/>
+          <path class="w" data-n="gnd" d="M390 184 V196"/><path class="w thin" data-n="gnd" d="M381 196 H399 M384 200 H396 M387 204 H393"/>
+          <text x="406" y="172">10 k&#937;</text>
+          <text x="692" y="72" text-anchor="end">VM</text>
+          <text x="692" y="120" text-anchor="end">AO1+BO1</text>
+          <text x="692" y="144" text-anchor="end">AO2+BO2</text>
+          <path class="w" data-n="v12" d="M700 68 H744"/><text x="750" y="72">12 V</text>
+          <path class="w" data-n="mx" d="M700 116 H823 M700 140 H823"/>
+          <circle cx="850" cy="128" r="30" class="box"/><text class="tl" x="850" y="133" text-anchor="middle">M</text>
+          <text class="tl" x="890" y="124">Motor X</text>
+          <text class="mut" x="890" y="142">RS-385</text>
+
+          <rect class="box" x="540" y="240" width="160" height="164" rx="4"/>
+          <text class="tm" x="620" y="258" text-anchor="middle" style="font-weight:600">TB6612 #2</text>
+          <text x="302" y="272" text-anchor="end">GPIO32</text>
+          <text x="302" y="296" text-anchor="end">GPIO33</text>
+          <text x="302" y="320" text-anchor="end">GPIO14</text>
+          <path class="w" data-n="my" d="M310 268 H540 M310 292 H540 M310 316 H540"/>
+          <text x="548" y="272">PWMA+PWMB</text>
+          <text x="548" y="296">AIN1+BIN1</text>
+          <text x="548" y="320">AIN2+BIN2</text>
+          <text x="548" y="344">STBY</text>
+          <text x="548" y="368">VCC</text>
+          <text x="548" y="392">GND</text>
+          <path class="w" data-n="st" d="M540 340 H500"/><text x="494" y="344" text-anchor="end">STBY (GPIO13)</text>
+          <path class="w" data-n="v33" d="M540 364 H500"/><text x="494" y="368" text-anchor="end">3V3</text>
+          <path class="w" data-n="gnd" d="M540 388 H516 V396"/><path class="w thin" data-n="gnd" d="M507 396 H525 M510 400 H522 M513 404 H519"/>
+          <text x="692" y="272" text-anchor="end">VM</text>
+          <text x="692" y="320" text-anchor="end">AO1+BO1</text>
+          <text x="692" y="344" text-anchor="end">AO2+BO2</text>
+          <path class="w" data-n="v12" d="M700 268 H744"/><text x="750" y="272">12 V</text>
+          <path class="w" data-n="my" d="M700 316 H823 M700 340 H823"/>
+          <circle cx="850" cy="328" r="30" class="box"/><text class="tl" x="850" y="333" text-anchor="middle">M</text>
+          <text class="tl" x="890" y="324">Motor Y</text>
+          <text class="mut" x="890" y="342">RS-385</text>
+
+          <rect class="box" x="540" y="440" width="160" height="164" rx="4"/>
+          <text class="tm" x="620" y="458" text-anchor="middle" style="font-weight:600">TB6612 #3</text>
+          <text x="302" y="472" text-anchor="end">GPIO18</text>
+          <text x="302" y="496" text-anchor="end">GPIO19</text>
+          <text x="302" y="520" text-anchor="end">GPIO23</text>
+          <path class="w" data-n="mz" d="M310 468 H540 M310 492 H540 M310 516 H540"/>
+          <text x="548" y="472">PWMA+PWMB</text>
+          <text x="548" y="496">AIN1+BIN1</text>
+          <text x="548" y="520">AIN2+BIN2</text>
+          <text x="548" y="544">STBY</text>
+          <text x="548" y="568">VCC</text>
+          <text x="548" y="592">GND</text>
+          <path class="w" data-n="st" d="M540 540 H500"/><text x="494" y="544" text-anchor="end">STBY (GPIO13)</text>
+          <path class="w" data-n="v33" d="M540 564 H500"/><text x="494" y="568" text-anchor="end">3V3</text>
+          <path class="w" data-n="gnd" d="M540 588 H516 V596"/><path class="w thin" data-n="gnd" d="M507 596 H525 M510 600 H522 M513 604 H519"/>
+          <text x="692" y="472" text-anchor="end">VM</text>
+          <text x="692" y="520" text-anchor="end">AO1+BO1</text>
+          <text x="692" y="544" text-anchor="end">AO2+BO2</text>
+          <path class="w" data-n="v12" d="M700 468 H744"/><text x="750" y="472">12 V</text>
+          <path class="w" data-n="mz" d="M700 516 H823 M700 540 H823"/>
+          <circle cx="850" cy="528" r="30" class="box"/><text class="tl" x="850" y="533" text-anchor="middle">M</text>
+          <text class="tl" x="890" y="524">Motor Z</text>
+          <text class="mut" x="890" y="542">RS-385</text>
+
+          <rect class="box" x="540" y="636" width="160" height="128" rx="4"/>
+          <text class="tm" x="620" y="656" text-anchor="middle" style="font-weight:600">MPU-6050</text>
+          <text x="302" y="684" text-anchor="end">GPIO22</text>
+          <text x="302" y="714" text-anchor="end">GPIO21</text>
+          <text x="302" y="744" text-anchor="end">GPIO4</text>
+          <path class="w" data-n="i2c" d="M310 680 H540 M310 710 H540"/>
+          <path class="w dash" data-n="i2c" d="M310 740 H540"/>
+          <text x="548" y="684">SCL</text>
+          <text x="548" y="714">SDA</text>
+          <text x="548" y="744">INT</text>
+          <text class="mut" x="420" y="734" text-anchor="middle">optional</text>
+          <text x="692" y="684" text-anchor="end">VCC</text>
+          <text x="692" y="714" text-anchor="end">GND</text>
+          <text x="692" y="744" text-anchor="end">AD0</text>
+          <path class="w" data-n="v33" d="M700 680 H744"/><text x="750" y="684">3V3</text>
+          <path class="w" data-n="gnd" d="M700 710 H728 V718"/><path class="w thin" data-n="gnd" d="M719 718 H737 M722 722 H734 M725 726 H731"/>
+          <path class="w" data-n="gnd" d="M700 740 H768 V748"/><path class="w thin" data-n="gnd" d="M759 748 H777 M762 752 H774 M765 756 H771"/>
+          <text class="mut" x="786" y="744">AD0 to GND: address 0x68</text>
+        </svg>
+      </div>
+
+      <div class="wd-nets" role="group" aria-label="Light up one net">
+        <button class="g-btn" type="button" data-net="v12">12 V</button>
+        <button class="g-btn" type="button" data-net="v5">5 V</button>
+        <button class="g-btn" type="button" data-net="v33">3.3 V</button>
+        <button class="g-btn" type="button" data-net="gnd">Ground</button>
+        <button class="g-btn" type="button" data-net="mx">Motor X</button>
+        <button class="g-btn" type="button" data-net="my">Motor Y</button>
+        <button class="g-btn" type="button" data-net="mz">Motor Z</button>
+        <button class="g-btn" type="button" data-net="st">Standby</button>
+        <button class="g-btn" type="button" data-net="i2c">I&#178;C</button>
+      </div>
+      <p class="wd-hint">Hover or tap a net, or any wire, to light it up.</p>
+
+      <details class="more">
+        <summary>Pin map and wire lengths</summary>
+        <div class="more-in">
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Connection</th><th>ESP32</th><th>Goes to</th></tr>
+            <tr><td>Motor X</td><td class="n">25 / 26 / 27</td><td>board 1: PWM / IN1 / IN2</td></tr>
+            <tr><td>Motor Y</td><td class="n">32 / 33 / 14</td><td>board 2: PWM / IN1 / IN2</td></tr>
+            <tr><td>Motor Z</td><td class="n">18 / 19 / 23</td><td>board 3: PWM / IN1 / IN2</td></tr>
+            <tr><td>Standby</td><td class="n">13</td><td>STBY on all three, 10 k&#937; to ground</td></tr>
+            <tr><td>IMU</td><td class="n">22 / 21 / 4</td><td>SCL / SDA / INT</td></tr>
+          </table></div>
+          <p>The pins stay clear of the ESP32&#8217;s flash and boot mode pins, and of GPIO 16
+          and 17, which some boards use for extra RAM. PWM runs at 20 kHz, above hearing, so the
+          motors do not whine.</p>
+          <div class="tbl-wrap"><table class="tbl">
+            <tr><th>Run</th><th>Length</th><th>Wire</th></tr>
+            <tr><td>Motor to driver, each, with a plug in the middle</td><td class="n">16 cm</td><td class="n">22 AWG</td></tr>
+            <tr><td>Battery to the electronics panel, XT30 at that end</td><td class="n">15 cm</td><td class="n">20 AWG</td></tr>
+            <tr><td>12 V bus to the three VM pins, buck and capacitor</td><td class="n">5 to 8 cm</td><td class="n">20 to 22 AWG</td></tr>
+            <tr><td>Buck to the ESP32&#8217;s 5 V pin</td><td class="n">6 to 8 cm</td><td class="n">22 AWG</td></tr>
+            <tr><td>ESP32 to the driver signals and standby</td><td class="n">8 to 10 cm</td><td class="n">26 to 28 AWG</td></tr>
+          </table></div>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s7">
+      <h2><span class="step-n">07</span>Is a 450 mAh battery enough?</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Before buying a bigger battery, work out what this one actually gives me.</p>
+
+      <p>The pack says <strong>3S, 450 mAh, 80C</strong>. That is three cells in series, 11.1 V
+      nominal and 12.6 V full, about 5 Wh in all. The 80C means it can push 80 times its capacity:
+      36 A. The cube will never ask for that, but a short circuit would get it, which is why a
+      5 A fuse sits right after the battery.</p>
+
+      <p>Rough runtimes, using 360 of the 450 mAh:</p>
+
+      <div class="db-key"><span>shortest</span><span class="k-b">longest</span></div>
+      <div class="tbl-wrap"><table class="tbl">
+        <tr><th>Doing</th><th>Average draw</th><th>Minutes, 0 to 60</th></tr>
+        <tr><td>Balancing on an edge</td><td class="n">0.4 to 0.8 A</td><td class="db-cell"><div class="db" style="--a:0.417;--b:0.833"><span class="ln"></span><span class="a"></span><span class="b"></span></div></td></tr>
+        <tr><td>Balancing on a corner, well tuned</td><td class="n">0.5 to 1 A</td><td class="db-cell"><div class="db" style="--a:0.333;--b:0.667"><span class="ln"></span><span class="a"></span><span class="b"></span></div></td></tr>
+        <tr><td>Jumping up, badly tuned</td><td class="n">2 A or more</td><td class="db-cell"><div class="db" style="--a:0;--b:0.167"><span class="ln"></span><span class="a"></span><span class="b"></span></div></td></tr>
+      </table></div>
+
+      <p>Just switched on, it would idle for about six hours. So the answer is no bigger battery
+      yet: tuning happens in five minute bursts, and at about 40 g the 450 barely moves the center
+      of mass of a cube that weighs close to a kilogram.</p>
+
+      <details class="more">
+        <summary>The fine print</summary>
+        <div class="more-in">
+          <p>Nothing in the cube protects the pack from running itself flat, so two resistors
+          (100 k&#937; and 22 k&#937;) bring the battery voltage down to something the ESP32 can
+          read on GPIO 34, and the motors cut out at 10.5 V, 3.5 V per cell.</p>
+          <p>A light inside would shine out through the grid holes: a dozen WS2812B LEDs at a third
+          of full brightness draw about 0.1 A, roughly 10 to 15% of the runtime.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s8">
+      <h2><span class="step-n">08</span>Before the first power-up</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      A pack that can push 36 A will melt a jumper wire faster than I can unplug it. Check
+      everything twice, with the battery out.</p>
+
+      <p>The first program is a bring-up sketch, not a balancer. Over the serial monitor,
+      <strong>r x</strong> ramps motor X both ways, <strong>x 100</strong> holds a speed,
+      <strong>s</strong> stops everything and <strong>i</strong> streams the gyro&#8217;s tilt
+      angles. Speed is capped at 200 of 255 while testing. Before any of that runs:</p>
+
+      <ul class="checks">
+        <li><label><input type="checkbox"><span class="box"></span><span class="txt">Battery unplugged, a meter in continuity mode between the 12 V bus and ground. It must not beep.</span></label></li>
+        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The buck converter reads 5.0 V on its own, before the ESP32 is connected.</span></label></li>
+        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The capacitor&#8217;s stripe, its negative side, is on ground.</span></label></li>
+        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The channel A and B jumpers are on all three TB6612 boards.</span></label></li>
+        <li><label><input type="checkbox"><span class="box"></span><span class="txt">Every ground is common, including the ESP32 and the battery&#8217;s negative.</span></label></li>
+        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The motors are clamped down and the wheels are off.</span></label></li>
+      </ul>
+    </section>
+
+    <nav class="case-nav">
+      <a href="/projects/lunar-viscosity.html">&#8592; Lunar Regolith Viscosity</a>
+      <a href="/">Index &#8594;</a>
+    </nav>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="col">
+    <hr class="rule">
+    <div class="foot-inner">
+      <span>&copy; 2026 Luke Caffarey</span>
+      <span><a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* balance it yourself: one edge of the cube, one wheel.
+   Model: body about the edge, I th'' = m g l sin(th) - tau; wheel relative speed
+   ph' with ph'' = tau / Iw - th''; motor tau = Ts (u - ph' / Wf), u in [-1, 1]. */
+(function () {
+  var root = document.getElementById('bal');
+  if (!root) return;
+  var M = 1.0, S = 0.165, G = 9.81, L = S / Math.SQRT2, IP = 2 / 3 * M * S * S;
+  var IW = 0.000272, TS = 0.12, WF = 628.3, MGL = M * G * L;
+  var K = [69.11, 5.651, 0.005287];            /* LQR on [th, th', ph'] */
+  var FALL = 30 * Math.PI / 180, REST = 45 * Math.PI / 180;
+  var svg = root.querySelector('svg'), NS = 'http://www.w3.org/2000/svg';
+  var gCube = svg.querySelector('.cube'), gGround = svg.querySelector('.ground');
+  var ref = svg.querySelector('.ref'), arc = svg.querySelector('.tiltarc'), ttxt = svg.querySelector('.tilttxt');
+  var pl = svg.querySelector('.pl'), pr = svg.querySelector('.pr');
+  var cover = root.querySelector('.bal-cover'), status = root.querySelector('.bal-status');
+  var R = {}; root.querySelectorAll('[data-r]').forEach(function (e) { R[e.dataset.r] = e; });
+  var meter = root.querySelector('.bal-meter-bar i');
+  var bAuto = root.querySelector('[data-act="auto"]'), bPoke = root.querySelector('[data-act="poke"]');
+  var PX = 820, OX = 320, OY = 300;              /* pixels per metre, pivot */
+  var speed = 0.125, st = null, mode = 'idle', best = 0, last = 0, held = { l: 0, r: 0 }, spinVis = 0;
+
+  function el(n, a, p) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); (p || svg).appendChild(e); return e; }
+  /* a slightly wobbly line, so it looks drawn rather than ruled */
+  function wob(pts, amp) {
+    var out = [], seed = pts.length * 7.31;
+    for (var i = 0; i < pts.length - 1; i++) {
+      var a = pts[i], b = pts[i + 1], n = Math.max(2, Math.round(Math.hypot(b[0] - a[0], b[1] - a[1]) / 12));
+      for (var k = 0; k < n; k++) {
+        var t = k / n, x = a[0] + (b[0] - a[0]) * t, y = a[1] + (b[1] - a[1]) * t;
+        var o = amp * Math.sin((i * n + k) * 0.9 + seed);
+        out.push([x + o * 0.4, y + o]);
+      }
+    }
+    out.push(pts[pts.length - 1]);
+    return 'M' + out.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L');
+  }
+  /* ground with a few hatch strokes under it */
+  el('path', { class: 'ln', d: wob([[40, OY], [600, OY]], 0.6) }, gGround);
+  for (var x = 52; x < 600; x += 18) el('path', { class: 'ln thin', d: 'M' + x + ' ' + (OY + 2) + ' l-10 12' }, gGround);
+  /* the cube, drawn around its pivot corner with th = 0 */
+  var h = S / Math.SQRT2 * PX;
+  var body = el('path', { class: 'ln body', d: wob([[0, 0], [h, -h], [0, -2 * h], [-h, -h], [0, 0]], 0.7) + ' Z' }, gCube);
+  var wheel = el('g', {}, gCube);
+  var rw = 0.064 * PX, cxw = 0, cyw = -h;
+  el('circle', { class: 'ln', cx: 0, cy: 0, r: rw }, wheel);
+  el('circle', { class: 'ln thin', cx: 0, cy: 0, r: rw - 8 }, wheel);
+  for (var i = 0; i < 6; i++) {
+    var a = i / 6 * 2 * Math.PI + Math.PI / 6;
+    el('circle', { class: 'ln thin', cx: Math.cos(a) * 30, cy: Math.sin(a) * 30, r: 9 }, wheel);
+  }
+  for (var j = 0; j < 12; j++) {
+    var b = j / 12 * 2 * Math.PI;
+    el('circle', { class: 'dot', cx: Math.cos(b) * (rw - 4), cy: Math.sin(b) * (rw - 4), r: 2.2 }, wheel);
+  }
+  el('circle', { class: 'dot', cx: 0, cy: 0, r: 3 }, wheel);
+  el('circle', { class: 'dot', cx: 0, cy: 0, r: 3.5 }, gCube);
+
+  function reset() {
+    st = { th: (Math.random() < 0.5 ? -1 : 1) * 1.5 * Math.PI / 180, thd: 0, ph: 0, t: 0, fallen: false };
+    held.l = held.r = 0;
+  }
+  function u() {
+    if (mode === 'auto') return Math.max(-1, Math.min(1, K[0] * st.th + K[1] * st.thd + K[2] * st.ph));
+    if (mode !== 'play') return 0;
+    return held.l - held.r;
+  }
+  function step(dt) {
+    if (st.fallen) {
+      /* tip over freely until a face lands */
+      if (Math.abs(st.th) < REST) {
+        st.thd += MGL * Math.sin(st.th) / IP * dt;
+        st.th += st.thd * dt;
+        if (Math.abs(st.th) >= REST) { st.th = Math.sign(st.th) * REST; st.thd = 0; }
+      }
+      st.ph *= Math.max(0, 1 - 0.8 * dt);
+      return;
+    }
+    var tau = TS * (u() - st.ph / WF);
+    var thdd = (MGL * Math.sin(st.th) - tau) / IP;
+    var phd = tau / IW - thdd;
+    st.thd += thdd * dt; st.th += st.thd * dt; st.ph += phd * dt; st.t += dt;
+    if (Math.abs(st.th) > FALL) fall();
+  }
+  function fall() {
+    st.fallen = true;
+    var t = st.t;
+    if (mode === 'play') {
+      if (t > best) best = t;
+      status.textContent = 'It fell after ' + t.toFixed(2) + ' s of cube time.' +
+        (speed === 1 ? ' At real speed, that is about normal for a human.' : ' Try again, or try it faster.');
+      cover.hidden = false; cover.querySelector('span').textContent = 'Again';
+    } else if (mode === 'auto') {
+      status.textContent = 'That poke was too much, even for the controller.';
+      cover.hidden = false; cover.querySelector('span').textContent = 'Start';
+    }
+    mode = 'idle'; bPoke.disabled = true;
+  }
+  function draw() {
+    var deg = st.th * 180 / Math.PI;
+    gCube.setAttribute('transform', 'translate(' + OX + ' ' + OY + ') rotate(' + deg.toFixed(2) + ')');
+    wheel.setAttribute('transform', 'translate(' + cxw + ' ' + cyw.toFixed(1) + ') rotate(' + (spinVis * 180 / Math.PI).toFixed(1) + ')');
+    var top = OY - 2 * h - 26;
+    ref.setAttribute('d', 'M' + OX + ' ' + OY + ' L' + OX + ' ' + top);
+    var r = 2 * h + 12, a = st.th;
+    arc.setAttribute('d', 'M' + OX + ' ' + (OY - r) + ' A' + r + ' ' + r + ' 0 0 ' + (a > 0 ? 1 : 0) + ' ' +
+      (OX + r * Math.sin(a)).toFixed(1) + ' ' + (OY - r * Math.cos(a)).toFixed(1));
+    ttxt.setAttribute('x', (OX + (r + 18) * Math.sin(a / 2) + (a >= 0 ? 6 : -6)).toFixed(1));
+    ttxt.setAttribute('y', (OY - (r + 18) * Math.cos(a / 2)).toFixed(1));
+    ttxt.setAttribute('text-anchor', a >= 0 ? 'start' : 'end');
+    ttxt.textContent = Math.abs(deg).toFixed(1) + '°';
+    R.tilt.textContent = Math.abs(deg).toFixed(1) + '°';
+    R.time.textContent = st.t.toFixed(1) + ' s';
+    R.best.textContent = best.toFixed(1) + ' s';
+    var rpm = st.ph * 60 / (2 * Math.PI), frac = Math.max(-1, Math.min(1, st.ph / WF));
+    R.rpm.textContent = Math.abs(rpm).toFixed(0) + ' rpm' + (Math.abs(frac) > 0.8 ? ', nearly maxed out' : '');
+    meter.style.left = (frac < 0 ? 50 + frac * 50 : 50) + '%';
+    meter.style.width = Math.abs(frac) * 50 + '%';
+    meter.classList.toggle('hot', Math.abs(frac) > 0.8);
+    var c = u();
+    pl.classList.toggle('on', mode !== 'idle' && c > 0.05);
+    pr.classList.toggle('on', mode !== 'idle' && c < -0.05);
+  }
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000); last = now;
+    var sim = dt * (mode === 'auto' ? 1 : speed), n = Math.ceil(sim / 0.0005);
+    for (var i = 0; i < n; i++) step(sim / n);
+    spinVis += Math.max(-0.5, Math.min(0.5, st.ph * sim));
+    if (mode === 'play' && !st.fallen) status.textContent = 'Keep it up. ' + st.t.toFixed(1) + ' s so far.';
+    if (mode === 'auto' && !st.fallen) status.textContent = 'The controller has held it for ' + st.t.toFixed(1) + ' s. Poke it.';
+    draw();
+    requestAnimationFrame(frame);
+  }
+  function start() {
+    reset(); mode = 'play'; cover.hidden = true; bPoke.disabled = true;
+    status.textContent = 'Keep it up.';
+  }
+  cover.addEventListener('click', start);
+  bAuto.addEventListener('click', function () {
+    reset(); mode = 'auto'; cover.hidden = true; bPoke.disabled = false;
+  });
+  bPoke.addEventListener('click', function () { if (mode === 'auto' && st && !st.fallen) st.thd += (Math.random() < 0.5 ? -1 : 1) * 0.3; });
+  root.querySelectorAll('[data-speed]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      speed = +b.dataset.speed;
+      root.querySelectorAll('[data-speed]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    });
+  });
+  /* hold to push: buttons, the two halves of the stage, or the arrow keys */
+  function hold(side, on) { held[side] = on ? 1 : 0; root.querySelectorAll('.bal-pad').forEach(function (p) { p.classList.toggle('on', (p.dataset.u === '1' && held.l) || (p.dataset.u === '-1' && held.r)); }); }
+  root.querySelectorAll('.bal-pad').forEach(function (p) {
+    var side = p.dataset.u === '1' ? 'l' : 'r';
+    p.addEventListener('pointerdown', function (e) { e.preventDefault(); if (mode !== 'play') start(); hold(side, true); });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { p.addEventListener(ev, function () { hold(side, false); }); });
+    p.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  });
+  var stage = root.querySelector('.bal-stage');
+  stage.addEventListener('pointerdown', function (e) {
+    if (mode !== 'play') return;
+    var b = stage.getBoundingClientRect(), side = (e.clientX - b.left) < b.width / 2 ? 'l' : 'r';
+    hold(side, true);
+    var up = function () { hold(side, false); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointerup', up);
+  });
+  window.addEventListener('keydown', function (e) {
+    if (mode !== 'play') return;
+    if (e.key === 'ArrowLeft' || e.key === 'a') { hold('l', true); e.preventDefault(); }
+    if (e.key === 'ArrowRight' || e.key === 'd') { hold('r', true); e.preventDefault(); }
+  });
+  window.addEventListener('keyup', function (e) {
+    if (e.key === 'ArrowLeft' || e.key === 'a') hold('l', false);
+    if (e.key === 'ArrowRight' || e.key === 'd') hold('r', false);
+  });
+  reset(); st.th = 0; draw();
+  requestAnimationFrame(function (t) { last = t; requestAnimationFrame(frame); });
+})();
+
+/* the fit: a section through the middle of the cube, at the height of motors X and Y */
+(function () {
+  var root = document.getElementById('fit');
+  if (!root) return;
+  var svg = root.querySelector('svg'), NS = 'http://www.w3.org/2000/svg';
+  var out = root.querySelector('.fit-out'), V = { L: 44, S: 165 };
+  var D = 27.6, R = D / 2, FACE = 20.5, T = 5, WR = 64, WZ0 = 6.5, WZ1 = 14;
+  function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); svg.appendChild(e); return e; }
+  function draw() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var S = V.S, C = S / 2, L = V.L, k = 200 / 195, gap = C - R - (FACE + L), bad = gap < 0;
+    function q(v) { return (v * k).toFixed(1); }
+    /* two walls, the motor faces for X (left) and Y (top) */
+    el('rect', { class: 'wall', x: 0, y: 0, width: q(T), height: q(S) });
+    el('rect', { class: 'wall', x: 0, y: 0, width: q(S), height: q(T) });
+    el('rect', { class: 'ln', x: 0, y: 0, width: q(S), height: q(S), fill: 'none', 'stroke-opacity': 0.4 });
+    /* wheels edge on, bridges, and the cans */
+    el('line', { class: 'wh', x1: q((WZ0 + WZ1) / 2), y1: q(C - WR), x2: q((WZ0 + WZ1) / 2), y2: q(C + WR) });
+    el('line', { class: 'wh', x1: q(C - WR), y1: q((WZ0 + WZ1) / 2), x2: q(C + WR), y2: q((WZ0 + WZ1) / 2) });
+    el('rect', { class: 'br', x: q(15.5), y: q(C - 17), width: q(5), height: q(34) });
+    el('rect', { class: 'br', x: q(C - 17), y: q(15.5), width: q(34), height: q(5) });
+    el('circle', { class: 'zc', cx: q(C), cy: q(C), r: q(R) });
+    el('rect', { class: 'can' + (bad ? ' bad' : ''), x: q(FACE), y: q(C - R), width: q(L), height: q(D) });
+    el('rect', { class: 'can' + (bad ? ' bad' : ''), x: q(C - R), y: q(FACE), width: q(D), height: q(L) });
+    var tx = FACE + L;
+    el('line', { class: 'gap' + (bad ? ' bad' : ''), x1: q(tx), y1: q(C - R - 6), x2: q(C - R), y2: q(C - R - 6) });
+    var t1 = el('text', { x: q(FACE + 4), y: q(C + R + 12) }); t1.textContent = 'motor X';
+    var t2 = el('text', { x: q(C + R + 4), y: q(FACE + 10) }); t2.textContent = 'motor Y';
+    var t3 = el('text', { x: q(C + R + 4), y: q(C + R + 26) }); t3.textContent = 'motor Z, below';
+    out.textContent = bad ? (Math.abs(gap).toFixed(1) + ' mm of overlap') : (gap.toFixed(1) + ' mm');
+    out.classList.toggle('bad', bad);
+    root.querySelector('[data-o="L"]').textContent = L.toFixed(1) + ' mm';
+    root.querySelector('[data-o="S"]').textContent = S + ' mm';
+  }
+  root.querySelectorAll('input').forEach(function (i) {
+    i.addEventListener('input', function () { V[i.dataset.k] = +i.value; draw(); });
+  });
+  draw();
+})();
+
+/* wiring: tabs, and light up one net at a time */
+(function () {
+  var frame = document.querySelector('.wd-frame');
+  if (!frame) return;
+  var views = frame.querySelectorAll('svg.wd'), tabs = document.querySelectorAll('.wd-tabs [data-tab]');
+  var nets = document.querySelectorAll('.wd-nets [data-net]'), pinned = null;
+  function lit(n) {
+    views.forEach(function (v) { if (n) v.setAttribute('data-lit', n); else v.removeAttribute('data-lit'); });
+    nets.forEach(function (b) { b.classList.toggle('on', b.dataset.net === n); });
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      tabs.forEach(function (x) { x.setAttribute('aria-selected', x === t ? 'true' : 'false'); });
+      views.forEach(function (v) { v.hidden = v.dataset.v !== t.dataset.tab; });
+    });
+  });
+  nets.forEach(function (b) {
+    b.addEventListener('mouseenter', function () { lit(b.dataset.net); });
+    b.addEventListener('mouseleave', function () { lit(pinned); });
+    b.addEventListener('focus', function () { lit(b.dataset.net); });
+    b.addEventListener('blur', function () { lit(pinned); });
+    b.addEventListener('click', function () { pinned = pinned === b.dataset.net ? null : b.dataset.net; lit(pinned); });
+  });
+  frame.querySelectorAll('.w[data-n]').forEach(function (w) {
+    w.addEventListener('mouseenter', function () { lit(w.dataset.n); });
+    w.addEventListener('mouseleave', function () { lit(pinned); });
+    w.addEventListener('click', function () { pinned = pinned === w.dataset.n ? null : w.dataset.n; lit(pinned); });
+  });
+})();
+
+/* the rail: which step you are on, and how far through the story */
+(function () {
+  var rail = document.querySelector('.rail'), bar = document.querySelector('.rail-bar');
+  if (!rail) return;
+  var ol = rail.querySelector('ol');
+  var links = [].slice.call(rail.querySelectorAll('a'));
+  var secs = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+  var queued = false;
+  function top(el) { return el.getBoundingClientRect().top + window.scrollY; }
+  function update() {
+    queued = false;
+    var y = window.scrollY + window.innerHeight * 0.4, tops = secs.map(top), n = secs.length, cur = -1;
+    tops.forEach(function (t, i) { if (t <= y) cur = i; });
+    var p = 0;
+    if (cur >= 0 && cur < n - 1) p = (cur + Math.min(1, (y - tops[cur]) / Math.max(1, tops[cur + 1] - tops[cur]))) / (n - 1);
+    else if (cur === n - 1) p = 1;
+    ol.style.setProperty('--p', p.toFixed(4));
+    links.forEach(function (a, i) {
+      a.classList.toggle('past', i < cur);
+      a.classList.toggle('now', i === cur);
+      if (i === cur) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current');
+    });
+    rail.classList.toggle('on', cur >= 0);
+    if (bar) {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.setProperty('--p', h > 0 ? Math.min(1, window.scrollY / h).toFixed(4) : 0);
+    }
+  }
+  function ask() { if (!queued) { queued = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', ask, { passive: true });
+  window.addEventListener('resize', ask);
+  update();
+})();
+</script>
+
+</body>
+</html>

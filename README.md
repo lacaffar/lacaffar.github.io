@@ -22,6 +22,18 @@ subsystem build, what broke, and the year two plan. Its photos are cut by
 `.claude/make_windpack_photos.py` from 1600px sources staged in `assets/photos/`.
 The team's own site is <https://windpack.club>.
 
+`projects/sem-powder.html` and `projects/lunar-viscosity.html` are the two machine
+learning write ups. Each walks through the work as numbered steps with a "what I was
+thinking" line, and they are the only pages that ship script: a planning map and a
+"spot the satellites" game on one, a quiz and a cool-it-down viscosity chart on the
+other. Their figures, covers and inlined data come from
+
+```
+python .claude/make_ml_assets.py
+```
+
+which reads the local `sem-powder` checkout and a clone of `lunar-regolith-viscosity`.
+
 The index is two panels driven by one hidden checkbox and no script: `#portfolio` is the
 project list, `#narrative` is the timeline (year and title only, no prose).
 

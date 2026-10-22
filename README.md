@@ -34,6 +34,20 @@ python .claude/make_ml_assets.py
 
 which reads the local `sem-powder` checkout and a clone of `lunar-regolith-viscosity`.
 
+`notes/lunar-manufacturing.html` ("A Factory Made of Moon") is a sketchbook page laid
+out like a studio story room: a layout drawing on punched animation paper, a model sheet
+of how the Moon behaves, seven storyboard panels pinned to a cork board beside index
+cards, polaroids, and sticky notes. It has its own stylesheet, `assets/css/sketchbook.css`,
+and a small script that sketches each drawing in as it scrolls into view. Every drawing
+is generated, pencil wobble and all, and inlined by
+
+```
+python .claude/make_moon_board.py
+```
+
+which also writes the paper and cork textures in `assets/moon/` and the link preview
+`assets/covers/moon-board.jpg`.
+
 The index is two panels driven by one hidden checkbox and no script: `#portfolio` is the
 project list, `#narrative` is the timeline (year and title only, no prose).
 

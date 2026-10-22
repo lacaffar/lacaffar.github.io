@@ -1,0 +1,315 @@
+/* ============================================================================
+   story pages, second pass. The SEM and lunar write ups should read like a
+   story you can skim: a plain headline per step, one thought bubble, short
+   prose, the deep detail folded into "fine print", and a rail of dots that
+   tracks where you are. Loaded after site.css, by those two pages only.
+   ========================================================================== */
+
+.story { --ink: rgba(240, 240, 240, 0.76); }
+
+.vh {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(body.story) { scroll-behavior: smooth; }
+}
+
+/* --- header: one line that says what this is ------------------------------ */
+
+.case-head .sub {
+  font-size: 18px; line-height: 1.45; color: var(--ink);
+  max-width: 52ch; margin: -4px 0 6px;
+}
+
+/* --- a step ---------------------------------------------------------------- */
+
+.case-body .beat {
+  margin-bottom: 80px; scroll-margin-top: 28px;
+  padding-top: 22px; border-top: 1px solid var(--rule);
+}
+
+.case-body .beat h2 {
+  font-size: 26px; line-height: 1.22; font-weight: 600; letter-spacing: -0.01em;
+  text-transform: none; color: var(--text);
+  max-width: 36ch; margin: 0 0 22px; padding-top: 0; border-top: 0;
+}
+
+.story .stats .stat-n { color: var(--text); }
+
+.case-head .readtime { margin-left: 14px; font-size: 12px; color: var(--faint); }
+
+.case-body .beat h2 .step-n {
+  display: block; min-width: 0; margin-bottom: 14px;
+  font-size: 12px; line-height: 1; letter-spacing: 0.06em; font-weight: 600;
+  color: var(--faint);
+}
+
+.case-body .beat > p,
+.case-body .beat > ul > li,
+.case-body .two li { color: var(--ink); }
+
+.case-body .beat strong { color: var(--text); font-weight: 600; }
+
+/* the thought bubble: what I was thinking at that step, drawn by hand */
+
+.case-body .beat .thought {
+  position: relative;
+  border-left: 0;
+  padding: 0 0 0 40px;
+  font-size: 17px; line-height: 1.5; color: var(--text);
+  max-width: 58ch; margin: 0 0 24px;
+}
+
+.case-body .beat .thought::before {
+  content: ""; position: absolute; left: 0; top: 1px; width: 27px; height: 25px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 25' fill='none' stroke='%23F0F0F0' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.2 13.6c-2.9.3-3.9-3.3-1.4-4.6-.3-3.4 3.5-4.9 5.5-2.9 1-3 5.7-3.2 6.8-.2 2.8-1.2 5.7 1.1 4.7 3.9 2.4 1.4 1 5.1-1.9 4.5-1 2.7-5.2 2.6-6 .6-1.8 1.8-5.8 1.1-5.6-1.3-.8.3-1.5.2-2.1 0z'/%3E%3Ccircle cx='6.1' cy='18.4' r='1.6'/%3E%3Ccircle cx='3.2' cy='22' r='1'/%3E%3C/svg%3E") no-repeat 0 0 / contain;
+  opacity: 0.85;
+}
+
+.case-body .beat .thought .t-k {
+  display: block; margin: 0 0 2px;
+  font-size: 12px; font-weight: 400; letter-spacing: 0; text-transform: none;
+  color: var(--faint);
+}
+
+/* --- the fine print: true, useful, and out of the way ---------------------- */
+
+.more { margin: 0 0 24px; max-width: 68ch; }
+
+.more > summary {
+  display: inline-block; list-style: none; cursor: pointer;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule); padding-bottom: 3px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.more > summary::-webkit-details-marker { display: none; }
+.more > summary::before { content: "+"; display: inline-block; width: 14px; }
+.more[open] > summary::before { content: "\2212"; }
+.more > summary:hover,
+.more > summary:focus-visible { color: var(--text); border-bottom-color: var(--text); outline: none; }
+
+.more-in { margin-top: 14px; padding-left: 16px; border-left: 1px solid var(--rule); }
+.case-body .more-in p, .case-body .more-in li { color: var(--muted); }
+.more-in > :last-child { margin-bottom: 0; }
+
+/* --- small lists ------------------------------------------------------------ */
+
+/* open questions, each with a hand sized question mark */
+.case-body .ask { list-style: none; padding: 0; margin: 0 0 20px; max-width: 62ch; }
+.case-body .ask li { position: relative; padding-left: 30px; color: var(--text); margin-bottom: 8px; }
+.case-body .ask li::before {
+  content: "?"; position: absolute; left: 0; top: 0.18em;
+  width: 17px; height: 17px; border: 1px solid var(--faint); border-radius: 50%;
+  font-size: 10px; line-height: 16px; font-weight: 700; text-align: center; color: var(--muted);
+}
+
+/* two lists side by side, for "do not trust yet" against "next" */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 44px; max-width: 920px; }
+.case-body .two h3 {
+  margin: 0 0 12px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--faint);
+}
+.case-body .two ul { margin: 0; }
+
+/* a story told on the side */
+.aside { border-left: 1px solid var(--text); padding: 2px 0 2px 18px; margin: 30px 0 10px; max-width: 64ch; }
+.case-body .aside h3 { margin: 0 0 6px; }
+.case-body .aside p { color: var(--ink); margin: 0; }
+
+/* --- the doodle: good powder, and powder with satellites ------------------- */
+
+.doodle { margin: 4px 0 26px; max-width: 420px; }
+.doodle svg { width: 100%; height: auto; display: block; overflow: visible; }
+.doodle path { fill: none; stroke: #F0F0F0; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.doodle .sat { stroke-width: 1.4; }
+.doodle text { font: 400 12px var(--font); fill: rgba(240, 240, 240, 0.55); }
+
+/* --- bars: one series, one color, value at the tip ------------------------- */
+
+.bars { display: grid; gap: 14px; max-width: 640px; margin: 4px 0 24px; }
+.bars-row { display: grid; grid-template-columns: 200px 1fr; gap: 4px 18px; align-items: center; }
+.bars-row > span { font-size: 12px; line-height: 1.4; color: var(--muted); }
+.bars-t { display: flex; align-items: center; gap: 10px; }
+.bars-t i {
+  display: block; height: 10px; min-width: 3px;
+  width: calc(var(--v) * (100% - 64px));
+  background: var(--text); border-radius: 0 4px 4px 0;
+}
+.bars-t b { font-size: 15px; font-weight: 600; color: var(--text); white-space: nowrap; }
+
+/* a bar inside a table cell */
+.tbl td.bar { width: 42%; min-width: 150px; vertical-align: middle; }
+.tbar { display: flex; align-items: center; gap: 8px; }
+.tbar i {
+  display: block; height: 8px; min-width: 2px;
+  width: calc(var(--v) * (100% - 52px));
+  background: rgba(240, 240, 240, 0.42); border-radius: 0 4px 4px 0;
+}
+.tbl tr.me .tbar i { background: var(--text); }
+.tbar span { color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* a dumbbell inside a table cell: hollow is one condition, filled the other */
+.tbl td.db-cell { width: 44%; min-width: 150px; vertical-align: middle; }
+.db { position: relative; height: 14px; }
+.db::before {
+  content: ""; position: absolute; top: 50%; height: 1px; left: 0; right: 0;
+  background: var(--rule);
+}
+.db .ln {
+  position: absolute; top: 50%; height: 2px; margin-top: -0.5px;
+  left: calc(var(--a) * 100%); width: calc((var(--b) - var(--a)) * 100%);
+  background: rgba(240, 240, 240, 0.45);
+}
+.db .a, .db .b {
+  position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px;
+  border-radius: 50%; box-shadow: 0 0 0 2px var(--bg);
+}
+.db .a { left: calc(var(--a) * 100%); border: 1.5px solid var(--text); background: var(--bg); }
+.db .b { left: calc(var(--b) * 100%); background: var(--text); }
+.db-key { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0 0 4px; }
+.case-body .db-key span { position: relative; padding-left: 16px; font-size: 12px; color: var(--muted); }
+.db-key span::before {
+  content: ""; position: absolute; left: 0; top: 0.3em; width: 8px; height: 8px; border-radius: 50%;
+  border: 1.5px solid var(--text);
+}
+.db-key .k-b::before { background: var(--text); }
+
+/* before and after, with a verdict */
+.tbl.wide { max-width: 780px; }
+.tbl.delta td.big { font-size: 15px; color: var(--text); white-space: nowrap; }
+.tbl.delta small { display: block; font-size: 12px; color: var(--faint); white-space: nowrap; }
+.tbl.delta .v { position: relative; padding-left: 16px; color: var(--text); white-space: nowrap; }
+.tbl.delta .v::before {
+  content: ""; position: absolute; left: 0; top: 0.35em; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--text);
+}
+.tbl.delta .v.no { color: var(--muted); }
+.tbl.delta .v.no::before { background: none; border: 1px solid var(--muted); }
+
+/* --- four numbers in a row, read left to right as a plan ------------------- */
+
+.stats.four { grid-template-columns: repeat(4, 1fr); }
+.stats .stat-k {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--faint); margin: 0 0 8px;
+}
+
+/* --- the viscosity ladder, thickest at the top ----------------------------- */
+
+.ladder { list-style: none; margin: 6px 0 22px; padding: 0; max-width: 600px; }
+.ladder li {
+  --thin: linear-gradient(90deg, transparent 5px, rgba(240, 240, 240, 0.3) 5px, rgba(240, 240, 240, 0.3) 6px, transparent 6px);
+  --thick: linear-gradient(90deg, transparent 3px, #F0F0F0 3px, #F0F0F0 8px, transparent 8px);
+  --none: linear-gradient(transparent, transparent);
+  --top: var(--thin); --bot: var(--thin);
+  position: relative;
+  display: grid; grid-template-columns: 92px 34px 1fr; align-items: center;
+  min-height: 34px;
+}
+.ladder li:first-child { --top: var(--none); }
+.ladder li:last-child { --bot: var(--none); }
+.ladder li.z-dn { --bot: var(--thick); }
+.ladder li.z-up { --top: var(--thick); }
+.ladder li.z-in { --top: var(--thick); --bot: var(--thick); min-height: 46px; }
+
+/* the rail through every rung, thin or thick, top half and bottom half */
+.ladder li::after {
+  content: ""; position: absolute; left: 92px; width: 34px; top: 0; bottom: 0;
+  background: var(--top) 12px 0 / 11px 50% no-repeat, var(--bot) 12px 100% / 11px 50% no-repeat;
+}
+/* the rung itself */
+.ladder li::before {
+  content: ""; grid-column: 2; grid-row: 1; justify-self: center; z-index: 1;
+  width: 11px; height: 11px; border-radius: 50%; background: var(--text);
+}
+.ladder li.z-in::before { display: none; }
+
+.ladder b {
+  grid-column: 1; grid-row: 1; justify-self: end;
+  font-size: 15px; font-weight: 600; color: var(--text); white-space: nowrap;
+}
+.ladder b sup { font-size: 10px; }
+.ladder span { grid-column: 3; font-size: 15px; line-height: 1.4; color: var(--ink); padding-left: 4px; }
+.ladder span strong { color: var(--text); font-weight: 600; }
+.ladder .unit { font-size: 12px; color: var(--faint); }
+
+/* --- the rail: where you are in the story ---------------------------------- */
+
+.rail { display: none; }
+
+.rail-bar {
+  position: fixed; z-index: 5; top: 0; left: 0; width: 100%; height: 2px;
+  background: var(--text); opacity: 0.7;
+  transform-origin: 0 50%; transform: scaleX(var(--p, 0));
+}
+
+@media (min-width: 1180px) {
+  .rail-bar { display: none; }
+
+  .rail {
+    display: block; position: fixed; z-index: 5; top: 50%; transform: translateY(-50%);
+    left: max(16px, calc((100vw - var(--col)) / 2 - 168px));
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  }
+  .rail.on { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+
+  .rail ol { list-style: none; margin: 0; padding: 0; position: relative; }
+  .rail ol::before, .rail ol::after {
+    content: ""; position: absolute; left: 4px; top: 6px; width: 1px;
+  }
+  .rail ol::before { bottom: 6px; background: var(--rule); }
+  .rail ol::after { height: calc((100% - 12px) * var(--p, 0)); background: var(--text); }
+
+  .rail li { margin: 0 0 15px; }
+  .rail li:last-child { margin-bottom: 0; }
+
+  .rail a {
+    position: relative; display: flex; align-items: center; gap: 12px;
+    font-size: 12px; line-height: 1.2; color: var(--faint);
+    transition: color 0.2s ease;
+  }
+  .rail a i {
+    flex: none; position: relative; z-index: 1;
+    width: 9px; height: 9px; border-radius: 50%;
+    border: 1px solid var(--faint); background: var(--bg);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .rail a.past i { background: var(--text); border-color: var(--text); }
+  .rail a.now { color: var(--text); }
+  .rail a.now i { background: var(--text); border-color: var(--text); box-shadow: 0 0 0 3px var(--bg), 0 0 0 4px var(--text); }
+  .rail a:hover { color: var(--text); }
+  .rail a:focus-visible { outline: 1px solid var(--text); outline-offset: 3px; }
+
+  /* no room for words next to the page yet: they show on hover only */
+  .rail a span { display: none; }
+  .rail a:hover span, .rail a:focus-visible span {
+    display: inline; background: var(--bg); padding: 2px 6px 2px 0; white-space: nowrap;
+  }
+}
+
+@media (min-width: 1400px) {
+  .rail a span { display: inline; }
+}
+
+/* --- narrow ---------------------------------------------------------------- */
+
+@media (max-width: 760px) {
+  .case-head .sub { font-size: 16px; }
+  .case-body .beat { margin-bottom: 64px; }
+  .case-body .beat h2 { font-size: 22px; }
+  .case-body .beat .thought { font-size: 16px; padding-left: 36px; }
+  .two { grid-template-columns: 1fr; }
+  .stats.four { grid-template-columns: 1fr 1fr; }
+  .bars-row { grid-template-columns: 1fr; }
+  .ladder li { grid-template-columns: 74px 30px 1fr; }
+  .ladder li::after { left: 74px; width: 30px; background-position: 10px 0, 10px 100%; }
+  .ladder span { font-size: 14px; }
+  .tbl.delta small, .tbl.delta .v { white-space: normal; }
+  .tbl.delta td.big { white-space: normal; }
+  .tbl td.db-cell { min-width: 90px; width: 34%; }
+}

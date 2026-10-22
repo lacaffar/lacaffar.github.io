@@ -20,15 +20,32 @@
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/story.css">
 </head>
-<body>
+<body class="story">
+
+<div class="rail-bar" aria-hidden="true"></div>
+<nav class="rail" aria-label="Steps">
+  <ol>
+    <li><a href="#s1"><i></i><span>Round vs satellites</span></a></li>
+    <li><a href="#s2"><i></i><span>Your turn</span></a></li>
+    <li><a href="#s3"><i></i><span>The plan</span></a></li>
+    <li><a href="#s4"><i></i><span>Attempt one</span></a></li>
+    <li><a href="#s5"><i></i><span>Attempt two</span></a></li>
+    <li><a href="#s6"><i></i><span>A better question</span></a></li>
+    <li><a href="#s7"><i></i><span>How good</span></a></li>
+    <li><a href="#s8"><i></i><span>Gaps and next</span></a></li>
+  </ol>
+</nav>
 
 <nav class="back"><div class="col"><a href="/">&#8592; Index</a></div></nav>
 
 <header class="case-head">
   <div class="col">
-    <p><span class="wip">In progress</span></p>
+    <p><span class="wip">In progress</span><span class="readtime">6 min read, plus a 30 second game</span></p>
     <h1>SEM Powder QC</h1>
+    <p class="sub">Teaching a computer to grade metal 3D printing powder from microscope
+    photos, and to say when a batch really changed.</p>
     <dl class="case-facts">
       <div><dt>Role</dt><dd>Undergraduate Researcher</dd></div>
       <div><dt>Lab</dt><dd>CAMAL, NC State</dd></div>
@@ -51,242 +68,66 @@
       <div class="tldr">
         <div>
           <p class="tldr-k">Problem</p>
-          <p>Metal 3D printing powder has to be round and clean. Checking it means either a
-          machine that only measures size, or a person counting particles in microscope
-          images for hours.</p>
+          <p>Printer powder must be round and clean. Checking it takes a machine that only sees
+          size, or hours of counting by hand.</p>
         </div>
         <div>
           <p class="tldr-k">What I built</p>
-          <p>A tool that reads SEM images, outlines every particle, finds the satellites
-          stuck to them, and says whether two batches differ, with error bars. One command
-          installs it on any lab PC.</p>
+          <p>A tool that outlines every particle in a microscope image, finds the satellites, and
+          says whether two batches really differ.</p>
         </div>
         <div>
           <p class="tldr-k">Result</p>
-          <p>Particle outlines at 0.94 precision and 0.93 recall on published hand labels,
-          above the published method's recall. Satellites are usable for before and after
-          comparisons, not yet for absolute counts.</p>
+          <p>Finds 93% of particles (the published method: 80%) at the same precision.
+          Satellites: good for before vs after, not yet for exact counts.</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <h2><span class="step-n">01</span>The question</h2>
+    <section class="beat" id="s1">
+      <h2><span class="step-n">01</span>Good powder is round. Bad powder has satellites.</h2>
 
-      <p class="thought"><span class="t-k">What I was thinking</span>
-      A sizing machine tells you how big the particles are and nothing about their shape.
-      A microscope image shows the shape, but someone has to sit and count. Could the image
-      alone do both jobs?</p>
+      <p class="thought"><span class="t-k">what I was thinking</span>
+      A sizing machine tells you how big the particles are and nothing about their shape. A
+      microscope image shows the shape, but someone has to sit and count. Could the image alone
+      do both jobs?</p>
 
-      <p>Metal 3D printers spread powder in thin layers and melt it with a laser or an electron
-      beam. At CAMAL (NC State&#8217;s Center for Additive Manufacturing and Logistics) I help run
-      gas atomization, which is how that powder gets made: molten metal is blasted apart by a jet
-      of gas and the droplets freeze in flight. Good powder comes out round and in a tight size
-      band, roughly 15 to 53 µm for laser printers and 45 to 106 µm for electron beam printers. Bad powder comes out with
-      <strong>satellites</strong>: small particles welded onto big ones, which hurt how the
-      powder flows and packs.</p>
+      <p>Metal 3D printers melt thin layers of powder with a laser or an electron beam. At CAMAL
+      (NC State&#8217;s Center for Additive Manufacturing and Logistics) I help make that powder: a
+      jet of gas blasts molten metal apart, and the droplets freeze in flight.</p>
 
-      <p>The standard check is laser diffraction. It is fast and sees millions of particles, but
-      it assumes every particle is a sphere and reports size only. A scanning electron
-      microscope (SEM) shows the real shapes, but an operator gets maybe 20 to 60 images in two
-      hours and then has to measure them. The lab had about 1,000 SEM images sitting there.</p>
-    </section>
+      <p>Good droplets freeze round, about 15 to 53 µm across. Bad ones grow
+      <strong>satellites</strong>, little particles welded onto big ones that make the powder flow
+      and pack worse.</p>
 
-    <section>
-      <h2><span class="step-n">02</span>Map it before writing code</h2>
-
-      <p class="thought"><span class="t-k">What I was thinking</span>
-      Before I write anything, what would have to be true for me to believe this tool, and
-      which unknowns could kill the whole project? Find those first.</p>
-
-      <p>This is the planning map I drew in my notes before any code existed, read from left to
-      right. Hover or tap any item to see what it connects to.</p>
-
-      <div class="map" id="plan-map">
-        <div class="map-col">
-          <h4>Kill these first</h4>
-          <button class="m-item" data-id="U1" data-l="T2 T4 Q"><b>U1</b>Does the lab already have a script, or a commercial license?</button>
-          <button class="m-item" data-id="U2" data-l="E3 T8 Q"><b>U2</b>Can I get laser diffraction on the same batch?</button>
-          <button class="m-item" data-id="U3" data-l="P1"><b>U3</b>Do atomizer run logs exist?</button>
-          <button class="m-item" data-id="U4" data-l="T1 T3 E1 Q"><b>U4</b>Which runs, operators and settings made the 1,000 images?</button>
-          <button class="m-item" data-id="U5" data-l="T3"><b>U5</b>Can the SEM tile images automatically?</button>
-        </div>
-        <div class="map-col">
-          <h4>Tasks</h4>
-          <button class="m-item" data-id="T1" data-l="U4 E1"><b>T1</b>Read pixel size and settings out of the TIFF files</button>
-          <button class="m-item" data-id="T2" data-l="T4 E2 U1"><b>T2</b>Zero shot test of off the shelf models on 20 images</button>
-          <button class="m-item" data-id="T3" data-l="E2 E4 U4 U5 T4"><b>T3</b>Hand label about 50 images, split by atomizer run</button>
-          <button class="m-item" data-id="T4" data-l="T3 E2 T2 U1"><b>T4</b>Fine tune, only if zero shot is not good enough</button>
-          <button class="m-item" data-id="T5" data-l="E3"><b>T5</b>Per particle size, circularity, solidity</button>
-          <button class="m-item" data-id="T6" data-l="E4"><b>T6</b>Satellite finder: a threshold first, a small network if messy</button>
-          <button class="m-item" data-id="T7" data-l="D"><b>T7</b>Batch report: folder in, numbers and plots out</button>
-          <button class="m-item" data-id="T8" data-l="E3 U2"><b>T8</b>Check sizes against laser diffraction</button>
-        </div>
-        <div class="map-col">
-          <h4>Evidence I would need</h4>
-          <button class="m-item" data-id="E1" data-l="T1 U4 D"><b>E1</b>The pixel scale is right. Every µm depends on it.</button>
-          <button class="m-item" data-id="E2" data-l="T2 T3 T4 D"><b>E2</b>Outlines match hand labels on runs it never saw</button>
-          <button class="m-item" data-id="E3" data-l="T5 T8 U2 D"><b>E3</b>Size distribution agrees with laser diffraction</button>
-          <button class="m-item" data-id="E4" data-l="T3 T6 D"><b>E4</b>Satellite precision and recall against hand flags</button>
-        </div>
-        <div class="map-col">
-          <h4>The point</h4>
-          <button class="m-item" data-id="Q" data-l="D U1 U2 U4 P1 P2"><b>Q</b>Can SEM images alone give batch powder numbers that agree with laser diffraction?</button>
-          <button class="m-item" data-id="D" data-l="Q E1 E2 E3 E4 T7 P2"><b>D</b>A batch report: size percentiles, yield in the print window, shape, satellite fraction</button>
-          <button class="m-item" data-id="P1" data-l="U3 Q"><b>Parked</b>Atomizer settings vs powder. 10 to 50 runs is a regression problem, not machine learning.</button>
-          <button class="m-item" data-id="P2" data-l="D Q"><b>Parked</b>Track powder as it gets reused</button>
-        </div>
-      </div>
-      <p class="map-foot">The parked items are a deliberate choice. Sample size for atomizer
-      modeling is the number of runs, not the number of images, so it waits until there is data
-      for it.</p>
-    </section>
-
-    <section>
-      <h2><span class="step-n">03</span>Attempt one: classic and cheap</h2>
-
-      <p class="thought"><span class="t-k">What I was thinking</span>
-      Start with the simplest thing that could work, and test it where I know the right
-      answer before I test it where I do not.</p>
-
-      <p>The first version ran on a laptop CPU: a classic watershed segmentation, a general
-      purpose cell segmentation model (Cellpose 3) for comparison, a reader for the scale bar,
-      and the standard size and shape metrics. I scored it first on synthetic powder renders
-      where the exact answer is known (DeCost and Holm), then on real public powder images
-      that came with laser diffraction results.</p>
-
-      <div class="stats">
-        <div>
-          <p class="stat-n">+8% / &#8722;1%</p>
-          <p class="stat-l">median and 90th percentile size vs the reported values, real Ti-6Al-4V powder, no tuning</p>
-        </div>
-        <div>
-          <p class="stat-n">~1 s</p>
-          <p class="stat-l">per image on a CPU with the watershed default</p>
-        </div>
-        <div>
-          <p class="stat-n">0.48</p>
-          <p class="stat-l">F1 on satellites. Better than zero, which is where it started.</p>
-        </div>
+      <div class="doodle" aria-hidden="true">
+        <svg viewBox="0 0 320 134">
+          <path d="M51.2 99.7C49.6 98.6 44.6 95.5 41.9 92.8C39.3 90.1 37.2 86.8 35.3 83.5C33.5 80.2 31.7 76.7 31.0 73.2C30.4 69.6 31.1 65.6 31.6 62.1C32.1 58.6 33.3 55.4 34.1 51.9C34.9 48.5 35.0 44.7 36.3 41.3C37.7 38.0 39.7 34.5 42.3 31.9C44.8 29.2 48.2 27.3 51.5 25.4C54.8 23.5 58.3 21.5 62.0 20.7C65.7 19.9 69.9 19.9 73.5 20.8C77.1 21.7 80.4 24.2 83.6 26.0C86.8 27.8 89.7 29.5 92.6 31.6C95.5 33.6 98.6 35.5 101.0 38.1C103.3 40.8 104.9 44.2 106.4 47.4C108.0 50.7 109.5 54.1 110.4 57.8C111.4 61.4 112.6 65.6 112.1 69.3C111.6 73.0 109.5 76.9 107.4 80.0C105.3 83.1 102.1 85.6 99.4 88.1C96.7 90.6 94.1 93.1 91.1 94.9C88.0 96.7 84.5 97.9 81.1 98.7C77.7 99.6 74.2 99.7 70.6 100.2C67.0 100.7 63.2 101.9 59.4 101.8C55.6 101.6 51.2 101.0 47.8 99.3C44.4 97.6 40.4 92.7 38.9 91.4"/>
+          <path d="M216.6 31.5C218.2 30.5 222.6 27.1 226.0 25.4C229.4 23.7 233.2 21.7 236.9 21.5C240.7 21.2 244.9 22.4 248.3 23.8C251.8 25.2 254.8 27.8 257.8 29.8C260.9 31.8 264.0 33.5 266.5 35.9C269.1 38.3 271.4 41.2 273.2 44.2C275.0 47.3 276.0 50.7 277.3 54.1C278.6 57.5 280.5 60.9 281.0 64.6C281.6 68.4 281.9 72.7 280.8 76.3C279.8 79.9 277.0 83.2 274.6 86.1C272.2 89.1 269.5 91.7 266.6 93.9C263.7 96.2 260.5 98.4 257.2 99.6C253.8 100.8 250.0 100.8 246.5 101.2C243.0 101.5 239.7 101.6 236.1 101.8C232.5 101.9 228.5 102.7 224.9 101.9C221.3 101.1 217.6 99.2 214.6 97.0C211.6 94.8 209.2 91.6 206.9 88.6C204.6 85.5 202.2 82.3 201.1 78.7C199.9 75.2 199.7 71.1 200.1 67.4C200.4 63.8 202.2 60.3 203.2 56.9C204.1 53.4 204.5 50.1 205.7 46.7C206.9 43.3 208.1 39.6 210.2 36.6C212.3 33.6 215.4 31.2 218.4 28.9C221.5 26.5 226.7 23.6 228.3 22.5"/>
+          <path class="sat" d="M260.4 27.6C260.6 26.8 260.9 24.0 261.9 22.8C263.0 21.7 265.0 21.1 266.6 20.9C268.2 20.7 269.7 21.1 271.3 21.5C272.8 21.9 274.6 22.3 275.7 23.4C276.8 24.4 277.8 26.2 278.1 27.7C278.4 29.3 278.0 31.2 277.4 32.6C276.7 34.0 275.4 35.2 274.2 36.2C273.0 37.2 271.6 38.2 270.1 38.6C268.6 38.9 266.4 39.1 265.0 38.4C263.7 37.8 262.7 35.9 261.9 34.5C261.1 33.2 260.4 31.7 260.2 30.2C259.9 28.6 260.3 26.0 260.3 25.2"/>
+          <path class="sat" d="M286.0 84.9C285.7 85.4 284.9 87.1 284.0 87.9C283.1 88.8 281.8 89.6 280.6 89.8C279.4 90.0 277.8 89.7 276.7 89.1C275.7 88.5 275.1 87.2 274.4 86.2C273.7 85.1 273.0 84.1 272.7 82.9C272.5 81.7 272.6 80.1 273.2 79.0C273.7 78.0 275.1 77.2 276.2 76.6C277.3 76.1 278.6 75.8 279.8 75.8C281.0 75.8 282.3 76.1 283.4 76.6C284.5 77.2 285.8 78.1 286.4 79.1C286.9 80.2 287.0 81.8 286.8 83.0C286.6 84.2 285.5 85.8 285.2 86.4"/>
+          <path class="sat" d="M210.8 89.6C210.3 90.4 208.7 92.8 207.4 94.2C206.1 95.6 204.7 97.3 202.9 98.0C201.1 98.6 198.4 98.9 196.7 98.2C194.9 97.5 193.5 95.5 192.3 94.0C191.1 92.4 190.1 90.8 189.6 89.0C189.2 87.2 189.0 84.9 189.6 83.0C190.1 81.2 191.5 79.1 193.0 78.0C194.6 76.9 196.9 76.5 198.8 76.4C200.7 76.4 202.5 76.9 204.4 77.6C206.2 78.2 208.6 78.9 209.8 80.4C211.0 81.8 211.6 84.4 211.6 86.3C211.5 88.3 210.0 91.1 209.7 92.1"/>
+          <path class="sat" d="M206.5 48.4C206.1 48.8 205.0 50.2 204.0 50.6C203.1 51.1 202.0 51.2 201.0 51.3C199.9 51.4 198.7 51.6 197.7 51.2C196.8 50.8 195.8 49.8 195.4 48.8C194.9 47.9 194.9 46.6 195.0 45.6C195.1 44.6 195.3 43.5 195.8 42.6C196.4 41.7 197.1 40.8 198.0 40.2C198.9 39.7 200.3 39.2 201.3 39.4C202.3 39.5 203.3 40.4 204.1 41.1C204.9 41.8 205.5 42.5 206.1 43.5C206.6 44.4 207.3 45.6 207.2 46.6C207.1 47.7 205.9 49.2 205.6 49.7"/>
+          <text x="71" y="126" text-anchor="middle">good: round</text>
+          <text x="240" y="126" text-anchor="middle">bad: satellites welded on</text>
+        </svg>
       </div>
 
-      <h3>What broke</h3>
-      <div class="fix">
-        <div class="fix-item">
-          <div class="fix-when">Scale bar</div>
-          <p>The first real instrument data bar it ever saw, the text reader read
-          &#8220;100 µm&#8221; as &#8220;100 Hm&#8221;. Every image came out in pixels. Fixed by
-          accepting any one or two letters before the m as µm, since no SEM bar says km. Scale
-          error after the fix: 1.1%.</p>
-        </div>
-        <div class="fix-item">
-          <div class="fix-when">Too few particles</div>
-          <p>On one aluminum alloy the median size read 8% to 25% low against laser diffraction.
-          One frame held as few as 29 whole particles and the big ones touched the edge and got
-          dropped. Lesson written into the instructions: 5 to 10 random fields, 300 or more
-          particles per batch.</p>
-        </div>
-        <div class="fix-item">
-          <div class="fix-when">Clumps</div>
-          <p>A cluster of satellites and fines gets measured as one big, lumpy particle (below).</p>
-        </div>
-      </div>
-
-      <div class="figs">
-        <figure>
-          <img src="/assets/figs/sem-agglomerate.jpg" width="580" height="452" loading="lazy"
-               alt="Watershed segmentation outlining a whole cluster of particles as one object">
-          <figcaption>One object, according to the watershed. AA7075 powder, Mendeley Data
-          42gzbgk5hb (CC BY 4.0).</figcaption>
-        </figure>
-        <figure>
-          <img src="/assets/figs/sem-databar.png" width="1024" height="92" loading="lazy"
-               alt="An SEM data bar reading 100 micrometers, with the scale bar found and underlined in red">
-          <figcaption>The bar it found. The label it misread. Ti-6Al-4V, Zenodo 17037765
-          (CC BY-SA 4.0).</figcaption>
-        </figure>
-      </div>
+      <p>The usual check, laser diffraction, assumes every particle is a sphere and only reports
+      size. A scanning electron microscope (SEM) shows the real shapes, but an operator gets maybe
+      20 to 60 images in two hours, and then someone has to measure them. The lab had about 1,000
+      SEM images just sitting there.</p>
     </section>
 
-    <section>
-      <h2><span class="step-n">04</span>Attempt two: a foundation model on a library GPU</h2>
+    <section class="beat" id="s2">
+      <h2><span class="step-n">02</span>Your turn: spot the satellites</h2>
 
-      <p class="thought"><span class="t-k">What I was thinking</span>
-      The classic method has hit its ceiling on small and touching particles. A modern
-      segmentation model should beat it, but I will not take that on faith. Run a shoot out.</p>
-
-      <p>I archived attempt one and rebuilt around a GPU. Four contenders went head to head on
-      synthetic images with exact masks plus real samples against laser data, ranked by one
-      score fixed before looking at results:</p>
-
-      <div class="tbl-wrap"><table class="tbl">
-        <tr><th>Model</th><th>Score</th><th>F1, dense renders</th><th>Seconds per image</th></tr>
-        <tr class="me"><td>Cellpose-SAM, auto rescale</td><td class="n">0.835</td><td class="n">0.80</td><td class="n">5.0</td></tr>
-        <tr><td>Segment Anything, everything mode</td><td class="n">0.833</td><td class="n">0.82</td><td class="n">28.8</td></tr>
-        <tr><td>Cellpose-SAM</td><td class="n">0.831</td><td class="n">0.80</td><td class="n">4.9</td></tr>
-        <tr><td>Watershed (attempt one)</td><td class="n">0.730</td><td class="n">0.61</td><td class="n">0.2</td></tr>
-      </table></div>
-
-      <p>Cellpose-SAM won, and nearly tied Segment Anything at a sixth of the time. It still found
-      only 17% to 67% of particles under 300 pixels in area, and no setting fixed that, so
-      fine tuning on real outlines went on the list.</p>
-
-      <h3>Making it run where the GPU is</h3>
-      <p>The GPU lives on a library workstation with no admin rights. So the whole setup became
-      one line pasted into PowerShell: it installs Python and the CUDA build, clones the code,
-      downloads the data and models, and runs the next stage. Rehearsing that on my laptop
-      turned up the best bug of the project: when GPU memory ran out, the NVIDIA driver quietly
-      spilled into system RAM instead of failing, the run crawled for ten minutes, and the page
-      file ate 9 GB of disk. The fix caps PyTorch at 92% of GPU memory so running out is a clean
-      error, and the next smaller training setting gets tried automatically.</p>
-    </section>
-
-    <section>
-      <h2><span class="step-n">05</span>The question changed</h2>
-
-      <p class="thought"><span class="t-k">What I was thinking</span>
-      The lab does not need a perfect absolute number. They need to know if the powder changed
-      after they changed the atomizer, and how sure they can be. That is a different, and more
-      useful, question.</p>
-
-      <p>The goal from the lab became quality control: compare roundness and satellites before
-      and after an atomizer jet change. That shifted the work in three ways.</p>
-      <ul>
-        <li>Train on what exists. Public hand labeled SEM powder sets (AMPIS and SALAS, 28 images
-        and 2,248 satellite outlines) instead of waiting on labels of our own.</li>
-        <li>Report a difference with error bars, not a single number. Every metric gets a 95%
-        range from resampling 1,000 times, and a verdict: changed, or no detectable change.</li>
-        <li>Pick the satellite model by count, not just by score. Among models within 0.02 F1 of
-        the best, the one whose count is closest to the truth wins, because a QC report is a
-        count.</li>
-      </ul>
-
-      <p>Here is what a comparison looks like, on two public powders: plain Ti-6Al-4V against
-      blends with 15% and 20% copper.</p>
-
-      <div class="tbl-wrap"><table class="tbl">
-        <tr><th>Metric</th><th>Ti-6Al-4V</th><th>With Cu</th><th>Difference, 95% range</th><th>Verdict</th></tr>
-        <tr><td>Round (sphericity &#8805; 0.90)</td><td class="n">80.5%</td><td class="n">65.4%</td><td class="n">&#8722;15.1 (&#8722;21.7 to &#8722;8.3)</td><td>Changed</td></tr>
-        <tr><td>Carrying a satellite</td><td class="n">5.1%</td><td class="n">10.7%</td><td class="n">+5.6 (+1.7 to +9.3)</td><td>Changed</td></tr>
-        <tr><td>Median size, by count</td><td class="n">25.5 µm</td><td class="n">19.8 µm</td><td class="n">&#8722;5.7 (&#8722;7.4 to &#8722;4.1)</td><td>Changed</td></tr>
-        <tr><td>90th percentile size</td><td class="n">38.0 µm</td><td class="n">37.6 µm</td><td class="n">&#8722;0.4 (&#8722;2.9 to +1.9)</td><td>No detectable change</td></tr>
-      </table></div>
-      <p>The copper blends are less round and carry more satellites, while the big end of the
-      size distribution did not move. One or two images per powder here, so the ranges come from
-      resampling particles and are on the optimistic side. With three or more images per batch
-      the tool resamples whole images instead.</p>
-    </section>
-
-    <section>
-      <h2><span class="step-n">06</span>Your turn: you vs the model</h2>
-
-      <p class="thought"><span class="t-k">What I was thinking</span>
+      <p class="thought"><span class="vh">What I was thinking: </span>
       Satellites are the hard part. The easiest way to show why is to let you try.</p>
 
-      <p>This is a real SEM image the model was never trained on (AMPIS validation tile). The
-      dataset&#8217;s human labeler marked 24 satellites in this window. You get 30 seconds. Tap
-      or click every small particle you think is <em>stuck onto</em> a bigger one. Tap a mark
-      again to remove it.</p>
+      <p>A real SEM image the model never trained on, where a human labeler marked 24
+      satellites. You get 30 seconds: tap every small particle stuck <em>onto</em> a bigger one
+      (tap a mark again to undo it).</p>
 
       <div class="game" id="sat-game">
         <div class="g-bar">
@@ -318,29 +159,233 @@
         model ringed 37 and caught 22 of the 24.</p></noscript>
       </div>
 
-      <p>Look at the red rings the human did not draw. Most sit on loose fines lying in the
-      background, not stuck to anything; a few are arguable either way. Across the whole image the
-      model rings 125 against the labeler&#8217;s 88. That disagreement is exactly why the tool
-      leans on before and after differences: if it over-counts the same way on both batches, the
-      change is still real.</p>
+      <p>Notice the red rings the human skipped? Most sit on loose fines in the background, not
+      stuck to anything. Over the whole image the model rings 125 to the human&#8217;s 88. Hold
+      that thought for step 06.</p>
     </section>
 
-    <section>
-      <h2><span class="step-n">07</span>How good is it</h2>
+    <section class="beat" id="s3">
+      <h2><span class="step-n">03</span>Plan first, starting with what could kill it</h2>
 
-      <p>Scored on the published hand labeled validation images, against the method from the
-      paper those labels come from:</p>
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Before I write anything, what would have to be true for me to believe this tool, and which
+      unknowns could kill the whole project? Find those first.</p>
+
+      <p>So before any code, I wrote down the unknowns that could sink it:</p>
+
+      <ul class="ask">
+        <li>Does the lab already have a script, or a commercial license?</li>
+        <li>Can I get laser diffraction on the same batch?</li>
+        <li>Do atomizer run logs exist?</li>
+        <li>Which runs, operators and settings made the 1,000 images?</li>
+        <li>Can the SEM tile images automatically?</li>
+      </ul>
+
+      <p>One idea I parked on purpose: predicting the powder from atomizer settings. The sample
+      size there is runs, not images, and 10 to 50 runs is a regression problem, not machine
+      learning.</p>
+
+      <details class="more">
+        <summary>Open the whole planning map</summary>
+        <div class="more-in">
+          <p class="map-foot">Read left to right. Hover or tap an item to see what it connects to.</p>
+          <div class="map" id="plan-map">
+            <div class="map-col">
+              <h4>Kill these first</h4>
+              <button class="m-item" data-id="U1" data-l="T2 T4 Q"><b>U1</b>Does the lab already have a script, or a commercial license?</button>
+              <button class="m-item" data-id="U2" data-l="E3 T8 Q"><b>U2</b>Can I get laser diffraction on the same batch?</button>
+              <button class="m-item" data-id="U3" data-l="P1"><b>U3</b>Do atomizer run logs exist?</button>
+              <button class="m-item" data-id="U4" data-l="T1 T3 E1 Q"><b>U4</b>Which runs, operators and settings made the 1,000 images?</button>
+              <button class="m-item" data-id="U5" data-l="T3"><b>U5</b>Can the SEM tile images automatically?</button>
+            </div>
+            <div class="map-col">
+              <h4>Tasks</h4>
+              <button class="m-item" data-id="T1" data-l="U4 E1"><b>T1</b>Read pixel size and settings out of the TIFF files</button>
+              <button class="m-item" data-id="T2" data-l="T4 E2 U1"><b>T2</b>Zero shot test of off the shelf models on 20 images</button>
+              <button class="m-item" data-id="T3" data-l="E2 E4 U4 U5 T4"><b>T3</b>Hand label about 50 images, split by atomizer run</button>
+              <button class="m-item" data-id="T4" data-l="T3 E2 T2 U1"><b>T4</b>Fine tune, only if zero shot is not good enough</button>
+              <button class="m-item" data-id="T5" data-l="E3"><b>T5</b>Per particle size, circularity, solidity</button>
+              <button class="m-item" data-id="T6" data-l="E4"><b>T6</b>Satellite finder: a threshold first, a small network if messy</button>
+              <button class="m-item" data-id="T7" data-l="D"><b>T7</b>Batch report: folder in, numbers and plots out</button>
+              <button class="m-item" data-id="T8" data-l="E3 U2"><b>T8</b>Check sizes against laser diffraction</button>
+            </div>
+            <div class="map-col">
+              <h4>Evidence I would need</h4>
+              <button class="m-item" data-id="E1" data-l="T1 U4 D"><b>E1</b>The pixel scale is right. Every µm depends on it.</button>
+              <button class="m-item" data-id="E2" data-l="T2 T3 T4 D"><b>E2</b>Outlines match hand labels on runs it never saw</button>
+              <button class="m-item" data-id="E3" data-l="T5 T8 U2 D"><b>E3</b>Size distribution agrees with laser diffraction</button>
+              <button class="m-item" data-id="E4" data-l="T3 T6 D"><b>E4</b>Satellite precision and recall against hand flags</button>
+            </div>
+            <div class="map-col">
+              <h4>The point</h4>
+              <button class="m-item" data-id="Q" data-l="D U1 U2 U4 P1 P2"><b>Q</b>Can SEM images alone give batch powder numbers that agree with laser diffraction?</button>
+              <button class="m-item" data-id="D" data-l="Q E1 E2 E3 E4 T7 P2"><b>D</b>A batch report: size percentiles, yield in the print window, shape, satellite fraction</button>
+              <button class="m-item" data-id="P1" data-l="U3 Q"><b>Parked</b>Atomizer settings vs powder. 10 to 50 runs is a regression problem, not machine learning.</button>
+              <button class="m-item" data-id="P2" data-l="D Q"><b>Parked</b>Track powder as it gets reused</button>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s4">
+      <h2><span class="step-n">04</span>Attempt one: cheap, classic, and fooled by a µ</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Start with the simplest thing that could work, and test it where I know the right answer
+      before I test it where I do not.</p>
+
+      <p>Version one ran on a laptop: a textbook outlining method (watershed), a scale bar
+      reader, and standard size and shape math. I tested it on synthetic powder where the answer
+      is known, then on real powder with lab measurements.</p>
+
+      <div class="stats">
+        <div>
+          <p class="stat-n">+8% / &#8722;1%</p>
+          <p class="stat-l">median and 90th percentile size vs lab values, real Ti-6Al-4V, no tuning</p>
+        </div>
+        <div>
+          <p class="stat-n">~1 s</p>
+          <p class="stat-l">per image on a laptop CPU</p>
+        </div>
+        <div>
+          <p class="stat-n">0.48</p>
+          <p class="stat-l">F1 score on satellites. Better than zero, where it started.</p>
+        </div>
+      </div>
+
+      <h3>What broke</h3>
+      <div class="fix">
+        <div class="fix-item">
+          <div class="fix-when">Scale bar</div>
+          <p>The text reader read &#8220;100 µm&#8221; as &#8220;100 Hm&#8221;, so every image
+          came out in pixels. Fix: any one or two letters before the m count as µm. No SEM bar
+          says km.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Clumps</div>
+          <p>A cluster of satellites and fines got measured as one big, lumpy particle (below).</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Headcount</div>
+          <p>One frame held just 29 whole particles, so the median read 8% to 25% low. New rule:
+          300 or more particles per batch, from 5 to 10 random fields.</p>
+        </div>
+      </div>
+
+      <div class="figs">
+        <figure>
+          <img src="/assets/figs/sem-agglomerate.jpg" width="580" height="452" loading="lazy"
+               alt="Watershed segmentation outlining a whole cluster of particles as one object">
+          <figcaption>One object, according to the watershed. AA7075 powder, Mendeley Data
+          42gzbgk5hb (CC BY 4.0).</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/figs/sem-databar.png" width="1024" height="92" loading="lazy"
+               alt="An SEM data bar reading 100 micrometers, with the scale bar found and underlined in red">
+          <figcaption>The bar it found. The label it misread. Ti-6Al-4V, Zenodo 17037765
+          (CC BY-SA 4.0).</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="beat" id="s5">
+      <h2><span class="step-n">05</span>Attempt two: a shoot out on the library GPU</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      The classic method has hit its ceiling on small and touching particles. A modern
+      segmentation model should beat it, but I will not take that on faith. Run a shoot out.</p>
+
+      <p>Four contenders, ranked by one score I fixed before seeing any results:</p>
 
       <div class="tbl-wrap"><table class="tbl">
-        <tr><th></th><th>Precision</th><th>Recall</th><th>Published (Cohn 2021)</th></tr>
-        <tr class="me"><td>Particles, Cellpose-SAM fine tuned</td><td class="n">0.94</td><td class="n">0.93</td><td class="n">0.94 / 0.80</td></tr>
-        <tr class="me"><td>Satellites, Mask R-CNN tuned</td><td class="n">0.67</td><td class="n">0.64</td><td class="n">0.69 / 0.55</td></tr>
+        <tr><th>Model</th><th>Score</th><th>Seconds per image</th></tr>
+        <tr class="me"><td>Cellpose-SAM, auto rescale</td><td class="n">0.835</td><td class="bar"><div class="tbar"><i style="--v:0.174"></i><span>5.0</span></div></td></tr>
+        <tr><td>Segment Anything, everything mode</td><td class="n">0.833</td><td class="bar"><div class="tbar"><i style="--v:1"></i><span>28.8</span></div></td></tr>
+        <tr><td>Cellpose-SAM</td><td class="n">0.831</td><td class="bar"><div class="tbar"><i style="--v:0.170"></i><span>4.9</span></div></td></tr>
+        <tr><td>Watershed (attempt one)</td><td class="n">0.730</td><td class="bar"><div class="tbar"><i style="--v:0.007"></i><span>0.2</span></div></td></tr>
       </table></div>
 
-      <p>Same precision on particles, with 13 points more recall. Satellites trade a little
-      precision for 9 points of recall. Training takes about 75 minutes on the library&#8217;s 8 GB card;
-      the trained models are a 1.4 GB public release that the installer downloads, so no other
-      PC has to train anything. Inference runs about 5 seconds per image on a GPU.</p>
+      <p>Cellpose-SAM won, nearly tying Segment Anything at a sixth of the time. It still found
+      only 17% to 67% of the tiniest particles, so fine tuning went on the list.</p>
+
+      <div class="aside">
+        <h3>The best bug of the project</h3>
+        <p>The GPU sits on a library workstation with no admin rights, so the whole install
+        became one line pasted into PowerShell. Rehearsing it on my laptop, GPU memory ran out and
+        the NVIDIA driver quietly spilled into system RAM instead of failing: ten minutes of
+        crawling, and a page file that ate 9 GB of disk. Fix: cap PyTorch at 92% of GPU memory so
+        running out is a clean error, then retry at a smaller setting automatically.</p>
+      </div>
+    </section>
+
+    <section class="beat" id="s6">
+      <h2><span class="step-n">06</span>Then the question changed</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      The lab does not need a perfect absolute number. They need to know if the powder changed
+      after they changed the atomizer, and how sure they can be. That is a different, and more
+      useful, question.</p>
+
+      <p>The lab&#8217;s goal became quality control: did roundness and satellites change after an
+      atomizer jet change? That changed three things:</p>
+      <ul>
+        <li><strong>Train on what exists:</strong> public hand labeled sets, 28 images and 2,248
+        satellite outlines, instead of waiting on our own labels.</li>
+        <li><strong>Report differences with error bars:</strong> a 95% range from 1,000
+        resamples, and a verdict.</li>
+        <li><strong>Pick the satellite model by its count</strong>, not just its score, because a
+        QC report is a count.</li>
+      </ul>
+
+      <p>A test run on two public powders, plain Ti-6Al-4V vs blends with 15% and 20% copper:</p>
+
+      <div class="tbl-wrap"><table class="tbl delta wide">
+        <tr><th>Metric</th><th>Ti-6Al-4V &#8594; with Cu</th><th>Verdict</th></tr>
+        <tr><td>Round (sphericity &#8805; 0.90)</td><td class="big">80.5% &#8594; 65.4%<small>&#8722;15.1 points, 95% range &#8722;21.7 to &#8722;8.3</small></td><td><span class="v">Changed</span></td></tr>
+        <tr><td>Carrying a satellite</td><td class="big">5.1% &#8594; 10.7%<small>+5.6 points, 95% range +1.7 to +9.3</small></td><td><span class="v">Changed</span></td></tr>
+        <tr><td>Median size, by count</td><td class="big">25.5 &#8594; 19.8 µm<small>&#8722;5.7, 95% range &#8722;7.4 to &#8722;4.1</small></td><td><span class="v">Changed</span></td></tr>
+        <tr><td>90th percentile size</td><td class="big">38.0 &#8594; 37.6 µm<small>&#8722;0.4, 95% range &#8722;2.9 to +1.9</small></td><td><span class="v no">No detectable change</span></td></tr>
+      </table></div>
+
+      <p>Copper made the powder less round with twice the satellites, and the big end of the size
+      range did not move. That is exactly what a before and after check needs to say.</p>
+
+      <details class="more">
+        <summary>The fine print</summary>
+        <div class="more-in">
+          <p>The training sets are AMPIS and SALAS. The satellite model is picked among those
+          within 0.02 F1 of the best, by whose count lands closest to the truth.</p>
+          <p>There are one or two images per powder here, so the ranges come from resampling
+          particles and are on the optimistic side. With three or more images per batch, the tool
+          resamples whole images instead.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s7">
+      <h2><span class="step-n">07</span>How good is it?</h2>
+
+      <p>Scored on published hand labeled images, against the paper those labels come from
+      (Cohn 2021):</p>
+
+      <div class="stats">
+        <div>
+          <p class="stat-n">0.93</p>
+          <p class="stat-l">of particles found, at 0.94 precision. The published method: 0.80, at the same precision.</p>
+        </div>
+        <div>
+          <p class="stat-n">0.64</p>
+          <p class="stat-l">of satellites found, at 0.67 precision. Published: 0.55, at 0.69.</p>
+        </div>
+        <div>
+          <p class="stat-n">~5 s</p>
+          <p class="stat-l">per image on a GPU. Training takes about 75 minutes on the library&#8217;s 8 GB card.</p>
+        </div>
+      </div>
+
+      <p>The trained models ship as a 1.4 GB public release the installer downloads, so no other
+      PC has to train anything.</p>
 
       <figure class="fig">
         <img src="/assets/figs/sem-ti64.jpg" width="1024" height="768" loading="lazy"
@@ -351,29 +396,30 @@
       </figure>
     </section>
 
-    <section>
-      <h2><span class="step-n">08</span>What I do not trust yet</h2>
-      <ul>
-        <li>Satellite counts are right on average across datasets but biased 15% to 20% either
-        way depending on the powder. Trust the change between batches more than the absolute
-        percentage, and hand count two or three of your own images once.</li>
-        <li>Every model was trained on public powders (nickel superalloy, aluminum, IN718, 17-4
-        stainless, titanium alloys), not yet on images from our own SEM.</li>
-        <li>An image is a 2D view of a 3D pile. Partly buried particles read small, and one frame
-        rarely holds enough big particles for a stable 90th percentile.</li>
-        <li>Agreement with laser diffraction on our own batches is still unproven. That was
-        unknown U2 on the map, and it is still open.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Still to do</h2>
-      <ul class="todo">
-        <li>Run it on the lab&#8217;s own images and hand check a few for satellites.</li>
-        <li>Get laser diffraction on the same batches and close evidence E3.</li>
-        <li>Fine tune on corrected outlines of our powder; the labeling tool is ready.</li>
-        <li>Atomizer settings vs powder, once run logs exist. A regression, not a neural network.</li>
-      </ul>
+    <section class="beat" id="s8">
+      <h2><span class="step-n">08</span>What I do not trust yet, and what is next</h2>
+      <div class="two">
+        <div>
+          <h3>Do not trust yet</h3>
+          <ul>
+            <li>Satellite counts run 15% to 20% high or low depending on the powder. Trust the
+            change between batches, not the absolute number.</li>
+            <li>All training was on public powders, not yet on our own SEM.</li>
+            <li>A photo is a 2D view of a 3D pile, so buried particles read small.</li>
+            <li>Agreement with laser diffraction on our own batches is unproven (unknown U2 on the
+            map).</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Next</h3>
+          <ul>
+            <li>Run it on the lab&#8217;s own images and hand check a few.</li>
+            <li>Get laser diffraction on the same batches.</li>
+            <li>Fine tune on our own powder; the labeling tool is ready.</li>
+            <li>Atomizer settings vs powder, once run logs exist.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section>
@@ -560,6 +606,40 @@
     var off = g.classList.toggle('g-hide');
     b.classList.toggle('off', off);
   });
+})();
+
+/* the rail: which step you are on, and how far through the story */
+(function () {
+  var rail = document.querySelector('.rail'), bar = document.querySelector('.rail-bar');
+  if (!rail) return;
+  var ol = rail.querySelector('ol');
+  var links = [].slice.call(rail.querySelectorAll('a'));
+  var secs = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+  var queued = false;
+  function top(el) { return el.getBoundingClientRect().top + window.scrollY; }
+  function update() {
+    queued = false;
+    var y = window.scrollY + window.innerHeight * 0.4, tops = secs.map(top), n = secs.length, cur = -1;
+    tops.forEach(function (t, i) { if (t <= y) cur = i; });
+    var p = 0;
+    if (cur >= 0 && cur < n - 1) p = (cur + Math.min(1, (y - tops[cur]) / Math.max(1, tops[cur + 1] - tops[cur]))) / (n - 1);
+    else if (cur === n - 1) p = 1;
+    ol.style.setProperty('--p', p.toFixed(4));
+    links.forEach(function (a, i) {
+      a.classList.toggle('past', i < cur);
+      a.classList.toggle('now', i === cur);
+      if (i === cur) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current');
+    });
+    rail.classList.toggle('on', cur >= 0);
+    if (bar) {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.setProperty('--p', h > 0 ? Math.min(1, window.scrollY / h).toFixed(4) : 0);
+    }
+  }
+  function ask() { if (!queued) { queued = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', ask, { passive: true });
+  window.addEventListener('resize', ask);
+  update();
 })();
 </script>
 

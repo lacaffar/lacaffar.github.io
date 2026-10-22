@@ -23,10 +23,13 @@ subsystem build, what broke, and the year two plan. Its photos are cut by
 The team's own site is <https://windpack.club>.
 
 `projects/sem-powder.html` and `projects/lunar-viscosity.html` are the two machine
-learning write ups. Each walks through the work as numbered steps with a "what I was
-thinking" line, and they are the only pages that ship script: a planning map and a
-"spot the satellites" game on one, a quiz and a cool-it-down viscosity chart on the
-other. Their figures, covers and inlined data come from
+learning write ups, told as stories you can skim: each numbered step has a plain headline
+and a hand drawn thought bubble for what I was thinking, the deep detail folds into
+"fine print" toggles, and a rail of dots tracks where you are. The game and the quiz sit
+near the top as the hooks. Their layer of styles is `assets/css/story.css`, loaded only
+by those two pages after `site.css`. They ship script: a planning map and a "spot the
+satellites" game on one, a quiz and a cool-it-down viscosity chart on the other, and the
+step rail on both. Their figures, covers and inlined data come from
 
 ```
 python .claude/make_ml_assets.py

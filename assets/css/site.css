@@ -698,7 +698,7 @@ body.split { overflow: hidden; }
    the box is the share of the page one screen covers, and the run is what is
    left over, both measured off the real panels at a typical window height. */
 
-#portfolio .mm-view { height: 34px; --travel: 95px; }
+#portfolio .mm-view { height: 34px; --travel: 97px; }
 #narrative .mm-view { height: 29px; --travel: 97px; }
 
 @keyframes mm-run {

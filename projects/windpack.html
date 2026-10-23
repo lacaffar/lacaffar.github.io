@@ -3,33 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Windpack, Collegiate Wind Competition | Luke Caffarey</title>
-<meta name="description" content="Founding NC State's Collegiate Wind Competition team, a first season that finished 6th of 10 at nationals, and the plan for year two.">
+<title>Windpack, from the rules to a build freeze | Luke Caffarey</title>
+<meta name="description" content="NC State's Collegiate Wind Competition team. A first year that failed tech inspection, then a second year designed from the rules and the physics: a blade root sized for runaway, bearings and gears from first principles, a reviewed design document, and a test plan that runs before the tunnel.">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="/assets/img/avatar-icon.png">
 
-<meta property="og:title" content="Windpack, NC State Collegiate Wind Competition">
-<meta property="og:description" content="A first season from a whiteboard to 6th of 10 at nationals, what broke along the way, and the plan for year two.">
+<meta property="og:title" content="Windpack, by Luke Caffarey">
+<meta property="og:description" content="Founded NC State's wind turbine team with ten people. Year one failed tech inspection. Year two is designed from the rules and the physics, with every number on the page traceable to a document.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://lacaffar.github.io/projects/windpack.html">
 <meta property="og:image" content="https://lacaffar.github.io/assets/covers/windpack-team.jpg">
 
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://lacaffar.github.io/projects/windpack.html">
+
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/story.css">
+<link rel="stylesheet" href="/assets/css/wind.css">
 </head>
-<body>
+<body class="story">
+
+<div class="rail-bar" aria-hidden="true"></div>
+<nav class="rail" aria-label="Steps">
+  <ol>
+    <li><a href="#s1"><i></i><span>What is scored</span></a></li>
+    <li><a href="#s2"><i></i><span>Season one</span></a></li>
+    <li><a href="#s3"><i></i><span>The retro</span></a></li>
+    <li><a href="#s4"><i></i><span>Rules, then physics</span></a></li>
+    <li><a href="#s5"><i></i><span>The blade root</span></a></li>
+    <li><a href="#s6"><i></i><span>The hub</span></a></li>
+    <li><a href="#s7"><i></i><span>The actuator</span></a></li>
+    <li><a href="#s8"><i></i><span>The drivetrain</span></a></li>
+    <li><a href="#s9"><i></i><span>The generator</span></a></li>
+    <li><a href="#s10"><i></i><span>The review</span></a></li>
+    <li><a href="#s11"><i></i><span>Test plan</span></a></li>
+    <li><a href="#s12"><i></i><span>The program</span></a></li>
+    <li><a href="#s13"><i></i><span>Where it stands</span></a></li>
+  </ol>
+</nav>
 
 <nav class="back"><div class="col"><a href="/">&#8592; Index</a></div></nav>
 
 <header class="case-head">
   <div class="col">
+    <p><span class="wip">Build freeze, Oct 23 2026</span><span class="readtime">18 min read, 25 with the fine print</span></p>
     <h1>Windpack</h1>
+    <p class="sub">NC State's Collegiate Wind Competition team. I founded it with ten people and no
+    turbine, failed tech inspection in year one, and spent year two designing from the rules and
+    the physics instead of from other teams' slides.</p>
     <dl class="case-facts">
       <div><dt>Role</dt><dd>Founder and President</dd></div>
       <div><dt>Org</dt><dd>NC State</dd></div>
       <div><dt>Event</dt><dd>Collegiate Wind Competition</dd></div>
       <div><dt>When</dt><dd>Aug 2025 to now</dd></div>
+      <div><dt>Design case</dt><dd>13 m/s runaway, about 4,970 RPM</dd></div>
     </dl>
     <a class="cta" href="https://windpack.club" target="_blank" rel="noopener">windpack.club &#8599;</a>
     <div class="case-cover">
@@ -43,292 +72,854 @@
   <div class="col">
 
     <section>
-      <h2>Where this page stands</h2>
-      <div class="note">
-        <p>Season one is written up below, honestly, failures included. The year two plan is
-        the current plan and it will move. The team's own site,
-        <a href="https://windpack.club" target="_blank" rel="noopener">windpack.club</a>, is
-        where recruiting, sponsorship, and anything official lives.</p>
+      <h2>The short version</h2>
+      <div class="tldr">
+        <div>
+          <p class="tldr-k">What the competition scores</p>
+          <p>A 45 cm turbine in a wind tunnel: power from 5 to 10 m/s, holding that power up to
+          13 m/s, stopping itself twice, and surviving. Any visible failure ends the test, so
+          reliability beats aerodynamics.</p>
+        </div>
+        <div>
+          <p class="tldr-k">What year one taught</p>
+          <p>We built a turbine in one semester, aborted our only practice run when the rotor
+          shook, and did not pass tech inspection at the event. 6th of 10 came from the reports
+          and the presentations.</p>
+        </div>
+        <div>
+          <p class="tldr-k">What year two is built on</p>
+          <p>A load case nobody had written down, the 13 m/s runaway. Every rotating part sized
+          to it at a safety factor of 2, a reviewed design document, and a test plan that runs
+          before the tunnel.</p>
+        </div>
       </div>
-    </section>
-
-    <section>
-      <h2>Season one</h2>
 
       <div class="stats">
         <div>
           <p class="stat-n">6th of 10</p>
-          <p class="stat-l">at nationals, in our first year as a team</p>
+          <p class="stat-l">in the East region in year one, on the strength of the reports and presentations</p>
         </div>
         <div>
-          <p class="stat-n">25+</p>
-          <p class="stat-l">members across mechanical, electrical, and project development</p>
+          <p class="stat-n">593 N</p>
+          <p class="stat-l">the outward pull on each 22 g blade at runaway, about 60 kg hanging on it</p>
         </div>
         <div>
-          <p class="stat-n">9</p>
-          <p class="stat-l">subteams under a full officer board, going into year two</p>
+          <p class="stat-n">35</p>
+          <p class="stat-l">active members across nine sub teams in year two</p>
         </div>
       </div>
-
-      <p>Windpack is NC State's team for the Collegiate Wind Competition. I founded it in
-      August 2025 with ten people and no turbine, and I am still its president. The
-      competition scores two halves: a scaled turbine that has to perform in a wind tunnel,
-      and a wind farm development case you defend in front of industry judges. Both halves
-      are worth real points, and the second half is the one most people do not know exists.</p>
-
-      <p>We built a turbine, took it to nationals in spring 2026, and finished 6th of 10 in
-      our first year. The turbine survived every wind tunnel run. Our composite blades beat
-      the 3D printed baseline on measured power. We lost most of our points on things we knew
-      were weak going in, which is the good kind of losing.</p>
-
-      <div class="log">
-        <div class="log-item">
-          <div class="log-when">2025 / Aug</div>
-          <p>Founded the club with ten people. Split immediately into a mechanical team and an
-          electrical team, because dividing the turbine was the only way ten people could work
-          in parallel.</p>
-        </div>
-        <div class="log-item">
-          <div class="log-when">2025 / Fall</div>
-          <p>Learning year. Nobody on the team had designed a blade before. We taught
-          ourselves QBlade, ran through a lot of airfoils and configurations, and settled on an
-          A18 optimized for the conditions we expected.</p>
-        </div>
-        <div class="log-item">
-          <div class="log-when">2026 / Spring</div>
-          <p>Build and break. Structure, driveshaft, pitch, and the electrical stack all came
-          together late enough that most of our failures showed up at once. Everything we
-          broke, we broke early enough to fix.</p>
-        </div>
-        <div class="log-item">
-          <div class="log-when">2026 / May</div>
-          <p>Competition. Three days, four contests, a fifteen minute design presentation to
-          industry judges, and a wind tunnel our turbine had never seen before.</p>
-        </div>
-      </div>
-
-      <figure class="fig">
-        <img src="/assets/covers/windpack-checkin.jpg" width="1600" height="1000" loading="lazy"
-             alt="Windpack members at the Collegiate Wind Competition check in desk">
-        <figcaption>Check in, day one. Ten months earlier none of us had built a turbine.</figcaption>
-      </figure>
     </section>
 
-    <section>
-      <h2>What we built</h2>
+    <section class="beat" id="s1">
+      <h2><span class="step-n">01</span>What the competition actually scores</h2>
 
-      <h3>Structure</h3>
-      <p>A carbon steel base TIG welded to a carbon steel tower, with a 3D printed stanchion
-      bolted on top. The steel is heavy on purpose: it keeps the machine from tipping with the
-      nacelle loaded and the rotor at speed. The stanchion carries extrusions for a T slot
-      rail, which is what everything on the driveshaft hangs from. Printing that part is what
-      let us keep changing it.</p>
+      <p class="thought"><span class="t-k">what I was thinking</span>
+      Reliability ranks above marginal Cp gains.</p>
 
-      <h3>Driveshaft</h3>
-      <p>The components along the shaft added enough weight to pull it off center, so the
-      driveshaft subteam's real job became designing 3D printed holders that mount to the
-      T slot rail and carry the shaft. The bearing holder went through many prints before the
-      tolerances were right: the bearing drops into a seat and a screw on top clamps it. We
-      also added damping along the shaft to keep vibration out of the measurement.</p>
+      <p>The Collegiate Wind Competition puts a turbine that fits in a 45 cm cube into a wind
+      tunnel and scores five things. Each one pushes on a different part of the machine.</p>
 
-      <h3>Blades</h3>
-      <p>An A18 airfoil, selected and optimized in QBlade, then modeled in SolidWorks. The
-      approach was inspired by Cal Maritime's 2025 design. Where we broke from the field was
-      construction: every other team ran 3D printed blades, and we laid up a composite blade
-      with inlaid glass fiber in epoxy. It beat the printed baseline on measured power. The
-      judges' advice was to push lift over drag further and to fix the blade root, which was
-      the weakest joint on the machine.</p>
+      <div class="tbl-wrap"><table class="tbl wider">
+        <thead><tr><th>Task</th><th>Scoring</th><th>What it drives</th></tr></thead>
+        <tbody>
+          <tr><td>Power curve, 5 to 10 m/s</td><td>Power in each bin times a weight: 0.7, 0.8, 0.8, 0.7, 0.4, 0.3. The low speed bins carry the most.</td><td>Cut in torque against generator cogging; Cp at 5 to 8 m/s</td></tr>
+          <tr><td>Control of rated power, 11 to 13 m/s</td><td>Ratio to the 10 m/s power. Holding within 10% keeps 91% of the points, within 20% keeps 15%.</td><td>Pitch precision and backlash</td></tr>
+          <tr><td>Safety</td><td>Shut down to about 10% RPM within 10 s on the E stop and again when the load is disconnected, then restart on your own, 50 points in four pieces.</td><td>Pitch force at speed, drivetrain inertia</td></tr>
+          <tr><td>Durability, about 13 m/s</td><td>Positive power and no damage, pass or fail, 50 points.</td><td>High wind and runaway loads, fatigue</td></tr>
+          <tr><td>Two videos before the event</td><td>A generator making 5 W under control by Dec 21, a wind driven rotor doing it by Feb 26. 100 points each.</td><td>A generator on hand and spinning early</td></tr>
+        </tbody>
+      </table></div>
 
-      <h3>Pitch system</h3>
-      <p>Adaptive pitch, so the turbine can make power across a range of wind speeds. Pitching
-      loaded blades takes more torque than we expected, so it runs a high torque motor. We
-      started with swash plates and they could not hold the blades still at high wind speed, so
-      we moved to a bevel gear pitch box. The pitch box and the blade attachment were designed
-      with the blades subteam, and the whole assembly was built to come apart, which mattered
-      more than any single design choice.</p>
+      <p>One rule frames everything. Any visible failure, a crack, a part coming off, excessive
+      movement, sparking, stops the test with no further points. A blade that leaves its root
+      scores nothing, however good its airfoil. So the design starts from the worst case, not
+      the best one.</p>
 
-      <h3>Electrical</h3>
-      <p>A three phase alternator into a rectifier, an Arduino UNO control unit reading current
-      and voltage over I2C with optocouplers protecting the controller from faults and
-      backfeed, an electrical brake, and a buck boost stage with MPPT driving the load. The
-      brake is a pre biased NPN transistor driving a power MOSFET: signal the transistor and
-      the MOSFET shorts the supply, which stops power flow. Rules require the turbine to brake
-      in extreme wind and when the load is disconnected, so that circuit is not optional.</p>
+      <details class="more">
+        <summary>The fine print</summary>
+        <div class="more-in">
+          <p>The box: rotor and everything else inside a 45 by 45 by 45 cm cube at zero yaw, and
+          the parts below the cube inside a 15.8 cm diameter cylinder down to the mounting flange,
+          which drops over three M10 studs on an 11.43 cm bolt circle. No more than 48 V at the
+          point of common coupling, the PCC, where the organizers measure power. Install in five
+          minutes, commission in five more. Nothing team built may carry over from a previous
+          year; only unmodified off the shelf parts and basic hardware can. The rated power
+          weighting is a curve in the rules, so the 91% and 15% above are read off it.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s2">
+      <h2><span class="step-n">02</span>Season one, as it actually happened</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      6th of 10 in the least competitive region means there is real room to grow. Treat the
+      placement as a floor, not a ceiling.</p>
+
+      <p>Windpack started in August 2025 with ten people and no turbine. We split into a
+      mechanical team and an electrical team because that was the only way ten people could work
+      in parallel, taught ourselves QBlade, and read the reports of the 2025 winners. The design
+      report went in on April 23, 2026. Competition was May 13 to 16 at Penn State.</p>
+
+      <p>What we built, from that report:</p>
+      <ul>
+        <li>An A18 airfoil picked in QBlade for its lift to drag ratio, exported to SolidWorks.
+        Blades printed in PLA first, which was too brittle, then in ABS.</li>
+        <li>Each blade slid over a 6 mm shaft and was held by one M3 set screw. That was the
+        whole root.</li>
+        <li>Pitch by a helicopter style swash plate first, which was not stiff enough for three
+        blades, then bevel gears inside a 40 mm hub driven by a 499:1 gearmotor. Its stall torque
+        was about 58 times the 0.052 N&#183;m the three blades push back with at 14 m/s.</li>
+        <li>A carbon steel tower TIG welded to a steel base disc, with the nacelle on an aluminum
+        rail so the generator and the pitch housing could slide for balance. First bending mode
+        estimated at 61.2 Hz by a lumped mass method, above the 58 Hz of 3,500 RPM.</li>
+        <li>A D6374 brushless motor run backwards as the generator, 7 pole pairs, about 1 V per
+        150 RPM. A three phase short circuit brake, after a single phase brake shook the
+        drivetrain, wired so it needs a constant HIGH signal to stay off: lose the controller and
+        the rotor stops by itself. A donated solar MPPT into a 5 &#937;, 250 W resistor. An Arduino
+        Uno reading an INA226 over I2C behind optocouplers.</li>
+      </ul>
+
+      <p>Then the tunnel. We had one practice slot. The rotor vibrated badly on spin up, so we hit
+      the kill switch rather than lose the printed hub. The cause was rotor eccentricity: printed
+      parts that did not line up, from small oversights in the CAD. At the event the turbine did
+      not pass technical inspection, so no scored tunnel task was run. Sixth of ten in the East
+      region came from the design report, the project development report, and the two
+      presentations. The composite blades on our slides, glass fiber in epoxy laid up in a printed
+      mold, were a bench trade study on our dynamometer. They never flew.</p>
 
       <div class="figs">
         <figure>
           <img src="/assets/covers/windpack-tunnel.jpg" width="1600" height="1000" loading="lazy"
-               alt="The team watching a turbine run inside the wind tunnel test section">
-          <figcaption>Wind tunnel. The turbine survived every run at competition, which was not
-          a given for a first year machine.</figcaption>
+               alt="The team watching the turbine inside the wind tunnel test section">
+          <figcaption>The practice run, before the kill switch. The rotor was eccentric and the
+          nacelle shook with it.</figcaption>
         </figure>
         <figure>
           <img src="/assets/covers/windpack-presenting.jpg" width="1600" height="1000" loading="lazy"
-               alt="Team members presenting the structure section of the design presentation">
-          <figcaption>The design presentation. Fifteen minutes in front of industry judges, one
-          subteam at a time, then questions.</figcaption>
+               alt="Team members presenting the design to industry judges">
+          <figcaption>The design presentation. This half of the competition is what carried the
+          placement.</figcaption>
         </figure>
       </div>
-    </section>
 
-    <section>
-      <h2>What broke</h2>
-      <p>The useful part of year one. Every one of these is a design decision we now get to
-      make on purpose instead of by accident.</p>
+      <h3>What broke</h3>
       <div class="fix">
         <div class="fix-item">
-          <div class="fix-when">Structure</div>
-          <p>The mounting holes in the base came back threaded when they should not have been.
-          Redrilled them. Cheap fix, but it was a drawing and specification problem, not a
-          machining problem.</p>
-        </div>
-        <div class="fix-item">
-          <div class="fix-when">Driveshaft</div>
-          <p>Misalignment across the printed holders, and screws on the slip ring that slipped,
-          so the shaft turned faster than the slip ring and dragged the wiring.</p>
+          <div class="fix-when">Rotor</div>
+          <p>Printed hub and holders that did not share an axis. The eccentricity is what shook the
+          machine in the tunnel.</p>
         </div>
         <div class="fix-item">
           <div class="fix-when">Blades</div>
-          <p>Blades came off their holders. The root attachment was the weak joint, and the
-          judges said so too.</p>
+          <p>Came off the shaft. One set screw into plastic is the interface every team we later
+          benchmarked had also failed at.</p>
         </div>
         <div class="fix-item">
           <div class="fix-when">Pitch</div>
-          <p>Swash plates could not hold pitch at high wind speed. Replaced with bevel gears.
-          Assembly was the real problem: parts that fit in CAD did not go together on a bench in
-          the order we needed them to.</p>
+          <p>Swash plates could not hold at speed. The bevel gear box that replaced them was
+          correct in CAD and could not be assembled in the order the parts needed.</p>
         </div>
         <div class="fix-item">
-          <div class="fix-when">Braking PCB</div>
-          <p>Thermal management. Traces melted as the board heated and took the layout with
-          them, and it dropped voltage more than it should have. This is the single worst
-          reliability item on the machine.</p>
+          <div class="fix-when">Driveshaft</div>
+          <p>Slip ring set screws slipped, so the shaft outran the slip ring and wound the wiring
+          around itself. Friction everywhere along the shaft.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Brake PCB</div>
+          <p>Traces melted as the board heated. It dropped the voltage but never grounded it
+          fully.</p>
         </div>
         <div class="fix-item">
           <div class="fix-when">Buck boost</div>
-          <p>Switching losses, an inductor that saturated too quickly, and core material that
-          cost us real efficiency.</p>
+          <p>An inductor that saturated too soon, switching losses, and core material that cost
+          real efficiency.</p>
+        </div>
+        <div class="fix-item">
+          <div class="fix-when">Structure</div>
+          <p>The base holes came back threaded when they should not have been. A drawing
+          problem, redrilled in a minute.</p>
         </div>
       </div>
+
+      <details class="more">
+        <summary>The fine print</summary>
+        <div class="more-in">
+          <p>The judges' written advice on the turbine was two lines: improve lift over drag, and
+          fix the blade root. The project development side did well on the report, the delivery
+          and the financial section, and was marked down on permitting. Earlier versions of this
+          page, and our fall kickoff slides, said the turbine survived every run at competition. It
+          did not run. The tech inspection write up we submitted on May 1 said the turbine was in
+          final assembly with the fit checks pending, and that is where it still was at the
+          event.</p>
+        </div>
+      </details>
     </section>
 
-    <section>
-      <h2>The other half</h2>
-      <p>The project development contest asks for a wind farm, not a turbine: site selection,
-      wind resource assessment, layout and energy yield, environmental and permitting review,
-      supply chain and risk, a financial model, and a lease bid you defend. Ours was Steuben
-      Valley Wind Farm. It ends in its own written report and its own fifteen minute
-      presentation to a different set of judges.</p>
-      <p>There is a fourth contest most teams underrate, scored on industry partnerships,
-      outreach, and recruiting, documented with real numbers. It is the contest where being
-      organized is the whole skill.</p>
+    <section class="beat" id="s3">
+      <h2><span class="step-n">03</span>The retro said process, not parts</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Almost every item is a process problem rather than a technical one. Nobody wrote "the
+      blades were wrong."</p>
+
+      <p>We photographed the four whiteboards from the end of season retro and typed them up.
+      Deadlines had lived in nobody's calendar. The report was finished late. Decisions were made
+      once instead of converged on. No part had a history. Sub teams did not talk to each other.
+      The turbine was downstream of all of that.</p>
+
+      <p>Three answers. A gated sequence: requirements, a high level design with faculty sign
+      off, a low level design with manufacturing sign off, then a first prototype in the fall and
+      a second in the spring. One source of truth, a Notion workspace, so the club's memory stops
+      living in my inbox; if something is decided in Slack and not written down, it did not
+      happen. And a decision log that records what we considered and discarded, and why, so the
+      next class does not relearn it.</p>
+
+      <p>Then the advisor check in that changed the plan. The lab's fan wall is for research, so
+      no unofficial testing, and the large tunnel is good for one or two supervised runs a year.
+      If we cannot iterate on someone else's equipment, the rigs we own are the iteration loop.
+      The rotor test stand and the generator dynamometer moved onto the critical path.</p>
+    </section>
+
+    <section class="beat" id="s4">
+      <h2><span class="step-n">04</span>Start from the rules, then from the physics</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      A design pipeline that only runs forward once is not a design pipeline.</p>
+
+      <p>Every requirement on the year two turbine traces to a rule section or to our own
+      analysis, with a verification method and a status. The ones that drive the mechanical
+      design:</p>
+
+      <div class="tbl-wrap"><table class="tbl tight wider">
+        <thead><tr><th>ID</th><th>Requirement</th><th>Source</th><th>Verify</th></tr></thead>
+        <tbody>
+          <tr><td class="id">R-01</td><td>Rotor and non rotor parts fit in a 45 cm cube at zero yaw</td><td>Rules 3.2.2</td><td>Inspection</td></tr>
+          <tr><td class="id">R-07</td><td>Withstand continuous 13 m/s wind at sea level</td><td>Rules 3.2.1</td><td>Analysis, test</td></tr>
+          <tr><td class="id">R-10</td><td>Shut down to about 10% RPM within 10 s on E stop and on PCC disconnect, and stay there</td><td>Rules 3.1.4</td><td>Test</td></tr>
+          <tr><td class="id">R-11</td><td>Restart automatically within 10 s, at any wind above 5 m/s</td><td>Rules 3.1.4</td><td>Test</td></tr>
+          <tr><td class="id">R-13</td><td>Hold the 10 m/s power in one bin from 11 to 13 m/s</td><td>Rules 3.1.4</td><td>Test</td></tr>
+          <tr><td class="id">R-14</td><td>Install in 5 min or less, commission in 5 min or less</td><td>Rules 3.2.10</td><td>Demonstration</td></tr>
+          <tr><td class="id">R-15</td><td>No team built design, part or code from a past cycle</td><td>Rules 3.2.9</td><td>Inspection</td></tr>
+          <tr><td class="id">D-01</td><td>Size every rotating part to the 13 m/s runaway at a safety factor of 2.0 or more</td><td>Root analysis</td><td>Analysis, test</td></tr>
+          <tr><td class="id">D-02</td><td>The pitch drive moves the blades through the 45&#176; twisting moment peak at runaway speed, or shuts down toward stall where the moment helps</td><td>Root analysis</td><td>Analysis, test</td></tr>
+          <tr><td class="id">D-04</td><td>Blade masses matched to 0.1 g</td><td>Root analysis</td><td>Inspection</td></tr>
+          <tr><td class="id">D-07</td><td>Printed fits meet a clearance spec set from coupon prints before any production print</td><td>Year one</td><td>Test</td></tr>
+          <tr><td class="id">D-08</td><td>Overspeed spin test to 5,000 RPM before the tunnel</td><td>Root analysis</td><td>Test</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>The physics starts from four lines. Power in the wind the rotor captures, the rotor speed
+      a tip speed ratio implies, the torque that leaves, and the thrust that pushes back:</p>
+
+      <p><strong>P = &#189;&#8201;&#961;&#8201;A&#8201;C<sub>p</sub>&#8201;v&#179;</strong>,
+      &#8195;<strong>&#969; = &#955;&#8201;v / R</strong>,
+      &#8195;<strong>Q = P / &#969;</strong>,
+      &#8195;<strong>T = &#189;&#8201;&#961;&#8201;A&#8201;C<sub>T</sub>&#8201;v&#178;</strong></p>
+
+      <p>With a 225 mm tip radius, a C<sub>p</sub> of 0.35 and a design tip speed ratio of 4, all
+      placeholders until the final QBlade blade is set, the rotor makes about 34 W at 10 m/s, at
+      about 1,700 RPM and 192 N&#183;mm of torque. That is the operating point.</p>
+
+      <p>The case nobody had written down is <strong>runaway</strong>. Lose the load, the E stop
+      or the pitch, and the rotor accelerates until the blades make no torque, at roughly twice
+      the design tip speed ratio. At 13 m/s that is 520 rad/s, about 4,970 RPM, which matches
+      what Cal Poly and Cal Maritime measured on their turbines. Try it:</p>
+
+      <div class="run" id="run">
+        <div class="run-top">
+          <label>wind
+            <input type="range" min="5" max="13" step="0.5" value="10" aria-label="Wind speed in meters per second">
+            <output data-v>10.0 m/s</output>
+          </label>
+          <div class="run-mode" role="group" aria-label="Rotor state">
+            <button class="g-btn" type="button" data-mode="load" aria-pressed="true">under load</button>
+            <button class="g-btn" type="button" data-mode="run" aria-pressed="false">runaway</button>
+          </div>
+        </div>
+        <div class="run-out" aria-live="polite">
+          <div><p class="r-n"><span data-rpm>1,698</span><small>RPM</small></p><p class="r-l">rotor speed</p></div>
+          <div><p class="r-n"><span data-force>69</span><small>N</small></p><p class="r-l">outward pull on each blade</p></div>
+          <div><p class="r-n"><span data-power>34.1</span><small>W</small></p><p class="r-l">shaft power</p></div>
+          <div><p class="r-n"><span data-torque>192</span><small>N&#183;mm</small></p><p class="r-l">shaft torque</p></div>
+        </div>
+        <p class="run-say" data-say>Under load the rotor runs at a tip speed ratio of 4. Each blade is holding back about 7 kg of pull.</p>
+        <p class="run-fine">Placeholders from the blade root analysis: 225 mm tip radius, C<sub>p</sub> 0.35, tip
+        speed ratio 4 under load and 9 at runaway, 22 g blades with their mass centered at 99 mm,
+        sea level air. Above 10 m/s the controller holds the 10 m/s power. They change when the
+        QBlade blade is final.</p>
+      </div>
+
+      <details class="more">
+        <summary>The operating point, bin by bin</summary>
+        <div class="more-in">
+          <div class="tbl-wrap"><table class="tbl">
+            <thead><tr><th>Wind</th><th>Shaft power</th><th>Rotor speed</th><th>Torque</th><th>Thrust</th></tr></thead>
+            <tbody>
+              <tr><td>5 m/s</td><td class="n">4.3 W</td><td class="n">849 RPM</td><td class="n">48 N&#183;mm</td><td class="n">2.2 N</td></tr>
+              <tr><td>6 m/s</td><td class="n">7.4 W</td><td class="n">1,019 RPM</td><td class="n">69 N&#183;mm</td><td class="n">3.1 N</td></tr>
+              <tr><td>7 m/s</td><td class="n">11.7 W</td><td class="n">1,188 RPM</td><td class="n">94 N&#183;mm</td><td class="n">4.2 N</td></tr>
+              <tr><td>8 m/s</td><td class="n">17.5 W</td><td class="n">1,358 RPM</td><td class="n">123 N&#183;mm</td><td class="n">5.5 N</td></tr>
+              <tr><td>9 m/s</td><td class="n">24.9 W</td><td class="n">1,528 RPM</td><td class="n">155 N&#183;mm</td><td class="n">7.0 N</td></tr>
+              <tr><td>10 m/s</td><td class="n">34.1 W</td><td class="n">1,698 RPM</td><td class="n">192 N&#183;mm</td><td class="n">8.7 N</td></tr>
+              <tr><td>11 to 13 m/s</td><td class="n">34.1 W held</td><td class="n">about 1,700 RPM</td><td class="n">192 N&#183;mm</td><td class="n">10.5 to 14.7 N</td></tr>
+              <tr class="me"><td>13 m/s runaway</td><td class="n">0</td><td class="n">about 4,970 RPM</td><td class="n">0</td><td class="n">30 N design</td></tr>
+            </tbody>
+          </table></div>
+          <p>Thrust uses ideal momentum theory, C<sub>T</sub> of 0.89 under load and 1.2 at runaway,
+          and the design value of 30 N is the margin Cal Poly used for model error. Air density is
+          1.225 kg/m&#179;; State College sits at about 1.18, so this is conservative.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s5">
+      <h2><span class="step-n">05</span>The root: size it for the pull, not the bend</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Actually! the hub's lip will be load bearing... hold on let me get back to you on that.</p>
+
+      <p>At runaway each 22 g blade pulls outward with F = m&#8201;&#969;&#178;&#8201;r<sub>cg</sub>
+      = 593 N, about sixty kilograms, and that pull grows with the square of speed. The flapwise
+      bending moment at the root, from a conservative 30 N of rotor thrust shared by three blades,
+      is 1.22 N&#183;m. The pull is the design load by a wide margin, and it was the load our year
+      one root had never been checked against.</p>
+
+      <p>Before sizing anything I read the four public design reports that describe their root
+      joint in enough detail to compare. They all run 45 cm rotors, so their loads scale straight
+      to ours.</p>
+
+      <div class="bench">
+        <div class="bench-item">
+          <div class="bench-k">Penn State 2026</div>
+          <p>PLA blades in a helicopter hub. Root sized for bending only at a safety factor of
+          1.25, centrifugal never checked. Measured 13 W at 10 m/s against 34 W predicted.</p>
+        </div>
+        <div class="bench-item">
+          <div class="bench-k">Cal Poly 2024</div>
+          <p>PLA bonded to a titanium and aluminum spar. Designed to 1.8 kN of centrifugal at
+          6,300 RPM, ran 4,500 RPM at 22 m/s without yielding. The weak point was the plastic
+          around the fastener. Closest to our concept.</p>
+        </div>
+        <div class="bench-item">
+          <div class="bench-k">Cal Maritime 2023</div>
+          <p>Servo and four printed miter gears. The thrust bearing alone did not take side load,
+          the printed gears meshed poorly and could not feather at high wind.</p>
+        </div>
+        <div class="bench-item">
+          <div class="bench-k">Wisconsin 2024</div>
+          <p>Blades broke from speed and from handling. A 6 mm metal stub out of the root with a
+          cross fastener was their fix.</p>
+        </div>
+      </div>
+
+      <p>Six things fell out. Design for runaway, not for power. Centrifugal dominates, so every
+      gram near the tip costs root load. The plastic interface fails, the metal does not, so load
+      has to enter the plastic over an area, not through a point fastener. Separate the load
+      paths: thrust to a thrust bearing, bending to a radial pair, pitch torque to the gear and
+      nothing else. Backlash is a control problem, not a tolerance footnote. And spin test to
+      overspeed before the tunnel.</p>
+
+      <p>So the blade is printed in a tough resin with a <strong>4 mm pultruded carbon rod</strong>
+      bonded inside, root to about 35 to 45% span, in a root thickened to 18 to 20% so the rod
+      fits with a 1 mm wall. The diameter came from &#963; = 32M / &#960;d&#179; at 1.22 N&#183;m:</p>
+
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Rod</th><th>Stress</th><th>Safety factor</th><th>Share of root stiffness</th><th>Airfoil thickness needed</th></tr></thead>
+        <tbody>
+          <tr><td>3 mm</td><td class="n">458 MPa</td><td class="n">2.2</td><td class="n">36%</td><td class="n">5.0 mm</td></tr>
+          <tr class="me"><td>4 mm</td><td class="n">193 MPa</td><td class="n">5.2</td><td class="n">64%</td><td class="n">6.0 mm</td></tr>
+          <tr><td>5 mm</td><td class="n">99 MPa</td><td class="n">10.1</td><td class="n">82%</td><td class="n">7.0 mm</td></tr>
+          <tr><td>6 mm</td><td class="n">57 MPa</td><td class="n">17.5</td><td class="n">91%</td><td class="n">8.0 mm</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>Three millimeters meets the safety factor with no margin. Five does not fit a root that
+      is only about 7 mm thick. The rod is not there for static strength: the resin alone would
+      see 8.7 MPa at the root, which passes a 40 MPa static check and fails a 12 MPa fatigue one,
+      and the tower shadow loads the root once per blade pass for the life of the machine. The rod
+      is for fatigue, stiffness, and a clean load path into metal.</p>
+
+      <p>Holding the blade on costs a bond length, L = SF&#8201;F / (&#964;&#8201;&#960;&#8201;d).
+      Epoxy into the resin bore at 5 MPa needs 19 mm, so it gets 25. Epoxy onto the abraded rod
+      inside a steel sleeve at 15 MPa needs 6 mm, so it gets 12. A set screw on bare carbon
+      crushes the rod at about 150 N and was rejected. From there the pull goes blade, bond, rod,
+      bond, sleeve, sleeve flange, thrust bearing, housing lip. The lip is the piece I had forgotten
+      was load bearing.</p>
+
+      <figure class="sec" aria-labelledby="sec-cap">
+        <svg viewBox="0 0 940 320" role="img" aria-label="Section through one blade arm of the hub, from the drive shaft axis at the left to the printed blade root at the right, with the bearings, sleeve, flange, lip, spacer and circlip labeled">
+          <!-- drive shaft axis -->
+          <path class="ln thin dd" d="M60 42 V258"/>
+          <text x="60" y="32" text-anchor="middle">drive shaft axis</text>
+          <!-- central gear -->
+          <rect class="f-gear" x="60" y="82.5" width="45.5" height="135"/>
+          <text transform="translate(86 150) rotate(-90)" text-anchor="middle">central 30T</text>
+          <!-- blade gear -->
+          <polygon class="f-gear" points="125,105 170.5,100.5 170.5,199.5 125,195"/>
+          <rect class="f-gear" x="170.5" y="100.5" width="19.5" height="99"/>
+          <text transform="translate(152 150) rotate(-90)" text-anchor="middle">blade 20T</text>
+          <!-- sleeve and flange -->
+          <rect class="f-sleeve" x="125" y="114" width="455" height="72"/>
+          <rect class="f-flange" x="190" y="87" width="19.5" height="126"/>
+          <!-- housing walls and lip -->
+          <rect class="f-house" x="209.5" y="51" width="266.5" height="27"/>
+          <rect class="f-house" x="209.5" y="222" width="266.5" height="27"/>
+          <rect class="f-house" x="274.5" y="78" width="19.5" height="27"/>
+          <rect class="f-house" x="274.5" y="195" width="19.5" height="27"/>
+          <text x="342" y="68" text-anchor="middle" class="k">Al 6061 boss, 16 H7 bore</text>
+          <!-- thrust bearing -->
+          <rect class="f-bear" x="209.5" y="78" width="65" height="144"/>
+          <text transform="translate(246 150) rotate(-90)" text-anchor="middle" class="k">F8-16M</text>
+          <!-- radial bearings, spacer, circlip -->
+          <rect class="f-bear" x="294" y="78" width="65" height="144"/>
+          <text transform="translate(330 150) rotate(-90)" text-anchor="middle" class="k">688ZZ</text>
+          <rect class="f-spc" x="359" y="78" width="39" height="18"/>
+          <rect class="f-spc" x="359" y="204" width="39" height="18"/>
+          <rect class="f-bear" x="398" y="78" width="65" height="144"/>
+          <text transform="translate(434 150) rotate(-90)" text-anchor="middle" class="k">688ZZ</text>
+          <rect class="f-clip" x="463" y="72.6" width="13" height="18.9"/>
+          <rect class="f-clip" x="463" y="208.5" width="13" height="18.9"/>
+          <!-- carbon rod -->
+          <rect class="f-rod" x="307" y="132" width="559" height="36"/>
+          <text x="700" y="154" text-anchor="middle" class="k">4 mm carbon rod</text>
+          <!-- blade root outline -->
+          <path class="ln" d="M476 96 H632 L840 118.5"/>
+          <path class="ln" d="M476 204 H632 L840 181.5"/>
+          <text x="736" y="86" text-anchor="middle">printed blade root</text>
+          <text x="528" y="198" text-anchor="middle">steel sleeve</text>
+          <!-- hub exit -->
+          <path class="ln thin dash" d="M476 42 V258"/>
+          <text x="476" y="32" text-anchor="middle">hub exit, r = 32 mm</text>
+          <!-- the 22 mm stack -->
+          <path class="ln thin" d="M190 44 V38 H476 V44"/>
+          <text x="333" y="30" text-anchor="middle">22 mm stack</text>
+          <!-- radius axis -->
+          <path class="ln thin" d="M60 272 H870"/>
+          <path class="ln thin" d="M864 268 L870 272 L864 276"/>
+          <path class="ln thin" d="M60 269 V275 M190 269 V275 M320 269 V275 M450 269 V275 M580 269 V275 M710 269 V275 M840 269 V275"/>
+          <text class="ax" x="60" y="290" text-anchor="middle">0</text>
+          <text class="ax" x="190" y="290" text-anchor="middle">10</text>
+          <text class="ax" x="320" y="290" text-anchor="middle">20</text>
+          <text class="ax" x="450" y="290" text-anchor="middle">30</text>
+          <text class="ax" x="580" y="290" text-anchor="middle">40</text>
+          <text class="ax" x="710" y="290" text-anchor="middle">50</text>
+          <text class="ax" x="840" y="290" text-anchor="middle">60</text>
+          <text class="ax" x="884" y="290" text-anchor="start">r (mm)</text>
+          <!-- part names under the stack -->
+          <text x="199.75" y="310" text-anchor="middle">flange</text>
+          <text x="284" y="310" text-anchor="middle">lip</text>
+          <text x="378" y="310" text-anchor="middle">spacer</text>
+          <text x="469.5" y="310" text-anchor="middle">circlip</text>
+        </svg>
+        <figcaption id="sec-cap" style="font-size:12px;color:var(--faint);margin-top:10px;max-width:68ch">
+          One blade arm in section, radial scale true, heights schematic. The section I sent to
+          the pitch sub team on Oct 2, redrawn for this page. The pull travels blade, bond, rod,
+          bond, steel sleeve, sleeve flange, thrust bearing, housing lip.</figcaption>
+      </figure>
+
+      <details class="more">
+        <summary>The thirteen weaknesses, and the fix for each</summary>
+        <div class="more-in">
+          <div class="tbl-wrap"><table class="tbl wider">
+            <thead><tr><th>Weakness in the first concept</th><th>Fix</th></tr></thead>
+            <tbody>
+              <tr><td>A 40 mm hub plus an 8 in blade is a 48.6 cm rotor, over the 45 cm cube</td><td>Hub exit at 32 mm, 193 mm blade (later cut again to 183 mm on a 40 mm hub in the CDR, pending the CAD check)</td></tr>
+              <tr><td>One rod diameter through the whole blade; the tip is 2 mm thick</td><td>Rod to 35 to 45% span, thickened root, tapered bore at the rod end</td></tr>
+              <tr><td>Nothing retains the blade on the rod against 593 N</td><td>25 mm epoxy bond plus a steel sleeve</td></tr>
+              <tr><td>A collar clamping bare carbon</td><td>Bonded steel sleeve with an integral flange</td></tr>
+              <tr><td>Gear held by friction, so pitch can slip silently</td><td>Flat on the sleeve spigot plus a set screw; the flange carries the axial load</td></tr>
+              <tr><td>No bearings in the blade grip, so thrust runs through the gear mesh</td><td>One thrust and two radial bearings per blade</td></tr>
+              <tr><td>Three equal miter gears collide around one central gear</td><td>30:20 bevel set</td></tr>
+              <tr><td>Resin softens at 53 to 70 &#176;C</td><td>A tougher resin; keep blades out of hot cars</td></tr>
+              <tr><td>Resin and carbon expand differently, about 91 against 0 &#181;m per m&#183;&#176;C</td><td>Toughened epoxy, consistent cure temperature</td></tr>
+              <tr><td>Liquid resin trapped in the printed bore; cure shrink</td><td>Drain hole, wash the bore, ream after cure</td></tr>
+              <tr><td>Blade length against the printer's build height</td><td>Confirm the lab printer; print angled</td></tr>
+              <tr><td>Blade to blade mass mismatch; 1 g at 99 mm is about 27 N rotating at runaway</td><td>Weigh and match to 0.1 g, balance on the hub</td></tr>
+              <tr><td>Pitch drive sized without the twisting moment</td><td>Actuator delivers at least 1.3 N&#183;m at the central gear</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s6">
+      <h2><span class="step-n">06</span>The hub: argue about it on a table</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      I'm making a scaled up solidworks model and tryna get it printed tonight, so we can look
+      at it in-person to analyze.</p>
+
+      <p>Four hub decisions, each with the number that made it.</p>
+
+      <p><strong>Ball bearings, not bushings.</strong> Friction torque is &#956;&#8201;F&#8201;r.
+      Under 593 N a thrust ball bearing adds 11 N&#183;mm to the pitch torque; a bronze bushing adds
+      534. Bushings would make the pitch drive 5.7 times stronger, 2.37 N&#183;m against 0.42 at
+      the three blade gears, and they stick and slip, which shows up as pitch hunting in the
+      rated power task. On the drive shaft a bushing would eat 11% of the rotor's torque at
+      5 m/s, which is where cut in is decided.</p>
+
+      <p><strong>Keep the tip, accept the hub.</strong> Power per unit span grows with radius,
+      so the fraction lost to a hub of radius r<sub>h</sub> is about (r<sub>h</sub>/R)&#178;.
+      Growing the hub exit from 22 to 32 mm to fit the bearings costs one percent of available
+      power. The tip radius is what matters, and the cube fixes it at 225 mm.</p>
+
+      <p><strong>Bevel gears, not miter gears.</strong> Three equal 1:1 gears around one central
+      gear sit &#8730;3&#8201;R<sub>c</sub> apart, which is 1.73 of a blade gear radius, less than
+      the 2 they need. They hit. A 30:20 set clears by 2 mm at module 0.5. Lewis bending on the
+      teeth gives 64 MPa at twice the pitch torque, so the gears are steel: tough resin is good
+      for about 12 MPa and printed teeth creep, which is backlash.</p>
+
+      <p><strong>Machine the housing.</strong> The lip that carries the pull sees 15.8 MPa of
+      shear at twice the load. In 6061 aluminum that is a safety factor of 10; in printed PLA it
+      is 1.9. So the real hub is one piece of aluminum, bored from both ends on the shop's mill.</p>
+
+      <p>Then the part I think mattered most. I wrote the hub as a script, printed it at three
+      times scale that night with color coded placeholders for the bearings, thrust washers,
+      spacers and circlips, and left it in the storage room so the pitch sub team could take it
+      apart. Four days later the drive was rebuilt as the helix Penn State uses: a nut that
+      slides on the shaft, spins a lead screw keyed into the central gear, and pitches all three
+      blades. Thirty millimeters of stroke gives 108 degrees of pitch at model scale, and the
+      actuator only ever pushes along the shaft axis, which is what gets around the swash plate
+      buckling that cost us a year ago.</p>
+
+      <div class="figs tall">
+        <figure>
+          <img src="/assets/figs/windpack-hub-3x.jpg" width="1600" height="1000" loading="lazy"
+               alt="Three renders of the 3x scale hub model: the front half, the back half with the central gear boss, and the full assembly with three blade arms and rod stubs">
+          <figcaption>The 3x print, Oct 2: two hub halves, three sleeves, bearing and circlip
+          placeholders, four gears, and a shaft stub. Every fit at 0.3 mm clearance.</figcaption>
+        </figure>
+        <figure>
+          <img src="/assets/figs/windpack-helix-drive.jpg" width="1600" height="1000" loading="lazy"
+               alt="The pitch drive train with the hub hidden, at zero stroke on the left and thirty millimeters of stroke on the right: the actuator, fork, nut, helical lead screw, central bevel gear and three blade gears">
+          <figcaption>The helix drive, Oct 6, with the hub hidden: stroke 0 on the left,
+          30 mm on the right. The nut spins with the rotor and the fork does not.</figcaption>
+        </figure>
+      </div>
+
+      <details class="more">
+        <summary>The fine print</summary>
+        <div class="more-in">
+          <p>Bearing stack per arm, inboard to outboard: the gear's back face to 10 mm, the sleeve
+          flange 10 to 11.5, an F8-16M thrust bearing 11.5 to 16.5, the housing lip 16.5 to 18, a
+          688ZZ 18 to 23, a 3 mm outer ring spacer, a second 688ZZ 26 to 31, and a 16 mm internal
+          circlip at 31 to 32. Radial load per bearing with the pair 8 mm apart is 163 N against a
+          710 N static rating. The thrust bearing is rated about 4.9 kN against 1,190 N, twice the
+          pull. The gear module trade: module 0.5 steel at 64 MPa exits at 32 mm; module 0.8 brass
+          at 15 MPa exits at 36.5 mm and costs 4.5 mm of blade, about 0.6% of power. The printed
+          model's gear teeth are approximate; the real set is a catalog part. The nut rides in a
+          groove in the model; the real one needs a bearing there.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s7">
+      <h2><span class="step-n">07</span>The actuator question nobody had run</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Starting up was only a problem last competition for us because we had SOOOO much friction
+      in our driveshaft. If we make it spin as smooth as a gust of wind, I don't see cut-in speed
+      being a problem.</p>
+
+      <p>The team's first draft carried Penn State's actuator, a 22 N linear actuator, because
+      Penn State's worked. Nobody had run the number it has to beat. A spinning blade wants to
+      twist toward flat pitch so its mass lies in the rotor plane. That centrifugal twisting
+      moment is &#189;&#8201;J<sub>c</sub>&#8201;&#969;&#178;&#8201;sin&#8201;2&#952;, so it peaks at
+      45 degrees of pitch, which is exactly the angle a feathering blade has to pass through.</p>
+
+      <p>Through the helix and the gears, that comes to about 10 N at the nut for a shutdown that
+      starts at 1,700 RPM, and 13 to 23 N once helix friction is in. At a 13 m/s runaway it is
+      70 N ideal and 90 to 160 N with friction. No version of that actuator delivers the second
+      number. So the design has a decision in it that nothing downstream can skip:</p>
+
+      <ul class="ask">
+        <li>Feather, turning the blades edge on against the twisting moment, and buy the force:
+        a 200 N actuator of the same family, or a 21.5 kg&#183;cm servo on a fork, the way a
+        helicopter tail rotor slider works.</li>
+        <li>Pitch to stall, where the twisting moment helps instead of fights, and keep the light
+        actuator, if QBlade shows the stall angle takes the rotor below 10% RPM everywhere from
+        5 to 13 m/s. Penn State shut down this way.</li>
+      </ul>
+
+      <p>There is also a race. When the organizers disconnect the load, the rotor starts toward
+      runaway while the nut is still moving, and the force it needs rises with &#969;&#178;. Three
+      ways to win: an actuator that can feather at runaway speed, shutting down toward stall, or a
+      brake resistor on the turbine side that holds the rotor while the blades move.</p>
+
+      <div class="tbl-wrap"><table class="tbl wider">
+        <thead><tr><th>Option</th><th>Max force</th><th>Back drive, unpowered</th><th>10&#176; to 90&#176; at 20 N</th><th>Feathers at runaway</th></tr></thead>
+        <tbody>
+          <tr><td>L12 50:1, the baseline, 40 g</td><td class="n">22 N</td><td class="n">12 N</td><td class="n">1.8 s</td><td>No</td></tr>
+          <tr><td>L12 100:1</td><td class="n">42 N</td><td class="n">22 N</td><td class="n">2.4 s</td><td>No</td></tr>
+          <tr><td>L12 210:1</td><td class="n">80 N</td><td class="n">45 N</td><td class="n">4.0 s</td><td>No</td></tr>
+          <tr><td>L16 63:1, 56 g</td><td class="n">100 N</td><td class="n">46 N</td><td class="n">1.3 s</td><td>Low friction only</td></tr>
+          <tr><td>L16 150:1</td><td class="n">200 N</td><td class="n">102 N</td><td class="n">2.9 s</td><td>Yes</td></tr>
+          <tr><td>Digital servo, 21.5 kg&#183;cm, fork and 15 mm arm</td><td class="n">141 N stall</td><td>Gear train, open</td><td class="n">about 0.3 s</td><td>Yes, to &#956; of about 0.25</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>Open at build freeze, owned by the pitch lead with the controls lead: feather or stall,
+      the gear ratio and pitch range, and the QBlade check that stall actually reaches 10% RPM.
+      Until a printed helix exists, the friction coefficient is a guess, which is why the
+      force ranges are so wide. The first thing the bench test does is push on a printed helix
+      with a scale and get a real number.</p>
+    </section>
+
+    <section class="beat" id="s8">
+      <h2><span class="step-n">08</span>Four bearings on one shaft is three too many</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Instead of it just saying, "decided to pick to use...", it could be, "We calculated that our
+      moment on the driveshaft from the blades to be X, and the RPM to be Y, and with these
+      bearing our driveshaft loss due to friction would be Z%."</p>
+
+      <p>The drivetrain is direct drive: hub, shaft, generator. The proposed generator is an
+      outrunner with its own two bearings, and the shaft sits in two more. Two bearings define an
+      axis. If the other two are not on it, and printed housings cannot hold four bearings
+      concentric, the shaft bends to make up the difference. The numbers for a 6 mm aluminum
+      shaft: a 0.1 mm offset across a 60 mm span forces about 100 N into the bearings and 69 MPa
+      of bending that reverses every revolution, against a fatigue strength near 96 MPa for
+      6061-T6. That is the year one misalignment, written as a stress.</p>
+
+      <p>So, in order of preference: a flexible coupling between the shaft and a stub on the
+      generator, a floating generator held only against rotation, or the generator's bearings as
+      the rear support with a single bearing up front. Then one main bearing fixed and one free to
+      slide, so thermal growth and the actuator's reaction have somewhere to go.</p>
+
+      <p>The shaft itself is small for the job: 192 N&#183;mm of torque is 4.5 MPa in a 6 mm steel
+      shaft. What sizes it is imbalance. A gram of mass at 99 mm makes about 27 N of rotating
+      force at runaway, fully reversed every turn. At 0.5 g the Goodman fatigue safety factor is
+      2.7; at 1 g it is 1.7. That is why blades get weighed and matched to a tenth of a gram, and
+      why the first critical speed, 16,600 RPM, about 3.3 times runaway, is worth a line in the
+      document.</p>
+
+      <p>The draft also said "full ceramic bearings" with no reason attached. The standard I
+      asked the team to write to is the one in the thought bubble: the load, the speed, and what
+      the choice costs. The review that came back asked the same question in its own words.</p>
+
+      <details class="more">
+        <summary>Where 34 W of shaft power can go before the meter</summary>
+        <div class="more-in">
+          <p>P<sub>PCC</sub> = &#189;&#961;Av&#179; &#215; C<sub>p</sub> &#215; &#951;<sub>mech</sub>
+          &#215; &#951;<sub>gen</sub> &#215; &#951;<sub>elec</sub> &#8722; P<sub>aux</sub>. Each line is a
+          loss and a way to measure it, so a gap between predicted and measured power can be
+          traced to a stage instead of argued about.</p>
+          <div class="tbl-wrap"><table class="tbl wider">
+            <thead><tr><th>Stage</th><th>Loss</th><th>How it gets measured</th></tr></thead>
+            <tbody>
+              <tr><td>Aero</td><td>Betz limit, 0.593; profile drag at small chords and low Reynolds number; tip and root loss; wake rotation; off design pitch across the bins; backlash; layer lines</td><td>QBlade with polars at the real Reynolds number, then the rotor test stand, sanded against as printed</td></tr>
+              <tr><td>Mechanical</td><td>Main bearing friction, misalignment preload, the pitch nut bearing turning at shaft speed under the actuator's load, windage from the rotating generator shell</td><td>Spin down tests, with and without the actuator loaded; runout at the generator</td></tr>
+              <tr><td>Generator</td><td>Copper, about 0.19 W at rated torque; iron loss and cogging at 280 to 570 Hz electrical, unpublished</td><td>No load loss against RPM and a static cogging torque measurement on the dynamometer</td></tr>
+              <tr><td>Electrical</td><td>Rectifier drop at 8.5 V line to line peak at 5 m/s; converter switching; cable resistance; the controller and actuator's own draw</td><td>Bench efficiency, four wire measurement, supply current per mode (the electrical review's section)</td></tr>
+            </tbody>
+          </table></div>
+          <p>The cautionary benchmark is Penn State's 2026 report: 34 W simulated at maximum
+          C<sub>p</sub>, about 13 W measured at 10 m/s. Closing that kind of gap is what the budget is
+          for.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="beat" id="s9">
+      <h2><span class="step-n">09</span>The generator, and two questions nobody had asked</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      I feel like Penn State would definitely flag this fly wheel as an energy storage element.</p>
+
+      <p>The proposed generator is an off the shelf robotics outrunner: 100 RPM per volt, 20 pole
+      pairs, 840 grams. At rated turbine torque it draws about 2.3 A, roughly 6% of its 40 A
+      continuous rating, so it carries the mass, inertia and iron of a much larger machine, and
+      that inertia has to be stopped within 10 seconds. Open circuit at runaway is 49.7 V line to
+      line, over the 48 V limit at the PCC, so voltage regulation is not optional and keeping the
+      rotor out of runaway protects the meter as well as the blades. Its cogging torque is not
+      published, and cogging is what decides whether the rotor starts at 5 m/s, in the bins that
+      carry the heaviest weights. Those are the three things the generator's own trade study
+      has to answer before it is ordered.</p>
+
+      <p>Two assumptions came with us from year one, and the handbook rule is that both get an
+      answer in the decision log either way. First, is a three phase generator actually required
+      by the rules, or did we inherit it. Second, the flywheel. The engineering director proposed
+      a clutched flywheel to carry the rotor between tunnel runs. I looked up the rule instead:
+      energy storage elements may not store bulk energy on the turbine side of the PCC, and a
+      flywheel is bulk energy storage with a shaft on it. Vetoed. Our cut in problem in year one
+      was never energy. It was friction.</p>
+    </section>
+
+    <section class="beat" id="s10">
+      <h2><span class="step-n">10</span>Reviewed, and what came back</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      We should try and make this into comments into our CDR, resolve them, and then call that
+      revision b.</p>
+
+      <p>On Oct 12 I folded the sub teams' drafts into one Critical Design Review document,
+      WP-CDR-001, with the structure a design review needs: 18 rule requirements and 9 derived
+      ones with verification methods, load cases and a safety factor table, an interface list,
+      a mass budget and a loss budget, 14 tests, 17 risks, and 24 open items with owners and
+      need by dates. Every subsystem carries a maturity label, concept, rough CAD, or proposed,
+      so nobody mistakes a drawing for a decision. Reviewers tag comments MAJOR, MINOR, or Q and
+      cite the requirement, risk or test ID. I sent it out for review on the 13th.</p>
+
+      <p>The comments came back on the 17th, and the headline was fair: it reads like a
+      preliminary design review, not a critical one. Shaft alloy, bearing size, coupling, tower,
+      hub body and shutdown strategy were all still open against a Nov 17 build, and the build
+      freeze date was itself TBD. Five items were marked major, and each one has an answer now:</p>
+
+      <ul>
+        <li><strong>Shaft material.</strong> Precision ground 6 mm steel shafting instead of
+        aluminum. It is cheap, the tolerance is real, set screws and collars do not chew it, and
+        it is stiffer against the critical speed with 840 g hanging on it.</li>
+        <li><strong>The ceramic bearings.</strong> Full ceramic carries lower load ratings, costs
+        more, and hates misalignment and shock, which is our best documented failure mode. Plain
+        shielded steel deep groove bearings unless a reason appears.</li>
+        <li><strong>Overconstraint.</strong> Agreed with the ranking: a beam coupling first. Do
+        not ask printed housings to hold four bearings on one axis.</li>
+        <li><strong>Feather or stall.</strong> Everything downstream hangs on it, so it gets
+        decided first, even provisionally.</li>
+        <li><strong>Set screws into prints at 5,000 RPM.</strong> No. Heat set inserts at a
+        minimum, clamps where possible, and the same for anything structural threaded into a
+        print.</li>
+      </ul>
+
+      <p>The printed part advice went straight into the test plan: print the fit coupons in the
+      same orientation as the real parts, because a bore printed vertically is not the same bore
+      printed flat; measure before and after post cure; ream every bearing seat on purpose
+      instead of as a backup; and run the rod pull out test before designing around 25 mm of
+      bond, because the epoxy to resin shear strength is the least trusted number in the whole
+      document. Build freeze was set for Oct 23, with the off the shelf parts order ready to send
+      the same day.</p>
+    </section>
+
+    <section class="beat" id="s11">
+      <h2><span class="step-n">11</span>Test before the tunnel</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Blades were our most common failure last season, so the stand tests them to failure before
+      competition, not at it.</p>
+
+      <p>Lab time is one or two supervised runs a year, so everything that can be learned on a
+      bench is learned on a bench first.</p>
+
+      <div class="tbl-wrap"><table class="tbl tight wider">
+        <thead><tr><th>ID</th><th>Test</th><th>Pass</th><th>Before</th></tr></thead>
+        <tbody>
+          <tr><td class="id">T-01</td><td>Printed fit coupons, measured after post cure</td><td>A fit spec</td><td>Any production print</td></tr>
+          <tr><td class="id">T-02</td><td>Blade mass and center of mass match</td><td>Within 0.1 g</td><td>Spin test</td></tr>
+          <tr><td class="id">T-03</td><td>Root static bend, point load at half span</td><td>No failure at 2.6 N&#183;m, twice the design moment</td><td>Spin test</td></tr>
+          <tr><td class="id">T-04</td><td>Rod pull out, bonded in resin and in the sleeve</td><td>1,170 N or more</td><td>Spin test</td></tr>
+          <tr><td class="id">T-05</td><td>Pitch bench: range, pitch against actuator position, backlash, holding under torque, helix friction</td><td>Moves and holds through the 45&#176; peak</td><td>Spin test</td></tr>
+          <tr><td class="id">T-06</td><td>Drivetrain alignment: runout at the generator, spin down time</td><td>Set from the datum scheme</td><td>Generator test</td></tr>
+          <tr><td class="id">T-07</td><td>Generator: back EMF, cogging torque, no load loss against RPM, efficiency</td><td>A data set for the electrical review</td><td>Dec 21</td></tr>
+          <tr><td class="id">T-08</td><td>Overspeed spin to 5,000 RPM behind half inch polycarbonate</td><td>No damage</td><td>Tunnel</td></tr>
+          <tr><td class="id">T-09</td><td>Rotor test stand: thrust and RPM against wind speed</td><td>Compared to QBlade</td><td>Tunnel</td></tr>
+          <tr><td class="id">T-11</td><td>Envelope: 45 cm cube gauge, 15.8 cm cylinder, a mock stud plate</td><td>Passes the inspection sheet</td><td>Tunnel</td></tr>
+          <tr><td class="id">T-12</td><td>Timed install and commissioning</td><td>5 minutes each</td><td>Competition</td></tr>
+        </tbody>
+      </table></div>
+
+      <p>Three rigs make that possible. The <strong>blade dynamometer</strong>, which I pulled a
+      three person team together to build after year one: a motor spins a blade to 2,500 RPM
+      against a load cell and an RPM pickup on an ESP32, with the frame and motor mounts checked
+      in ANSYS for vibration and in SolidWorks FEA so the stand's own shaking does not end up in
+      the torque and thrust numbers. It is where the composite layups were tested against the
+      printed blades, and it is the rig for the overspeed spin. The <strong>rotor test stand</strong>,
+      a low friction shaft on a sliding carriage pressing a load cell, reads free spin RPM and
+      thrust so two blade designs can be compared in an afternoon. And the <strong>generator
+      dynamometer</strong>: a drill spins the generator against an adjustable load while it sits
+      in a pivoting cradle with a torque arm resting on a scale, which gets torque out of cheap
+      parts instead of a sensor.</p>
+    </section>
+
+    <section class="beat" id="s12">
+      <h2><span class="step-n">12</span>The other half, and the program</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Deliverables and timelines make people show up. Vague asks get vague results.</p>
+
+      <p>Half the competition is not a turbine. The project development contest asks for a wind
+      farm: a site, a wind resource assessment, a layout and energy yield, environmental and
+      permitting review, supply chain and risk, a financial model, and a lease bid defended in
+      front of a different set of judges. Ours in year one was Steuben Valley Wind Farm, and it
+      is the half that carried us. A fourth contest scores industry partnerships, outreach and
+      recruiting with real numbers, and it is where being organized is the whole skill. Year two
+      gives that half its own leads, its own weekly meeting, and its own faculty reviews, staffed
+      with statistics, economics and environmental students next to the mechanical majors.</p>
+
       <figure class="fig">
         <img src="/assets/covers/windpack-steuben.jpg" width="1600" height="1280" loading="lazy"
              alt="The team in front of the Steuben Valley Wind Farm title slide at competition">
-        <figcaption>Steuben Valley Wind Farm, our season one project development case.</figcaption>
+        <figcaption>Steuben Valley Wind Farm, the year one project development case.</figcaption>
       </figure>
-    </section>
 
-    <section>
-      <h2>Year two, what to do</h2>
-      <p>This is the plan going into the 2026 to 2027 season, written down so it can be argued
-      with. The competition moved from a single national event to regional hosting, and ours is
-      three days at Penn State in spring 2027. We have a second year of members, a full officer
-      board, nine subteams, and a shop we can actually get into, because I am a teaching
-      assistant in the MAE senior design lab this year and can train members on the mills and
-      lathes myself.</p>
+      <p>The program around the engineering: weekly sub team working sessions, not status
+      reports; an officer meeting for cross team blockers; a monthly all hands so the sub teams
+      do not become separate clubs; and a design review at each gate with faculty on both halves.
+      Two prototypes, so there is a semester to iterate between them. The department's parts
+      funding arrived in October. There is still no cash sponsor; the pitch lead did secure a
+      gear analysis software license by asking the vendor.</p>
 
-      <h3>1. Run it like a program</h3>
-      <p>The single biggest change from year one is cadence. A thirteen week milestone schedule
-      from systems requirements review through shakedown, all hands on the first Tuesday of
-      every month, weekly subteam meetings, weekly mechanical and electrical team meetings, and
-      design reviews scheduled with faculty on both the engineering and the project development
-      sides. Notion is the system of record: roster, tasks, milestones, purchases, meeting
-      notes. Slack replaced the group texts. If it is not in Notion, it is not happening.</p>
-
-      <h3>2. Get the first turbine done before Thanksgiving</h3>
-      <p>A first draft turbine by November 17, and a second prototype in the spring. Year one
-      failed mostly because everything converged at once and there was no slack left to
-      iterate. Two prototypes with a full semester between them is the fix, and it is the
-      reason the parts budget matters more than anything else on this list.</p>
-
-      <h3>3. Engineering priorities, in order</h3>
-      <ul>
-        <li><strong>Blade root.</strong> The judges flagged it and it failed in testing.
-        Redesign the root joint first, before any aero work, because a better blade that comes
-        off its holder scores nothing.</li>
-        <li><strong>Braking board.</strong> Better PCB material, a heat sink, and resistors
-        rated for the actual power. Add a mechanical brake alongside the electrical one so a
-        thermal failure is not a total loss of braking.</li>
-        <li><strong>Lift over drag.</strong> Once the root is sound, push the aero. Same QBlade
-        workflow, more iterations, and a real test program behind it.</li>
-        <li><strong>Power electronics efficiency.</strong> Attack the buck boost losses:
-        inductor sizing so it stops saturating, better core material, and a hard look at
-        switching losses.</li>
-        <li><strong>Machined over printed.</strong> Move the parts that failed on tolerance,
-        the bearing holders and the pitch box, off printed plastic and onto machined components.
-        Shop access is no longer the constraint.</li>
-        <li><strong>Design for assembly.</strong> Every subsystem gets an assembly order before
-        it gets a purchase order. Year one lost days to parts that were correct in CAD and
-        impossible on a bench.</li>
-      </ul>
-
-      <h3>4. Do not lose the project development half</h3>
-      <p>It is worth as many points as the turbine and it is the half that starves when the
-      build runs late. It needs its own leads, its own weekly meeting, and its own faculty
-      design reviews, all of which it now has. Site selection, resource assessment, permitting,
-      supply chain, and financials, staffed with statistics, electrical, and materials students
-      alongside the mechanical majors.</p>
-
-      <h3>5. Fix the money</h3>
-      <p>Year one ran on department and student government funding plus in kind support from
-      three companies, and nothing carries over into a new fiscal year. Every season starts at
-      zero on parts, and there is currently no cash sponsor at all. Two prototypes need roughly
-      two thousand dollars of materials, and the team owns no tools of its own. A new business
-      team now sits alongside the three engineering teams to go after grants, sponsorships, and
-      industry partnerships, which also feeds the contest that scores exactly that. If you want
-      to help, <a href="https://windpack.club" target="_blank" rel="noopener">windpack.club</a>
-      has the sponsorship page.</p>
-
-      <h3>6. The calendar</h3>
       <div class="log">
         <div class="log-item">
-          <div class="log-when">2026 / Sep</div>
-          <p>Recruiting, subteam assignments, and the competition application, which is scored
-          on educational objectives, organization and planning, and fundraising, not on the
-          turbine.</p>
-        </div>
-        <div class="log-item">
-          <div class="log-when">Sep to Nov</div>
-          <p>Thirteen week milestone schedule, systems requirements review through shakedown,
-          with faculty design reviews along the way.</p>
+          <div class="log-when">2026 / Oct 23</div>
+          <p>Build freeze for prototype one, off the shelf parts ordered.</p>
         </div>
         <div class="log-item">
           <div class="log-when">2026 / Nov 17</div>
-          <p>First draft turbine done, before Thanksgiving break.</p>
+          <p>Prototype one complete, before Thanksgiving.</p>
+        </div>
+        <div class="log-item">
+          <div class="log-when">2026 / Dec 21</div>
+          <p>Event application and the controlled generator video, 5 W under control.</p>
+        </div>
+        <div class="log-item">
+          <div class="log-when">2027 / Feb 26</div>
+          <p>Controlled rotor video, wind driven.</p>
         </div>
         <div class="log-item">
           <div class="log-when">2027 / Spring</div>
-          <p>Second prototype, a real test program, and the written reports for all four
-          contests.</p>
-        </div>
-        <div class="log-item">
-          <div class="log-when">2027 / Spring</div>
-          <p>Three competition days at Penn State.</p>
+          <p>Prototype two, the test program, the written reports, and three days at the regional
+          event hosted by Penn State.</p>
         </div>
       </div>
     </section>
 
-    <section>
-      <h2>Still to write</h2>
+    <section class="beat" id="s13">
+      <h2><span class="step-n">13</span>Where this stands, Oct 23 2026</h2>
+
+      <p class="thought"><span class="vh">What I was thinking: </span>
+      Honest maturity labels. Nothing on this page pretends to be done when it is not.</p>
+
+      <div class="two">
+        <div>
+          <h3>Open at build freeze</h3>
+          <ul>
+            <li>Feather or stall, and the actuator that follows from it.</li>
+            <li>The generator trade study, with at least two alternatives to the proposed outrunner.</li>
+            <li>Resin choice and the lab printer's build height against a 183 mm blade.</li>
+            <li>The hub body design around the bearing seats.</li>
+            <li>Tower height, pending the host's tunnel centerline.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Next</h3>
+          <ul>
+            <li>Coupon prints and the rod pull out test, this week.</li>
+            <li>Revision C of the CDR with every reviewer comment answered and the mass properties filled in.</li>
+            <li>The electrical review, WP-CDR-002, for the load, the converter and the shutdown logic.</li>
+            <li>A generator spinning under control on the dynamometer before Dec 21.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Still to write</h3>
       <ul class="todo">
-        <li>Measured numbers from season one: power curve, tunnel results, and the contest
-        scores behind 6th of 10.</li>
-        <li>The blade trade study with the materials science students, comparing composite
-        layup against printed construction, once it concludes.</li>
-        <li>The Simulink PID controls work in more detail than one paragraph.</li>
-        <li>Shop and build photos. Season one is documented at competition and almost nowhere in
-        the shop, which is its own lesson.</li>
+        <li>Measured numbers: the first coupon fits, the pull out force, the cogging torque, the
+        first spin down.</li>
+        <li>The overspeed spin test, and what the blades look like afterwards.</li>
+        <li>The first tunnel run of prototype one, whichever way it goes.</li>
+        <li>Shop and bench photos. Year one was photographed at competition and almost nowhere
+        else, which is its own lesson.</li>
       </ul>
     </section>
 
@@ -350,6 +941,91 @@
     </div>
   </div>
 </footer>
+
+<script>
+/* the runaway calculator: the four equations in step 04, live */
+(function () {
+  var run = document.getElementById('run');
+  if (!run) return;
+  var slider = run.querySelector('input[type="range"]');
+  var vOut = run.querySelector('[data-v]');
+  var rpm = run.querySelector('[data-rpm]'), force = run.querySelector('[data-force]');
+  var power = run.querySelector('[data-power]'), torque = run.querySelector('[data-torque]');
+  var say = run.querySelector('[data-say]');
+  var btns = [].slice.call(run.querySelectorAll('.run-mode .g-btn'));
+  var mode = 'load';
+  var R = 0.225, rho = 1.225, A = Math.PI * R * R, Cp = 0.35, m = 0.0222, rcg = 0.099;
+  function fmt(n, d) { return n.toLocaleString('en-US', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); }
+  function update() {
+    var v = parseFloat(slider.value);
+    vOut.textContent = v.toFixed(1) + ' m/s';
+    var w, P = 0, Q = 0;
+    if (mode === 'load') {
+      var ve = Math.min(v, 10);
+      w = 4 * ve / R;
+      P = 0.5 * rho * A * Cp * ve * ve * ve;
+      Q = P / w;
+    } else {
+      w = 9 * v / R;
+    }
+    var F = m * w * w * rcg, kg = F / 9.81;
+    rpm.textContent = fmt(w * 60 / (2 * Math.PI));
+    force.textContent = fmt(F);
+    power.textContent = P ? fmt(P, 1) : '0';
+    torque.textContent = Q ? fmt(Q * 1000) : '0';
+    if (mode === 'load') {
+      say.textContent = v > 10
+        ? 'Above 10 m/s the controller holds the 10 m/s power, so the speed and the pull stay put. Each blade is holding back about ' + fmt(kg) + ' kg. Only the thrust keeps rising.'
+        : 'Under load the rotor runs at a tip speed ratio of 4. Each blade is holding back about ' + fmt(kg) + ' kg of pull.';
+    } else {
+      say.textContent = 'No load. The rotor spins up until the blades make no torque, a tip speed ratio of about 9. Each blade is now holding back about ' + fmt(kg) + ' kg, with one bond line and one lip.';
+    }
+  }
+  slider.addEventListener('input', update);
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      mode = b.dataset.mode;
+      btns.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      update();
+    });
+  });
+  update();
+})();
+
+/* the rail: which step you are on, and how far through the story */
+(function () {
+  var rail = document.querySelector('.rail'), bar = document.querySelector('.rail-bar');
+  if (!rail) return;
+  var ol = rail.querySelector('ol');
+  var links = [].slice.call(rail.querySelectorAll('a'));
+  var secs = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+  var queued = false;
+  function top(el) { return el.getBoundingClientRect().top + window.scrollY; }
+  function update() {
+    queued = false;
+    var y = window.scrollY + window.innerHeight * 0.4, tops = secs.map(top), n = secs.length, cur = -1;
+    tops.forEach(function (t, i) { if (t <= y) cur = i; });
+    var p = 0;
+    if (cur >= 0 && cur < n - 1) p = (cur + Math.min(1, (y - tops[cur]) / Math.max(1, tops[cur + 1] - tops[cur]))) / (n - 1);
+    else if (cur === n - 1) p = 1;
+    ol.style.setProperty('--p', p.toFixed(4));
+    links.forEach(function (a, i) {
+      a.classList.toggle('past', i < cur);
+      a.classList.toggle('now', i === cur);
+      if (i === cur) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current');
+    });
+    rail.classList.toggle('on', cur >= 0);
+    if (bar) {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.setProperty('--p', h > 0 ? Math.min(1, window.scrollY / h).toFixed(4) : 0);
+    }
+  }
+  function ask() { if (!queued) { queued = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', ask, { passive: true });
+  window.addEventListener('resize', ask);
+  update();
+})();
+</script>
 
 </body>
 </html>

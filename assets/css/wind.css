@@ -1,0 +1,85 @@
+/* ============================================================================
+   Windpack page extras. Loaded after site.css and story.css by that page only:
+   the runaway calculator, the blade arm section drawing, and a compact table.
+   ========================================================================== */
+
+/* --- the runaway calculator ------------------------------------------------- */
+
+.run { margin: 18px 0 26px; max-width: 68ch; }
+
+.run-top {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 26px;
+  margin-bottom: 18px;
+}
+
+.run-top label { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 12px; }
+.run-top output { font-size: 15px; color: var(--text); font-variant-numeric: tabular-nums; min-width: 6.5ch; }
+
+.run input[type="range"] {
+  width: 220px; max-width: 100%; accent-color: #F0F0F0; cursor: pointer;
+}
+
+.run-mode { display: flex; gap: 18px; }
+.run-mode .g-btn[aria-pressed="true"] { border-bottom-color: var(--text); }
+.run-mode .g-btn[aria-pressed="false"] { color: var(--muted); }
+
+.run-out {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px var(--gap);
+  padding-top: 16px; border-top: 1px solid var(--rule);
+}
+
+.run-out .r-n {
+  font-size: 26px; line-height: 30px; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--text); margin: 0 0 4px; font-variant-numeric: tabular-nums;
+}
+.run-out .r-n small { font-size: 12px; font-weight: 400; color: var(--muted); margin-left: 3px; letter-spacing: 0; }
+.case-body .run-out .r-l { font-size: 12px; line-height: 1.45; color: var(--faint); margin: 0; }
+
+.case-body .run-say { font-size: 15px; color: var(--text); margin: 16px 0 0; min-height: 1.6em; }
+.case-body .run-fine { font-size: 12px; color: var(--faint); margin: 10px 0 0; }
+
+/* --- the blade arm section ---------------------------------------------------- */
+
+.sec { margin: 8px 0 10px; max-width: 920px; }
+.sec svg { width: 100%; height: auto; display: block; overflow: visible; }
+.sec text { font: 400 11.5px var(--font); fill: var(--muted); }
+.sec text.k { fill: var(--text); font-weight: 600; }
+.sec text.ax { fill: var(--faint); }
+.sec .ln { fill: none; stroke: #F0F0F0; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.sec .thin { stroke-width: 0.8; stroke: rgba(240, 240, 240, 0.5); }
+.sec .dash { stroke-dasharray: 4 5; }
+.sec .dd { stroke-dasharray: 8 4 1.5 4; }
+.sec .f-house { fill: rgba(240, 240, 240, 0.09); stroke: rgba(240, 240, 240, 0.8); stroke-width: 1; }
+.sec .f-bear { fill: rgba(240, 240, 240, 0.26); stroke: rgba(240, 240, 240, 0.9); stroke-width: 1; }
+.sec .f-spc { fill: rgba(240, 240, 240, 0.16); stroke: rgba(240, 240, 240, 0.7); stroke-width: 1; }
+.sec .f-sleeve { fill: rgba(240, 240, 240, 0.42); }
+.sec .f-flange { fill: rgba(240, 240, 240, 0.62); }
+.sec .f-gear { fill: rgba(240, 240, 240, 0.34); stroke: rgba(240, 240, 240, 0.9); stroke-width: 1; }
+.sec .f-rod { fill: rgba(240, 240, 240, 0.18); stroke: #F0F0F0; stroke-width: 1.2; }
+.sec .f-clip { fill: rgba(240, 240, 240, 0.9); }
+.sec .f-shaft { fill: rgba(240, 240, 240, 0.12); stroke: rgba(240, 240, 240, 0.5); stroke-width: 1; }
+
+/* --- compact table for requirements and tests ------------------------------- */
+
+.tbl.tight th, .tbl.tight td { padding: 6px 12px 6px 0; }
+.tbl.tight td.id { color: var(--faint); font-weight: 700; letter-spacing: 0.06em; white-space: nowrap; }
+.tbl.wider { max-width: 860px; }
+
+/* a pair of figures where the second is the detail of the first */
+.figs.tall figure img { aspect-ratio: 16 / 10; object-fit: cover; }
+
+/* the benchmark list: four teams, one lesson each */
+.bench { display: grid; gap: 14px; max-width: 68ch; margin: 0 0 20px; }
+.bench-item { display: grid; grid-template-columns: 150px 1fr; gap: var(--gap); }
+.bench-k {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--faint); padding-top: 3px;
+}
+.case-body .bench p { margin: 0; }
+
+@media (max-width: 760px) {
+  .run-out { grid-template-columns: 1fr 1fr; }
+  .run input[type="range"] { width: 100%; }
+  .bench-item { grid-template-columns: 1fr; gap: 4px; }
+  .sec text { font-size: 10.5px; }
+}

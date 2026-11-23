@@ -48,7 +48,7 @@
 
 <header class="case-head">
   <div class="col">
-    <p><span class="wip">Build freeze, Oct 23 2026</span><span class="readtime">1 min to skim, 18 for the whole story</span></p>
+    <p><span class="wip">Build freeze, Oct 23 2026</span></p>
     <h1>Windpack</h1>
     <p class="sub">NC State's Collegiate Wind Competition team. I founded it with ten people and no
     turbine, failed tech inspection in year one, and spent year two designing from the rules and
@@ -214,13 +214,13 @@
     </section>
 
     <div class="story-start">
-      <h2>The whole story, in 13 steps</h2>
+      <h2>The whole story: 13 steps, about 18 minutes</h2>
     </div>
 
     <section class="beat" id="s1">
       <h2><span class="step-n">01</span>What the competition actually scores</h2>
 
-      <p class="thought"><span class="t-k">what I was thinking</span>
+      <p class="thought"><span class="vh">What I was thinking: </span>
       Reliability ranks above marginal Cp gains.</p>
 
       <p>The Collegiate Wind Competition puts a turbine that fits in a 45 cm cube into a wind
@@ -298,15 +298,11 @@
       <div class="figs">
         <figure>
           <img src="/assets/covers/windpack-tunnel.jpg" width="1600" height="1000" loading="lazy"
-               alt="The team watching the turbine inside the wind tunnel test section">
-          <figcaption>The practice run, before the kill switch. The rotor was eccentric and the
-          nacelle shook with it.</figcaption>
+               alt="The team watching the turbine inside the wind tunnel test section during the practice run, before the kill switch">
         </figure>
         <figure>
           <img src="/assets/covers/windpack-presenting.jpg" width="1600" height="1000" loading="lazy"
                alt="Team members presenting the design to industry judges">
-          <figcaption>The design presentation. This half of the competition is what carried the
-          placement.</figcaption>
         </figure>
       </div>
 
@@ -445,17 +441,23 @@
           </div>
         </div>
         <div class="run-out" aria-live="polite">
-          <div><p class="r-n"><span data-rpm>1,698</span><small>RPM</small></p><p class="r-l">rotor speed</p></div>
-          <div><p class="r-n"><span data-force>69</span><small>N</small></p><p class="r-l">outward pull on each blade</p></div>
-          <div><p class="r-n"><span data-power>34.1</span><small>W</small></p><p class="r-l">shaft power</p></div>
-          <div><p class="r-n"><span data-torque>192</span><small>N&#183;mm</small></p><p class="r-l">shaft torque</p></div>
+          <p class="r-n"><b><span data-rpm>1,698</span> RPM</b> rotor speed</p>
+          <p class="r-n"><b><span data-force>69</span> N</b> of outward pull on each blade</p>
+          <p class="r-n"><b><span data-power>34.1</span> W</b> of shaft power</p>
+          <p class="r-n"><b><span data-torque>192</span> N&#183;mm</b> of shaft torque</p>
         </div>
         <p class="run-say" data-say>Under load the rotor runs at a tip speed ratio of 4. Each blade is holding back about 7 kg of pull.</p>
-        <p class="run-fine">Placeholders from the blade root analysis: 225 mm tip radius, C<sub>p</sub> 0.35, tip
-        speed ratio 4 under load and 9 at runaway, 22 g blades with their mass centered at 99 mm,
-        sea level air. Above 10 m/s the controller holds the 10 m/s power. They change when the
-        QBlade blade is final.</p>
       </div>
+
+      <details class="more">
+        <summary>What the calculator assumes</summary>
+        <div class="more-in">
+          <p>The placeholders from the blade root analysis: a 225 mm tip radius, C<sub>p</sub> of
+          0.35, a tip speed ratio of 4 under load and 9 at runaway, 22 g blades with their mass
+          centered at 99 mm, and sea level air. Above 10 m/s the controller holds the 10 m/s
+          power. All of it changes when the QBlade blade is final.</p>
+        </div>
+      </details>
 
       <details class="more">
         <summary>The operating point, bin by bin</summary>
@@ -554,9 +556,10 @@
       inside a steel sleeve at 15 MPa needs 6 mm, so it gets 12. A set screw on bare carbon
       crushes the rod at about 150 N and was rejected. From there the pull goes blade, bond, rod,
       bond, sleeve, sleeve flange, thrust bearing, housing lip. The lip is the piece I had forgotten
-      was load bearing.</p>
+      was load bearing. Here is the section I sent the pitch sub team that day, redrawn: one blade
+      arm, with the radius to scale and the heights not.</p>
 
-      <figure class="sec" aria-labelledby="sec-cap">
+      <figure class="sec">
         <svg viewBox="0 0 940 320" role="img" aria-label="Section through one blade arm of the hub, from the drive shaft axis at the left to the printed blade root at the right, with the bearings, sleeve, flange, lip, spacer and circlip labeled">
           <!-- drive shaft axis -->
           <path class="ln thin dd" d="M60 42 V258"/>
@@ -621,10 +624,6 @@
           <text x="378" y="310" text-anchor="middle">spacer</text>
           <text x="469.5" y="310" text-anchor="middle">circlip</text>
         </svg>
-        <figcaption id="sec-cap" style="font-size:12px;color:var(--faint);margin-top:10px;max-width:68ch">
-          One blade arm in section, radial scale true, heights schematic. The section I sent to
-          the pitch sub team on Oct 2, redrawn for this page. The pull travels blade, bond, rod,
-          bond, steel sleeve, sleeve flange, thrust bearing, housing lip.</figcaption>
       </figure>
 
       <details class="more">
@@ -692,19 +691,19 @@
       actuator only ever pushes along the shaft axis, which is what gets around the swash plate
       buckling that cost us a year ago.</p>
 
+      <p>Below, first the 3x print: two hub halves, three sleeves, bearing and circlip
+      placeholders, four gears and a shaft stub, every fit at 0.3 mm clearance. Then the helix
+      drive with the hub hidden, at zero stroke and at thirty millimeters. The nut spins with the
+      rotor; the fork that pushes it does not.</p>
+
       <div class="figs tall">
         <figure>
           <img src="/assets/figs/windpack-hub-3x.jpg" width="1600" height="1000" loading="lazy"
                alt="Three renders of the 3x scale hub model: the front half, the back half with the central gear boss, and the full assembly with three blade arms and rod stubs">
-          <figcaption>The 3x print, Oct 2: two hub halves, three sleeves, bearing and circlip
-          placeholders, four gears, and a shaft stub. Every fit at 0.3 mm clearance.</figcaption>
         </figure>
         <figure>
           <img src="/assets/figs/windpack-helix-drive.jpg" width="1600" height="1000" loading="lazy"
-               alt="The pitch drive train with the hub hidden, at zero stroke on the left and thirty millimeters of stroke on the right: the actuator, fork, nut, helical lead screw, central bevel gear and three blade gears">
-          <figcaption>The helix drive, Oct 6, with the hub hidden: stroke 0 on the left,
-          30 mm on the right. The nut spins with the rotor and the fork does not.</figcaption>
-        </figure>
+               alt="The pitch drive train with the hub hidden, at zero stroke on the left and thirty millimeters of stroke on the right: the actuator, fork, nut, helical lead screw, central bevel gear and three blade gears">        </figure>
       </div>
 
       <details class="more">
@@ -957,9 +956,7 @@
 
       <figure class="fig">
         <img src="/assets/covers/windpack-steuben.jpg" width="1600" height="1280" loading="lazy"
-             alt="The team in front of the Steuben Valley Wind Farm title slide at competition">
-        <figcaption>Steuben Valley Wind Farm, the year one project development case.</figcaption>
-      </figure>
+             alt="The team in front of the Steuben Valley Wind Farm title slide at competition">      </figure>
 
       <p>The program around the engineering: weekly sub team working sessions, not status
       reports; an officer meeting for cross team blockers; a monthly all hands so the sub teams

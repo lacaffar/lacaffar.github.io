@@ -98,6 +98,70 @@
         </div>
       </div>
 
+      <div class="proud" id="proudest">
+        <p class="ix-k">My proudest engineering accomplishment</p>
+
+        <article class="wx big">
+          <figure>
+            <img src="/assets/figs/windpack-helix-drive.jpg" width="1600" height="1000" loading="lazy"
+                 alt="The pitch drive with the hub hidden, at zero stroke and at full stroke: the linear actuator, the fork, the nut, the two start helical lead screw, the 30 tooth central bevel gear and the three 20 tooth blade gears">
+          </figure>
+          <div>
+            <h3>A pitch drive where one straight push turns all three blades</h3>
+            <p class="wx-story">I designed the mechanism that sets our blades' angle. The
+            actuator only ever pushes along the shaft, which is what killed the swash plate in
+            year one; a helix turns that push into rotation.</p>
+            <ol class="chain">
+              <li><b>Push.</b> A linear actuator slides a nut along the shaft. The nut cannot
+              turn.</li>
+              <li><b>Twist.</b> The nut rides a two start helix, so the lead screw inside it has
+              to turn: 72&#176; over the full stroke.</li>
+              <li><b>Gear up.</b> The lead screw is keyed into a 30 tooth central bevel gear.</li>
+              <li><b>Pitch.</b> Three 20 tooth blade gears turn 1.5 times as far: 108&#176; of
+              pitch, every blade at once, from 30 mm of stroke on the 3x model.</li>
+            </ol>
+          </div>
+        </article>
+
+        <p class="proud-k">The first time all my classes showed up in one part</p>
+        <div class="classes">
+          <div>
+            <!-- IMAGE TO MAKE: assets/figs/windpack-sw-motion.jpg, 1600 x 1000.
+                 SolidWorks Motion Study on the pitch assembly: the actuator stroke on one axis and
+                 the blade pitch angle on the other (a straight line, 108 deg over the stroke), with
+                 the assembly beside it at mid stroke. Bonus: a second curve of the twisting moment,
+                 peaking at 45 deg. -->
+            <div class="shot"><span>SolidWorks motion study, image coming</span></div>
+            <p><b>Dynamics.</b> A spinning blade twists toward flat pitch with a moment of
+            &#189;&#8201;J&#8201;&#969;&#178;&#8201;sin&#8201;2&#952;. It peaks at 45&#176;, exactly
+            where feathering has to pass, so that is where the drive is sized.</p>
+          </div>
+          <div>
+            <!-- IMAGE TO MAKE: assets/figs/windpack-sw-gears.jpg, 1600 x 1000.
+                 The 30T central and 20T blade bevel gears in SolidWorks with the Equations dialog
+                 open beside them: N_central = 30, N_blade = 20, module = 0.5, ratio = N_central /
+                 N_blade = 1.5, pitch cone angle = atan(20 / 30). Dimensions on the model driven
+                 by those names. -->
+            <div class="shot"><span>SolidWorks gear ratio equations, image coming</span></div>
+            <p><b>Solids.</b> Every piece is dimensioned to a stress. The gear teeth carry
+            64 MPa at twice the pitch torque, so the gears are steel, not printed, and the ratio
+            is set by equations in the model, not by hand.</p>
+          </div>
+          <div>
+            <!-- IMAGE TO MAKE: assets/figs/windpack-sw-helix.jpg, 1600 x 1000.
+                 The helical lead screw in SolidWorks built from an Equation Driven Curve:
+                 x = r cos(t), y = r sin(t), z = lead * t / (2 pi), with the Equations dialog
+                 showing lead and starts (2) as named variables tied to the 72 deg over the stroke.
+                 The curve highlighted, the swept rib shown. -->
+            <div class="shot"><span>SolidWorks equation driven helix, image coming</span></div>
+            <p><b>Multivariable calculus.</b> The helix is a parametric curve, and the force on
+            it depends on both the pitch angle and the rotor speed. Working that through: 13 to
+            23 N at the nut for a normal shutdown, 90 to 160 N at runaway.</p>
+          </div>
+        </div>
+        <a class="cta" href="#s7">Read step 07, the actuator numbers &#8595;</a>
+      </div>
+
       <p class="ix-k">What went into year two</p>
       <ul class="tally">
         <li><b>38 pages</b> of critical design review, built with my team and sent out for review</li>
@@ -175,7 +239,8 @@
               <li>Ball bearings over bushings: 5.7 times less pitch torque, and no stick slip.</li>
               <li>A 30:20 bevel set, after showing that three equal miter gears collide.</li>
               <li>Scripted the hub, printed it at 3x overnight, and left it for the pitch team to
-              take apart. Four days later they rebuilt the drive around it.</li>
+              take apart. Four days later the pitch drive was a helix, the part I'm proudest
+              of.</li>
             </ul>
             <a class="cta" href="#s6">Read step 06, the hub &#8595;</a>
           </div>
@@ -225,9 +290,8 @@
       </div>
     </section>
 
-    <div class="story-start">
-      <h2>The whole story: 13 steps, about 18 minutes</h2>
-    </div>
+    <details class="story-fold" id="story">
+      <summary><span class="sf-t">Read the whole story</span> <span class="sf-n">13 steps, about 18 minutes</span></summary>
 
     <section class="beat" id="s1">
       <h2><span class="step-n">01</span>What the competition actually scores</h2>
@@ -1040,6 +1104,7 @@
         nowhere else, which is its own lesson.</li>
       </ul>
     </section>
+    </details>
 
     <nav class="case-nav">
       <a href="/projects/ge-vernova.html">&#8592; Wind Engineering</a>
@@ -1119,8 +1184,10 @@
   var secs = links.map(function (a) { return document.getElementById(a.hash.slice(1)); });
   var queued = false;
   function top(el) { return el.getBoundingClientRect().top + window.scrollY; }
+  var fold = document.getElementById('story');
   function update() {
     queued = false;
+    if (fold && !fold.open) { rail.classList.remove('on'); ol.style.setProperty('--p', 0); if (bar) bar.style.setProperty('--p', 0); return; }
     var y = window.scrollY + window.innerHeight * 0.4, tops = secs.map(top), n = secs.length, cur = -1;
     tops.forEach(function (t, i) { if (t <= y) cur = i; });
     var p = 0;
@@ -1141,7 +1208,31 @@
   function ask() { if (!queued) { queued = true; requestAnimationFrame(update); } }
   window.addEventListener('scroll', ask, { passive: true });
   window.addEventListener('resize', ask);
+  if (fold) fold.addEventListener('toggle', ask);
   update();
+})();
+
+/* the long story is folded: any link to a step inside it opens the fold first */
+(function () {
+  var fold = document.getElementById('story');
+  if (!fold) return;
+  function openFor(hash) {
+    var el = hash && hash.length > 1 && document.getElementById(hash.slice(1));
+    if (el && fold.contains(el) && !fold.open) { fold.open = true; return el; }
+    return null;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    var el = a && openFor(a.getAttribute('href'));
+    if (!el) return;
+    /* the fold just opened: jump ourselves, now that its contents take up room */
+    e.preventDefault();
+    history.pushState(null, '', a.getAttribute('href'));
+    el.scrollIntoView({ behavior: 'smooth' });
+  });
+  window.addEventListener('hashchange', function () { openFor(location.hash); });
+  var first = openFor(location.hash);
+  if (first) first.scrollIntoView();
 })();
 </script>
 

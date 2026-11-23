@@ -48,7 +48,7 @@
 
 <header class="case-head">
   <div class="col">
-    <p><span class="wip">Build freeze, Oct 23 2026</span><span class="readtime">18 min read, 25 with the fine print</span></p>
+    <p><span class="wip">Build freeze, Oct 23 2026</span><span class="readtime">1 min to skim, 18 for the whole story</span></p>
     <h1>Windpack</h1>
     <p class="sub">NC State's Collegiate Wind Competition team. I founded it with ten people and no
     turbine, failed tech inspection in year one, and spent year two designing from the rules and
@@ -71,8 +71,8 @@
 <main class="case-body">
   <div class="col">
 
-    <section>
-      <h2>The short version</h2>
+    <section id="glance">
+      <h2>The one minute version</h2>
       <div class="tldr">
         <div>
           <p class="tldr-k">What the competition scores</p>
@@ -94,21 +94,154 @@
         </div>
       </div>
 
-      <div class="stats">
+      <p class="ix-k">What went into year two</p>
+      <div class="stats four tally">
         <div>
-          <p class="stat-n">6th of 10</p>
-          <p class="stat-l">in the East region in year one, on the strength of the reports and presentations</p>
+          <p class="stat-n">38 pages</p>
+          <p class="stat-l">of critical design review I wrote and sent out for review</p>
         </div>
         <div>
-          <p class="stat-n">593 N</p>
-          <p class="stat-l">the outward pull on each 22 g blade at runaway, about 60 kg hanging on it</p>
+          <p class="stat-n">10 pages</p>
+          <p class="stat-l">of blade root analysis from first principles, before anything was drawn</p>
         </div>
         <div>
-          <p class="stat-n">35</p>
-          <p class="stat-l">active members across nine sub teams in year two</p>
+          <p class="stat-n">27</p>
+          <p class="stat-l">requirements, each traced to a rule or to our own analysis</p>
+        </div>
+        <div>
+          <p class="stat-n">14 tests</p>
+          <p class="stat-l">with pass criteria, run on our own rigs before the tunnel</p>
+        </div>
+        <div>
+          <p class="stat-n">13</p>
+          <p class="stat-l">weaknesses found in the first hub concept, each with a fix</p>
+        </div>
+        <div>
+          <p class="stat-n">6</p>
+          <p class="stat-l">pitch actuators traded once the twisting moment was run</p>
+        </div>
+        <div>
+          <p class="stat-n">3 rigs</p>
+          <p class="stat-l">a blade dynamometer, a rotor test stand, a generator dynamometer</p>
+        </div>
+        <div>
+          <p class="stat-n">10 to 35</p>
+          <p class="stat-l">members, from founding to nine sub teams in year two</p>
         </div>
       </div>
+
+      <p class="ix-k">The work, by discipline</p>
+      <div class="wx-list">
+
+        <article class="wx big">
+          <figure>
+            <img src="/assets/figs/windpack-lathe.jpg" width="1600" height="1000" loading="lazy"
+                 alt="A student in safety glasses running a manual lathe with a digital readout, being taught how to use it">
+            <figcaption>Teaching another student to run the lathe, Nov 2026.</figcaption>
+          </figure>
+          <div>
+            <p class="wx-k">In the shop</p>
+            <h3>The only member trained on the machines, so I teach them</h3>
+            <ul class="proof">
+              <li>At the October design review I was the team's one machine trained member,
+              which is why prototype one prints so much.</li>
+              <li>The hub that carries the blades is machined aluminum: a safety factor of 10,
+              against 1.9 printed.</li>
+              <li>Pulled a three person team together to build the blade dynamometer: 2,500 RPM,
+              a load cell, an ESP32.</li>
+            </ul>
+            <a class="cta" href="#s11">Read step 11, the rigs &#8595;</a>
+          </div>
+        </article>
+
+        <article class="wx">
+          <figure>
+            <img src="/assets/figs/windpack-analysis-pages.jpg" width="1600" height="1000" loading="lazy"
+                 alt="Five pages of the blade root engineering analysis fanned out, the title page and summary table on top">
+            <figcaption>The blade root analysis, Oct 2, 10 pages.</figcaption>
+          </figure>
+          <div>
+            <p class="wx-k">Structural analysis</p>
+            <h3>Found the load case nobody had written down</h3>
+            <ul class="proof">
+              <li>A 13 m/s runaway: about 4,970 RPM and 593 N of pull on each 22 g blade.</li>
+              <li>Sized a 4 mm carbon spar at a safety factor of 5.2, and the bond lengths that
+              hold it in.</li>
+              <li>Read four other teams' reports first and designed around where theirs
+              failed.</li>
+            </ul>
+            <a class="cta" href="#s5">Read step 05, the root &#8595;</a>
+          </div>
+        </article>
+
+        <article class="wx">
+          <figure>
+            <img src="/assets/figs/windpack-hub-3x.jpg" width="1600" height="1000" loading="lazy"
+                 alt="Renders of the 3x scale hub model with three blade arms">
+            <figcaption>The hub, scripted and printed at 3x scale overnight.</figcaption>
+          </figure>
+          <div>
+            <p class="wx-k">Mechanism design</p>
+            <h3>A pitch hub argued out in numbers, then on a table</h3>
+            <ul class="proof">
+              <li>Ball bearings over bushings: 5.7 times less pitch torque, and no stick slip.</li>
+              <li>A 30:20 bevel set, after showing that three equal miter gears collide.</li>
+              <li>Left the 3x print for the pitch team to take apart. Four days later they rebuilt
+              the drive around it.</li>
+            </ul>
+            <a class="cta" href="#s6">Read step 06, the hub &#8595;</a>
+          </div>
+        </article>
+
+        <article class="wx">
+          <figure>
+            <img src="/assets/figs/windpack-cdr-pages.jpg" width="1600" height="1000" loading="lazy"
+                 alt="Five pages of the critical design review fanned out, the actuator options table on top">
+            <figcaption>WP-CDR-001, the mechanical design review, 38 pages.</figcaption>
+          </figure>
+          <div>
+            <p class="wx-k">Design review</p>
+            <h3>Wrote the design review, then answered it</h3>
+            <ul class="proof">
+              <li>Folded the sub teams' drafts into one document: 27 requirements, 14 tests,
+              17 risks, 24 open items with owners.</li>
+              <li>Caught that the inherited 22 N actuator needs 90 to 160 N to feather at
+              runaway.</li>
+              <li>Five major comments came back. Each one has an answer.</li>
+            </ul>
+            <a class="cta" href="#s10">Read step 10, the review &#8595;</a>
+          </div>
+        </article>
+
+        <article class="wx">
+          <figure>
+            <img src="/assets/covers/windpack.jpg" width="1600" height="1000" loading="lazy"
+                 alt="The Windpack team at their first Collegiate Wind Competition">
+            <figcaption>The team at our first competition, May 2026.</figcaption>
+          </figure>
+          <div>
+            <p class="wx-k">Leading the team</p>
+            <h3>Founded it with ten people, then rebuilt how it works</h3>
+            <ul class="proof">
+              <li>Year one: built in a semester, failed tech inspection, placed 6th of 10 on the
+              reports and presentations.</li>
+              <li>Turned the retro into a gated design process, one source of truth, and a
+              decision log.</li>
+              <li>Year two: 35 members in nine sub teams, with the wind farm half run by its own
+              leads.</li>
+            </ul>
+            <a class="cta" href="#s3">Read step 03, the retro &#8595;</a>
+          </div>
+        </article>
+
+      </div>
     </section>
+
+    <div class="story-start">
+      <h2>The whole story</h2>
+      <p>Thirteen steps, about 18 minutes. Each one opens with what I was thinking at the time,
+      so the bubbles alone tell it.</p>
+    </div>
 
     <section class="beat" id="s1">
       <h2><span class="step-n">01</span>What the competition actually scores</h2>
@@ -918,8 +1051,8 @@
         first spin down.</li>
         <li>The overspeed spin test, and what the blades look like afterwards.</li>
         <li>The first tunnel run of prototype one, whichever way it goes.</li>
-        <li>Shop and bench photos. Year one was photographed at competition and almost nowhere
-        else, which is its own lesson.</li>
+        <li>More shop and bench photos. Year one was photographed at competition and almost
+        nowhere else, which is its own lesson.</li>
       </ul>
     </section>
 

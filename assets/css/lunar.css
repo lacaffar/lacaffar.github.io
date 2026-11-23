@@ -1,0 +1,65 @@
+/* ============================================================================
+   lunar viscosity page only: the ten second version up top (three real photos,
+   one line each), and the memes pasted in along the way. Loaded after story.css.
+   ========================================================================== */
+
+.case-head .proj {
+  font-size: 12px; color: var(--muted); margin: 0 0 10px;
+}
+
+.case-head h1.ask { max-width: 24ch; }
+
+/* --- the ten second version ------------------------------------------------ */
+
+.ten {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  margin: 30px 0 0; padding: 0; list-style: none; counter-reset: ten;
+}
+
+.ten li { margin: 0; counter-increment: ten; }
+
+.ten img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+
+.ten p {
+  font-size: 15px; line-height: 1.45; color: var(--ink); margin: 12px 0 0;
+}
+
+.ten p::before {
+  content: counter(ten); display: block;
+  font-size: 12px; font-weight: 600; color: var(--faint); margin-bottom: 4px;
+}
+
+.ten strong { color: var(--text); font-weight: 600; }
+
+.ten .credit { font-size: 12px; color: var(--faint); margin-top: 6px; }
+.ten .credit::before { content: none; }
+
+.answer {
+  font-size: 18px; line-height: 1.45; color: var(--text);
+  max-width: 56ch; margin: 30px 0 26px;
+  padding-left: 16px; border-left: 2px solid var(--text);
+}
+
+/* --- memes and photos in the story ---------------------------------------- */
+
+.meme { margin: 28px 0 30px; max-width: 420px; }
+.meme img { width: 100%; transform: rotate(-1.2deg); }
+.meme.r img { transform: rotate(1deg); }
+.meme figcaption { font-size: 12px; color: var(--faint); margin-top: 12px; }
+
+.pic { margin: 28px 0 24px; max-width: 620px; }
+.pic img { width: 100%; }
+.pic figcaption { font-size: 12px; color: var(--faint); margin-top: 10px; max-width: 62ch; }
+
+@media (max-width: 760px) {
+  .ten { grid-template-columns: 1fr; gap: 20px; }
+  .ten li {
+    display: grid; grid-template-columns: 112px 1fr; grid-template-rows: auto 1fr;
+    column-gap: 14px; row-gap: 6px; align-items: start;
+  }
+  .ten img { grid-row: span 2; }
+  .ten p { margin: 0; font-size: 14px; }
+  .ten .credit { grid-column: 2; margin: 0; }
+  .answer { font-size: 16px; }
+  .meme { max-width: 100%; }
+}

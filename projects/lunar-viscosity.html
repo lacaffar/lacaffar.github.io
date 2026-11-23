@@ -21,6 +21,7 @@
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/story.css">
+<link rel="stylesheet" href="/assets/css/lunar.css">
 </head>
 <body class="story">
 
@@ -44,10 +45,40 @@
 
 <header class="case-head">
   <div class="col">
-    <p><span class="wip">First full pass done</span><span class="readtime">7 min read, plus a quiz</span></p>
-    <h1>Lunar Regolith Viscosity</h1>
-    <p class="sub">Does Moon soil flow differently on the Moon than in an Earth lab? Fully molten,
-    barely. Where sintering happens, yes, and no current model reliably gets it right.</p>
+    <p><span class="wip">First full pass done</span><span class="readtime">7 min read, plus a quiz and some memes</span></p>
+    <p class="proj">Lunar Regolith Viscosity</p>
+    <h1 class="ask">Does Moon dirt melt the same on the Moon as it does in an Earth lab?</h1>
+
+    <ol class="ten" aria-label="The ten second version">
+      <li>
+        <img src="/assets/lunar/bootprint.jpg" width="900" height="900"
+             alt="An Apollo 11 bootprint pressed into fine grey lunar soil.">
+        <p><strong>This is Moon dirt.</strong> One way to build on the Moon is to heat it until
+        the grains fuse into bricks and roads, instead of hauling them from Earth.</p>
+        <p class="credit">Apollo 11, 1969. Soil from this spot is one of my 66. NASA</p>
+      </li>
+      <li>
+        <img src="/assets/lunar/furnace.jpg" width="900" height="900"
+             alt="An engineer photographs the orange glow of molten simulant through a viewport in a lab furnace.">
+        <p><strong>That only works if you know how runny it gets when hot.</strong> Nearly all
+        of that data comes from fake Moon dirt melted in furnaces like this one, in Earth&#8217;s air.</p>
+        <p class="credit">Melting lunar simulant, Kennedy Space Center, 2022. NASA</p>
+      </li>
+      <li>
+        <img src="/assets/lunar/apollo-soil.jpg" width="900" height="900"
+             alt="An open bag of real grey lunar soil in a laboratory glovebox.">
+        <p><strong>Air rusts the iron in it.</strong> The real stuff never saw air. So I built a
+        machine learning pipeline on 14,000 melt measurements and checked whether that
+        difference matters for 66 real Moon soils.</p>
+        <p class="credit">Apollo 15 soil, Lunar Receiving Laboratory, 1971. NASA</p>
+      </li>
+    </ol>
+
+    <p class="answer"><strong>Short answer:</strong> fully melted, no, Earth data is fine. In
+    the sintering range, where the grains fuse into bricks, yes: iron rich soils get there 5 to
+    32&#176;C cooler on the Moon, and no model I tested, mine included, reliably gets even the
+    direction right.</p>
+
     <dl class="case-facts">
       <div><dt>Type</dt><dd>Independent project</dd></div>
       <div><dt>Stack</dt><dd>Python, PyTorch, scikit-learn</dd></div>
@@ -55,38 +86,11 @@
       <div><dt>When</dt><dd>Fall 2026</dd></div>
     </dl>
     <a class="cta" href="https://github.com/lacaffar/lunar-regolith-viscosity" target="_blank" rel="noopener">Code and results on GitHub &#8599;</a>
-    <div class="case-cover">
-      <img src="/assets/covers/lunar-viscosity.svg" width="1600" height="1000"
-           alt="Viscosity against temperature for 66 returned lunar soils. Iron rich mare soils reach each processing level well over 100 degrees cooler than highland soils. A shaded band between softening and the glass transition marks where sintering happens.">
-    </div>
   </div>
 </header>
 
 <main class="case-body">
   <div class="col">
-
-    <section>
-      <h2>The short version</h2>
-      <div class="tldr">
-        <div>
-          <p class="tldr-k">Problem</p>
-          <p>Plans to build on the Moon by heating its soil lean on data from simulants melted in
-          Earth&#8217;s air, and air changes the iron. No published work appears to say how much
-          that matters, soil by soil.</p>
-        </div>
-        <div>
-          <p class="tldr-k">What I built</p>
-          <p>A pipeline trained on about 14,000 melt measurements, checked against published
-          studies, stress tested on controlled oxygen experiments, run on 66 real Moon soils.</p>
-        </div>
-        <div>
-          <p class="tldr-k">Result</p>
-          <p>Fully molten, Earth data is fine. Where sintering happens, iron rich soils soften 5 to
-          32 K lower on the Moon, and no current model, mine included, reliably gets that
-          direction right.</p>
-        </div>
-      </div>
-    </section>
 
     <section class="beat" id="s1">
       <h2><span class="step-n">Quiz</span>Before anything, make a call</h2>
@@ -161,6 +165,12 @@
       viscosity. So: for each real Moon soil, how far do the key processing temperatures shift
       between an Earth test and the Moon?</p>
 
+      <figure class="meme">
+        <img src="/assets/lunar/meme-gears.jpg" width="720" height="546" loading="lazy"
+             alt="Family Guy meme. Peter Griffin at a news desk: You know what really grinds my gears? Moon dirt data from fake Moon dirt melted in Earth air.">
+        <figcaption>The whole project, in one Peter.</figcaption>
+      </figure>
+
       <details class="more">
         <summary>The fine print</summary>
         <div class="more-in">
@@ -226,6 +236,11 @@
       My brief has numbers in it I got from reading. Before building on them, check them against
       the raw sources. And if my pipeline cannot reproduce published numbers on published inputs,
       nothing it says about the Moon means anything.</p>
+
+      <figure class="meme r">
+        <img src="/assets/lunar/meme-notes.jpg" width="720" height="547" loading="lazy"
+             alt="Family Guy meme. Peter Griffin staring, confused: Me fact checking my own notes. Three of my numbers didn't survive.">
+      </figure>
 
       <p>Three numbers in my own brief did not survive:</p>
       <div class="fix">
@@ -295,6 +310,12 @@
 
       <p>Every dot jumps right: each model is about 3.5 times worse near the glass transition than
       fully molten. That is the sintering zone, and it is everyone&#8217;s weak spot.</p>
+
+      <figure class="meme">
+        <img src="/assets/lunar/meme-knee.jpg" width="720" height="540" loading="lazy"
+             alt="Family Guy meme. Peter Griffin sitting on the sidewalk clutching his knee: My model on the scorecard. Sssssss ahhhhh.">
+        <figcaption>Third of four. In my defense, gpvisc trained on about twice the data.</figcaption>
+      </figure>
     </section>
 
     <section class="beat" id="s7">
@@ -325,6 +346,12 @@
         direction backwards in 12 of 13 series. I traced that to how its spreadsheet books iron
         oxide.</li>
       </ul>
+
+      <figure class="meme r">
+        <img src="/assets/lunar/meme-consuela.jpg" width="720" height="540" loading="lazy"
+             alt="Family Guy meme. Consuela on the phone: Model: lunar iron makes it stiffer. The measurements: no no no.">
+        <figcaption>Sehlke and Whittington, run the 2025 way, vs the data in 12 of 13 series.</figcaption>
+      </figure>
       <p>Likely cause: most Fe<sup>3+</sup> values in the training data were calculated from
       temperature at air, not measured, so redox got tangled up with temperature and composition
       instead of learned.</p>
@@ -356,6 +383,14 @@
         <noscript><p>The interactive chart needs JavaScript. Summary table below.</p></noscript>
       </div>
 
+      <figure class="pic">
+        <img src="/assets/lunar/moon.jpg" width="1200" height="800" loading="lazy"
+             alt="The near side of the Moon. Dark patches of old lava flows sit among brighter, cratered ground.">
+        <figcaption>The dark patches are <strong>mare</strong>, ancient lava flows rich in iron.
+        The bright ground is <strong>highland</strong>, low in iron. More iron, bigger shift.
+        Photo: NASA, 2026.</figcaption>
+      </figure>
+
       <p>Across all 66 soils, the measurement anchored glass transition sits:</p>
       <div class="tbl-wrap"><table class="tbl">
         <tr><th>Soil type</th><th>Soils</th><th>Iron (FeO)</th><th>Moon vs air melted test</th><th>Moon vs air sintered test</th></tr>
@@ -366,6 +401,12 @@
       <p>At a fixed sintering temperature, iron rich mare soil is up to about 1.4 orders of
       magnitude runnier on the Moon. Fully molten, the shift is only 1 to 16 K, so melt processing
       designers can keep using air data.</p>
+
+      <figure class="meme">
+        <img src="/assets/lunar/meme-cares.jpg" width="720" height="476" loading="lazy"
+             alt="Family Guy meme. Peter Griffin in a classroom: Fully molten, the shift is only 1 to 16 K. Oh my god, who the hell cares?">
+        <figcaption>Good news for anyone working with fully molten rock: you can ignore all of this.</figcaption>
+      </figure>
 
       <details class="more">
         <summary>The fine print</summary>
@@ -440,6 +481,8 @@
         LMU Munich. Soils: Zenodo 5899696. Baselines: Giordano, Russell and Dingwell 2008;
         Sehlke and Whittington 2016 with its 2017 corrigendum; pretrained gpvisc 0.3.5. Everyday
         viscosities are rough room temperature values.</p>
+        <p>Photos: NASA Image Library, public domain (AS11-40-5878, KSC-20220913-PH-CSH01_0011,
+        S71-43052, art002e009057). Memes: stills from Family Guy, used here as commentary.</p>
       </div>
     </section>
 

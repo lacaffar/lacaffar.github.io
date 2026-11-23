@@ -84,8 +84,16 @@
   color: var(--faint); margin: 46px 0 14px;
 }
 
-.stats.tally { margin-bottom: 0; row-gap: 28px; }
-.stats.tally .stat-n { font-size: 26px; line-height: 30px; }
+/* each line carries its own meaning: the number in bold, the rest at full size */
+.case-body .tally {
+  list-style: none; padding: 18px 0 0; margin: 0; max-width: none;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px 44px;
+  border-top: 1px solid var(--rule);
+}
+.case-body .tally li { font-size: 17px; line-height: 1.45; color: var(--text); margin: 0; }
+.case-body .tally b { font-weight: 700; }
+.case-body .tally a { border-bottom: 1px solid var(--rule); }
+.case-body .tally a:hover { border-bottom-color: var(--text); }
 
 .wx-list { border-bottom: 1px solid var(--rule); }
 
@@ -97,7 +105,12 @@
 
 .wx figure { margin: 0; }
 .wx img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
-.wx figcaption { font-size: 12px; color: var(--faint); margin-top: 8px; }
+
+/* a document preview that opens the document */
+.wx-doc { display: block; outline-offset: 4px; }
+.wx-doc img { transition: opacity 0.15s ease; }
+.wx-doc:hover img { opacity: 0.85; }
+.wx-go { display: flex; flex-wrap: wrap; gap: 10px 26px; }
 
 .case-body .wx-k {
   font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
@@ -120,12 +133,12 @@
 
 /* the turn from the skim to the long read */
 .story-start { margin: 0 0 30px; }
-.case-body .story-start p { color: var(--ink); }
 
 @media (max-width: 760px) {
   .wx, .wx.big { grid-template-columns: 1fr; padding: 24px 0; }
   .case-body .wx h3 { font-size: 19px; }
-  .stats.tally .stat-n { font-size: 22px; line-height: 26px; }
+  .case-body .tally { grid-template-columns: 1fr; }
+  .case-body .tally li { font-size: 16px; }
   .run-out { grid-template-columns: 1fr 1fr; }
   .run input[type="range"] { width: 100%; }
   .bench-item { grid-template-columns: 1fr; gap: 4px; }

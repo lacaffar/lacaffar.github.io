@@ -95,40 +95,16 @@
       </div>
 
       <p class="ix-k">What went into year two</p>
-      <div class="stats four tally">
-        <div>
-          <p class="stat-n">38 pages</p>
-          <p class="stat-l">of critical design review I wrote and sent out for review</p>
-        </div>
-        <div>
-          <p class="stat-n">10 pages</p>
-          <p class="stat-l">of blade root analysis from first principles, before anything was drawn</p>
-        </div>
-        <div>
-          <p class="stat-n">27</p>
-          <p class="stat-l">requirements, each traced to a rule or to our own analysis</p>
-        </div>
-        <div>
-          <p class="stat-n">14 tests</p>
-          <p class="stat-l">with pass criteria, run on our own rigs before the tunnel</p>
-        </div>
-        <div>
-          <p class="stat-n">13</p>
-          <p class="stat-l">weaknesses found in the first hub concept, each with a fix</p>
-        </div>
-        <div>
-          <p class="stat-n">6</p>
-          <p class="stat-l">pitch actuators traded once the twisting moment was run</p>
-        </div>
-        <div>
-          <p class="stat-n">3 rigs</p>
-          <p class="stat-l">a blade dynamometer, a rotor test stand, a generator dynamometer</p>
-        </div>
-        <div>
-          <p class="stat-n">10 to 35</p>
-          <p class="stat-l">members, from founding to nine sub teams in year two</p>
-        </div>
-      </div>
+      <ul class="tally">
+        <li><b>38 pages</b> of critical design review I wrote and sent out for review</li>
+        <li><b>11 pages</b> of <a href="/assets/docs/windpack-blade-root-analysis.pdf" target="_blank" rel="noopener">blade root analysis</a> from first principles, before anything was drawn</li>
+        <li><b>27 requirements</b>, each traced to a rule or to our own analysis</li>
+        <li><b>14 tests</b> with pass criteria, run on our own rigs before the tunnel</li>
+        <li><b>13 weaknesses</b> found in the first hub concept, each with a fix</li>
+        <li><b>6 pitch actuators</b> traded once the twisting moment was run</li>
+        <li><b>3 test rigs</b>: a blade dynamometer, a rotor stand, a generator dynamometer</li>
+        <li><b>10 to 35 members</b>, from founding to nine sub teams in year two</li>
+      </ul>
 
       <p class="ix-k">The work, by discipline</p>
       <div class="wx-list">
@@ -137,12 +113,13 @@
           <figure>
             <img src="/assets/figs/windpack-lathe.jpg" width="1600" height="1000" loading="lazy"
                  alt="A student in safety glasses running a manual lathe with a digital readout, being taught how to use it">
-            <figcaption>Teaching another student to run the lathe, Nov 2026.</figcaption>
           </figure>
           <div>
             <p class="wx-k">In the shop</p>
             <h3>The only member trained on the machines, so I teach them</h3>
             <ul class="proof">
+              <li>That's the photo: me teaching another student to run the lathe, this
+              November.</li>
               <li>At the October design review I was the team's one machine trained member,
               which is why prototype one prints so much.</li>
               <li>The hub that carries the blades is machined aluminum: a safety factor of 10,
@@ -155,11 +132,10 @@
         </article>
 
         <article class="wx">
-          <figure>
+          <a class="wx-doc" href="/assets/docs/windpack-blade-root-analysis.pdf" target="_blank" rel="noopener">
             <img src="/assets/figs/windpack-analysis-pages.jpg" width="1600" height="1000" loading="lazy"
-                 alt="Five pages of the blade root engineering analysis fanned out, the title page and summary table on top">
-            <figcaption>The blade root analysis, Oct 2, 10 pages.</figcaption>
-          </figure>
+                 alt="Pages of the blade root analysis fanned out, the title page and summary on top. Opens the PDF">
+          </a>
           <div>
             <p class="wx-k">Structural analysis</p>
             <h3>Found the load case nobody had written down</h3>
@@ -170,7 +146,10 @@
               <li>Read four other teams' reports first and designed around where theirs
               failed.</li>
             </ul>
-            <a class="cta" href="#s5">Read step 05, the root &#8595;</a>
+            <div class="wx-go">
+              <a class="cta" href="/assets/docs/windpack-blade-root-analysis.pdf" target="_blank" rel="noopener">Read the full analysis, PDF &#8599;</a>
+              <a class="cta" href="#s5">Step 05, the root &#8595;</a>
+            </div>
           </div>
         </article>
 
@@ -178,7 +157,6 @@
           <figure>
             <img src="/assets/figs/windpack-hub-3x.jpg" width="1600" height="1000" loading="lazy"
                  alt="Renders of the 3x scale hub model with three blade arms">
-            <figcaption>The hub, scripted and printed at 3x scale overnight.</figcaption>
           </figure>
           <div>
             <p class="wx-k">Mechanism design</p>
@@ -186,8 +164,8 @@
             <ul class="proof">
               <li>Ball bearings over bushings: 5.7 times less pitch torque, and no stick slip.</li>
               <li>A 30:20 bevel set, after showing that three equal miter gears collide.</li>
-              <li>Left the 3x print for the pitch team to take apart. Four days later they rebuilt
-              the drive around it.</li>
+              <li>Scripted the hub, printed it at 3x overnight, and left it for the pitch team to
+              take apart. Four days later they rebuilt the drive around it.</li>
             </ul>
             <a class="cta" href="#s6">Read step 06, the hub &#8595;</a>
           </div>
@@ -197,14 +175,13 @@
           <figure>
             <img src="/assets/figs/windpack-cdr-pages.jpg" width="1600" height="1000" loading="lazy"
                  alt="Five pages of the critical design review fanned out, the actuator options table on top">
-            <figcaption>WP-CDR-001, the mechanical design review, 38 pages.</figcaption>
           </figure>
           <div>
             <p class="wx-k">Design review</p>
             <h3>Wrote the design review, then answered it</h3>
             <ul class="proof">
-              <li>Folded the sub teams' drafts into one document: 27 requirements, 14 tests,
-              17 risks, 24 open items with owners.</li>
+              <li>Folded the sub teams' drafts into WP-CDR-001, 38 pages: 27 requirements,
+              14 tests, 17 risks, 24 open items with owners.</li>
               <li>Caught that the inherited 22 N actuator needs 90 to 160 N to feather at
               runaway.</li>
               <li>Five major comments came back. Each one has an answer.</li>
@@ -217,7 +194,6 @@
           <figure>
             <img src="/assets/covers/windpack.jpg" width="1600" height="1000" loading="lazy"
                  alt="The Windpack team at their first Collegiate Wind Competition">
-            <figcaption>The team at our first competition, May 2026.</figcaption>
           </figure>
           <div>
             <p class="wx-k">Leading the team</p>
@@ -238,9 +214,7 @@
     </section>
 
     <div class="story-start">
-      <h2>The whole story</h2>
-      <p>Thirteen steps, about 18 minutes. Each one opens with what I was thinking at the time,
-      so the bubbles alone tell it.</p>
+      <h2>The whole story, in 13 steps</h2>
     </div>
 
     <section class="beat" id="s1">
@@ -516,7 +490,9 @@
       = 593 N, about sixty kilograms, and that pull grows with the square of speed. The flapwise
       bending moment at the root, from a conservative 30 N of rotor thrust shared by three blades,
       is 1.22 N&#183;m. The pull is the design load by a wide margin, and it was the load our year
-      one root had never been checked against.</p>
+      one root had never been checked against. Every number in this step comes from the
+      <a href="/assets/docs/windpack-blade-root-analysis.pdf" target="_blank" rel="noopener">eleven
+      page analysis</a> I wrote up on Oct 2, and you can read the whole thing.</p>
 
       <p>Before sizing anything I read the four public design reports that describe their root
       joint in enough detail to compare. They all run 45 cm rotors, so their loads scale straight

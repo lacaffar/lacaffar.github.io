@@ -75,6 +75,15 @@
 }
 .case-body .bench p { margin: 0; }
 
+/* the cover photo, with me circled by hand: an svg laid over it in the photo's own pixels */
+.me-pic { position: relative; }
+.me-mark { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.me-mark path {
+  fill: none; stroke: #E5322D; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.me-mark text { font: 600 46px var(--font); fill: #E5322D; }
+
 /* the line under the cover photo is a statement, not a caption: full size, full white */
 .case-head .cover-say {
   font-size: 20px; line-height: 1.45; font-weight: 500; letter-spacing: -0.005em;
@@ -151,6 +160,8 @@
   .wx, .wx.big { grid-template-columns: 1fr; padding: 24px 0; }
   .case-body .wx h3 { font-size: 19px; }
   .case-head .cover-say { font-size: 17px; }
+  .me-mark text { font-size: 72px; }
+  .me-mark path { stroke-width: 2.5px; }
   .case-body .tally { grid-template-columns: 1fr; }
   .case-body .tally li { font-size: 16px; }
   .run-out { grid-template-columns: 1fr; }

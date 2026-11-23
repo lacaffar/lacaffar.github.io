@@ -1103,10 +1103,34 @@ body.split { overflow: hidden; }
 .tl-lines path { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 
 /* the walk carries straight on from the overture's line, so it matches it */
-.tl-walk   { stroke: var(--text); stroke-width: 1.7; opacity: 0.85; }
+/* its stroke is the faint drift gradient, set on the path in index.html: a
+   url(#id) written here would resolve against this file, not the page */
+.tl-walk   { stroke-width: 1.7; opacity: 0.85; }
 .tl-spine  { stroke: var(--wolf); stroke-width: 2.4; }
 .tl-branch { stroke: var(--text); stroke-width: 1.4; opacity: 0.75; }
 .tl-rule   { stroke: var(--text); stroke-width: 1.1; opacity: 0.38; }
+
+/* words lying along the walk, turned to the line's angle at that point */
+.tl-ride {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1px);
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  transform: rotate(55deg);
+  transform: rotate(atan2(calc(var(--dy) * 1px), calc(var(--dx) * 1cqw)));
+}
+.tl-ride span {
+  position: absolute;
+  left: 0;
+  bottom: 7px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--soft-text);
+}
 
 .tl-beat {
   position: absolute;
@@ -1371,6 +1395,17 @@ body.split { overflow: hidden; }
   .tl-beat::before { content: ""; position: absolute; left: 21px; top: 22px; bottom: -22px;
                      width: 1.5px; background: var(--text); opacity: 0.7; }
   .tl-beat.ncsu::before { background: var(--wolf); opacity: 1; }
+  /* the same faint drift as the wide layout's walk, one tint per stop before
+     NC State (child 1 is the hidden svg, so the stops start at 2) */
+  .tl-beat:nth-child(2)::before { background: linear-gradient(#F0F0F0, #C9DBF2); }
+  .tl-beat:nth-child(3)::before { background: linear-gradient(#C9DBF2, #F2E2BC); }
+  .tl-beat:nth-child(4)::before { background: linear-gradient(#F2E2BC, #C6E6EA); }
+  /* on the rail the words just sit beside it, between the ambulance and NC State */
+  .tl-ride { position: relative; left: auto; top: auto; width: auto; height: auto;
+             transform: none; padding: 0 0 34px 58px; }
+  .tl-ride::before { content: ""; position: absolute; left: 21px; top: -22px; bottom: -22px;
+                     width: 1.5px; background: linear-gradient(#C6E6EA, #F4D2C2); opacity: 0.7; }
+  .tl-ride span { position: static; transform: none; }
   .tl-beat:last-child::before { display: none; }
   .tl-node { left: 0; top: 0; }
   .side-l .tl-body, .side-r .tl-body, .below .tl-body {

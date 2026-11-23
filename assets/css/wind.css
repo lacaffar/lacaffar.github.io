@@ -110,6 +110,9 @@
 .wx figure { margin: 0; }
 .wx img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 
+/* two photos stacked in one row, in the order the story tells them */
+.wx-pair { display: grid; gap: 12px; }
+
 /* a document preview that opens the document */
 .wx-doc { display: block; outline-offset: 4px; }
 .wx-doc img { transition: opacity 0.15s ease; }

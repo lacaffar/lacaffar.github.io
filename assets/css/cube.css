@@ -153,9 +153,18 @@
 .checks .txt { font-size: 15px; line-height: 1.6; color: var(--ink); transition: color 0.15s ease; }
 .checks input:checked ~ .txt { color: var(--muted); }
 
+/* --- the build: phone photos, three across ------------------------------------ */
+
+.figs.three { grid-template-columns: repeat(3, 1fr); }
+.figs.three img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+
 /* --- narrow ---------------------------------------------------------------------- */
 
 @media (max-width: 760px) {
+  .figs.three { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .figs.three figure:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .figs.three figure:last-child:nth-child(odd) img { aspect-ratio: 4 / 3; }
+  .figs.three img.low { object-position: 50% 85%; }  /* keep both lit LEDs in the wide crop */
   .bal-pads { grid-template-columns: 1fr 1fr; }
   .bal-read { grid-column: 1 / -1; grid-row: 1; margin-bottom: 4px; }
   .bal-pad { padding: 20px 8px; }

@@ -103,7 +103,7 @@ hr.rule {
 
 /* --- project index -------------------------------------------------------- */
 
-.work { padding: 130px 0 0; }
+.work { padding: 96px 0 0; }
 
 .row {
   display: grid;
@@ -258,7 +258,7 @@ hr.rule {
   .row { margin-bottom: 52px; }
   .row-text { order: -1; }
 
-  .work { padding-top: 84px; }
+  .work { padding-top: 64px; }
   .head { padding-top: 56px; }
   .head .portrait { width: 96px; height: 96px; }
 
@@ -698,7 +698,7 @@ body.split { overflow: hidden; }
    the box is the share of the page one screen covers, and the run is what is
    left over, both measured off the real panels at a typical window height. */
 
-#portfolio .mm-view { height: 34px; --travel: 97px; }
+#portfolio .mm-view { height: 34px; --travel: 64px; }
 #narrative .mm-view { height: 29px; --travel: 97px; }
 
 @keyframes mm-run {
@@ -1672,4 +1672,56 @@ body.split { overflow: hidden; }
 .notes a:hover > span:first-child { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .notes a:hover img { opacity: 1; }
 @media (max-width: 760px) { .notes a img { width: 120px; } }
+
+/* --- the top of the index, for someone with a minute (Nov 2026) --------------
+   who, where, and what he wants, in full size type under the name, then one
+   line per project saying what was built and what came of it. Neither is a
+   small gray caption: both are the sentence itself. */
+
+.head .intro {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  max-width: 56ch;
+  margin: 0 0 10px;
+}
+
+.head .intro + .links { margin-top: 20px; }
+
+#portfolio .head .links { font-size: 13px; gap: 0 22px; }
+#portfolio .head .links a { border-bottom-color: rgba(240, 240, 240, 0.35); }
+#portfolio .head .links a:hover,
+#portfolio .head .links a:focus-visible { border-bottom-color: var(--text); }
+
+.row .what {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--soft-text);
+  margin: 10px 0 0;
+  text-wrap: pretty;
+}
+
+/* work that is real but has no page yet: one line each, not an empty box */
+
+.bench { margin: 0 0 62px; }
+.bench .label { color: var(--faint); margin-bottom: 12px; }
+.bench ul { list-style: none; margin: 0; padding: 0; }
+.bench li {
+  border-top: 1px solid var(--rule);
+  padding: 12px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--soft-text);
+}
+.bench li:last-child { border-bottom: 1px solid var(--rule); }
+.bench b { color: var(--text); font-weight: 600; margin-right: 8px; }
+.bench a { display: block; }
+.bench a:hover b,
+.bench a:focus-visible b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+/* the notes list reads the same way: name, then what it is, one line */
+.notes a > span:first-child { color: var(--soft-text); line-height: 1.5; }
+.notes a > span b { color: var(--text); font-weight: 600; margin-right: 8px; }
+.notes a:hover > span:first-child { text-decoration: none; }
+.notes a:hover > span b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 

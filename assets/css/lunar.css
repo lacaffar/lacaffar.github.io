@@ -9,6 +9,9 @@
 
 .case-head h1.ask { max-width: 24ch; }
 
+/* two links under the facts: the code, and the poster */
+.case-head .cta:not(:last-child) { margin-right: 24px; }
+
 /* --- the ten second version ------------------------------------------------ */
 
 .ten {

@@ -14,6 +14,12 @@
       "port": 8080
     },
     {
+      "name": "static-any",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-c", "import os; from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler; ThreadingHTTPServer(('127.0.0.1', int(os.environ.get('PORT', 8021))), SimpleHTTPRequestHandler).serve_forever()"],
+      "port": 8021
+    },
+    {
       "name": "windpack",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8090", "--directory", "C:/Users/lacaf/ClubWebsiteJuly/club-website"],

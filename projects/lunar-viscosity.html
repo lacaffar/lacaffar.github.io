@@ -67,15 +67,16 @@
       <li>
         <img src="/assets/lunar/apollo-soil.jpg" width="900" height="900"
              alt="An open bag of real grey lunar soil in a laboratory glovebox.">
-        <p><strong>Air rusts the iron in it.</strong> The real stuff never saw air. So I built a
+        <p><strong>Air rusts the iron in it.</strong> On the Moon, in vacuum, it never rusts, but
+        nearly every number we have was measured on the rusted version. So I built a
         machine learning pipeline on 14,000 melt measurements and checked whether that
         difference matters for 66 real Moon soils.</p>
         <p class="credit">Apollo 15 soil, Lunar Receiving Laboratory, 1971. NASA</p>
       </li>
     </ol>
 
-    <p class="answer"><strong>Short answer:</strong> fully melted, no, Earth data is fine. In
-    the sintering range, where the grains fuse into bricks, yes: iron rich soils get there 5 to
+    <p class="answer"><strong>Short answer:</strong> fully melted, yes, Earth data is fine. In
+    the sintering range, where the grains fuse into bricks, no: iron rich soils get there 5 to
     32&#176;C cooler on the Moon, and no model I tested, mine included, reliably gets even the
     direction right.</p>
 
@@ -136,6 +137,7 @@
       leading way to build at scale. Both run on <strong>viscosity</strong>, how thick the melt is,
       measured in Pa&#183;s:</p>
 
+      <div class="ladder-wrap">
       <ol class="ladder" aria-label="Viscosity ladder in pascal seconds, thickest at the top">
         <li class="z-dn"><b>10<sup>12</sup></b><span>Glass transition. Window glass counts as a solid from here up.</span></li>
         <li class="z-in"><b></b><span><strong>Sintering</strong> works in here</span></li>
@@ -144,6 +146,9 @@
         <li class="z-up z-dn"><b>~250</b><span>Peanut butter</span></li>
         <li class="z-up"><b>~10</b><span>Honey</span></li>
       </ol>
+      <svg class="brace" viewBox="0 0 26 220" preserveAspectRatio="none" aria-hidden="true"><path d="M2 3 Q13 3 13 16 L13 96 Q13 110 24 110 Q13 110 13 124 L13 204 Q13 217 2 217"/></svg>
+      <p class="brace-k">viscosity scale</p>
+      </div>
 
       <p>Molten rock climbs that whole ladder in a few hundred degrees.</p>
     </section>
@@ -164,6 +169,16 @@
       <p>Iron&#8217;s state changes how the melt&#8217;s silicate network links up, which changes
       viscosity. So: for each real Moon soil, how far do the key processing temperatures shift
       between an Earth test and the Moon?</p>
+
+      <h3>Why not just keep the air out?</h3>
+      <p>On the Moon there is no air to keep out. The iron stays unrusted on its own, and that is
+      exactly the problem: it is a different material from the one in the Earth data, and it flows
+      differently. To pick a furnace temperature you need measurements of melts with unrusted
+      iron, and on Earth that means holding a furnace at Moon-like oxygen with a controlled gas
+      mix. It has rarely been done. The open database I trained on has 375 such measurements, and
+      only one composition near the glass transition, where sintering happens. Keeping the iron
+      clean is free on the Moon. Knowing what clean iron does to the temperature is the hard
+      part.</p>
 
       <figure class="meme">
         <img src="/assets/lunar/meme-gears.jpg" width="720" height="546" loading="lazy"

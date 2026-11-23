@@ -63,3 +63,21 @@
   .answer { font-size: 16px; }
   .meme { max-width: 100%; }
 }
+
+/* --- the red brace beside the viscosity ladder, Luke's ask (Nov 23 2026) ---- */
+.ladder-wrap { display: flex; align-items: stretch; gap: 10px; margin: 6px 0 22px; }
+.ladder-wrap .ladder { flex: 0 1 auto; max-width: 600px; margin: 0; }
+.ladder-wrap .brace { flex: 0 0 26px; width: 26px; height: auto; align-self: stretch; overflow: visible; }
+.ladder-wrap .brace path {
+  fill: none; stroke: #e0392b; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.ladder-wrap .brace-k {
+  align-self: center; margin: 0; color: #e0392b; font-size: 15px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .ladder-wrap { gap: 4px; }
+  .ladder-wrap .brace { flex-basis: 18px; width: 18px; }
+  .ladder-wrap .brace-k { writing-mode: vertical-rl; font-size: 13px; }
+}

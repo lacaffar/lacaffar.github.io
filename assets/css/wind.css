@@ -75,6 +75,12 @@
 }
 .case-body .bench p { margin: 0; }
 
+/* the line under the cover photo is a statement, not a caption: full size, full white */
+.case-head .cover-say {
+  font-size: 20px; line-height: 1.45; font-weight: 500; letter-spacing: -0.005em;
+  color: var(--text); max-width: 46ch; margin: 18px 0 0;
+}
+
 /* --- the one minute layer: a tally, then the work by discipline -------------- */
 
 .case-body .ix-k {
@@ -119,6 +125,9 @@
   margin: 0 0 14px; max-width: 30ch;
 }
 
+/* a row that tells why, in the first person, before the proof */
+.case-body .wx .wx-story { font-size: 15px; line-height: 1.6; color: var(--text); margin: 0 0 16px; }
+
 .case-body .wx .proof { list-style: none; padding: 0; margin: 0 0 16px; }
 .case-body .wx .proof li {
   position: relative; padding-left: 20px; margin-bottom: 8px;
@@ -138,6 +147,7 @@
 @media (max-width: 760px) {
   .wx, .wx.big { grid-template-columns: 1fr; padding: 24px 0; }
   .case-body .wx h3 { font-size: 19px; }
+  .case-head .cover-say { font-size: 17px; }
   .case-body .tally { grid-template-columns: 1fr; }
   .case-body .tally li { font-size: 16px; }
   .run-out { grid-template-columns: 1fr; }

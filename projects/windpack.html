@@ -141,11 +141,17 @@
             geometry: 10&#160;mm of nut travel gives 108&#176; of pitch, in a straight line.</p>
           </div>
           <div>
-            <a href="/assets/figs/windpack-sw-gears.jpg"><img src="/assets/figs/windpack-sw-gears.jpg" width="1600" height="1000" loading="lazy"
-                 alt="The 30 tooth and 20 tooth bevel gears in SolidWorks beside the Equations dialog: N_central 30, N_blade 20, module 0.5, ratio N_central over N_blade equals 1.5, cone angle atan of 20 over 30 equals 33.69 degrees"></a>
-            <p>Mechanics of Materials sized the teeth. At twice the pitch torque they carry 64&#160;MPa. The gears are
-            printed in Clear V5 resin, and in the model the tooth counts, the ratio and the cone
-            angle are named equations.</p>
+            <div class="cl-stack">
+              <a href="/assets/figs/windpack-fea-tooth.jpg"><img src="/assets/figs/windpack-fea-tooth.jpg" width="1600" height="1000" loading="lazy"
+                   alt="Ansys finite element model of one blade gear tooth, shaded by max principal stress: the load at the tip of the middle tooth, and the stress peaking at 96 MPa in the root fillet on the loaded side"></a>
+              <a href="/assets/figs/windpack-sw-gears.jpg"><img src="/assets/figs/windpack-sw-gears.jpg" width="1600" height="1000" loading="lazy"
+                   alt="The 30 tooth and 20 tooth bevel gears in SolidWorks beside the Equations dialog: N_central 30, N_blade 20, module 0.5, ratio N_central over N_blade equals 1.5, cone angle atan of 20 over 30 equals 33.69 degrees"></a>
+            </div>
+            <p>Mechanics of Materials checked the teeth. The Lewis equation puts 64&#160;MPa in the
+            tooth root at the design pitch torque. A model of one tooth in Ansys, with the real root
+            fillet, puts the peak at 96&#160;MPa. Clear V5 resin breaks at about 60, so printed teeth
+            this size won't carry the design torque, and the final gears have to be steel. In the
+            CAD, the tooth counts, the ratio and the cone angle are named equations.</p>
           </div>
           <div>
             <a href="/assets/figs/windpack-sw-helix.jpg"><img src="/assets/figs/windpack-sw-helix.jpg" width="1600" height="1000" loading="lazy"
@@ -655,8 +661,16 @@
       percent.</p>
 
       <p><strong>Bevel gears.</strong> Three equal miter gears around one central gear collide. A
-      30:20 set clears by 2 mm. The analysis put 64 MPa in the teeth and called for steel;
-      prototype one prints them in Clear V5 resin.</p>
+      30:20 set clears by 2 mm. The analysis put 64 MPa in the teeth at the design pitch torque
+      and called for steel; prototype one prints them in Clear V5 resin. A finite element model of
+      one tooth, built later in Ansys, counts the root fillet that the Lewis equation leaves out.
+      It puts the root at 96 MPa with the load along the line of action, and 117 MPa under the
+      Lewis load case, against about 60 MPa for Clear V5. The call for steel stands.</p>
+
+      <figure class="fig">
+        <img src="/assets/figs/windpack-fea-compare.jpg" width="1600" height="809" loading="lazy"
+             alt="Bar chart of peak tensile stress at the tooth root at design pitch torque: Lewis hand calculation 64 MPa, finite element model with the load along the line of action 96 MPa, finite element model under the Lewis load case 117 MPa, with a dashed line at the 60 MPa tensile strength of Clear V5">
+      </figure>
 
       <p><strong>Machine the housing.</strong> The lip that carries the pull has a safety factor of
       10 in aluminum and 1.9 in printed PLA.</p>

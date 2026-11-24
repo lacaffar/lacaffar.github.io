@@ -181,6 +181,7 @@
 }
 .case-body .classes p { font-size: 16px; line-height: 1.6; color: var(--text); margin: 0; max-width: 46ch; }
 .classes img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; }
+.classes .cl-stack { display: grid; gap: 12px; }
 
 /* the one minute version, told in order: photo, then what happened */
 .case-body .arc { list-style: none; padding: 0; margin: 0 0 8px; border-top: 1px solid var(--rule); }

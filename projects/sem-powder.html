@@ -45,13 +45,8 @@
     <p><span class="wip">In progress</span><span class="readtime">6 min read, plus a 30 second game</span></p>
     <h1>SEM Powder QC</h1>
     <p class="sub">Teaching a computer to grade metal 3D printing powder from microscope
-    photos, and to say when a batch really changed.</p>
-    <dl class="case-facts">
-      <div><dt>Role</dt><dd>Undergraduate Researcher</dd></div>
-      <div><dt>Lab</dt><dd>CAMAL, NC State</dd></div>
-      <div><dt>Stack</dt><dd>Python, PyTorch, Cellpose-SAM, Mask R-CNN</dd></div>
-      <div><dt>When</dt><dd>Sept 2026 to now</dd></div>
-    </dl>
+    photos, and to say when a batch really changed. Undergraduate research at CAMAL, NC State,
+    since Sept 2026.</p>
     <a class="cta" href="https://github.com/lacaffar/sem-powder" target="_blank" rel="noopener">Code on GitHub &#8599;</a>
     <div class="case-cover">
       <img src="/assets/covers/sem-powder.jpg" width="1600" height="1000"
@@ -92,11 +87,9 @@
       microscope image shows the shape, but someone has to sit and count. Could the image alone
       do both jobs?</p>
 
-      <p>Metal 3D printers melt thin layers of powder with a laser or an electron beam. At CAMAL
-      (NC State&#8217;s Center for Additive Manufacturing and Logistics) I help make that powder: a
-      jet of gas blasts molten metal apart, and the droplets freeze in flight.</p>
-
-      <p>Good droplets freeze round, about 15 to 53 µm across. Bad ones grow
+      <p>Metal 3D printers melt thin layers of powder. At CAMAL (NC State&#8217;s Center for
+      Additive Manufacturing and Logistics) I help make that powder: a jet of gas blasts molten
+      metal apart, and the droplets freeze in flight. Good ones freeze round. Bad ones grow
       <strong>satellites</strong>, little particles welded onto big ones that make the powder flow
       and pack worse.</p>
 
@@ -113,10 +106,9 @@
         </svg>
       </div>
 
-      <p>The usual check, laser diffraction, assumes every particle is a sphere and only reports
-      size. A scanning electron microscope (SEM) shows the real shapes, but an operator gets maybe
-      20 to 60 images in two hours, and then someone has to measure them. The lab had about 1,000
-      SEM images just sitting there.</p>
+      <p>The usual check, laser diffraction, only reports size. A scanning electron microscope
+      (SEM) shows the real shapes, but then someone has to measure them by hand. The lab had about
+      1,000 SEM images just sitting there.</p>
     </section>
 
     <section class="beat" id="s2">
@@ -125,9 +117,8 @@
       <p class="thought"><span class="vh">What I was thinking: </span>
       Satellites are the hard part. The easiest way to show why is to let you try.</p>
 
-      <p>A real SEM image the model never trained on, where a human labeler marked 24
-      satellites. You get 30 seconds: tap every small particle stuck <em>onto</em> a bigger one
-      (tap a mark again to undo it).</p>
+      <p>A real SEM image the model never trained on. You get 30 seconds: tap every small
+      particle stuck <em>onto</em> a bigger one.</p>
 
       <div class="game" id="sat-game">
         <div class="g-bar">
@@ -159,9 +150,8 @@
         model ringed 37 and caught 22 of the 24.</p></noscript>
       </div>
 
-      <p>Notice the red rings the human skipped? Most sit on loose fines in the background, not
-      stuck to anything. Over the whole image the model rings 125 to the human&#8217;s 88. Hold
-      that thought for step 06.</p>
+      <p>See the red rings the human skipped? Most sit on loose fines in the background. Over the
+      whole image the model rings 125 to the human&#8217;s 88. Hold that thought for step 06.</p>
     </section>
 
     <section class="beat" id="s3">
@@ -171,7 +161,7 @@
       Before I write anything, what would have to be true for me to believe this tool, and which
       unknowns could kill the whole project? Find those first.</p>
 
-      <p>So before any code, I wrote down the unknowns that could sink it:</p>
+      <p>The unknowns that could sink it:</p>
 
       <ul class="ask">
         <li>Does the lab already have a script, or a commercial license?</li>
@@ -181,9 +171,8 @@
         <li>Can the SEM tile images automatically?</li>
       </ul>
 
-      <p>One idea I parked on purpose: predicting the powder from atomizer settings. The sample
-      size there is runs, not images, and 10 to 50 runs is a regression problem, not machine
-      learning.</p>
+      <p>One idea I parked on purpose: predicting the powder from atomizer settings. With 10 to
+      50 runs, that is a regression problem.</p>
 
       <details class="more">
         <summary>Open the whole planning map</summary>
@@ -236,55 +225,41 @@
       before I test it where I do not.</p>
 
       <p>Version one ran on a laptop: a textbook outlining method (watershed), a scale bar
-      reader, and standard size and shape math. I tested it on synthetic powder where the answer
-      is known, then on real powder with lab measurements.</p>
+      reader, and standard size and shape math, tested on synthetic powder first, then real
+      powder.</p>
 
-      <div class="stats">
-        <div>
-          <p class="stat-n">+8% / &#8722;1%</p>
-          <p class="stat-l">median and 90th percentile size vs lab values, real Ti-6Al-4V, no tuning</p>
-        </div>
-        <div>
-          <p class="stat-n">~1 s</p>
-          <p class="stat-l">per image on a laptop CPU</p>
-        </div>
-        <div>
-          <p class="stat-n">0.48</p>
-          <p class="stat-l">F1 score on satellites. Better than zero, where it started.</p>
-        </div>
-      </div>
+      <ul class="tally">
+        <li><b>+8% / &#8722;1%</b> on median and 90th percentile size against lab values, no tuning</li>
+        <li><b>About 1 second</b> per image on a laptop</li>
+        <li><b>0.48 F1</b> on satellites, up from zero</li>
+      </ul>
 
       <h3>What broke</h3>
       <div class="fix">
         <div class="fix-item">
           <div class="fix-when">Scale bar</div>
-          <p>The text reader read &#8220;100 µm&#8221; as &#8220;100 Hm&#8221;, so every image
-          came out in pixels. Fix: any one or two letters before the m count as µm. No SEM bar
-          says km.</p>
+          <p>The text reader read &#8220;100 µm&#8221; as &#8220;100 Hm&#8221;. Fix: any letter
+          before the m counts as µm. No SEM bar says km.</p>
         </div>
         <div class="fix-item">
           <div class="fix-when">Clumps</div>
-          <p>A cluster of satellites and fines got measured as one big, lumpy particle (below).</p>
+          <p>A cluster of satellites and fines got measured as one big, lumpy particle.</p>
         </div>
         <div class="fix-item">
           <div class="fix-when">Headcount</div>
-          <p>One frame held just 29 whole particles, so the median read 8% to 25% low. New rule:
-          300 or more particles per batch, from 5 to 10 random fields.</p>
+          <p>One frame held just 29 particles, so the median read low. New rule: 300 or more
+          particles per batch.</p>
         </div>
       </div>
 
       <div class="figs">
         <figure>
           <img src="/assets/figs/sem-agglomerate.jpg" width="580" height="452" loading="lazy"
-               alt="Watershed segmentation outlining a whole cluster of particles as one object">
-          <figcaption>One object, according to the watershed. AA7075 powder, Mendeley Data
-          42gzbgk5hb (CC BY 4.0).</figcaption>
+               alt="Watershed segmentation outlining a whole cluster of AA7075 particles as one object">
         </figure>
         <figure>
           <img src="/assets/figs/sem-databar.png" width="1024" height="92" loading="lazy"
                alt="An SEM data bar reading 100 micrometers, with the scale bar found and underlined in red">
-          <figcaption>The bar it found. The label it misread. Ti-6Al-4V, Zenodo 17037765
-          (CC BY-SA 4.0).</figcaption>
         </figure>
       </div>
     </section>
@@ -313,9 +288,9 @@
         <h3>The best bug of the project</h3>
         <p>The GPU sits on a library workstation with no admin rights, so the whole install
         became one line pasted into PowerShell. Rehearsing it on my laptop, GPU memory ran out and
-        the NVIDIA driver quietly spilled into system RAM instead of failing: ten minutes of
-        crawling, and a page file that ate 9 GB of disk. Fix: cap PyTorch at 92% of GPU memory so
-        running out is a clean error, then retry at a smaller setting automatically.</p>
+        the driver quietly spilled into system RAM: ten minutes of crawling, and a page file that
+        ate 9 GB of disk. Fix: cap PyTorch at 92% of GPU memory, so running out fails cleanly and
+        retries smaller.</p>
       </div>
     </section>
 
@@ -324,21 +299,11 @@
 
       <p class="thought"><span class="vh">What I was thinking: </span>
       The lab does not need a perfect absolute number. They need to know if the powder changed
-      after they changed the atomizer, and how sure they can be. That is a different, and more
-      useful, question.</p>
+      after they changed the atomizer, and how sure they can be.</p>
 
-      <p>The lab&#8217;s goal became quality control: did roundness and satellites change after an
-      atomizer jet change? That changed three things:</p>
-      <ul>
-        <li><strong>Train on what exists:</strong> public hand labeled sets, 28 images and 2,248
-        satellite outlines, instead of waiting on our own labels.</li>
-        <li><strong>Report differences with error bars:</strong> a 95% range from 1,000
-        resamples, and a verdict.</li>
-        <li><strong>Pick the satellite model by its count</strong>, not just its score, because a
-        QC report is a count.</li>
-      </ul>
-
-      <p>A test run on two public powders, plain Ti-6Al-4V vs blends with 15% and 20% copper:</p>
+      <p>So I trained on public hand labeled sets (28 images, 2,248 satellite outlines) instead of
+      waiting on our own, and made every difference come with a 95% range and a verdict. A test
+      run on two public powders, plain Ti-6Al-4V against blends with copper:</p>
 
       <div class="tbl-wrap"><table class="tbl delta wide">
         <tr><th>Metric</th><th>Ti-6Al-4V &#8594; with Cu</th><th>Verdict</th></tr>
@@ -349,7 +314,7 @@
       </table></div>
 
       <p>Copper made the powder less round with twice the satellites, and the big end of the size
-      range did not move. That is exactly what a before and after check needs to say.</p>
+      range did not move.</p>
 
       <details class="more">
         <summary>The fine print</summary>
@@ -366,33 +331,19 @@
     <section class="beat" id="s7">
       <h2><span class="step-n">07</span>How good is it?</h2>
 
-      <p>Scored on published hand labeled images, against the paper those labels come from
-      (Cohn 2021):</p>
+      <p>Scored on published hand labeled images, against the paper they come from (Cohn
+      2021):</p>
 
-      <div class="stats">
-        <div>
-          <p class="stat-n">0.93</p>
-          <p class="stat-l">of particles found, at 0.94 precision. The published method: 0.80, at the same precision.</p>
-        </div>
-        <div>
-          <p class="stat-n">0.64</p>
-          <p class="stat-l">of satellites found, at 0.67 precision. Published: 0.55, at 0.69.</p>
-        </div>
-        <div>
-          <p class="stat-n">~5 s</p>
-          <p class="stat-l">per image on a GPU. Training takes about 75 minutes on the library&#8217;s 8 GB card.</p>
-        </div>
-      </div>
-
-      <p>The trained models ship as a 1.4 GB public release the installer downloads, so no other
-      PC has to train anything.</p>
+      <ul class="tally">
+        <li><b>93%</b> of particles found at 0.94 precision, against 80% for the published method</li>
+        <li><b>64%</b> of satellites found at 0.67 precision, against 55% published</li>
+        <li><b>About 5 seconds</b> per image on a GPU</li>
+        <li><b>75 minutes</b> to train on the library&#8217;s 8 GB card</li>
+      </ul>
 
       <figure class="fig">
         <img src="/assets/figs/sem-ti64.jpg" width="1024" height="768" loading="lazy"
-             alt="Ti-6Al-4V powder with each of 237 particles shaded in its own color and 23 satellites outlined in red">
-        <figcaption>Every particle it kept, each in its own color, satellites in red. 237
-        particles in one frame. Particles cut by the edge are left out on purpose. Ti-6Al-4V,
-        Strauch, Altmann and T&#246;njes, Zenodo 17037765 (CC BY-SA 4.0).</figcaption>
+             alt="Ti-6Al-4V powder with each of 237 particles shaded in its own color and 23 satellites outlined in red. Particles cut by the image edge are left out.">
       </figure>
     </section>
 

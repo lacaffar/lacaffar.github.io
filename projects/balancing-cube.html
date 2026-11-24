@@ -49,12 +49,6 @@
     <h1>Balancing Cube</h1>
     <p class="sub">A 165 mm cube built to stand on one corner, held there by three flywheels
     spinning inside it.</p>
-    <dl class="case-facts">
-      <div><dt>Type</dt><dd>Personal project</dd></div>
-      <div><dt>Brain</dt><dd>ESP32, MPU-6050</dd></div>
-      <div><dt>Muscle</dt><dd>3 RS-385 motors, 3 TB6612FNG drivers</dd></div>
-      <div><dt>When</dt><dd>Oct to Nov 2026</dd></div>
-    </dl>
     <div class="case-cover">
       <img src="/assets/covers/balancing-cube.jpg" width="1600" height="1000"
            alt="A render of the cube standing on one corner. The three faces that meet at the top corner are drawn as glass, showing a flywheel and its motor bridge inside. The lower faces carry a grid of M3 holes.">
@@ -67,21 +61,27 @@
 
     <section>
       <h2>The short version</h2>
-      <div class="tldr">
+      <div class="tldr pics">
         <div>
+          <img src="/assets/cube/wheel.jpg" width="1200" height="750" loading="lazy"
+               alt="One of the black printed flywheels, with six round cutouts, under a white motor bridge on the bench">
           <p class="tldr-k">The idea</p>
-          <p>Stand a cube on one corner and keep it there. Spin a wheel inside one way and the
-          cube twists the other way. Three wheels, three directions.</p>
+          <p>Spin a wheel inside one way and the cube twists the other way. Three wheels, three
+          directions.</p>
         </div>
         <div>
+          <img src="/assets/cube/clamp-level.jpg" width="1600" height="1200" loading="lazy"
+               alt="A low side view of a flywheel and motor bridge held flat to the bench between two blue spring clamps">
           <p class="tldr-k">The hard part</p>
-          <p>It falls in about half a second, the motors came loosely specified, and everything
-          has to fit inside 165 mm.</p>
+          <p>It falls in about half a second, everything has to fit inside 165 mm, and the motors
+          have to sit perfectly level.</p>
         </div>
         <div>
+          <img src="/assets/cube/board-wired.jpg" width="1200" height="750" loading="lazy"
+               alt="The green carrier board with the ESP32 and three red motor drivers, wires running off toward a motor bridge">
           <p class="tldr-k">What I built</p>
-          <p>A shell that checks its own fit, faces with an inlaid drawing that print in one go,
-          and a wiring and power plan that became its own circuit board.</p>
+          <p>A shell that checks its own fit, faces with an inlaid drawing, and my own circuit
+          board.</p>
         </div>
       </div>
     </section>
@@ -93,16 +93,14 @@
       Nothing touching the ground but one corner. If spinning a wheel one way twists the cube the
       other way, three wheels at right angles should be able to hold it there.</p>
 
-      <p>It is the same trick spacecraft use to point without firing thrusters: a
-      <strong>reaction wheel</strong>. Speed a heavy wheel up and the body it is bolted to turns
-      the opposite way. A research group at ETH Zurich made a cube that stands on its corner this
-      way, the Cubli. I wanted to build my own.</p>
+      <p>Spacecraft point this way without firing thrusters: a <strong>reaction wheel</strong>.
+      ETH Zurich built a cube that stands on its corner with three of them, the Cubli. I wanted
+      my own.</p>
 
       <div class="doodle" aria-hidden="true"><!-- art:doodle-spin --><svg viewBox="0 -14 440 224"><path d="M119.4 21.5l4.4 3.9 4.4 4 4.3 4 4.2 4.2 4.1 4.2 4 4.3 4 4.4 3.9 4.3 4.1 4.3 4.1 4.3 4.1 4.2 4.2 4.1 4.2 4.2 4.1 4.2 4.1 4.2 4.2 4.2 4.2 4.1 4.3 4 4.4 4" class="sat"/><path d="M121.7 23.5l4.2 4.2 4.2 4.2 4.2 4.2 4.3 4.1 4.3 4.1 4.4 4 4.3 4.1 4.3 4.1 4.2 4.1 4.1 4.3 4.1 4.3 4 4.4 4.1 4.3 4.1 4.2 4.2 4.2 4.2 4.2 4.2 4.3"/><path d="M198.3 99.9l-3.9 4.4-4 4.3-4.1 4.2-4.3 4-4.4 4-4.2 4.1-4.1 4.1-4.2 4.2-4.3 4-4.4 3.9-4.4 4-4.2 4-4.1 4.3-4 4.3-4 4.3-4.2 4.2-4.1 4.1-4.1 4.2-4 4.4" class="sat"/><path d="M191.1 106.5l-4.1 4-4.1 4.1-4 4-4 4.1-3.9 4.2-3.9 4.2-3.9 4.3-3.9 4.2-3.9 4.1-4.1 4.1-4.1 3.9-4.1 4-4.1 4-4.1 4-4.1 4.1-4 4"/><path d="M120.2 178.4l-4.2-4.2-4.3-4.1-4.3-4-4.4-4.1-4.2-4.2-4.1-4.2-4-4.4-4-4.5-4-4.4-4-4.3-4.2-4.2-4.2-4.2-4.3-4.2-4.2-4.1-4.2-4.3-4.2-4.2-4.2-4.1-4.4-4.1-4.4-3.9" class="sat"/><path d="M114.9 172.2l-4.4-4-4.5-4-4.4-4-4.3-4.2-4.2-4.3-4.1-4.3-4.2-4.2-4.3-4.2-4.3-4.2-4.2-4.2-4.2-4.4-4-4.4-4-4.5-4-4.4-4.2-4.2-4.3-4.2"/><path d="M40.5 101.2l4-4.1 4.1-4 4-4.1 3.9-4.2 4-4.2 3.9-4.1 4.1-4 4.2-4 4.2-3.8 4.2-3.9 4.2-4 4-4 4.1-4.1 4.1-4 4.1-3.9 4.3-3.9 4.2-3.9 4.1-4 3.9-4.1 3.9-4.3" class="sat"/><path d="M48.9 93.4l4-4.1 4-4.1 4.1-3.9 4.1-3.9 4-4 3.9-4.2 3.8-4.2 3.8-4.3 3.8-4.2 4-4 4.1-4 4-4 4-4 3.9-4.2 4-4.1 4-3.9"/><path d="M27.9 179.7l6 0 5.9 0 6 .1 5.9 .3 6 .4 5.9 .2 6 0 5.9-.3 6-.5 5.9-.6 6-.3 5.9-.2 6 0 5.9-.2 5.9-.2 6-.3 5.9-.2 6 .2 6 .4 5.9 .5 6 .4 5.9 .1 6-.1 5.9-.3 6-.2 5.9-.1 6 0 5.9-.2 6-.4 5.9-.5 5.9-.6 6-.3" class="sat"/><path d="M40.3 179.2l5.9-.4 5.8-.1 5.9-.1 5.8-.1 5.8-.3 5.9-.3 5.8 .1 5.9 .3 5.8 .6 5.9 .4 5.8 .1 5.9-.2 5.8-.1 5.8 0 5.9 0 5.8 0 5.9-.4 5.8-.7 5.8-.6 5.9-.3 5.8 0 5.9 .2 5.8 .1 5.9-.1 5.8-.1 5.8 .2 5.9 .4 5.8 .5"/><path d="M152.7 113.1l-1.4 3.5-1.7 3.3-2.1 3.1-2.4 2.9-2.8 2.6-3.1 2.2-3.3 1.9-3.5 1.5-3.6 1.2-3.8 .8-3.8 .5-3.8 .1-3.9-.4-3.7-.9-3.6-1.4-3.4-1.9-3.1-2.2-2.9-2.5-2.6-2.7-2.4-2.9-2.1-3.1-1.8-3.3-1.6-3.4-1.1-3.6-.7-3.7-.3-3.7 .1-3.8 .5-3.7 .8-3.7 1-3.6 1.5-3.6 1.7-3.4 2.2-3.2 2.5-2.9 3-2.6 3.2-2.1 3.5-1.7 3.7-1.3 3.7-1 3.8-.5 3.8-.2 3.8 .1 3.8 .6 3.7 .9 3.5 1.4 3.4 1.8 3.1 2.1 2.9 2.4 2.6 2.7 2.5 2.8 2.2 3 2 3.2 1.7 3.5 1.3 3.6 .9 3.8 .3 3.8-.1 3.9-.6 3.8-.9 3.8-1.4 3.6-1.7 3.5-2 3.3-2.4 3.1-2.7 2.8" class="sat"/><path d="M146.2 125.2l-.9 .9-2.9 2.5-3.1 2.2-3.4 1.8-3.5 1.5-3.7 1.2-3.7 .7-3.8 .4-3.9-.2-3.7-.5-3.7-1-3.6-1.4-3.3-1.7-3.1-2.1-2.9-2.4-2.7-2.7-2.4-2.8-2.1-3.1-1.8-3.2-1.5-3.4-1.2-3.6-.8-3.7-.4-3.7 .1-3.8 .4-3.7 .8-3.7 1.3-3.6 1.6-3.4 2-3.2 2.3-3 2.6-2.8 2.8-2.6 3-2.2 3.3-2 3.5-1.6 3.7-1.3 3.8-.8 3.8-.4 3.9 .1 3.9 .5 3.8 1 3.6 1.4 3.5 1.8 3.2 2.1 3 2.5 2.7 2.7 2.5 3 2.1 3.2 1.8 3.4 1.4 3.5 1.1 3.7 .6 3.8 .2 3.8-.2 3.9-.3 1.6"/><path d="M120 104.1l-1.3-.2-1.2-.6-.9-1-.6-1.2-.1-1.4 .3-1.3 .7-1.2 1-.9 1.3-.5 1.4-.1 1.4 .4 1.2 .9 .8 1.1 .4 1.4-.1 1.5-.6 1.3-1 1-1.2 .7-1.4 .2-1.4-.2"/><path d="M125.5 101.7l5.4 1.5 5.5 1.2 5.5 1.1 5.4 1.4 5.4 1.6" class="sat"/><path d="M121.1 105.5l1.5 5.1 1.4 5.3 1.5 5.2 1.6 5.1 1.7 5.2" class="sat"/><path d="M115.5 104.2l-3.6 3.9-3.8 3.7-3.7 3.9-3.5 4-3.7 3.8" class="sat"/><path d="M114.5 98.8l-5.3-1.4-5.5-1.4-5.3-1.7-5.3-1.8-5.3-1.5" class="sat"/><path d="M118.8 94.5l-1.9-5.3-1.5-5.4-1.5-5.4-1.5-5.4-1.1-5.5" class="sat"/><path d="M125.2 95.5l3.7-3.8 3.6-3.9 3.6-3.9 3.8-3.7 3.7-3.8" class="sat"/><path d="M144.9 56.8l2.4 1.7 2.3 1.7 2.3 1.8 2.1 2 2 2 1.9 2.2 1.8 2.2 1.7 2.4 1.6 2.4 1.3 2.5 1.3 2.6 1 2.7 .9 2.8 .8 2.8 .5 2.8 .4 2.8 .3 2.9 0 2.9 0 2.9-.2 2.9-.4 2.8-.5 2.9-.6 2.8-.8 2.8-1 2.8-1.1 2.7-1.3 2.6-1.4 2.6-1.6 2.4-1.8 2.4"/><path d="M158.3 132.1l1-4.4 .6-4.4"/><path d="M158.5 132.5l3.9-2.1 4.2-1.9"/><path d="M213.3 34.4l-2.7-1.9-2.7-2-2.8-1.8-2.7-1.7-2.9-1.7-2.9-1.6-3-1.4-3-1.5-3-1.3-3-1.3-3.1-1.2-3.1-1.2-3.1-1.2-3.1-1.1-3.1-1.1-3.2-1.1-3.2-.9-3.2-.9-3.2-.7-3.3-.7-3.3-.4-3.3-.4-3.3-.3-3.3-.2-3.3 0-3.3-.1-3.3 .1-3.3 0-3.3 0-3.3 0-3.3 .1-3.3 .1-3.3 .1-3.2 .1-3.3 .3-3.3 .2-3.3 .5-3.2 .4-3.3 .6-3.2 .6-3.2 .7-3.2 .7-3.2 .8-3.2 .7-3.2 .8-3.2 .7-3.2 .9-3.3 .8-3.1 1-3.2 .9-3.1 1.1-3.2 1.2-3 1.4-3 1.4-2.9 1.6-2.9 1.6-2.8 1.8-2.8 1.8-2.8 1.9-2.7 1.8"/><path d="M26.5 33.9l2.1-4 1.9-4.1"/><path d="M26.3 33.6l4.5 0 4.5 .3"/><text x="250" y="82">spin the wheel up this way</text><text x="250" y="100">and the cube kicks back</text><text x="250" y="118">the other way, about its corner</text></svg><!-- /art:doodle-spin --></div>
 
-      <p>On an edge, one wheel is enough to fight one way of falling over. On a corner, the cube
-      can fall in any direction, so it takes three wheels, each on its own face, and a computer
-      reading a gyro fast enough to catch the fall before it starts.</p>
+      <p>On an edge, one wheel is enough. On a corner the cube can fall any direction, so it takes
+      three, and a computer reading a gyro fast enough to catch the fall.</p>
     </section>
 
     <section class="beat" id="s2">
@@ -111,9 +109,8 @@
       <p class="thought"><span class="vh">What I was thinking: </span>
       The physics is easier to feel than to read.</p>
 
-      <p>This is the cube balancing on one edge, seen from the side, with one of its wheels. Hold
-      a button (or the arrow keys) to spin the wheel and push the cube back up. Start in slow
-      motion.</p>
+      <p>The cube on one edge, from the side. Hold a button (or the arrow keys) to spin the wheel
+      and push it back up. Start in slow motion.</p>
 
       <div class="bal" id="bal">
         <div class="bal-top">
@@ -159,10 +156,9 @@
         lean becomes a thirty degree fall in about half a second.</p></noscript>
       </div>
 
-      <p>At real speed, a one degree lean becomes a thirty degree fall in about half a second.
-      That is faster than a person can react, which is why the cube needs a controller reading
-      the gyro many times a second. Notice the wheel speed bar, too: push one way for too long
-      and the wheel runs out of speed to give, and the cube goes over anyway.</p>
+      <p>At real speed a one degree lean becomes a thirty degree fall in about half a second,
+      faster than anyone can react. And push one way for too long and the wheel runs out of
+      speed to give.</p>
 
       <details class="more">
         <summary>The fine print</summary>
@@ -185,25 +181,9 @@
       Get the cheap parts on the way first. The shell should fit what actually shows up, not what
       a listing promises.</p>
 
-      <p>The first order was everything that makes it move and sense:</p>
-
-      <div class="stats">
-        <div>
-          <p class="stat-n">3</p>
-          <p class="stat-l">RS-385 brushed motors, 12 V, about 6000 rpm, one per wheel</p>
-        </div>
-        <div>
-          <p class="stat-n">5</p>
-          <p class="stat-l">TB6612FNG dual motor drivers, so there are spares</p>
-        </div>
-        <div>
-          <p class="stat-n">~$23</p>
-          <p class="stat-l">for the motors, the drivers and an MPU-6050 gyro and accelerometer together</p>
-        </div>
-      </div>
-
-      <p>An ESP32 runs it, and a 3S lithium polymer pack powers it. Then, with the parts on the
-      way, came the shell.</p>
+      <p>The first order, about $23: three RS-385 motors at 12 V and about 6000 rpm, five
+      TB6612FNG motor drivers so there are spares, and an MPU-6050 gyro. An ESP32 runs it and a
+      3S lithium polymer pack powers it.</p>
     </section>
 
     <section class="beat" id="s4">
@@ -213,25 +193,20 @@
       The motor listings disagree with each other. So the shell should be a script I can rerun
       with real measurements, not a drawing I would have to redo.</p>
 
-      <p>The shell is a Python script that builds every part from a dozen parameters. The three
-      <strong>motor faces</strong> meet at one corner. Each motor hangs from a bridge with its
-      shaft toward its own face, so the wheel spins 1.5 mm inside the panel and the motor tails
-      point at the middle of the cube. The three <strong>plain faces</strong> carry a grid of M3
-      holes for the electronics. The panels have 45&#176; mitered edges and screw into eight
-      corner blocks.</p>
+      <p>The shell is a Python script that builds every part from a dozen parameters and checks
+      every part against every other. The three <strong>motor faces</strong> meet at one corner,
+      each with a motor hanging from a bridge. The three <strong>plain faces</strong> carry a grid
+      of M3 holes for the electronics.</p>
 
       <figure class="fig">
         <img src="/assets/figs/cube-kit.jpg" width="1600" height="1000" loading="lazy"
-             alt="One of each printed part laid out flat: a motor face with two posts, a plain face with a grid of holes, a 128 mm flywheel, a motor bridge, three RS-385 motors and eight corner blocks.">
-        <figcaption>Rendered straight from the shell&#8217;s STL files. The script checks every
-        part against every other in the assembled position, and every part comes out watertight.</figcaption>
+             alt="One of each printed part laid out flat, rendered from the shell's STL files: a motor face with two posts, a plain face with a grid of holes, a 128 mm flywheel, a motor bridge, three RS-385 motors and eight corner blocks.">
       </figure>
 
-      <p>The catch is the middle. The three motors point at the same spot, and with a 44 mm can
-      there is only <strong>4.2 mm</strong> between one motor&#8217;s tail and the next motor.
-      The listings say the can is 56 or 57 mm long with the shaft, the shaft is 2.0 or 2.3 mm, and
-      the thread is M2.5 or M3. So: caliper the real motors, change the numbers at the top of the
-      script, rerun it, and it reports any collisions. Try it:</p>
+      <p>The catch is the middle. The three motors point at the same spot, leaving only
+      <strong>4.2 mm</strong> between one motor&#8217;s tail and the next. And the listings
+      disagree on the motor's length. So: caliper the real motors, change the numbers, rerun it,
+      and it reports any collisions. Try it:</p>
 
       <div class="fit" id="fit">
         <svg viewBox="-10 -10 220 220" aria-label="Section through the middle of the cube, showing two motor cans and a third just below, with the gap between them"></svg>
@@ -279,15 +254,12 @@
       I misplaced my USB cable. I do not just want to spin a motor, I want the whole cube wired, so
       the cable is the last missing piece.</p>
 
-      <p>Everything lives on one plain face except the battery, which gets its own, and the
-      motors. That keeps the ten signal wires short, and only the motor and battery leads cross
-      between panels, each through a plug with 5 cm of slack so a panel lifts off without
-      unplugging anything.</p>
+      <p>Everything lives on one plain face except the battery and the motors, so the signal
+      wires stay short and a panel lifts off without unplugging anything.</p>
 
-      <p>Two choices matter most. Each TB6612 board drives <strong>one motor with both of its
-      channels tied together</strong>, which doubles what it can deliver, from 1.2 to about 2.4 A
-      continuous and 3.2 to about 6.4 A peak, because an RS-385 reversing hard can pull several
-      amps. And all three boards share one <strong>standby pin with a 10 k&#937; pull-down</strong>,
+      <p>Two choices matter most. Each TB6612 board drives <strong>one motor with both channels
+      tied together</strong>, doubling it to about 2.4 A continuous, because a motor reversing
+      hard pulls several amps. And all three share one <strong>standby pin with a pull-down</strong>,
       so the motors stay off while the ESP32 boots.</p>
 
       <div class="wd-tabs" role="tablist">
@@ -517,12 +489,9 @@
       <p class="thought"><span class="vh">What I was thinking: </span>
       Before buying a bigger battery, work out what this one actually gives me.</p>
 
-      <p>The pack says <strong>3S, 450 mAh, 80C</strong>. That is three cells in series, 11.1 V
-      nominal and 12.6 V full, about 5 Wh in all. The 80C means it can push 80 times its capacity:
-      36 A. The cube will never ask for that, but a short circuit would get it, which is why a
-      5 A fuse sits right after the battery.</p>
-
-      <p>Rough runtimes, using 360 of the 450 mAh:</p>
+      <p>The pack says <strong>3S, 450 mAh, 80C</strong>: about 5 Wh, and able to push 36 A. A
+      short circuit would get all of it, so a 5 A fuse sits right after the battery. Rough
+      runtimes:</p>
 
       <div class="db-key"><span>shortest</span><span class="k-b">longest</span></div>
       <div class="tbl-wrap"><table class="tbl">
@@ -532,9 +501,8 @@
         <tr><td>Jumping up, badly tuned</td><td class="n">2 A or more</td><td class="db-cell"><div class="db" style="--a:0;--b:0.167"><span class="ln"></span><span class="a"></span><span class="b"></span></div></td></tr>
       </table></div>
 
-      <p>Just switched on, it would idle for about six hours. So the answer is no bigger battery
-      yet: tuning happens in five minute bursts, and at about 40 g the 450 barely moves the center
-      of mass of a cube that weighs close to a kilogram.</p>
+      <p>So no bigger battery yet. Tuning happens in five minute bursts, and at about 40 g this
+      pack barely moves the center of mass.</p>
 
       <details class="more">
         <summary>The fine print</summary>
@@ -574,56 +542,45 @@
       <h2><span class="step-n">09</span>Off the paper</h2>
 
       <p>The drawing from step 06 is now a circuit board, <strong>Reaction Cube Carrier
-      v1</strong>. Everything on the paper has a place on it: the ESP32 with its antenna end
-      marked, the MPU-6050, the three TB6612FNG boards, the 5 A fuse right after the battery
-      terminal, a switch, the 5 V regulator, a terminal for each motor, and a three pin header for
-      a strip of LEDs.</p>
+      v1</strong>, with everything from the paper on it. Then it went onto a printed frame on one
+      plain face, and onto USB power.</p>
 
       <div class="figs three">
         <figure>
           <img src="/assets/cube/board.jpg" width="900" height="1200" loading="lazy"
                alt="The Reaction Cube Carrier v1 board from above: an ESP32 at the bottom left, an MPU-6050 above it, three red TB6612FNG boards in a column, the 5 A fuse with the battery, switch and LED terminals along the top, and a terminal for each motor down the right side.">
-          <figcaption>Reaction Cube Carrier v1, with every part from the drawing in place.</figcaption>
         </figure>
         <figure>
           <img src="/assets/cube/board-frame.jpg" width="900" height="1200" loading="lazy"
                alt="The board screwed to a white printed frame on one of the black plain faces, with red and black wires running to its terminals.">
-          <figcaption>On a printed frame, screwed to one of the plain faces.</figcaption>
         </figure>
         <figure>
           <img class="low" src="/assets/cube/board-usb.jpg" width="900" height="1200" loading="lazy"
                alt="The board on a USB cable, with the red power lights on the ESP32 and the MPU-6050 lit, and three green wires added across it.">
-          <figcaption>On USB power. The ESP32 and the gyro light up.</figcaption>
         </figure>
       </div>
 
-      <p>The last line of the checklist, in a photo: all three motors standing in their printed
-      bridges, held down with spring clamps, and nothing on the shafts.</p>
+      <p>The last line of the checklist, in a photo: motors clamped down, wheels off.</p>
 
       <figure class="fig">
         <img src="/assets/cube/bench.jpg" width="1600" height="1200" loading="lazy"
              alt="Three white motor bridges on a shop bench, each with a motor standing in it, laid over black flywheels and held with blue spring clamps. Wires run from the motors back toward the board.">
-        <figcaption>Motors held down, wheels off.</figcaption>
       </figure>
 
-      <p>Then all of it goes in the shell. The board rides on one plain face, a wheel sits inside
-      each motor face, and the drawing from step 05 is on the outside.</p>
+      <p>Then all of it goes in the shell, with the drawing from step 05 on the outside.</p>
 
       <div class="figs three">
         <figure>
           <img src="/assets/cube/shell-open.jpg" width="900" height="1200" loading="lazy"
                alt="The black printed shell, open on one side, with the board on one wall and a white motor bridge and a black flywheel inside, wires running between them.">
-          <figcaption>The shell, open on one side.</figcaption>
         </figure>
         <figure>
           <img src="/assets/cube/shell-top.jpg" width="900" height="1200" loading="lazy"
                alt="The top face of the black shell with the thumbs-up drawing inlaid in white, and the board and a motor bridge visible underneath it.">
-          <figcaption>The thumbs-up from step 05, inlaid in white on the top face.</figcaption>
         </figure>
         <figure>
           <img src="/assets/cube/shell-wiring.jpg" width="900" height="1200" loading="lazy"
                alt="Inside the shell: red, black and green wires between the board on one wall and the motor bridges, with a flywheel just under the top face.">
-          <figcaption>A lot of wire for 165 mm.</figcaption>
         </figure>
       </div>
     </section>
@@ -647,12 +604,19 @@
       three green wires across the board in the USB photo.</p>
 
       <p>The three shell photos above are the cube as it is today. One of the motor drivers in
-      them did not fail quietly. It blew up, violently. It is the one red driver board you can
-      see in the last photo, and its chip is burned black. I think I did it by using the motors
-      as speakers, reversing them 1,500 times a second.</p>
+      them blew up, violently. It is the one red driver board in the last shell photo, its chip
+      burned black. I think I did it by using the motors as speakers, reversing them 1,500 times
+      a second.</p>
 
       <p>And I have trouble mounting the motors perfectly level: the way I clamp them
       isn&#8217;t perfect yet.</p>
+
+      <div class="figs">
+        <figure>
+          <img src="/assets/cube/hall-sensor.jpg" width="1600" height="1200" loading="lazy"
+               alt="A small sensor board with red, black and green leads being fitted to the arm of a white motor bridge">
+        </figure>
+      </div>
     </section>
 
     <nav class="case-nav">

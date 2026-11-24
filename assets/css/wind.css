@@ -152,11 +152,10 @@
 /* what is still missing is content, so it reads at body size, not as fine print */
 .case-body .todo li { font-size: 15px; line-height: 1.55; color: var(--ink); padding: 10px 0; }
 
-/* --- my proudest part: the pitch drive, near the top ------------------------- */
+/* --- things I've worked on: the pitch drive first, then the other rows -------- */
 
 .proud { margin: 0 0 8px; }
 .case-body .proud .wx { border-bottom: 1px solid var(--rule); }
-.case-body .proud .wx h3 { font-size: 24px; }
 
 /* push, twist, gear up, pitch: a numbered chain */
 .case-body .chain { list-style: none; counter-reset: ch; padding: 0; margin: 4px 0 0; }
@@ -238,7 +237,6 @@
   .case-head .cover-say { font-size: 17px; }
   .classes > div, .case-body .arc li { grid-template-columns: 1fr; }
   .case-body .ledger { grid-template-columns: 1fr; }
-  .case-body .proud .wx h3 { font-size: 21px; }
   .me-mark text { font-size: 72px; }
   .me-mark path { stroke-width: 2.5px; }
   .run-out { grid-template-columns: 1fr; }

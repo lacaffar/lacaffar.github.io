@@ -189,6 +189,8 @@
   margin: 0; padding: 18px 0; border-bottom: 1px solid var(--rule);
 }
 .arc img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.case-body .arc a { border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.case-body .arc a:hover, .case-body .arc a:focus-visible { border-bottom-color: var(--text); }
 .case-body .arc h3 { font-size: 19px; line-height: 1.3; font-weight: 600; margin: 0 0 6px; }
 .case-body .arc p { font-size: 16px; line-height: 1.6; color: var(--text); margin: 0; max-width: 58ch; }
 

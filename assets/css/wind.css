@@ -122,6 +122,10 @@
 /* two photos stacked in one row, in the order the story tells them */
 .wx-pair { display: grid; gap: 12px; }
 
+/* two upright phone shots side by side, inside a row's text column */
+.wx .wx-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 20px; }
+.wx .wx-duo img { aspect-ratio: 4 / 5; }
+
 /* a document preview that opens the document */
 .wx-doc { display: block; outline-offset: 4px; }
 .wx-doc img { transition: opacity 0.15s ease; }

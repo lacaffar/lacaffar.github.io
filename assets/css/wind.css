@@ -176,6 +176,7 @@
 /* three classes, each with the screenshot that proves it */
 .classes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px var(--gap); margin: 0 0 22px; }
 .case-body .classes p { font-size: 15px; line-height: 1.55; color: var(--ink); margin: 12px 0 0; }
+.classes img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; }
 
 /* a frame for an image that is still being made: honest, and easy to swap for the img */
 .shot {

@@ -101,9 +101,11 @@
         <p class="ix-k">My proudest engineering accomplishment</p>
 
         <article class="wx big">
-          <figure>
+          <figure class="wx-pair">
             <img src="/assets/figs/windpack-helix-drive.jpg" width="1600" height="1000" loading="lazy"
                  alt="The pitch drive with the hub hidden, at zero stroke and at full stroke: the linear actuator, the fork, the nut, the two start helical lead screw, the 30 tooth central bevel gear and the three 20 tooth blade gears">
+            <img src="/assets/figs/windpack-sw-stroke.gif" width="800" height="500" loading="lazy"
+                 alt="SolidWorks motion study, animated: the nut slides 10 mm up the two start lead screw, the screw turns 72 degrees, and the 30 tooth and 20 tooth bevel gears above it turn with it, then everything runs back">
           </figure>
           <div>
             <h3>A pitch drive where one straight push turns all three blades</h3>
@@ -130,6 +132,8 @@
                  the blade pitch angle on the other (a straight line, 108 deg over the stroke), with
                  the assembly beside it at mid stroke. Bonus: a second curve of the twisting moment,
                  peaking at 45 deg. -->
+            <a href="/assets/figs/windpack-sw-motion.jpg"><img src="/assets/figs/windpack-sw-motion.jpg" width="1600" height="1000" loading="lazy"
+                 alt="SolidWorks Motion Analysis of the pitch drive. Top plot: blade gear angle against nut travel, a straight line from 0 to 108 degrees over 10 mm. Bottom plot: nut travel over the 5 second run"></a>
             <p><b>Dynamics.</b> A spinning blade twists toward flat pitch with
             &#189;&#8201;J&#8201;&#969;&#178;&#8201;sin&#8201;2&#952;, which peaks at 45&#176;, right
             where feathering passes. The drive is sized there.</p>
@@ -140,6 +144,8 @@
                  open beside them: N_central = 30, N_blade = 20, module = 0.5, ratio = N_central /
                  N_blade = 1.5, pitch cone angle = atan(20 / 30). Dimensions on the model driven
                  by those names. -->
+            <a href="/assets/figs/windpack-sw-gears.jpg"><img src="/assets/figs/windpack-sw-gears.jpg" width="1600" height="1000" loading="lazy"
+                 alt="The 30 tooth and 20 tooth bevel gears in SolidWorks beside the Equations dialog: N_central 30, N_blade 20, module 0.5, ratio N_central over N_blade equals 1.5, cone angle atan of 20 over 30 equals 33.69 degrees"></a>
             <p><b>Solids.</b> The gear teeth carry 64 MPa at twice the pitch torque, so the
             gears are metal. The ratio comes from equations in the model.</p>
           </div>
@@ -149,6 +155,8 @@
                  x = r cos(t), y = r sin(t), z = lead * t / (2 pi), with the Equations dialog
                  showing lead and starts (2) as named variables tied to the 72 deg over the stroke.
                  The curve highlighted, the swept rib shown. -->
+            <a href="/assets/figs/windpack-sw-helix.jpg"><img src="/assets/figs/windpack-sw-helix.jpg" width="1600" height="1000" loading="lazy"
+                 alt="The two start lead screw in SolidWorks beside the Equations dialog: stroke 10, turn 72, lead equals stroke times 360 over turn equals 50, starts 2, core and tip radii, length 17.7"></a>
             <p><b>Multivariable calculus.</b> The helix is a parametric curve, and the force on
             it depends on pitch angle and rotor speed: 13 to 23 N at the nut for a normal
             shutdown, 90 to 160 N at runaway.</p>

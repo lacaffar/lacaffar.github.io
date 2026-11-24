@@ -9,7 +9,15 @@
 
 .case-head h1.ask { max-width: 24ch; }
 
-/* two links under the facts: the code, and the poster */
+/* no badge in front of the read time on this page */
+.case-head .readtime:first-child { margin-left: 0; display: inline-block; margin-bottom: 16px; }
+
+/* the research poster, the whole project on one page; click for the full size PDF */
+.case-head .poster { display: block; margin: 30px 0 18px; }
+.case-head .poster img { display: block; width: 100%; height: auto; transition: opacity 0.2s ease; }
+.case-head .poster:hover img, .case-head .poster:focus-visible img { opacity: 0.88; }
+
+/* two links under the poster: the code, and the PDF */
 .case-head .cta:not(:last-child) { margin-right: 24px; }
 
 /* --- the ten second version ------------------------------------------------ */

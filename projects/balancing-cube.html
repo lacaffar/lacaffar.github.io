@@ -110,9 +110,13 @@
       <h2><span class="step-n">01</span>Simulate it before buying anything</h2>
 
       <p>Before I ordered a single part, I wrote a physics model of the cube balancing on one edge,
-      and a controller to hold it up. It said the motors and wheel I had in mind could do it. This
-      is that model. Hold a button or the arrow keys to spin the wheel and push the cube back up.
-      Start in slow motion.</p>
+      and a controller to hold it up, in Python with NumPy and SciPy. The model is a state space
+      system in tilt, tilt rate and wheel speed, linearized about the balance point, with the motor
+      modeled from its measured back EMF and stall torque. SciPy solves the Riccati equation for
+      the LQR gains, and I checked the closed loop poles and the volts it asks for at a few degrees
+      of tilt. It said the motors and wheel I had in mind could do it. The game below runs the same
+      model in JavaScript, with full gravity instead of the linear version. Hold a button or the
+      arrow keys to spin the wheel and push the cube back up. Start in slow motion.</p>
 
       <div class="sim-row">
       <div class="bal" id="bal">
@@ -596,6 +600,8 @@
         <img class="tall" src="/assets/cube/shell-wiring.jpg" width="900" height="1200" loading="lazy"
              alt="Inside the shell: red, black and green wires between the board on one wall and the motor bridges, with a flywheel just under the top face. One red driver board has a burned black chip.">
       </figure>
+
+      <p>And so it remains, half exploded, as of 11/24. To be finished&#8230;</p>
     </section>
 
     <nav class="case-nav">

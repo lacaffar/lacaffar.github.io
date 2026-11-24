@@ -19,6 +19,7 @@
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap">
 <link rel="stylesheet" href="/assets/css/site.css">
 <link rel="stylesheet" href="/assets/css/story.css">
 <link rel="stylesheet" href="/assets/css/cube.css">
@@ -28,16 +29,12 @@
 <div class="rail-bar" aria-hidden="true"></div>
 <nav class="rail" aria-label="Steps">
   <ol>
-    <li><a href="#s1"><i></i><span>The idea</span></a></li>
-    <li><a href="#s2"><i></i><span>Your turn</span></a></li>
-    <li><a href="#s3"><i></i><span>Parts first</span></a></li>
+    <li><a href="#s1"><i></i><span>Simulate first</span></a></li>
+    <li><a href="#s2"><i></i><span>The board</span></a></li>
+    <li><a href="#s3"><i></i><span>Wiring</span></a></li>
     <li><a href="#s4"><i></i><span>The shell</span></a></li>
-    <li><a href="#s5"><i></i><span>The faces</span></a></li>
-    <li><a href="#s6"><i></i><span>Wiring</span></a></li>
-    <li><a href="#s7"><i></i><span>The battery</span></a></li>
-    <li><a href="#s8"><i></i><span>Power-up</span></a></li>
-    <li><a href="#s9"><i></i><span>The build</span></a></li>
-    <li><a href="#s10"><i></i><span>Right now</span></a></li>
+    <li><a href="#s5"><i></i><span>The battery</span></a></li>
+    <li><a href="#s6"><i></i><span>Right now</span></a></li>
   </ol>
 </nav>
 
@@ -49,15 +46,35 @@
     <h1>Balancing Cube</h1>
     <p class="sub">A 165 mm cube built to stand on one corner, held there by three flywheels
     spinning inside it.</p>
-    <div class="case-cover">
-      <img src="/assets/covers/balancing-cube.jpg" width="1600" height="1000"
-           alt="A render of the cube standing on one corner. The three faces that meet at the top corner are drawn as glass, showing a flywheel and its motor bridge inside. The lower faces carry a grid of M3 holes.">
-    </div>
   </div>
 </header>
 
 <main class="case-body">
   <div class="col">
+
+    <section class="inspo">
+      <div class="inspo-board">
+        <a class="inspo-a" href="https://www.youtube.com/shorts/VPUfH64HpgE" aria-label="Initial inspiration, from my dynamics class: the spinning wheel and stool demo by Peter Schwartz on YouTube">
+          <img src="/assets/cube/wheel-stool.gif" width="300" height="450"
+               alt="A man standing on a spinning stool holds a bike wheel spinning flat over his head, flips it over, and the stool starts turning him around">
+        </a>
+        <a class="inspo-b" href="https://www.youtube.com/watch?v=n_6p-1J551Y" aria-label="Amazing execution, from ETH Zurich: The Cubli on YouTube">
+          <img src="/assets/cube/cubli-jump.gif" width="300" height="450"
+               alt="The Cubli, a metal frame cube, lying flat, then jumping up onto one edge and then onto one corner, where it balances">
+        </a>
+        <svg class="inspo-ink" viewBox="0 0 1000 640" aria-hidden="true">
+          <text x="236" y="70" class="big" transform="rotate(-2 236 70)">Initial inspiration</text>
+          <text x="300" y="116" transform="rotate(-2 300 116)">(from my dynamics class)</text>
+          <path d="M226 56 C 176 40, 140 60, 134 96 C 131 114, 133 128, 135 140"/>
+          <path d="M114 120 L 135 142 L 154 118"/>
+          <text x="736" y="402" class="big" transform="rotate(-4 736 402)">AMAZING</text>
+          <text x="728" y="456" class="big" transform="rotate(-4 728 456)">EXECUTION!</text>
+          <text x="748" y="502" transform="rotate(-4 748 502)">(from ETH Zurich)</text>
+          <path d="M724 420 C 700 440, 676 452, 646 456"/>
+          <path d="M668 436 L 644 456 L 670 472"/>
+        </svg>
+      </div>
+    </section>
 
     <section>
       <h2>The short version</h2>
@@ -73,12 +90,15 @@
           <img src="/assets/cube/clamp-level.jpg" width="1600" height="1200" loading="lazy"
                alt="A low side view of a flywheel and motor bridge held flat to the bench between two blue spring clamps">
           <p class="tldr-k">The hard part</p>
-          <p>It falls in about half a second, everything has to fit inside 165 mm, and the motors
-          have to sit perfectly level.</p>
+          <p>Tight tolerances on a budget. 3D printed parts never come out exactly the size I drew,
+          and everything has to fit inside 165 mm.</p>
         </div>
         <div>
-          <img src="/assets/cube/board-wired.jpg" width="1200" height="750" loading="lazy"
-               alt="The green carrier board with the ESP32 and three red motor drivers, wires running off toward a motor bridge">
+          <a class="pcb-split" href="#board-drawing">
+            <img src="/assets/cube/board-flat.jpg" width="1000" height="1000" loading="lazy"
+                 alt="My circuit board from above: the left half is the PCB layout, red front copper, blue back copper and yellow silkscreen, fading into a photo of the finished board on the right half">
+            <img class="pcb-ink" src="/assets/cube/pcb-layout.svg" width="1000" height="1000" loading="lazy" alt="">
+          </a>
           <p class="tldr-k">What I built</p>
           <p>A shell that checks its own fit, faces with an inlaid drawing, and my own circuit
           board.</p>
@@ -87,30 +107,12 @@
     </section>
 
     <section class="beat" id="s1">
-      <h2><span class="step-n">01</span>Spin a wheel one way, the cube twists the other</h2>
+      <h2><span class="step-n">01</span>Simulate it before buying anything</h2>
 
-      <p class="thought"><span class="t-k">what I was thinking</span>
-      Nothing touching the ground but one corner. If spinning a wheel one way twists the cube the
-      other way, three wheels at right angles should be able to hold it there.</p>
-
-      <p>Spacecraft point this way without firing thrusters: a <strong>reaction wheel</strong>.
-      ETH Zurich built a cube that stands on its corner with three of them, the Cubli. I wanted
-      my own.</p>
-
-      <div class="doodle" aria-hidden="true"><!-- art:doodle-spin --><svg viewBox="0 -14 440 224"><path d="M119.4 21.5l4.4 3.9 4.4 4 4.3 4 4.2 4.2 4.1 4.2 4 4.3 4 4.4 3.9 4.3 4.1 4.3 4.1 4.3 4.1 4.2 4.2 4.1 4.2 4.2 4.1 4.2 4.1 4.2 4.2 4.2 4.2 4.1 4.3 4 4.4 4" class="sat"/><path d="M121.7 23.5l4.2 4.2 4.2 4.2 4.2 4.2 4.3 4.1 4.3 4.1 4.4 4 4.3 4.1 4.3 4.1 4.2 4.1 4.1 4.3 4.1 4.3 4 4.4 4.1 4.3 4.1 4.2 4.2 4.2 4.2 4.2 4.2 4.3"/><path d="M198.3 99.9l-3.9 4.4-4 4.3-4.1 4.2-4.3 4-4.4 4-4.2 4.1-4.1 4.1-4.2 4.2-4.3 4-4.4 3.9-4.4 4-4.2 4-4.1 4.3-4 4.3-4 4.3-4.2 4.2-4.1 4.1-4.1 4.2-4 4.4" class="sat"/><path d="M191.1 106.5l-4.1 4-4.1 4.1-4 4-4 4.1-3.9 4.2-3.9 4.2-3.9 4.3-3.9 4.2-3.9 4.1-4.1 4.1-4.1 3.9-4.1 4-4.1 4-4.1 4-4.1 4.1-4 4"/><path d="M120.2 178.4l-4.2-4.2-4.3-4.1-4.3-4-4.4-4.1-4.2-4.2-4.1-4.2-4-4.4-4-4.5-4-4.4-4-4.3-4.2-4.2-4.2-4.2-4.3-4.2-4.2-4.1-4.2-4.3-4.2-4.2-4.2-4.1-4.4-4.1-4.4-3.9" class="sat"/><path d="M114.9 172.2l-4.4-4-4.5-4-4.4-4-4.3-4.2-4.2-4.3-4.1-4.3-4.2-4.2-4.3-4.2-4.3-4.2-4.2-4.2-4.2-4.4-4-4.4-4-4.5-4-4.4-4.2-4.2-4.3-4.2"/><path d="M40.5 101.2l4-4.1 4.1-4 4-4.1 3.9-4.2 4-4.2 3.9-4.1 4.1-4 4.2-4 4.2-3.8 4.2-3.9 4.2-4 4-4 4.1-4.1 4.1-4 4.1-3.9 4.3-3.9 4.2-3.9 4.1-4 3.9-4.1 3.9-4.3" class="sat"/><path d="M48.9 93.4l4-4.1 4-4.1 4.1-3.9 4.1-3.9 4-4 3.9-4.2 3.8-4.2 3.8-4.3 3.8-4.2 4-4 4.1-4 4-4 4-4 3.9-4.2 4-4.1 4-3.9"/><path d="M27.9 179.7l6 0 5.9 0 6 .1 5.9 .3 6 .4 5.9 .2 6 0 5.9-.3 6-.5 5.9-.6 6-.3 5.9-.2 6 0 5.9-.2 5.9-.2 6-.3 5.9-.2 6 .2 6 .4 5.9 .5 6 .4 5.9 .1 6-.1 5.9-.3 6-.2 5.9-.1 6 0 5.9-.2 6-.4 5.9-.5 5.9-.6 6-.3" class="sat"/><path d="M40.3 179.2l5.9-.4 5.8-.1 5.9-.1 5.8-.1 5.8-.3 5.9-.3 5.8 .1 5.9 .3 5.8 .6 5.9 .4 5.8 .1 5.9-.2 5.8-.1 5.8 0 5.9 0 5.8 0 5.9-.4 5.8-.7 5.8-.6 5.9-.3 5.8 0 5.9 .2 5.8 .1 5.9-.1 5.8-.1 5.8 .2 5.9 .4 5.8 .5"/><path d="M152.7 113.1l-1.4 3.5-1.7 3.3-2.1 3.1-2.4 2.9-2.8 2.6-3.1 2.2-3.3 1.9-3.5 1.5-3.6 1.2-3.8 .8-3.8 .5-3.8 .1-3.9-.4-3.7-.9-3.6-1.4-3.4-1.9-3.1-2.2-2.9-2.5-2.6-2.7-2.4-2.9-2.1-3.1-1.8-3.3-1.6-3.4-1.1-3.6-.7-3.7-.3-3.7 .1-3.8 .5-3.7 .8-3.7 1-3.6 1.5-3.6 1.7-3.4 2.2-3.2 2.5-2.9 3-2.6 3.2-2.1 3.5-1.7 3.7-1.3 3.7-1 3.8-.5 3.8-.2 3.8 .1 3.8 .6 3.7 .9 3.5 1.4 3.4 1.8 3.1 2.1 2.9 2.4 2.6 2.7 2.5 2.8 2.2 3 2 3.2 1.7 3.5 1.3 3.6 .9 3.8 .3 3.8-.1 3.9-.6 3.8-.9 3.8-1.4 3.6-1.7 3.5-2 3.3-2.4 3.1-2.7 2.8" class="sat"/><path d="M146.2 125.2l-.9 .9-2.9 2.5-3.1 2.2-3.4 1.8-3.5 1.5-3.7 1.2-3.7 .7-3.8 .4-3.9-.2-3.7-.5-3.7-1-3.6-1.4-3.3-1.7-3.1-2.1-2.9-2.4-2.7-2.7-2.4-2.8-2.1-3.1-1.8-3.2-1.5-3.4-1.2-3.6-.8-3.7-.4-3.7 .1-3.8 .4-3.7 .8-3.7 1.3-3.6 1.6-3.4 2-3.2 2.3-3 2.6-2.8 2.8-2.6 3-2.2 3.3-2 3.5-1.6 3.7-1.3 3.8-.8 3.8-.4 3.9 .1 3.9 .5 3.8 1 3.6 1.4 3.5 1.8 3.2 2.1 3 2.5 2.7 2.7 2.5 3 2.1 3.2 1.8 3.4 1.4 3.5 1.1 3.7 .6 3.8 .2 3.8-.2 3.9-.3 1.6"/><path d="M120 104.1l-1.3-.2-1.2-.6-.9-1-.6-1.2-.1-1.4 .3-1.3 .7-1.2 1-.9 1.3-.5 1.4-.1 1.4 .4 1.2 .9 .8 1.1 .4 1.4-.1 1.5-.6 1.3-1 1-1.2 .7-1.4 .2-1.4-.2"/><path d="M125.5 101.7l5.4 1.5 5.5 1.2 5.5 1.1 5.4 1.4 5.4 1.6" class="sat"/><path d="M121.1 105.5l1.5 5.1 1.4 5.3 1.5 5.2 1.6 5.1 1.7 5.2" class="sat"/><path d="M115.5 104.2l-3.6 3.9-3.8 3.7-3.7 3.9-3.5 4-3.7 3.8" class="sat"/><path d="M114.5 98.8l-5.3-1.4-5.5-1.4-5.3-1.7-5.3-1.8-5.3-1.5" class="sat"/><path d="M118.8 94.5l-1.9-5.3-1.5-5.4-1.5-5.4-1.5-5.4-1.1-5.5" class="sat"/><path d="M125.2 95.5l3.7-3.8 3.6-3.9 3.6-3.9 3.8-3.7 3.7-3.8" class="sat"/><path d="M144.9 56.8l2.4 1.7 2.3 1.7 2.3 1.8 2.1 2 2 2 1.9 2.2 1.8 2.2 1.7 2.4 1.6 2.4 1.3 2.5 1.3 2.6 1 2.7 .9 2.8 .8 2.8 .5 2.8 .4 2.8 .3 2.9 0 2.9 0 2.9-.2 2.9-.4 2.8-.5 2.9-.6 2.8-.8 2.8-1 2.8-1.1 2.7-1.3 2.6-1.4 2.6-1.6 2.4-1.8 2.4"/><path d="M158.3 132.1l1-4.4 .6-4.4"/><path d="M158.5 132.5l3.9-2.1 4.2-1.9"/><path d="M213.3 34.4l-2.7-1.9-2.7-2-2.8-1.8-2.7-1.7-2.9-1.7-2.9-1.6-3-1.4-3-1.5-3-1.3-3-1.3-3.1-1.2-3.1-1.2-3.1-1.2-3.1-1.1-3.1-1.1-3.2-1.1-3.2-.9-3.2-.9-3.2-.7-3.3-.7-3.3-.4-3.3-.4-3.3-.3-3.3-.2-3.3 0-3.3-.1-3.3 .1-3.3 0-3.3 0-3.3 0-3.3 .1-3.3 .1-3.3 .1-3.2 .1-3.3 .3-3.3 .2-3.3 .5-3.2 .4-3.3 .6-3.2 .6-3.2 .7-3.2 .7-3.2 .8-3.2 .7-3.2 .8-3.2 .7-3.2 .9-3.3 .8-3.1 1-3.2 .9-3.1 1.1-3.2 1.2-3 1.4-3 1.4-2.9 1.6-2.9 1.6-2.8 1.8-2.8 1.8-2.8 1.9-2.7 1.8"/><path d="M26.5 33.9l2.1-4 1.9-4.1"/><path d="M26.3 33.6l4.5 0 4.5 .3"/><text x="250" y="82">spin the wheel up this way</text><text x="250" y="100">and the cube kicks back</text><text x="250" y="118">the other way, about its corner</text></svg><!-- /art:doodle-spin --></div>
-
-      <p>On an edge, one wheel is enough. On a corner the cube can fall any direction, so it takes
-      three, and a computer reading a gyro fast enough to catch the fall.</p>
-    </section>
-
-    <section class="beat" id="s2">
-      <h2><span class="step-n">02</span>Your turn: keep it standing</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      The physics is easier to feel than to read.</p>
-
-      <p>The cube on one edge, from the side. Hold a button (or the arrow keys) to spin the wheel
-      and push it back up. Start in slow motion.</p>
+      <p>Before I ordered a single part, I wrote a physics model of the cube balancing on one edge,
+      and a controller to hold it up. It said the motors and wheel I had in mind could do it. This
+      is that model. Hold a button or the arrow keys to spin the wheel and push the cube back up.
+      Start in slow motion.</p>
 
       <div class="bal" id="bal">
         <div class="bal-top">
@@ -174,93 +176,35 @@
       </details>
     </section>
 
-    <section class="beat" id="s3">
-      <h2><span class="step-n">03</span>Buy the parts first, then design around them</h2>
+    <section class="beat" id="s2">
+      <h2><span class="step-n">02</span>Order the cheap parts, then put them on one board</h2>
 
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      Get the cheap parts on the way first. The shell should fit what actually shows up, not what
-      a listing promises.</p>
+      <p>The first order was about $23: three RS-385 motors, five TB6612FNG motor drivers so there
+      are spares, and an MPU-6050 gyro. An ESP32 runs it and a 3S lithium polymer battery powers it.
+      All of it plugs into one board, <strong>Reaction Cube Carrier v1</strong>.</p>
 
-      <p>The first order, about $23: three RS-385 motors at 12 V and about 6000 rpm, five
-      TB6612FNG motor drivers so there are spares, and an MPU-6050 gyro. An ESP32 runs it and a
-      3S lithium polymer pack powers it.</p>
-    </section>
-
-    <section class="beat" id="s4">
-      <h2><span class="step-n">04</span>A shell that checks its own fit</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      The motor listings disagree with each other. So the shell should be a script I can rerun
-      with real measurements, not a drawing I would have to redo.</p>
-
-      <p>The shell is a Python script that builds every part from a dozen parameters and checks
-      every part against every other. The three <strong>motor faces</strong> meet at one corner,
-      each with a motor hanging from a bridge. The three <strong>plain faces</strong> carry a grid
-      of M3 holes for the electronics.</p>
-
-      <figure class="fig">
-        <img src="/assets/figs/cube-kit.jpg" width="1600" height="1000" loading="lazy"
-             alt="One of each printed part laid out flat, rendered from the shell's STL files: a motor face with two posts, a plain face with a grid of holes, a 128 mm flywheel, a motor bridge, three RS-385 motors and eight corner blocks.">
+      <figure class="pcb-labels">
+        <svg viewBox="0 0 1500 1150" role="img" aria-label="Photo of my circuit board with labels: battery in, a 5 A fuse, the power switch, a 470 microfarad capacitor that steadies 12 V, a 5 V regulator for the ESP32, the LED header that now powers the hall sensors, resistors for battery voltage sensing and the standby pull-down, the MPU-6050 that feels the tilt, the ESP32 that runs the balance loop, three TB6612FNG drivers, one per motor, and the three motor terminals.">
+        <image href="/assets/cube/board-flat.jpg" x="260" y="190" width="900" height="900"/>
+        <path class="halo" d="M372 78 L372 262"/><path class="ld" d="M372 78 L372 262"/><circle class="dot" cx="372" cy="262" r="6"/><text x="372" y="40" text-anchor="middle"><tspan class="k">Battery in</tspan><tspan x="372" dy="26">3S LiPo, 11.1 V</tspan></text>
+        <path class="halo" d="M634 52 L634 262"/><path class="ld" d="M634 52 L634 262"/><circle class="dot" cx="634" cy="262" r="6"/><text x="634" y="40" text-anchor="middle"><tspan class="k">Power switch</tspan></text>
+        <path class="halo" d="M865 78 L865 246"/><path class="ld" d="M865 78 L865 246"/><circle class="dot" cx="865" cy="246" r="6"/><text x="865" y="40" text-anchor="middle"><tspan class="k">5 V regulator</tspan><tspan x="865" dy="26">powers the ESP32</tspan></text>
+        <path class="halo" d="M498 158 L498 266"/><path class="ld" d="M498 158 L498 266"/><circle class="dot" cx="498" cy="266" r="6"/><text x="498" y="120" text-anchor="middle"><tspan class="k">5 A fuse, so a short</tspan><tspan x="498" dy="26">can&#8217;t pull 36 A</tspan></text>
+        <path class="halo" d="M752 158 L752 244"/><path class="ld" d="M752 158 L752 244"/><circle class="dot" cx="752" cy="244" r="6"/><text x="752" y="120" text-anchor="middle"><tspan class="k">470 &#181;F capacitor</tspan><tspan x="752" dy="26">steadies 12 V</tspan></text>
+        <path class="halo" d="M1001 158 L1001 266"/><path class="ld" d="M1001 158 L1001 266"/><circle class="dot" cx="1001" cy="266" r="6"/><text x="1001" y="120" text-anchor="middle"><tspan class="k">LED header</tspan><tspan x="1001" dy="26">now feeds the hall sensors</tspan></text>
+        <path class="halo" d="M252 460 L424 460"/><path class="ld" d="M252 460 L424 460"/><circle class="dot" cx="424" cy="460" r="6"/><text x="245" y="466" text-anchor="end"><tspan class="k">MPU-6050</tspan><tspan x="245" dy="26">feels which way it tilts</tspan></text>
+        <path class="halo" d="M252 766 L431 766"/><path class="ld" d="M252 766 L431 766"/><circle class="dot" cx="431" cy="766" r="6"/><text x="245" y="772" text-anchor="end"><tspan class="k">ESP32</tspan><tspan x="245" dy="26">runs the balance loop</tspan></text>
+        <path class="halo" d="M1168 386 L764 386"/><path class="ld" d="M1168 386 L764 386"/><circle class="dot" cx="764" cy="386" r="6"/><text x="1175" y="392" text-anchor="start"><tspan class="k">Resistors</tspan><tspan x="1175" dy="26">battery voltage sensing</tspan><tspan x="1175" dy="26">and the standby pull-down</tspan></text>
+        <path class="halo" d="M1168 694 L1090 476"/><path class="ld" d="M1168 694 L1090 476"/><circle class="dot" cx="1090" cy="476" r="6"/><path class="halo" d="M1168 694 L1090 694"/><path class="ld" d="M1168 694 L1090 694"/><circle class="dot" cx="1090" cy="694" r="6"/><path class="halo" d="M1168 694 L1090 912"/><path class="ld" d="M1168 694 L1090 912"/><circle class="dot" cx="1090" cy="912" r="6"/><text x="1175" y="700" text-anchor="start"><tspan class="k">Motor X, Y, Z</tspan><tspan x="1175" dy="26">to the three RS-385 motors</tspan></text>
+        <path class="halo" d="M823 1108 L823 946"/><path class="ld" d="M823 1108 L823 946"/><circle class="dot" cx="823" cy="946" r="6"/><text x="823" y="1132" text-anchor="middle"><tspan class="k">TB6612FNG motor drivers, one per motor</tspan></text>
+        </svg>
       </figure>
-
-      <p>The catch is the middle. The three motors point at the same spot, leaving only
-      <strong>4.2 mm</strong> between one motor&#8217;s tail and the next. And the listings
-      disagree on the motor's length. So: caliper the real motors, change the numbers, rerun it,
-      and it reports any collisions. Try it:</p>
-
-      <div class="fit" id="fit">
-        <svg viewBox="-10 -10 220 220" aria-label="Section through the middle of the cube, showing two motor cans and a third just below, with the gap between them"></svg>
-        <div class="fit-ctl">
-          <p class="fit-out" aria-live="polite">4.2 mm</p>
-          <p class="fit-note">between a motor&#8217;s tail and the next motor</p>
-          <label>Motor can length <b data-o="L">44.0 mm</b>
-            <input type="range" min="36" max="56" step="0.5" value="44" data-k="L"></label>
-          <label>Cube size <b data-o="S">165 mm</b>
-            <input type="range" min="150" max="195" step="1" value="165" data-k="S"></label>
-        </div>
-      </div>
-
-      <details class="more">
-        <summary>What will matter once it moves</summary>
-        <div class="more-in">
-          <ul>
-            <li><strong>Wheel inertia.</strong> PLA is light, so the rim has 12 holes for M3 bolts
-            and nuts as weights.</li>
-            <li><strong>Shaft grip.</strong> A press fit on a smooth 2 mm shaft slips when the
-            motor reverses hard. CA glue over the M2 set screw, or a brass hub.</li>
-            <li><strong>Center of mass.</strong> The motors pull it toward their corner, so the
-            battery and boards go on the plain faces to pull it back.</li>
-          </ul>
-          <p>The solids come from manifold3d and the checks run in trimesh.</p>
-        </div>
-      </details>
     </section>
 
-    <section class="beat" id="s5">
-      <h2><span class="step-n">05</span>Make it mine: a drawing in the faces</h2>
+    <section class="beat" id="s3">
+      <h2><span class="step-n">03</span>Wire all of it on paper first</h2>
 
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      If it is going to sit on my desk, it should look like mine.</p>
-
-      <p>The three motor faces carry a thumbs-up character, outlined in white on black. The
-      outline is not paint. It is printed in, two colors of plastic in the same print, on a Prusa
-      XL that swaps between tool heads partway through.</p>
-    </section>
-
-    <section class="beat" id="s6">
-      <h2><span class="step-n">06</span>No cable yet, so wire all of it on paper</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      I misplaced my USB cable. I do not just want to spin a motor, I want the whole cube wired, so
-      the cable is the last missing piece.</p>
-
-      <p>Everything lives on one plain face except the battery and the motors, so the signal
-      wires stay short and a panel lifts off without unplugging anything.</p>
-
-      <p>Two choices matter most. Each TB6612 board drives <strong>one motor with both channels
-      tied together</strong>, doubling it to about 2.4 A continuous, because a motor reversing
-      hard pulls several amps. And all three share one <strong>standby pin with a pull-down</strong>,
-      so the motors stay off while the ESP32 boots.</p>
+      <p>Everything lives on one plain face except the battery and the motors.</p>
 
       <div class="wd-tabs" role="tablist">
         <button class="g-btn" type="button" role="tab" aria-selected="true" data-tab="power">Power</button>
@@ -481,142 +425,116 @@
           </table></div>
         </div>
       </details>
+
+      <p>That drawing became the board.</p>
+
+      <figure class="fig board-drawing" id="board-drawing">
+        <img src="/assets/cube/pcb-layout.svg" width="1000" height="1000" loading="lazy"
+             alt="The PCB layout of Reaction Cube Carrier v1, a 100 by 100 mm two layer board. Red is the front copper with its ground pour, blue the back copper, yellow the silkscreen. Battery, fuse, switch, capacitor, 5 V regulator and LED terminals run across the top, four resistors below them, the MPU-6050 and the 38 pin ESP32 on the left, three TB6612 drivers down the middle, and motor terminals X, Y and Z on the right edge.">
+      </figure>
     </section>
 
-    <section class="beat" id="s7">
-      <h2><span class="step-n">07</span>Is a 450 mAh battery enough?</h2>
+    <section class="beat" id="s4">
+      <h2><span class="step-n">04</span>A shell that checks its own fit</h2>
 
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      Before buying a bigger battery, work out what this one actually gives me.</p>
+      <p>3D printed parts never come out exactly the size I drew, and the motor listings disagree
+      on length. So the shell is a Python script: a dozen numbers in, every part out, each one
+      checked against every other. Caliper the real parts, change a number, rerun it.</p>
 
-      <p>The pack says <strong>3S, 450 mAh, 80C</strong>: about 5 Wh, and able to push 36 A. A
-      short circuit would get all of it, so a 5 A fuse sits right after the battery. Rough
-      runtimes:</p>
+      <div class="case-cover shell-render">
+        <img src="/assets/covers/balancing-cube.jpg" width="1600" height="1000" loading="lazy"
+             alt="A render of the cube standing on one corner. The three faces that meet at the top corner are drawn as glass, showing a flywheel and its motor bridge inside. The lower faces carry a grid of M3 holes.">
+      </div>
 
-      <div class="db-key"><span>shortest</span><span class="k-b">longest</span></div>
-      <div class="tbl-wrap"><table class="tbl">
-        <tr><th>Doing</th><th>Average draw</th><th>Minutes, 0 to 60</th></tr>
-        <tr><td>Balancing on an edge</td><td class="n">0.4 to 0.8 A</td><td class="db-cell"><div class="db" style="--a:0.417;--b:0.833"><span class="ln"></span><span class="a"></span><span class="b"></span></div></td></tr>
-        <tr><td>Balancing on a corner, well tuned</td><td class="n">0.5 to 1 A</td><td class="db-cell"><div class="db" style="--a:0.333;--b:0.667"><span class="ln"></span><span class="a"></span><span class="b"></span></div></td></tr>
-        <tr><td>Jumping up, badly tuned</td><td class="n">2 A or more</td><td class="db-cell"><div class="db" style="--a:0;--b:0.167"><span class="ln"></span><span class="a"></span><span class="b"></span></div></td></tr>
-      </table></div>
+      <p>The tightest spot is the middle, where all three motors point at the same place. Drag
+      the motor length:</p>
 
-      <p>So no bigger battery yet. Tuning happens in five minute bursts, and at about 40 g this
-      pack barely moves the center of mass.</p>
-
-      <details class="more">
-        <summary>The fine print</summary>
-        <div class="more-in">
-          <p>Nothing in the cube protects the pack from running itself flat, so two resistors
-          (100 k&#937; and 22 k&#937;) bring the battery voltage down to something the ESP32 can
-          read on GPIO 34, and the motors cut out at 10.5 V, 3.5 V per cell.</p>
-          <p>A light inside would shine out through the grid holes: a dozen WS2812B LEDs at a third
-          of full brightness draw about 0.1 A, roughly 10 to 15% of the runtime.</p>
+      <div class="fit" id="fit">
+        <svg viewBox="-10 -10 220 220" aria-label="Section through the middle of the cube, showing two motor cans and a third just below, with the gap between them"></svg>
+        <div class="fit-ctl">
+          <p class="fit-out" aria-live="polite">4.2 mm</p>
+          <p class="fit-note">between a motor&#8217;s tail and the next motor</p>
+          <label>Motor can length <b data-o="L">44.0 mm</b>
+            <input type="range" min="36" max="56" step="0.5" value="44" data-k="L"></label>
+          <label>Cube size <b data-o="S">165 mm</b>
+            <input type="range" min="150" max="195" step="1" value="165" data-k="S"></label>
         </div>
-      </details>
-    </section>
+      </div>
 
-    <section class="beat" id="s8">
-      <h2><span class="step-n">08</span>Before the first power-up</h2>
 
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      A pack that can push 36 A will melt a jumper wire faster than I can unplug it. Check
-      everything twice, with the battery out.</p>
-
-      <p>The first program is a bring-up sketch, not a balancer. Over the serial monitor,
-      <strong>r x</strong> ramps motor X both ways, <strong>x 100</strong> holds a speed,
-      <strong>s</strong> stops everything and <strong>i</strong> streams the gyro&#8217;s tilt
-      angles. Speed is capped at 200 of 255 while testing. Before any of that runs:</p>
-
-      <ul class="checks">
-        <li><label><input type="checkbox"><span class="box"></span><span class="txt">Battery unplugged, a meter in continuity mode between the 12 V bus and ground. It must not beep.</span></label></li>
-        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The buck converter reads 5.0 V on its own, before the ESP32 is connected.</span></label></li>
-        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The capacitor&#8217;s stripe, its negative side, is on ground.</span></label></li>
-        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The channel A and B jumpers are on all three TB6612 boards.</span></label></li>
-        <li><label><input type="checkbox"><span class="box"></span><span class="txt">Every ground is common, including the ESP32 and the battery&#8217;s negative.</span></label></li>
-        <li><label><input type="checkbox"><span class="box"></span><span class="txt">The motors are clamped down and the wheels are off.</span></label></li>
+      <ul class="worries">
+        <li><p class="w-q">Light PLA wheel</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">M3 bolts as rim weights</p></li>
+        <li><p class="w-q">Wheel slips on shaft</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">Set screw plus CA glue</p></li>
+        <li><p class="w-q">Motors shift center of mass</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">Battery and board counterweight</p></li>
       </ul>
+
+      <aside class="face-note">
+        <!-- placeholder crop until there is a proper photo of a face -->
+        <img src="/assets/cube/face-drawing.jpg" width="1280" height="360" loading="lazy"
+             alt="The edge of a black motor face with part of the thumbs-up drawing inlaid in white">
+        <p>Printed in two colors, not painted</p>
+      </aside>
+
+      <figure class="fig">
+        <img class="tall" src="/assets/cube/shell-open.jpg" width="900" height="1200" loading="lazy"
+             alt="The black printed shell, open on one side, with the board on one wall and a white motor bridge and a black flywheel inside, wires running between them.">
+      </figure>
     </section>
 
-    <section class="beat" id="s9">
-      <h2><span class="step-n">09</span>Off the paper</h2>
+    <section class="beat" id="s5">
+      <h2><span class="step-n">05</span>Is a 450 mAh battery enough?</h2>
 
-      <p>The drawing from step 06 is now a circuit board, <strong>Reaction Cube Carrier
-      v1</strong>, with everything from the paper on it. Then it went onto a printed frame on one
-      plain face, and onto USB power.</p>
+      <p>Yes, for now. The pack is 3S, 450 mAh, about 5 Wh. Balancing on a corner should draw 0.5
+      to 1 A, so 20 to 40 minutes, plenty for tuning in short bursts. It can also push 36 A into
+      a short, which is why a 5 A fuse sits right after it.</p>
+    </section>
 
-      <div class="figs three">
-        <figure>
-          <img src="/assets/cube/board.jpg" width="900" height="1200" loading="lazy"
-               alt="The Reaction Cube Carrier v1 board from above: an ESP32 at the bottom left, an MPU-6050 above it, three red TB6612FNG boards in a column, the 5 A fuse with the battery, switch and LED terminals along the top, and a terminal for each motor down the right side.">
-        </figure>
+    <section class="beat" id="s6">
+      <h2><span class="step-n">06</span>Where it stands, Nov 23 2026</h2>
+
+      <p>The first time I powered it up, nothing worked, and I was sure my board was the problem.
+      It wasn&#8217;t. I had soldered the header pins only on the carrier side. On top, where they
+      come up through the driver boards under the black plastic strips, they weren&#8217;t soldered
+      at all (left).</p>
+
+      <div class="figs two-up">
         <figure>
           <img src="/assets/cube/board-frame.jpg" width="900" height="1200" loading="lazy"
-               alt="The board screwed to a white printed frame on one of the black plain faces, with red and black wires running to its terminals.">
+               alt="The board screwed to a white printed frame on one of the black plain faces. The header pins on the red driver boards are unsoldered on top, under black plastic strips.">
         </figure>
         <figure>
           <img class="low" src="/assets/cube/board-usb.jpg" width="900" height="1200" loading="lazy"
-               alt="The board on a USB cable, with the red power lights on the ESP32 and the MPU-6050 lit, and three green wires added across it.">
+               alt="The board on a USB cable, every pin soldered, the red power lights on the ESP32 and the MPU-6050 lit, and three green wires added across it.">
         </figure>
       </div>
 
-      <p>The last line of the checklist, in a photo: motors clamped down, wheels off.</p>
+      <p>So I pulled the strips off and soldered the tops (right). The three green wires came
+      later. After I had already ordered the board, I decided I wanted hall sensors to measure
+      each wheel&#8217;s speed, and the board had no place for them. The header I had added for an
+      LED strip now powers them, and their signal wires go straight to the ESP32.</p>
+
+      <figure class="fig">
+        <img src="/assets/cube/hall-sensor.jpg" width="1600" height="1200" loading="lazy"
+             alt="A small sensor board with red, black and green leads being fitted to the arm of a white motor bridge">
+      </figure>
+
+      <p>For the first test runs the motors were clamped to the bench with the wheels off.
+      Mounting them perfectly level is still the hard part: the way I clamp them isn&#8217;t good
+      enough yet.</p>
 
       <figure class="fig">
         <img src="/assets/cube/bench.jpg" width="1600" height="1200" loading="lazy"
              alt="Three white motor bridges on a shop bench, each with a motor standing in it, laid over black flywheels and held with blue spring clamps. Wires run from the motors back toward the board.">
       </figure>
 
-      <p>Then all of it goes in the shell, with the drawing from step 05 on the outside.</p>
+      <p>And one of the motor drivers blew up, violently. I think I did it by using the motors as
+      speakers, reversing them 1,500 times a second. It&#8217;s the red board with the chip burned
+      black, inside the shell:</p>
 
-      <div class="figs three">
-        <figure>
-          <img src="/assets/cube/shell-open.jpg" width="900" height="1200" loading="lazy"
-               alt="The black printed shell, open on one side, with the board on one wall and a white motor bridge and a black flywheel inside, wires running between them.">
-        </figure>
-        <figure>
-          <img src="/assets/cube/shell-top.jpg" width="900" height="1200" loading="lazy"
-               alt="The top face of the black shell with the thumbs-up drawing inlaid in white, and the board and a motor bridge visible underneath it.">
-        </figure>
-        <figure>
-          <img src="/assets/cube/shell-wiring.jpg" width="900" height="1200" loading="lazy"
-               alt="Inside the shell: red, black and green wires between the board on one wall and the motor bridges, with a flywheel just under the top face.">
-        </figure>
-      </div>
-    </section>
-
-    <section class="beat" id="s10">
-      <h2><span class="step-n">10</span>Where it stands, Nov 23 2026</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      Nothing works. The board I designed must be bad.</p>
-
-      <p>The first time I booted it up, nothing worked, and I was sure my board was the problem.
-      It wasn&#8217;t. I had soldered the breakout boards wrong. In the photo of the board on its
-      printed frame, the header pins are soldered to the carrier underneath, but on top, where
-      they come up through the breakout boards under the black plastic strips, they are not
-      soldered at all. I pulled the black strips off and soldered the tops. In the USB photo
-      beside it, every pin is soldered.</p>
-
-      <p>After the board was made, I also decided I wanted hall sensors, and the board had no
-      place for them. So the three pin header I had added for a strip of LED lights now powers
-      the hall sensors, and their signal wires are soldered straight to the ESP32. Those are the
-      three green wires across the board in the USB photo.</p>
-
-      <p>The three shell photos above are the cube as it is today. One of the motor drivers in
-      them blew up, violently. It is the one red driver board in the last shell photo, its chip
-      burned black. I think I did it by using the motors as speakers, reversing them 1,500 times
-      a second.</p>
-
-      <p>And I have trouble mounting the motors perfectly level: the way I clamp them
-      isn&#8217;t perfect yet.</p>
-
-      <div class="figs">
-        <figure>
-          <img src="/assets/cube/hall-sensor.jpg" width="1600" height="1200" loading="lazy"
-               alt="A small sensor board with red, black and green leads being fitted to the arm of a white motor bridge">
-        </figure>
-      </div>
+      <figure class="fig">
+        <img class="tall" src="/assets/cube/shell-wiring.jpg" width="900" height="1200" loading="lazy"
+             alt="Inside the shell: red, black and green wires between the board on one wall and the motor bridges, with a flywheel just under the top face. One red driver board has a burned black chip.">
+      </figure>
     </section>
 
     <nav class="case-nav">

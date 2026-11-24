@@ -158,6 +158,21 @@
 .figs.three { grid-template-columns: repeat(3, 1fr); }
 .figs.three img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
 
+/* --- where it started: two looping clips with red marker notes ------------------ */
+/* one 1000 x 640 board; the clips and the svg share its coordinates, so it scales as a piece */
+
+.inspo { padding-top: 12px; }
+.inspo-board { position: relative; max-width: 920px; aspect-ratio: 1000 / 640; }
+.inspo-board a { position: absolute; top: calc(160 / 640 * 100%); width: calc(300 / 1000 * 100%); display: block; }
+.inspo-a { left: calc(40 / 1000 * 100%); }
+.inspo-b { left: calc(370 / 1000 * 100%); }
+.inspo-board img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; }
+.inspo-board a:hover img { opacity: 0.85; }
+.inspo-ink { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.inspo-ink path { fill: none; stroke: #E5322D; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.inspo-ink text { font: 400 36px 'Covered By Your Grace', 'Segoe Print', 'Bradley Hand', cursive; fill: #E5322D; }
+.inspo-ink text.big { font-size: 56px; }
+
 /* --- narrow ---------------------------------------------------------------------- */
 
 @media (max-width: 760px) {
@@ -171,3 +186,61 @@
   .fit { grid-template-columns: minmax(0, 1fr); }
   .fit svg { max-width: 320px; }
 }
+
+/* --- what I built: the board drawing fading into the board photo ---------------- */
+
+.tldr.pics .pcb-split { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; margin: 0 0 14px; }
+.tldr.pics .pcb-split img { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; aspect-ratio: auto; object-fit: cover; object-position: 50% 38%; }
+.tldr.pics .pcb-split .pcb-ink {
+  -webkit-mask-image: linear-gradient(to right, #000 38%, transparent 62%);
+          mask-image: linear-gradient(to right, #000 38%, transparent 62%);
+}
+
+/* --- off the paper: the full PCB layout ------------------------------------------- */
+
+.board-drawing { max-width: 640px; }
+.board-drawing img { width: 100%; height: auto; display: block; }
+
+/* --- the board, labeled: white leaders from the photo out to each part's job ---- */
+
+.pcb-labels { margin: 26px 0 30px; overflow-x: auto; }
+.pcb-labels svg { display: block; width: 100%; min-width: 680px; height: auto; }
+.pcb-labels text { font: 400 20px var(--font); fill: rgba(240, 240, 240, 0.72); }
+.pcb-labels text .k { font-weight: 600; fill: #F0F0F0; }
+.pcb-labels .ld { fill: none; stroke: #F0F0F0; stroke-width: 2; }
+.pcb-labels .halo { fill: none; stroke: #000; stroke-opacity: 0.55; stroke-width: 6; }
+.pcb-labels .dot { fill: #F0F0F0; stroke: #000; stroke-width: 2; }
+
+/* --- the shell: each worry, a red marker arrow, then what I did about it ------- */
+
+.worries { list-style: none; margin: 26px 0 30px; padding: 0; max-width: 880px; }
+.worries li { display: grid; grid-template-columns: minmax(0, 1fr) 84px minmax(0, 1fr); gap: 14px; align-items: center; padding: 12px 0; }
+.case-body .worries p { margin: 0; font-size: 15px; line-height: 1.55; }
+.case-body .worries .w-q { color: var(--muted); }
+.case-body .worries .w-a { color: var(--text); }
+.w-arrow { width: 84px; height: auto; overflow: visible; }
+.w-arrow path { fill: none; stroke: #E5322D; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* --- the faces: a side note with its photo --------------------------------------- */
+
+.face-note { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 22px; align-items: center; max-width: 640px; margin: 10px 0 30px; padding-left: 18px; border-left: 1px solid var(--rule); }
+.face-note img { width: 100%; height: auto; display: block; }
+.case-body .face-note p { margin: 0; font-size: 15px; line-height: 1.6; }
+
+/* --- photos in the story ---------------------------------------------------------- */
+
+.figs.two-up { grid-template-columns: 1fr 1fr; max-width: 640px; }
+.figs.two-up img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.fig img.tall { max-width: 420px; }
+
+@media (max-width: 760px) {
+  .worries li { grid-template-columns: 1fr; gap: 4px; }
+  .w-arrow { width: 54px; transform: rotate(90deg); margin: 2px 0 2px 10px; }
+  .face-note { grid-template-columns: 1fr; gap: 12px; }
+  .figs.two-up { grid-template-columns: 1fr 1fr; gap: 12px; }
+}
+#s6 .fig img { max-width: 640px; }
+.case-cover.shell-render { max-width: 420px; margin: 18px 0 22px; }
+.case-cover.shell-render img { width: 100%; height: auto; }
+.worries { max-width: 560px; }
+.face-note { max-width: 520px; }

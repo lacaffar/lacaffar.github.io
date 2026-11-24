@@ -72,30 +72,37 @@
 
     <section id="glance">
       <h2>The one minute version</h2>
-      <div class="tldr pics">
-        <div>
+      <ol class="arc">
+        <li>
           <img src="/assets/covers/windpack-checkin.jpg" width="1600" height="1000" loading="lazy"
                alt="Four Windpack members at check in for the Collegiate Wind Competition, in front of the competition banner">
-          <p class="tldr-k">What the competition scores</p>
-          <p>A 45 cm turbine in a wind tunnel, scored on power, control, safety and survival.
-          Any visible failure ends the test.</p>
-        </div>
-        <div>
+          <div>
+            <h3>What the competition scores</h3>
+            <p>A 45 cm turbine in a wind tunnel, scored on power, control, safety and survival.
+            Any visible failure ends the test.</p>
+          </div>
+        </li>
+        <li>
           <img src="/assets/figs/windpack-pitch-slide.jpg" width="1600" height="1000" loading="lazy"
                alt="Windpack presenting its season one pitch system to the judges, the slide listing motor selection, gear mesh design and blade attachment as the main issues">
-          <p class="tldr-k">Year one: we fell short</p>
-          <p>Built in one semester. The rotor shook on our only practice run, and the turbine
-          failed tech inspection. We still placed 6th of 10 on reports and presentations.</p>
-        </div>
-        <div>
+          <div>
+            <h3>Year one: we fell short</h3>
+            <p>We built it in one semester. The rotor shook on our only practice run, and the
+            turbine failed tech inspection. We still placed 6th of 10 on reports and
+            presentations.</p>
+          </div>
+        </li>
+        <li>
           <img src="/assets/figs/windpack-standup.jpg" width="1600" height="1000" loading="lazy"
                alt="A sub team lead at a year two all hands, in front of a stand up slide: who you are, what will your team accomplish, what's in your way">
-          <p class="tldr-k">Year two: we stuck together</p>
-          <p>We filled four whiteboards at the retro, and almost nothing on them blamed a part.
-          So we fixed how we work first, grew from 10 members to 35, and designed this turbine
-          for its worst case.</p>
-        </div>
-      </div>
+          <div>
+            <h3>Year two: we stuck together</h3>
+            <p>We filled four whiteboards at the retro, and almost nothing on them blamed a part.
+            So before touching the turbine we fixed how we work. The team grew from 10 members to
+            35, and this time we designed for the worst case, a runaway.</p>
+          </div>
+        </li>
+      </ol>
 
       <div class="proud" id="proudest">
         <p class="ix-k">My proudest engineering accomplishment</p>
@@ -113,68 +120,56 @@
             blade angle. The actuator only ever pushes along the shaft, and the helix turns that
             push into rotation.</p>
             <ol class="chain">
-              <li><b>Push.</b> A linear actuator slides a nut along the shaft. The nut cannot
-              turn.</li>
-              <li><b>Twist.</b> The nut rides a two start helix, so the lead screw inside it has
-              to turn: 72&#176; over the full stroke.</li>
-              <li><b>Gear up.</b> The lead screw is keyed into a 30 tooth central bevel gear.</li>
-              <li><b>Pitch.</b> Three 20 tooth blade gears turn 1.5 times as far: 108&#176; of
-              pitch, every blade at once, from 30 mm of stroke on the 3x model.</li>
+              <li>A linear actuator slides a nut along the shaft. The nut can't turn.</li>
+              <li>The nut rides a two start helix, so the lead screw inside it has to turn,
+              72&#176; over the full stroke.</li>
+              <li>The lead screw is keyed into a 30 tooth central bevel gear.</li>
+              <li>Three 20 tooth blade gears turn 1.5 times as far as the central gear. That's
+              108&#176; of pitch on every blade at once, from 30 mm of stroke on the 3x model.</li>
             </ol>
           </div>
         </article>
 
-        <p class="proud-k">The first time all my classes showed up in one part</p>
+        <p class="proud-k">How I used Dynamics, Mechanics of Materials, and Multivariable Calculus</p>
         <div class="classes">
           <div>
-            <!-- IMAGE TO MAKE: assets/figs/windpack-sw-motion.jpg, 1600 x 1000.
-                 SolidWorks Motion Study on the pitch assembly: the actuator stroke on one axis and
-                 the blade pitch angle on the other (a straight line, 108 deg over the stroke), with
-                 the assembly beside it at mid stroke. Bonus: a second curve of the twisting moment,
-                 peaking at 45 deg. -->
             <a href="/assets/figs/windpack-sw-motion.jpg"><img src="/assets/figs/windpack-sw-motion.jpg" width="1600" height="1000" loading="lazy"
-                 alt="SolidWorks Motion Analysis of the pitch drive. Top plot: blade gear angle against nut travel, a straight line from 0 to 108 degrees over 10 mm. Bottom plot: nut travel over the 5 second run"></a>
-            <p><b>Dynamics.</b> A spinning blade twists toward flat pitch with
+                 alt="SolidWorks Motion Analysis of the pitch drive. Top plot: blade gear angle against nut travel, a straight line from 0 to 108 degrees over 10 mm. Bottom plot: nut travel from 0 to 10 mm over the 5 second run"></a>
+            <p>Dynamics told me where the load is. A spinning blade twists toward flat pitch with
             &#189;&#8201;J&#8201;&#969;&#178;&#8201;sin&#8201;2&#952;, which peaks at 45&#176;, right
-            where feathering passes. The drive is sized there.</p>
+            where feathering passes, so the drive is sized there. The motion study checks the
+            geometry: 10&#160;mm of nut travel gives 108&#176; of pitch, in a straight line.</p>
           </div>
           <div>
-            <!-- IMAGE TO MAKE: assets/figs/windpack-sw-gears.jpg, 1600 x 1000.
-                 The 30T central and 20T blade bevel gears in SolidWorks with the Equations dialog
-                 open beside them: N_central = 30, N_blade = 20, module = 0.5, ratio = N_central /
-                 N_blade = 1.5, pitch cone angle = atan(20 / 30). Dimensions on the model driven
-                 by those names. -->
             <a href="/assets/figs/windpack-sw-gears.jpg"><img src="/assets/figs/windpack-sw-gears.jpg" width="1600" height="1000" loading="lazy"
                  alt="The 30 tooth and 20 tooth bevel gears in SolidWorks beside the Equations dialog: N_central 30, N_blade 20, module 0.5, ratio N_central over N_blade equals 1.5, cone angle atan of 20 over 30 equals 33.69 degrees"></a>
-            <p><b>Solids.</b> The gear teeth carry 64 MPa at twice the pitch torque, so the
-            gears are metal. The ratio comes from equations in the model.</p>
+            <p>Mechanics of Materials sized the teeth. At twice the pitch torque they carry 64&#160;MPa. The gears are
+            printed in Clear V5 resin, and in the model the tooth counts, the ratio and the cone
+            angle are named equations.</p>
           </div>
           <div>
-            <!-- IMAGE TO MAKE: assets/figs/windpack-sw-helix.jpg, 1600 x 1000.
-                 The helical lead screw in SolidWorks built from an Equation Driven Curve:
-                 x = r cos(t), y = r sin(t), z = lead * t / (2 pi), with the Equations dialog
-                 showing lead and starts (2) as named variables tied to the 72 deg over the stroke.
-                 The curve highlighted, the swept rib shown. -->
             <a href="/assets/figs/windpack-sw-helix.jpg"><img src="/assets/figs/windpack-sw-helix.jpg" width="1600" height="1000" loading="lazy"
                  alt="The two start lead screw in SolidWorks beside the Equations dialog: stroke 10, turn 72, lead equals stroke times 360 over turn equals 50, starts 2, core and tip radii, length 17.7"></a>
-            <p><b>Multivariable calculus.</b> The helix is a parametric curve, and the force on
-            it depends on pitch angle and rotor speed: 13 to 23 N at the nut for a normal
-            shutdown, 90 to 160 N at runaway.</p>
+            <p>Multivariable Calculus drew the helix. It's a space curve,
+            <i>r</i>(<i>t</i>)&#160;=&#160;(<i>r</i>&#8201;cos&#8201;<i>t</i>,
+            <i>L</i><i>t</i>/2&#960;, <i>r</i>&#8201;sin&#8201;<i>t</i>), with the lead <i>L</i> set
+            by 72&#176; of turn over the stroke. Its tangent vector says the rib climbs at 59&#176;
+            to the horizontal, and its arc length gives each rib, 20.6&#160;mm on this screw, which matches SolidWorks.</p>
           </div>
         </div>
         <a class="cta" href="#s7">Read step 07, the actuator numbers &#8595;</a>
       </div>
 
       <p class="ix-k">What went into year two</p>
-      <ul class="tally">
-        <li><b>38 page</b> critical design review, built with my team</li>
-        <li><b>11 page</b> <a href="/assets/docs/windpack-blade-root-analysis.pdf" target="_blank" rel="noopener">blade root analysis</a>, every rotating part checked against a runaway</li>
-        <li><b>27 requirements</b>, each traced to a rule or our own analysis</li>
-        <li><b>14 tests</b> with pass criteria, on our own rigs</li>
-        <li><b>13 weaknesses</b> found in the first hub concept, each with a fix</li>
-        <li><b>6 pitch actuators</b> compared against the twisting moment</li>
-        <li><b>3 test rigs</b>: a blade dynamometer, a rotor stand, a generator dynamometer</li>
-        <li><b>10 to 35 members</b>, now in nine sub teams</li>
+      <ul class="ledger">
+        <li><span class="n">38</span> <span>pages in the critical design review, written with my team</span></li>
+        <li><span class="n">11</span> <span>pages of <a href="/assets/docs/windpack-blade-root-analysis.pdf" target="_blank" rel="noopener">blade root analysis</a>, every rotating part checked against a runaway</span></li>
+        <li><span class="n">27</span> <span>requirements, each traced to a rule or to our own analysis</span></li>
+        <li><span class="n">14</span> <span>tests with pass criteria, run on our own rigs</span></li>
+        <li><span class="n">13</span> <span>weaknesses found in the first hub concept, each with a fix</span></li>
+        <li><span class="n">6</span> <span>pitch actuators compared against the twisting moment</span></li>
+        <li><span class="n">3</span> <span>test rigs: a blade dynamometer, a rotor stand and a generator dynamometer</span></li>
+        <li><span class="n">35</span> <span>members, up from 10, now in nine sub teams</span></li>
       </ul>
 
       <p class="ix-k">The work, by discipline</p>
@@ -660,7 +655,8 @@
       percent.</p>
 
       <p><strong>Bevel gears.</strong> Three equal miter gears around one central gear collide. A
-      30:20 set clears by 2 mm, and at 64 MPa in the teeth they have to be steel.</p>
+      30:20 set clears by 2 mm. The analysis put 64 MPa in the teeth and called for steel;
+      prototype one prints them in Clear V5 resin.</p>
 
       <p><strong>Machine the housing.</strong> The lip that carries the pull has a safety factor of
       10 in aluminum and 1.9 in printed PLA.</p>

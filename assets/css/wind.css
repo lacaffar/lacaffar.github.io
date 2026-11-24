@@ -154,6 +154,9 @@
 
 /* --- things I've worked on: the pitch drive first, then the other rows -------- */
 
+/* the heading over my own work, in the red of the marker notes (Luke, Nov 24 2026) */
+.case-body .ix-k.red { color: #E5322D; }
+
 .proud { margin: 0 0 8px; }
 .case-body .proud .wx { border-bottom: 1px solid var(--rule); }
 

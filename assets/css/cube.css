@@ -244,3 +244,25 @@
 .case-cover.shell-render img { width: 100%; height: auto; }
 .worries { max-width: 560px; }
 .face-note { max-width: 520px; }
+
+/* --- simulate first: the game, and the firmware's architecture beside it -------- */
+
+.sim-row { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; align-items: start; }
+.sim-row .bal { margin-top: 0; }
+.arch { margin: 0; }
+.case-body .arch .arch-k { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); margin: 0 0 12px; }
+.arch svg { display: block; width: 100%; height: auto; overflow: visible; }
+.arch .bx { fill: none; stroke: rgba(240, 240, 240, 0.7); stroke-width: 1.2; }
+.arch .bx.hot { stroke: #F0F0F0; stroke-width: 1.8; }
+.arch .frame { fill: none; stroke: rgba(240, 240, 240, 0.35); stroke-width: 1; stroke-dasharray: 4 4; }
+.arch .ln { fill: none; stroke: rgba(240, 240, 240, 0.75); stroke-width: 1.3; }
+.arch .ln.dash { stroke-dasharray: 3 4; }
+.arch .ah { fill: rgba(240, 240, 240, 0.85); }
+.arch text { font-family: var(--font); fill: #F0F0F0; }
+.arch .t { font-size: 13px; font-weight: 600; }
+.arch .m { font-size: 11px; fill: rgba(240, 240, 240, 0.68); }
+
+@media (max-width: 900px) {
+  .sim-row { grid-template-columns: minmax(0, 1fr); }
+  .arch { max-width: 340px; margin-top: 8px; }
+}

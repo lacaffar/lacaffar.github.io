@@ -114,6 +114,7 @@
       is that model. Hold a button or the arrow keys to spin the wheel and push the cube back up.
       Start in slow motion.</p>
 
+      <div class="sim-row">
       <div class="bal" id="bal">
         <div class="bal-top">
           <p class="bal-status" aria-live="polite">Press start, then keep it upright.</p>
@@ -156,6 +157,66 @@
         </div>
         <noscript><p>The game needs JavaScript. The short version: at real speed a one degree
         lean becomes a thirty degree fall in about half a second.</p></noscript>
+      </div>
+      <figure class="arch">
+        <p class="arch-k">How the code is laid out</p>
+        <svg viewBox="0 0 320 610" role="img" aria-label="Firmware architecture. On my laptop, edge_lqr.py turns the cube model into LQR gains. On the ESP32, a 500 Hz loop reads the MPU-6050 gyro and accelerometer into an attitude filter that gives tilt and tilt rate, and reads the hall sensors into a wheel speed observer built on a motor model. The LQR controller turns tilt, tilt rate and wheel speed into a motor voltage, learns the true balance point as it runs, and drives the TB6612 at 20 kHz PWM. The wheel's push tilts the cube, which the sensors read again. A state machine runs it: calibrate, pick a mode, armed, balancing, and back to armed if it falls.">
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker></defs>
+
+          <rect class="bx" x="10" y="8" width="300" height="50" rx="4"/>
+          <text class="t" x="160" y="29" text-anchor="middle">edge_lqr.py, on my laptop</text>
+          <text class="m" x="160" y="47" text-anchor="middle">cube model in, LQR gains out</text>
+
+          <rect class="frame" x="4" y="84" width="312" height="388" rx="6"/>
+          <text class="m" x="14" y="101">ESP32, a 500 Hz loop</text>
+
+          <rect class="bx" x="14" y="112" width="138" height="48" rx="4"/>
+          <text class="t" x="83" y="132" text-anchor="middle">MPU-6050</text>
+          <text class="m" x="83" y="149" text-anchor="middle">gyro + accel, 1 kHz</text>
+          <rect class="bx" x="168" y="112" width="138" height="48" rx="4"/>
+          <text class="t" x="237" y="132" text-anchor="middle">Hall sensors</text>
+          <text class="m" x="237" y="149" text-anchor="middle">speed, no direction</text>
+
+          <path class="ln" d="M83 160 V190" marker-end="url(#ah)"/>
+          <path class="ln" d="M237 160 V190" marker-end="url(#ah)"/>
+
+          <rect class="bx" x="14" y="192" width="138" height="60" rx="4"/>
+          <text class="t" x="83" y="212" text-anchor="middle">Attitude filter</text>
+          <text class="m" x="83" y="229" text-anchor="middle">gyro, nudged by</text>
+          <text class="m" x="83" y="243" text-anchor="middle">gravity from accel</text>
+          <rect class="bx" x="168" y="192" width="138" height="60" rx="4"/>
+          <text class="t" x="237" y="212" text-anchor="middle">Wheel observer</text>
+          <text class="m" x="237" y="229" text-anchor="middle">motor model,</text>
+          <text class="m" x="237" y="243" text-anchor="middle">corrected by hall</text>
+
+          <path class="ln" d="M83 252 V292" marker-end="url(#ah)"/>
+          <text class="m" x="89" y="276">tilt, rate</text>
+          <path class="ln" d="M237 252 V292" marker-end="url(#ah)"/>
+          <text class="m" x="243" y="276">wheel</text>
+          <path class="ln dash" d="M160 58 V292" marker-end="url(#ah)"/>
+          <text class="m" x="156" y="76" text-anchor="end">gains</text>
+
+          <rect class="bx hot" x="14" y="294" width="292" height="70" rx="4"/>
+          <text class="t" x="160" y="316" text-anchor="middle">LQR controller</text>
+          <text class="m" x="160" y="334" text-anchor="middle">V = &#8722;K &#183; [tilt, rate, wheel]</text>
+          <text class="m" x="160" y="351" text-anchor="middle">learns the true balance point as it runs</text>
+
+          <path class="ln" d="M160 364 V398" marker-end="url(#ah)"/>
+
+          <rect class="bx" x="14" y="400" width="292" height="50" rx="4"/>
+          <text class="t" x="160" y="421" text-anchor="middle">TB6612 driver</text>
+          <text class="m" x="160" y="438" text-anchor="middle">20 kHz PWM to the motor</text>
+
+          <path class="ln" d="M160 472 V494"/>
+          <text class="m" x="168" y="488">wheel pushes, cube tilts back</text>
+          <path class="ln" d="M160 494 H-6 V136 H12" marker-end="url(#ah)"/>
+
+          <text class="t" x="10" y="530">State machine</text>
+          <text class="m" x="10" y="550">calibrate &#8594; pick mode &#8594; armed</text>
+          <text class="m" x="10" y="568">&#8594; balancing</text>
+          <text class="m" x="10" y="590">tips too far &#8594; motors off &#8594; armed</text>
+        </svg>
+      </figure>
       </div>
 
       <p>At real speed a one degree lean becomes a thirty degree fall in about half a second,
@@ -463,9 +524,9 @@
 
 
       <ul class="worries">
-        <li><p class="w-q">Light PLA wheel</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">M3 bolts as rim weights</p></li>
+        <li><p class="w-q">Plastic wheel might be too light for meaningful changes</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">Places for weights on the rim</p></li>
         <li><p class="w-q">Wheel slips on shaft</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">Set screw plus CA glue</p></li>
-        <li><p class="w-q">Motors shift center of mass</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">Battery and board counterweight</p></li>
+        <li><p class="w-q">The PCB sits off center</p><svg class="w-arrow" viewBox="0 0 90 40" aria-hidden="true"><path d="M4 22 C 24 12, 50 28, 80 19"/><path d="M66 9 L 82 19 L 67 30"/></svg><p class="w-a">Found the center of mass in CAD, then placed the board and battery around it</p></li>
       </ul>
 
       <aside class="face-note">

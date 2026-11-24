@@ -192,19 +192,6 @@
 .case-body .arc h3 { font-size: 19px; line-height: 1.3; font-weight: 600; margin: 0 0 6px; }
 .case-body .arc p { font-size: 16px; line-height: 1.6; color: var(--text); margin: 0; max-width: 58ch; }
 
-/* what went into year two: the number in its own column, the sentence after it */
-.case-body .ledger {
-  list-style: none; padding: 0; margin: 0 0 22px; max-width: none;
-  display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; border-top: 1px solid var(--rule);
-}
-.case-body .ledger li {
-  display: grid; grid-template-columns: 58px 1fr; gap: 14px; align-items: baseline;
-  margin: 0; padding: 12px 0; border-bottom: 1px solid var(--rule);
-  font-size: 16px; line-height: 1.45; color: var(--text);
-}
-.ledger .n { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; text-align: right; }
-.case-body .ledger a { border-bottom: 1px solid var(--rule); }
-.case-body .ledger a:hover { border-bottom-color: var(--text); }
 
 /* a frame for an image that is still being made: honest, and easy to swap for the img */
 .shot {
@@ -236,7 +223,6 @@
   .case-body .wx h3 { font-size: 19px; }
   .case-head .cover-say { font-size: 17px; }
   .classes > div, .case-body .arc li { grid-template-columns: 1fr; }
-  .case-body .ledger { grid-template-columns: 1fr; }
   .me-mark text { font-size: 72px; }
   .me-mark path { stroke-width: 2.5px; }
   .run-out { grid-template-columns: 1fr; }

@@ -106,6 +106,17 @@
   font-size: 10px; line-height: 16px; font-weight: 700; text-align: center; color: var(--muted);
 }
 
+/* SEM page: a paragraph with a small diagram beside it, and two lab pictures side by side */
+.side-fig { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 32px; align-items: center; }
+.side-fig figure { margin: 0; }
+.side-fig img, .lab-pics img { width: 100%; height: auto; display: block; border-radius: 4px; background: #fff; }
+.lab-pics { margin: 24px 0 28px; align-items: center; grid-template-columns: 1.1fr 1fr; }
+@media (max-width: 700px) {
+  .side-fig { grid-template-columns: 1fr; }
+  .side-fig figure { max-width: 240px; }
+  .lab-pics { grid-template-columns: 1fr; }
+}
+
 /* two lists side by side, for "do not trust yet" against "next" */
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 44px; max-width: 920px; }
 .case-body .two h3 {

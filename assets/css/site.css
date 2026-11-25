@@ -74,10 +74,13 @@ hr.rule {
 }
 
 .head .portrait {
-  width: 120px;
-  height: 120px;
+  width: 240px;
+  height: 240px;
   object-fit: cover;
-  margin-bottom: 26px;
+  margin-bottom: 22px;
+  /* soft edges that fade into the page instead of a hard square (Luke, Nov 24 2026) */
+  -webkit-mask-image: radial-gradient(closest-side at 50% 48%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(closest-side at 50% 48%, #000 62%, transparent 100%);
 }
 
 .head .label { margin-bottom: 6px; }
@@ -260,7 +263,7 @@ hr.rule {
 
   .work { padding-top: 64px; }
   .head { padding-top: 56px; }
-  .head .portrait { width: 96px; height: 96px; }
+  .head .portrait { width: 160px; height: 160px; }
 
   .log-item { grid-template-columns: 1fr; gap: 4px; }
 

@@ -246,10 +246,11 @@
         <summary>The fine print</summary>
         <div class="more-in">
           <p>It is a one wheel model of this cube on an edge: 165 mm, about 1 kg, a 128 mm PLA
-          wheel with its 12 weight holes filled, and an RS-385 assumed to stall at 0.12 N&#183;m
-          and spin freely at 6000 rpm. With those numbers it can only hold itself up from about
-          5 degrees of tilt.</p>
-          <p>The demo controller is an LQR that can see the wheel&#8217;s speed. The RS-385s have
+          wheel with its bolts, and the RS-385 as I measured it, stalling at 0.12 N&#183;m with a
+          back EMF of 0.0186 V&#183;s/rad, so about 6,160 rpm free at 12 V. With those numbers it
+          can only hold itself up from about 5 degrees of tilt.</p>
+          <p>The demo controller is the same LQR as the Simulink model, and it can see the
+          wheel&#8217;s speed. The RS-385s have
           no encoders, so on the cube that takes a hall sensor and a magnet per wheel, about $1
           each.</p>
         </div>
@@ -645,8 +646,12 @@
   var root = document.getElementById('bal');
   if (!root) return;
   var M = 1.0, S = 0.165, G = 9.81, L = S / Math.SQRT2, IP = 2 / 3 * M * S * S;
-  var IW = 0.000272, TS = 0.12, WF = 628.3, MGL = M * G * L;
-  var K = [69.11, 5.651, 0.005287];            /* LQR on [th, th', ph'] */
+  /* measured motor (firmware/tools/edge_lqr.py): stall 0.12 N m at 12 V, back EMF 0.0186 V s/rad,
+     so free speed 12 / 0.0186 = 645 rad/s. Wheel inertia is the estimate in that script. */
+  var IW = 2.0e-4, TS = 0.12, WF = 12 / 0.0186, MGL = M * G * L;
+  /* LQR on [th, th', ph'], the same gains as edge_lqr.py and the Simulink model, divided by 12 V
+     because u here is the fraction of the supply */
+  var K = [497.09 / 12, 48.399 / 12, 0.045912 / 12];
   var FALL = 30 * Math.PI / 180, REST = 45 * Math.PI / 180;
   var svg = root.querySelector('svg'), NS = 'http://www.w3.org/2000/svg';
   var gCube = svg.querySelector('.cube'), gGround = svg.querySelector('.ground');

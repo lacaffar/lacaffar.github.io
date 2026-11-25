@@ -324,3 +324,6 @@
   .tbl.delta td.big { white-space: normal; }
   .tbl td.db-cell { min-width: 90px; width: 34%; }
 }
+
+.side-fig figcaption, .lab-pics figcaption { font-size: 12px; line-height: 1.45; color: var(--faint); margin-top: 8px; }
+.lab-pics figure { margin: 0; }

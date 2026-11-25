@@ -227,6 +227,21 @@
       faster than anyone can react. And push one way for too long and the wheel runs out of
       speed to give.</p>
 
+      <p>Then I rebuilt it in MATLAB and Simulink with the motor numbers I measured. MATLAB&#8217;s
+      <code>lqr</code> gives the same gains as my SciPy script. The Simulink model runs the full
+      nonlinear cube, samples the controller at 500 Hz like the ESP32 loop, and clips the motor at
+      the 12 V supply. It catches a 3&#176; lean in about a third of a second, and a push at 1.5 s
+      peaks at half a degree with the motor pinned at 12 V.</p>
+
+      <figure class="fig">
+        <img src="/assets/cube/simulink-diagram.jpg" width="1600" height="638" loading="lazy"
+             alt="Simulink block diagram of the cube on one edge: gravity through a sine block, the body and wheel integrators, the motor with its back EMF, then the state sampled at 500 Hz, the LQR gain and a 12 V saturation feeding the motor voltage back in">
+      </figure>
+      <figure class="fig">
+        <img src="/assets/cube/simulink-response.jpg" width="1600" height="1045" loading="lazy"
+             alt="Simulink results over 4 seconds: tilt falls from 3 degrees to zero in about 0.3 s, a push at 1.5 s lifts it to 0.53 degrees before it recovers; wheel speed peaks near 730 rpm; motor voltage sits at the 12 V limit during both recoveries">
+      </figure>
+
       <details class="more">
         <summary>The fine print</summary>
         <div class="more-in">

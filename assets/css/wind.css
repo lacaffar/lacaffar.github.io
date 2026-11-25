@@ -106,6 +106,16 @@
 }
 .wx.big { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
 
+/* big red numbers for the things I did myself, hanging left of the text column */
+.wx.pn { position: relative; }
+.wx.pn::before {
+  content: attr(data-n); position: absolute; right: calc(100% + 28px); top: 22px;
+  font-size: 84px; font-weight: 700; line-height: 1; color: #E5322D; font-variant-numeric: tabular-nums;
+}
+@media (max-width: 1100px) {
+  .wx.pn::before { position: static; display: block; grid-column: 1 / -1; font-size: 56px; margin: 0 0 4px; }
+}
+
 .wx figure { margin: 0; }
 .wx img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 

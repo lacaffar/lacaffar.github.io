@@ -83,8 +83,9 @@
           <img src="/assets/cube/wheel.jpg" width="1200" height="750" loading="lazy"
                alt="One of the black printed flywheels, with six round cutouts, under a white motor bridge on the bench">
           <p class="tldr-k">The idea</p>
-          <p>Spin a wheel inside one way and the cube twists the other way. Three wheels, three
-          directions.</p>
+          <p>Reproduce the <a href="https://idsc.ethz.ch/research-dandrea/research-projects/archive/cubli.html"
+          target="_blank" rel="noopener">Cubli from ETH Zurich</a> from scratch. My own CAD,
+          circuit board and code, nothing copied from theirs.</p>
         </div>
         <div>
           <img src="/assets/cube/clamp-level.jpg" width="1600" height="1200" loading="lazy"
@@ -136,9 +137,35 @@
           </div>
           <div class="eq">
             <p class="eq-k">Center of gravity against the motor</p>
+            <svg class="fbd" viewBox="0 0 300 312" role="img" aria-label="Free body diagram of the cube balancing on one edge, tilted by theta. Gravity M g acts down at the center of gravity, a distance l from the edge, giving a lever arm of l sin theta. The wheel motor puts a torque tau on the body the other way. The floor pushes up with N and sideways with friction f at the edge.">
+              <defs>
+                <marker id="fbd-a" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#F0F0F0"/></marker>
+              </defs>
+              <line class="gnd" x1="16" y1="260" x2="290" y2="260"/>
+              <polygon class="body" points="150,260 277.3,183.5 200.8,56.2 73.5,132.7"/>
+              <line class="dash" x1="150" y1="260" x2="150" y2="40"/>
+              <line class="dash" x1="150" y1="158.1" x2="175.4" y2="158.1"/>
+              <line class="thin" x1="150" y1="260" x2="175.4" y2="158.1"/>
+              <circle class="wheel" cx="175.4" cy="158.1" r="18"/>
+              <circle cx="175.4" cy="158.1" r="3.5" fill="#F0F0F0"/>
+              <path class="thin" d="M150 215 A45 45 0 0 1 160.9 216.3"/>
+              <line class="force" x1="175.4" y1="158.1" x2="175.4" y2="214" marker-end="url(#fbd-a)"/>
+              <line class="force" x1="150" y1="304" x2="150" y2="266" marker-end="url(#fbd-a)"/>
+              <line class="force" x1="146" y1="276" x2="110" y2="276" marker-end="url(#fbd-a)"/>
+              <path class="tau" d="M214.9 143.7 A42 42 0 0 0 135.9 143.7"/>
+              <path class="tau-h" d="M143.7 136.9 L135.9 143.7 L134.3 133.5"/>
+              <text class="m" x="156" y="207">&#952;</text>
+              <text class="m" x="163" y="244">l</text>
+              <text class="m" x="144" y="150" text-anchor="end">l sin&#8201;&#952;</text>
+              <text class="m" x="182" y="214">Mg</text>
+              <text class="m" x="158" y="300">N</text>
+              <text class="m" x="104" y="290">f</text>
+              <text class="m tau-t" x="18" y="110">&#964; motor</text>
+              <text class="k" x="198" y="164">CG</text>
+            </svg>
             <p class="eq-m"><i>M g l</i> sin&#8201;<i>&#952;</i> &#8804; <i>&#964;</i><sub>stall</sub> = <i>K</i><sub>t</sub>&#8201;(12&#160;V)&#8201;/&#8201;<i>R</i></p>
             <p class="eq-m"><i>&#952;</i><sub>max</sub> = sin<sup>&#8722;1</sup>&#8201;(0.12 / (1.0 &#183; 9.81 &#183; 0.117)) = 6.0&#176;</p>
-            <p class="eq-n"><i>l</i> is the height of the center of gravity above the edge, 117 mm. The motor gives 0.12 N&#183;m at stall on 12 V.</p>
+            <p class="eq-n"><i>l</i> is the height of the center of gravity above the edge, 117 mm. The motor gives 0.12 N&#183;m at stall on 12 V. The lean is drawn bigger than 6&#176; so it shows.</p>
           </div>
         </div>
         <svg class="s1-ink" aria-hidden="true"><path class="arrow" d=""/><path class="head" d=""/></svg>
@@ -223,7 +250,7 @@
       <figure class="arch">
         <p class="arch-k">How the code is laid out</p>
         <svg viewBox="0 0 320 610" role="img" aria-label="Firmware architecture. On my laptop, edge_lqr.py turns the cube model into LQR gains. On the ESP32, a 500 Hz loop reads the MPU-6050 gyro and accelerometer into an attitude filter that gives tilt and tilt rate, and reads the hall sensors into a wheel speed observer built on a motor model. The LQR controller turns tilt, tilt rate and wheel speed into a motor voltage, learns the true balance point as it runs, and drives the TB6612 at 20 kHz PWM. The wheel's push tilts the cube, which the sensors read again. A state machine runs it: calibrate, pick a mode, armed, balancing, and back to armed if it falls.">
-          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker></defs>
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="ah"/></marker></defs>
 
           <rect class="bx" x="10" y="8" width="300" height="50" rx="4"/>
           <text class="t" x="160" y="29" text-anchor="middle">edge_lqr.py, on my laptop</text>

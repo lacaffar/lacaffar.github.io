@@ -247,6 +247,19 @@
 
 /* --- simulate first: the game, and the firmware's architecture beside it -------- */
 
+/* --- step 01: the model in words, its two equations on the right, a red marker arrow --- */
+.s1-intro { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; align-items: start; margin: 0 0 28px; }
+.s1-intro > div > p:first-child { margin-top: 0; }
+.case-body .ric { color: #F0F0F0; background-image: linear-gradient(#E5322D, #E5322D); background-size: 100% 2px; background-position: 0 100%; background-repeat: no-repeat; padding-bottom: 1px; }
+.eqs { display: grid; gap: 18px; }
+.eq { border: 1px solid rgba(240, 240, 240, 0.35); padding: 14px 16px; }
+.case-body .eq .eq-k { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); margin: 0 0 10px; }
+.case-body .eq .eq-m { font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif; font-size: 18px; line-height: 1.5; color: var(--text); margin: 0 0 6px; white-space: nowrap; }
+.case-body .eq .eq-n { font-size: 13px; line-height: 1.5; color: var(--ink); margin: 8px 0 0; }
+.s1-ink { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.s1-ink path { fill: none; stroke: #E5322D; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 760px) { .s1-intro { grid-template-columns: 1fr; } .s1-ink { display: none; } .case-body .eq .eq-m { white-space: normal; } }
+
 .sim-row { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; align-items: start; }
 .sim-row .bal { margin-top: 0; }
 .arch { margin: 0; }

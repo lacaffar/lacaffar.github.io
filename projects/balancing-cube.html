@@ -109,14 +109,72 @@
     <section class="beat" id="s1">
       <h2><span class="step-n">01</span>Simulate it before buying anything</h2>
 
-      <p>Before I ordered a single part, I wrote a physics model of the cube balancing on one edge,
-      and a controller to hold it up, in Python with NumPy and SciPy. The model is a state space
-      system in tilt, tilt rate and wheel speed, linearized about the balance point, with the motor
-      modeled from its measured back EMF and stall torque. SciPy solves the Riccati equation for
-      the LQR gains, and I checked the closed loop poles and the volts it asks for at a few degrees
-      of tilt. It said the motors and wheel I had in mind could do it. The game below runs the same
-      model in JavaScript, with full gravity instead of the linear version. Hold a button or the
-      arrow keys to spin the wheel and push the cube back up. Start in slow motion.</p>
+      <div class="s1-intro" id="s1-intro">
+        <div>
+          <p>Before I ordered a single part, I wrote a physics model of the cube balancing on one
+          edge, and a controller to hold it up, in Python with NumPy and SciPy. The model is a state
+          space system in tilt, tilt rate and wheel speed, linearized about the balance point, with
+          the motor modeled from its measured back EMF and stall torque. SciPy solves
+          <span class="ric" id="ric">the Riccati equation</span> for the LQR gains, and those gains
+          go straight into the firmware.</p>
+
+          <p>The model also ties the mechanical side to the electrical side. The cube stays up only
+          while the motor&#8217;s torque beats gravity pulling on the center of gravity. With the
+          motor I bought, that sets the steepest lean it can ever hold, about 6&#176;. So where the
+          center of gravity sits matters: 20 mm higher, and the limit drops to 5.1&#176;.</p>
+
+          <p>The game below runs the same model in JavaScript, with full gravity instead of the
+          linear version. Hold a button or the arrow keys to spin the wheel and push the cube back
+          up. Start in slow motion.</p>
+        </div>
+        <div class="eqs">
+          <div class="eq" id="ric-eq">
+            <p class="eq-k">The Riccati equation</p>
+            <p class="eq-m"><i>A</i><sup>T</sup><i>P</i> + <i>PA</i> &#8722; <i>PB R</i><sup>&#8722;1</sup><i>B</i><sup>T</sup><i>P</i> + <i>Q</i> = 0</p>
+            <p class="eq-m"><i>K</i> = <i>R</i><sup>&#8722;1</sup><i>B</i><sup>T</sup><i>P</i></p>
+            <p class="eq-n">P is what SciPy solves for. K is the gain on tilt, tilt rate and wheel speed: 497 V per radian of tilt.</p>
+          </div>
+          <div class="eq">
+            <p class="eq-k">Center of gravity against the motor</p>
+            <p class="eq-m"><i>M g l</i> sin&#8201;<i>&#952;</i> &#8804; <i>&#964;</i><sub>stall</sub> = <i>K</i><sub>t</sub>&#8201;(12&#160;V)&#8201;/&#8201;<i>R</i></p>
+            <p class="eq-m"><i>&#952;</i><sub>max</sub> = sin<sup>&#8722;1</sup>&#8201;(0.12 / (1.0 &#183; 9.81 &#183; 0.117)) = 6.0&#176;</p>
+            <p class="eq-n"><i>l</i> is the height of the center of gravity above the edge, 117 mm. The motor gives 0.12 N&#183;m at stall on 12 V.</p>
+          </div>
+        </div>
+        <svg class="s1-ink" aria-hidden="true"><path class="arrow" d=""/><path class="head" d=""/></svg>
+      </div>
+      <script>
+      /* red marker arrow from "the Riccati equation" to the equation box; redrawn on resize */
+      (function () {
+        var box = document.getElementById('s1-intro'); if (!box) return;
+        var ric = document.getElementById('ric'), eq = document.getElementById('ric-eq'), ink = box.querySelector('.s1-ink');
+        var arrow = ink.querySelector('.arrow'), head = ink.querySelector('.head');
+        function draw() {
+          if (getComputedStyle(ink).display === 'none') return;
+          var b = box.getBoundingClientRect(), rs = ric.getClientRects(), r = rs[rs.length - 1], e = eq.getBoundingClientRect();
+          /* route: down from the end of the phrase into the gap under its paragraph, along the gap
+             to the empty gutter between the columns, then up and into the equation box */
+          var p1 = ric.closest('p'), pr = p1.getClientRects(), lastLine = pr[pr.length - 1];
+          var lines = Array.prototype.slice.call(p1.getClientRects ? document.createRange ? (function () {
+            var rg = document.createRange(); rg.selectNodeContents(p1); return rg.getClientRects(); })() : [] : []);
+          var lastRight = 0, pb = p1.getBoundingClientRect();
+          lines.forEach(function (q) { if (q.bottom > r.bottom + 2) lastRight = Math.max(lastRight, q.right); });
+          var x1 = Math.max(r.right - 8, lastRight + 10) - b.left, y1 = r.bottom - b.top + 1;
+          var gy = pb.bottom - b.top + 13;
+          var gx = e.left - b.left - 18, x2 = e.left - b.left - 3, y2 = e.top - b.top + 30;
+          arrow.setAttribute('d', 'M' + x1 + ' ' + y1 + ' Q' + (x1 + 2) + ' ' + gy + ' ' + (x1 + 22) + ' ' + gy +
+            ' L' + (gx - 22) + ' ' + (gy + 1) + ' Q' + gx + ' ' + gy + ' ' + gx + ' ' + (gy - 22) +
+            ' L' + (gx + 1) + ' ' + (y2 + 20) + ' Q' + gx + ' ' + y2 + ' ' + x2 + ' ' + y2);
+          var c2x = gx, c2y = y2;
+          var a = Math.atan2(y2 - c2y, x2 - c2x), L = 13;
+          head.setAttribute('d', 'M' + (x2 - L * Math.cos(a - 0.5)) + ' ' + (y2 - L * Math.sin(a - 0.5)) + ' L' + x2 + ' ' + y2 +
+            ' L' + (x2 - L * Math.cos(a + 0.5)) + ' ' + (y2 - L * Math.sin(a + 0.5)));
+        }
+        window.addEventListener('resize', draw);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+        draw();
+      })();
+      </script>
 
       <div class="sim-row">
       <div class="bal" id="bal">

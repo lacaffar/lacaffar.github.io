@@ -29,15 +29,11 @@
 <nav class="rail" aria-label="Steps">
   <ol>
     <li><a href="#s1"><i></i><span>The quiz</span></a></li>
-    <li><a href="#s2"><i></i><span>Why the Moon</span></a></li>
-    <li><a href="#s3"><i></i><span>The catch</span></a></li>
-    <li><a href="#s4"><i></i><span>The plan</span></a></li>
-    <li><a href="#s5"><i></i><span>Trust nothing</span></a></li>
-    <li><a href="#s6"><i></i><span>Scorecard</span></a></li>
-    <li><a href="#s7"><i></i><span>Stress test</span></a></li>
-    <li><a href="#s8"><i></i><span>Soil by soil</span></a></li>
-    <li><a href="#s9"><i></i><span>The data gap</span></a></li>
-    <li><a href="#s10"><i></i><span>Limits and next</span></a></li>
+    <li><a href="#s2"><i></i><span>The problem</span></a></li>
+    <li><a href="#s3"><i></i><span>What I built</span></a></li>
+    <li><a href="#s4"><i></i><span>The results</span></a></li>
+    <li><a href="#s5"><i></i><span>Soil by soil</span></a></li>
+    <li><a href="#s6"><i></i><span>What&#8217;s next</span></a></li>
   </ol>
 </nav>
 
@@ -45,7 +41,7 @@
 
 <header class="case-head">
   <div class="col">
-    <p><span class="readtime">6 min read, plus a quiz and some memes</span></p>
+    <p><span class="readtime">3 min read, plus a quiz</span></p>
     <p class="proj">Lunar Regolith Viscosity</p>
     <h1 class="ask">Does Moon dirt melt the same on the Moon as it does in an Earth lab?</h1>
 
@@ -53,29 +49,26 @@
       <li>
         <img src="/assets/lunar/bootprint.jpg" width="900" height="900"
              alt="An Apollo 11 bootprint pressed into fine grey lunar soil.">
-        <p><strong>This is Moon dirt.</strong> One way to build on the Moon is to heat it until
-        the grains fuse into bricks and roads, instead of hauling them from Earth.</p>
+        <p><strong>This is Moon dirt.</strong> Heat it until the grains fuse and you get bricks
+        and roads without hauling them from Earth.</p>
       </li>
       <li>
         <img src="/assets/lunar/furnace.jpg" width="900" height="900"
              alt="An engineer photographs the orange glow of molten simulant through a viewport in a lab furnace.">
-        <p><strong>That only works if you know how runny it gets when hot.</strong> Nearly all
-        of that data comes from fake Moon dirt melted in furnaces like this one, in Earth&#8217;s air.</p>
+        <p><strong>You need to know how runny it gets when hot.</strong> Almost all of that data
+        comes from fake Moon dirt melted in Earth&#8217;s air.</p>
       </li>
       <li>
         <img src="/assets/lunar/apollo-soil.jpg" width="900" height="900"
              alt="An open bag of real grey lunar soil in a laboratory glovebox.">
-        <p><strong>Air rusts the iron in it.</strong> On the Moon, in vacuum, it never rusts, but
-        nearly every number we have was measured on the rusted version. So I built a
-        machine learning pipeline on 14,000 melt measurements and checked whether that
-        difference matters for 66 real Moon soils.</p>
+        <p><strong>Air rusts the iron in it. On the Moon it never rusts.</strong> I trained a
+        model on 14,000 melt measurements to see if that matters for 66 real Moon soils.</p>
       </li>
     </ol>
 
-    <p class="answer"><strong>Short answer:</strong> fully melted, yes, Earth data is fine. In
-    the sintering range, where the grains fuse into bricks, no: iron rich soils get there 5 to
-    32&#176;C cooler on the Moon, and no model I tested, mine included, reliably gets even the
-    direction right.</p>
+    <p class="answer"><strong>Short answer:</strong> fully melted, it barely matters. Warm enough
+    to fuse into bricks, it does: iron rich soils get there up to 32&#176;C cooler on the Moon,
+    and no model I tested, mine included, reliably gets that right.</p>
     <a class="poster" href="/assets/posters/lunar-viscosity-poster.pdf" target="_blank" rel="noopener">
       <img src="/assets/posters/lunar-viscosity-poster.jpg" width="2400" height="1500" loading="lazy"
            alt="The research poster for this project: the problem, the four datasets, a diagram of the neural network, the training setup, a model scorecard, the redox stress test, the Earth vs Moon shift for 66 soils, and the next experiment.">
@@ -89,12 +82,12 @@
   <div class="col">
 
     <section class="beat" id="s1">
-      <h2><span class="step-n">Quiz</span>Before anything, make a call</h2>
+      <h2><span class="step-n">Quiz</span>Make a call first</h2>
 
       <div class="call" id="call">
-        <p class="call-q">Take a melt of Moon soil, cooled until it is nearly glass, which is where
-        sintering happens. Swap its Earth lab iron (about 60% oxidized, as Fe<sup>3+</sup>) for
-        real lunar iron (about 2%). At the same temperature, it gets:</p>
+        <p class="call-q">Take Moon soil cooled until it is nearly glass, where sintering happens.
+        Swap its Earth lab iron (about 60% oxidized) for real Moon iron (about 2%). At the same
+        temperature, it gets:</p>
         <div class="call-acts">
           <button class="g-btn" type="button" data-c="runny">Runnier</button>
           <button class="g-btn" type="button" data-c="stiff">Stiffer</button>
@@ -111,26 +104,18 @@
             <div class="dots-row"><span>gpvisc, pretrained</span><b data-n="2"></b></div>
             <div class="dots-row"><span>Sehlke and Whittington, as the 2025 study ran it</span><b data-n="1"></b></div>
           </div>
-          <p>The ones that get the direction right still miss the size. The rest of this page is
-          how I found that out.</p>
+          <p>Even the ones that get the direction right miss the size.</p>
         </div>
         <noscript><p>Answer: runnier. The glass transition fell in 6 of the 7 measured series.</p></noscript>
       </div>
     </section>
 
     <section class="beat" id="s2">
-      <h2><span class="step-n">01</span>Why melt the Moon at all?</h2>
+      <h2><span class="step-n">01</span>The problem</h2>
 
-      <p class="thought"><span class="t-k">what I was thinking</span>
-      Every pound launched to the Moon is expensive. The soil is already there. If you are going
-      to build with it by heating it, the property that runs the whole process is how easily it
-      flows.</p>
-
-      <p>There are two ways to build with hot soil. <strong>Melt processing</strong> (melt
-      extrusion, or molten regolith electrolysis for oxygen) works with fully liquid rock.
-      <strong>Sintering</strong> heats powder just until the grains soften and fuse, and it is the
-      leading way to build at scale. Both run on <strong>viscosity</strong>, how thick the melt is,
-      measured in Pa&#183;s:</p>
+      <p>You can build with hot soil two ways: melt it fully, or heat it until the grains just
+      stick together (<strong>sintering</strong>, the leading way to build at scale). Both depend
+      on <strong>viscosity</strong>, how thick the melt is:</p>
 
       <div class="ladder-wrap">
       <ol class="ladder" aria-label="Viscosity ladder in pascal seconds, thickest at the top">
@@ -145,137 +130,52 @@
       <p class="brace-k">viscosity scale</p>
       </div>
 
-      <p>Molten rock climbs that whole ladder in a few hundred degrees.</p>
-    </section>
-
-    <section class="beat" id="s3">
-      <h2><span class="step-n">02</span>The catch: Earth air changes the iron</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      Almost all of this data comes from simulant soil melted in a furnace in air. Air oxidizes
-      iron. The Moon has essentially no oxygen. Is everyone measuring a slightly different material
-      than the one they will actually process?</p>
+      <p>The catch is the iron. Earth air oxidizes it, the Moon has no air, and the iron&#8217;s
+      state changes how thick the melt is.</p>
 
       <div class="bars" role="img" aria-label="Share of iron in the oxidized Fe3+ form: about 60% for a simulant melted in air on Earth, about 2% for real lunar soil">
         <div class="bars-row"><span>Simulant melted in air, on Earth</span><div class="bars-t"><i style="--v:0.6"></i><b>~60% Fe<sup>3+</sup></b></div></div>
         <div class="bars-row"><span>Real lunar soil</span><div class="bars-t"><i style="--v:0.02"></i><b>~2% Fe<sup>3+</sup></b></div></div>
       </div>
 
-      <p>Iron&#8217;s state changes how the melt&#8217;s silicate network links up, which changes
-      viscosity. So: for each real Moon soil, how far do the key processing temperatures shift
-      between an Earth test and the Moon?</p>
-
-      <h3>Why not just keep the air out?</h3>
-      <p>On the Moon the iron stays unrusted on its own. The trouble is on Earth: to measure
-      unrusted melts you have to hold a furnace at Moon-like oxygen with a controlled gas mix, and
-      it has rarely been done. The open database I trained on has 375 such measurements, and only
-      one composition near the glass transition, where sintering happens.</p>
+      <p>Keeping air out of a furnace is hard, so it is rarely done. The open database has only
+      one such melt near the sintering range.</p>
 
       <figure class="meme">
         <img src="/assets/lunar/meme-gears.jpg" width="720" height="546" loading="lazy"
              alt="Family Guy meme. Peter Griffin at a news desk: You know what really grinds my gears? Moon dirt data from fake Moon dirt melted in Earth air.">
       </figure>
+    </section>
+
+    <section class="beat" id="s3">
+      <h2><span class="step-n">02</span>What I built</h2>
+
+      <p>A machine learning pipeline, with the test written down before any training:</p>
+      <ul class="tally">
+        <li><b>13,981</b> melt measurements to train on</li>
+        <li><b>16</b> lunar simulants it never saw, to test on</li>
+        <li><b>7</b> experiments with measured iron, to stress test on</li>
+        <li><b>66</b> real Apollo, Luna and Chang&#8217;e-5 soils to answer for</li>
+      </ul>
+
+      <p>Before trusting it, I made it reproduce published results (within 0.002 log units) and
+      fact checked my own notes. Three of my numbers did not survive.</p>
 
       <details class="more">
-        <summary>The fine print</summary>
+        <summary>How the model works</summary>
         <div class="more-in">
-          <p>The 60% is from the 2025 Stapperfend simulant studies. Lunar soil formed below the
-          iron-w&#252;stite buffer (written IW&#8722;1 on this page), where nearly all iron is
-          Fe<sup>2+</sup>.</p>
+          <p>About 12 oxide fractions go in. Out come the three parameters of the standard
+          Vogel-Fulcher-Tammann equation, log&#8202;&#951; = A + B / (T &#8722; C), so temperature
+          only enters through the physics. Ten networks trained together give the uncertainty.</p>
         </div>
       </details>
     </section>
 
     <section class="beat" id="s4">
-      <h2><span class="step-n">03</span>Design the test before the model</h2>
+      <h2><span class="step-n">03</span>The results: every model struggles</h2>
 
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      If the shift is small when fully molten and large near the glass transition, then the
-      interesting part is sintering. Aim there, and design the test before the model.</p>
-
-      <p>Written down before any training:</p>
-
-      <ul class="tally">
-        <li><b>Train on 13,981</b> water free melt measurements from the open gpvisc database</li>
-        <li><b>Hold out 16</b> lunar simulant melts unlike anything in training</li>
-        <li><b>Stress test on 7</b> controlled oxygen series with measured iron state</li>
-        <li><b>Apply to 66</b> returned Apollo, Luna and Chang&#8217;e-5 soils</li>
-      </ul>
-
-      <p>The model itself is standard. The question appears to be new: nobody seems to have mapped
-      Earth against Moon processing windows, with uncertainty.</p>
-
-      <details class="more">
-        <summary>How the model works</summary>
-        <div class="more-in">
-          <p>About 12 oxide fractions go in, with iron split into FeO and
-          Fe<sub>2</sub>O<sub>3</sub> by a redox model at air or at IW&#8722;1. Out come the three
-          parameters of the standard Vogel-Fulcher-Tammann equation,
-          log&#8202;&#951; = A + B / (T &#8722; C), so temperature only ever enters through the
-          physics. A deep ensemble of ten networks gives the uncertainty. None of the 16 held out
-          melts is within 5.9 cation percent of anything in training.</p>
-        </div>
-      </details>
-    </section>
-
-    <section class="beat" id="s5">
-      <h2><span class="step-n">04</span>Trust nothing yet, including my own notes</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      Check my own numbers against the raw sources first. And if my pipeline cannot reproduce
-      published results, nothing it says about the Moon means anything.</p>
-
-      <figure class="meme r">
-        <img src="/assets/lunar/meme-notes.jpg" width="720" height="547" loading="lazy"
-             alt="Family Guy meme. Peter Griffin staring, confused: Me fact checking my own notes. Three of my numbers didn't survive.">
-      </figure>
-
-      <p>Three numbers in my own brief did not survive:</p>
-      <div class="fix">
-        <div class="fix-item">
-          <div class="fix-when">The 60%</div>
-          <p>Right number, but calculated by a redox model, not measured. So both sides of the
-          comparison are model outputs, and I say so.</p>
-        </div>
-        <div class="fix-item">
-          <div class="fix-when">The 50</div>
-          <p>I had read that only 50 measurements have Moon-like reduced iron. The database has
-          375. Same conclusion, stronger: only one composition has reduced iron near the glass
-          transition.</p>
-        </div>
-        <div class="fix-item">
-          <div class="fix-when">A misprint</div>
-          <p>Two simulants in a published table carry misprinted fit parameters, off by up to an
-          order of magnitude. Refitting lands within 1 K of the printed glass transition.</p>
-        </div>
-      </div>
-
-      <p>Then the pipeline had to reproduce the papers:</p>
-      <ul class="tally">
-        <li><b>0.002 log units</b> median gap to the published baseline scores</li>
-        <li><b>&#177;0.01</b> on the published iron oxidation state</li>
-        <li><b>0.012</b> median gap to published Sehlke and Whittington scores, fully molten</li>
-      </ul>
-
-      <details class="more">
-        <summary>The fine print</summary>
-        <div class="more-in">
-          <p>One piece is approximated: Sehlke and Whittington needs a reference temperature from a
-          1987 heat capacity model I could not get, so I fitted a substitute to the 36 published
-          values. It is good to about 11 K, and it is listed as a limitation.</p>
-        </div>
-      </details>
-    </section>
-
-    <section class="beat" id="s6">
-      <h2><span class="step-n">05</span>The scorecard, where my model loses</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      gpvisc trained on about twice my data. Beating it on accuracy was never the point. Report
-      it straight anyway.</p>
-
-      <p>Error on the 16 held out simulants, in log units of viscosity (RMSE when molten, mean
-      absolute error at the glass transition). Lower is better.</p>
+      <p>On the 16 unseen simulants my model loses on accuracy. Every model is about 3.5 times
+      worse near the glass transition, which is exactly where sintering happens. Lower is better:</p>
 
       <div class="db-key"><span>fully molten</span><span class="k-b">at the glass transition</span></div>
       <div class="tbl-wrap"><table class="tbl wide">
@@ -286,26 +186,8 @@
         <tr><td>GRD 2008</td><td class="db-cell"><div class="db" style="--a:0.36;--b:0.92"><i class="ln"></i><i class="a"></i><i class="b"></i></div></td><td class="n">0.54</td><td class="n">1.38</td></tr>
       </table></div>
 
-      <p>Every dot jumps right: each model is about 3.5 times worse near the glass transition than
-      fully molten. That is the sintering zone, and it is everyone&#8217;s weak spot.</p>
-
-      <figure class="meme">
-        <img src="/assets/lunar/meme-knee.jpg" width="720" height="540" loading="lazy"
-             alt="Family Guy meme. Peter Griffin sitting on the sidewalk clutching his knee: My model on the scorecard. Sssssss ahhhhh.">
-      </figure>
-    </section>
-
-    <section class="beat" id="s7">
-      <h2><span class="step-n">06</span>The stress test every model fails</h2>
-
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      A model can score well overall and still be flat, or backwards, along the one axis I care
-      about. So test that axis directly, against experiments where the iron state was measured,
-      not assumed.</p>
-
-      <p>Seven controlled oxygen series from Chevrel&#8217;s open access thesis, none of them in my
-      training data, and the source of the quiz at the top. In the chart, black diamonds are
-      measurements with 95% intervals.</p>
+      <p>Then the test that matters: does each model get the iron effect right? Black diamonds
+      are real measurements.</p>
 
       <figure class="fig">
         <img src="/assets/figs/lrv-redox.png" width="1867" height="749" loading="lazy"
@@ -313,33 +195,23 @@
       </figure>
 
       <ul>
-        <li><strong>Fully molten</strong>, the real effect is at most 0.14 log units. Every machine
-        learning model overstates it 3 to 10 times.</li>
-        <li><strong>Near the glass transition</strong>, gpvisc gets the sign wrong in 5 of 7
-        series, despite training on those studies.</li>
-        <li><strong>Sehlke and Whittington</strong>, run the way the 2025 study ran it, gets the
-        direction backwards in 12 of 13 series. I traced that to how its spreadsheet books iron
-        oxide.</li>
+        <li><strong>Fully molten</strong>, the real effect is tiny, and every machine learning
+        model overstates it 3 to 10 times.</li>
+        <li><strong>Near the glass transition</strong>, the models land on both sides of zero.
+        gpvisc gets the direction wrong in 5 of 7.</li>
       </ul>
 
       <figure class="meme r">
         <img src="/assets/lunar/meme-consuela.jpg" width="720" height="540" loading="lazy"
              alt="Family Guy meme. Consuela on the phone: Model: lunar iron makes it stiffer. The measurements: no no no.">
       </figure>
-      <p>Likely cause: most Fe<sup>3+</sup> values in the training data were calculated from
-      temperature at air, so the models tangled redox up with temperature and composition.</p>
     </section>
 
-    <section class="beat" id="s8">
-      <h2><span class="step-n">07</span>The answer, soil by soil</h2>
+    <section class="beat" id="s5">
+      <h2><span class="step-n">04</span>The answer, soil by soil</h2>
 
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      No model passes the stress test, so do not lean on one. Anchor the shift to the
-      measurements, and show the bracket instead of a single number.</p>
-
-      <p>Pick a soil and drag the temperature down. The line is an Earth test of that soil, melted
-      in air. The shaded band is the same soil with lunar iron, using the shift fitted to the seven
-      measured series.</p>
+      <p>No model passes, so I anchored the shift to the measurements. Pick a soil and drag the
+      temperature down. The line is an Earth test. The shaded band is the same soil on the Moon.</p>
 
       <div class="melt" id="melt">
         <div class="melt-top">
@@ -361,87 +233,39 @@
              alt="The near side of the Moon. Dark patches of old lava flows sit among brighter, cratered ground.">
       </figure>
 
-      <p>The dark patches are <strong>mare</strong>, ancient lava flows rich in iron. The bright
-      ground is <strong>highland</strong>, low in iron. More iron, bigger shift. Across all 66
-      soils, the measurement anchored glass transition sits:</p>
+      <p>The dark patches (<strong>mare</strong>) are old lava, rich in iron. The bright
+      <strong>highlands</strong> are not. More iron, bigger shift:</p>
       <div class="tbl-wrap"><table class="tbl">
-        <tr><th>Soil type</th><th>Soils</th><th>Iron (FeO)</th><th>Moon vs air melted test</th><th>Moon vs air sintered test</th></tr>
-        <tr><td>Highland</td><td class="n">26</td><td class="n">5.8%</td><td class="n">1 to 7 K lower</td><td class="n">5 to 11 K lower</td></tr>
-        <tr><td>Mixed</td><td class="n">17</td><td class="n">11.6%</td><td class="n">3 to 15 K lower</td><td>not computed</td></tr>
-        <tr class="me"><td>Mare</td><td class="n">23</td><td class="n">16.8%</td><td class="n">5 to 22 K lower</td><td class="n">15 to 32 K lower</td></tr>
+        <tr><th>Soil type</th><th>Soils</th><th>Iron (FeO)</th><th>Cooler on the Moon than a melted Earth test</th><th>Than a sintered Earth test</th></tr>
+        <tr><td>Highland</td><td class="n">26</td><td class="n">5.8%</td><td class="n">1 to 7&#176;C</td><td class="n">5 to 11&#176;C</td></tr>
+        <tr><td>Mixed</td><td class="n">17</td><td class="n">11.6%</td><td class="n">3 to 15&#176;C</td><td>not computed</td></tr>
+        <tr class="me"><td>Mare</td><td class="n">23</td><td class="n">16.8%</td><td class="n">5 to 22&#176;C</td><td class="n">15 to 32&#176;C</td></tr>
       </table></div>
-      <p>At a fixed sintering temperature, iron rich mare soil is up to about 1.4 orders of
-      magnitude runnier on the Moon. Fully molten, the shift is only 1 to 16 K, so melt processing
-      designers can keep using air data.</p>
-
-      <figure class="meme">
-        <img src="/assets/lunar/meme-cares.jpg" width="720" height="476" loading="lazy"
-             alt="Family Guy meme. Peter Griffin in a classroom: Fully molten, the shift is only 1 to 16 K. Oh my god, who the hell cares?">
-      </figure>
-
-      <details class="more">
-        <summary>The fine print</summary>
-        <div class="more-in">
-          <p>The near edge of the band assumes the effect levels off at low Fe<sup>3+</sup>; the
-          far edge assumes it keeps going.</p>
-        </div>
-      </details>
+      <p>Fully molten, the shift is only 1 to 16&#176;C, so melt processing can keep using Earth
+      data. Sintering should not.</p>
     </section>
 
-    <section class="beat" id="s9">
-      <h2><span class="step-n">08</span>The bottleneck is data</h2>
+    <section class="beat" id="s6">
+      <h2><span class="step-n">05</span>What&#8217;s next</h2>
 
-      <p class="thought"><span class="vh">What I was thinking: </span>
-      Every road ends at the same gap. The most useful output of this project might be the
-      experiment someone should run next.</p>
-
-      <p>In every source I found, no basaltic melt has a measured viscosity or glass transition
-      below about 12% Fe<sup>3+</sup>. The Moon is near 2%. Whether the glass transition keeps
-      falling below 12% or levels off is worth a factor of about 4 in the predicted shift. That is
-      the width of the band in the chart above.</p>
-      <p>The experiment I would run: melt the high titanium simulant OPRL2NT under CO and
-      CO<sub>2</sub> at IW&#8722;1, and measure its glass transition and viscosity below 10%
-      Fe<sup>3+</sup>.</p>
+      <p>No basalt melt has ever been measured below about 12% oxidized iron. The Moon sits near
+      2%. That gap is the whole width of the band in the chart above.</p>
+      <p>The experiment I would run: melt the simulant OPRL2NT in a CO and CO<sub>2</sub> mix at
+      Moon-like oxygen, and measure it below 10%.</p>
 
       <details class="more">
-        <summary>How I picked it</summary>
+        <summary>Limits</summary>
         <div class="more-in">
-          <p>Ranking candidate experiments by how much the ensemble disagrees with itself points at
-          the same gap: every top slot is near the glass transition, and all but one is at lunar
-          oxygen with 10% or more FeO. Chang&#8217;e-5 soil ranks first.</p>
-        </div>
-      </details>
-    </section>
-
-    <section class="beat" id="s10">
-      <h2><span class="step-n">09</span>Limits, and what is next</h2>
-      <div class="two">
-        <div>
-          <h3>Limits</h3>
           <ul>
-            <li>The shift is extrapolated from 12% to 84% Fe<sup>3+</sup> down to the Moon&#8217;s
-            2%. The band covers this, but it is an assumption.</li>
-            <li>The Earth reference matters as much as the model: a glass melted at 1500&#176;C and
-            a powder sintered at 1100&#176;C start with different iron. Sintering tests should report
-            their Fe<sup>3+</sup>.</li>
-            <li>Metallic iron (about 0.5% in mature soils) and crystals are ignored, and real
-            sintering is of partly crystalline powder.</li>
+            <li>The shift is extrapolated from measured melts down to the Moon&#8217;s 2%. The band
+            covers this, but it is an assumption.</li>
+            <li>Metallic iron and crystals are ignored, and real sintering uses partly crystalline
+            powder.</li>
             <li>The error bars are honest on familiar chemistry (93% coverage) but overconfident on
-            the alkali rich simulants (76%).</li>
+            alkali rich simulants (76%).</li>
           </ul>
         </div>
-        <div>
-          <h3>Next</h3>
-          <ul>
-            <li>Add Cukierman and Uhlmann 1974, the only redox series on a real lunar composition
-            (15555).</li>
-            <li>Retrain without rows whose iron state was assumed from air, and see if the false
-            temperature sensitivity goes away.</li>
-            <li>Stretch goal, not started: search for mineral blends that land in a target
-            viscosity window.</li>
-          </ul>
-        </div>
-      </div>
+      </details>
     </section>
 
     <section>
